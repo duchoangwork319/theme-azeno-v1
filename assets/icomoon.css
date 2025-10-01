@@ -1,0 +1,121 @@
+@font-face{
+  font-family:icomoon;
+  src:	url(./icomoon.eot?fzv6fp);
+  src:	url(./icomoon.eot?fzv6fp#iefix) format("embedded-opentype"),
+		url(./icomoon.ttf?fzv6fp) format("truetype"),
+		url(./icomoon.woff?fzv6fp) format("woff"),
+		url(./icomoon.svg?fzv6fp#icomoon) format("svg");
+  font-weight:400;
+  font-style:normal;
+  font-display:block;
+}
+
+[class*=" icon-"],[class^=icon-]{
+  font-family:icomoon;
+  speak:none;
+  font-style:normal;
+  font-weight:400;
+  font-variant:normal;
+  text-transform:none;
+  line-height:1;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+
+.icon-account:before {
+  content: "\e900";
+}
+.icon-cart:before {
+  content: "\e901";
+}
+.icon-wishlist:before {
+  content: "\e902";
+}
+.icon-box:before {
+  content: "\e903";
+}
+.icon-email:before {
+  content: "\e904";
+}
+.icon-email-2:before {
+  content: "\e905";
+}
+.icon-football:before {
+  content: "\e906";
+}
+.icon-play-video:before {
+  content: "\e907";
+}
+.icon-right-arrow:before {
+  content: "\e908";
+}
+.icon-send:before {
+  content: "\e909";
+}
+.icon-shopping-cart:before {
+  content: "\e90a";
+}
+.icon-support:before {
+  content: "\e90b";
+}
+.icon-undo:before {
+  content: "\e90c";
+}
+.icon-compare:before {
+  content: "\e90e";
+}
+.icon-chat:before {
+  content: "\e90f";
+}
+.icon-right:before {
+  content: "\e910";
+}
+.icon-placeholder:before {
+  content: "\e911";
+}
+.icon-flash:before {
+  content: "\e912";
+}
+.icon-fitness:before {
+  content: "\e913";
+}
+.icon-smartwatch:before {
+  content: "\e914";
+}
+.icon-muscles:before {
+  content: "\e915";
+}
+.icon-ball:before {
+  content: "\e916";
+}
+.icon-sneakers:before {
+  content: "\e917";
+}
+.icon-dumbell:before {
+  content: "\e918";
+}
+.icon-quote:before {
+  content: "\e919";
+}
+.icon-wall-clock:before {
+  content: "\e91a";
+}
+.icon-search:before {
+  content: "\e91b";
+}
+.icon-next:before {
+  content: "\e91c";
+}
+.icon-prev:before {
+  content: "\e91d";
+}
+.icon-mark:before {
+  content: "\e91e";
+}
+.icon-lookbook:before {
+  content: "\e91f";
+}
+.icon-plus:before {
+  content: "\e920";
+}

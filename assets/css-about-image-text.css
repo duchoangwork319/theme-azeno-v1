@@ -1,0 +1,46 @@
+/*============== SECTION ABOUT IMAGE AND TEXT ===================*/
+.wpbingo-section--about-image-text {
+    font-size: 16px;
+  }
+  .wpbingo-section--about-image-text .image-text {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .wpbingo-section--about-image-text .col-content {
+    width: 45%;
+  }
+  .wpbingo-section--about-image-text .col-image {
+    width: 55%;
+  }
+  .wpbingo-section--about-image-text .col-content .image-text__image{
+    padding: 0 10% 0 27%;
+  }
+  .wpbingo-section--about-image-text p {
+    margin-bottom: 5px;
+  }
+  .rtl .wpbingo-section--about-image-text .col-content .image-text__image{
+    padding: 0 27% 0 10%;
+  }
+  @media (max-width: 1200px) {
+    .wpbingo-section--about-image-text .col-content .image-text__image{
+      padding: 0 20px;
+    }
+  }
+  @media (max-width: 991px) {
+      .wpbingo-section--about-image-text .col-content {
+      margin: 0;
+    }
+    .wpbingo-section--about-image-text h2 {
+      font-size: 30px;
+    }
+  }
+  @media (max-width: 767px) {
+      .wpbingo-section--about-image-text .col-content {
+      width: 100%;
+    }
+    .wpbingo-section--about-image-text .col-image {
+      width: 100%;
+      margin-top: 30px;
+    }
+  }

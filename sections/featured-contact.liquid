@@ -1,0 +1,538 @@
+{{ 'css-section-contact.css' | asset_url | stylesheet_tag }}
+{%- if section.settings.fullwidth -%}
+	{%- assign container = 'container-full' -%}
+{%- elsif section.settings.max_width != blank -%}
+	{%- assign container = 'bwp-container' -%}
+{%- else -%}
+	{%- assign container = 'container' -%}
+{%- endif -%}
+
+{%- assign max_width = '' -%}
+{%- if section.settings.fullwidth == blank and section.settings.max_width != blank -%}
+	{%- assign width_container = section.settings.max_width | plus: 0 -%}
+	{%- capture max_width -%}style="max-width: {{ section.settings.max_width }};"{%- endcapture -%}
+{%- endif -%}
+
+{%- assign heading = section.settings.heading | escape -%}
+{% assign margin 	= section.settings.margin | split: "|" %}
+{% assign padding 	= section.settings.padding | split: "|" %}
+{%- assign display_map = false -%}
+{%- assign onboarding = false -%}
+{%- if section.settings.api_key == blank -%}
+  {%- assign onboarding = true -%}
+{%- endif -%}
+{%- if section.settings.api_key != blank -%}
+  {%- assign display_map = true -%}
+{%- endif -%}
+{%- style -%}
+	{%- if section.settings.fullwidth == blank and section.settings.max_width != blank and width_container > 1200 -%}
+		@media (max-width: {{ section.settings.max_width }}) and (min-width: 1200px){
+			#shopify-section-{{ section.id }} .bwp-container{
+				padding-left:30px;
+				padding-right:30px;
+			}
+		}
+	{%- endif -%}
+	{%- if margin[0] != blank or padding[0] != blank -%}
+		#shopify-section-{{ section.id }} .wpbingo-section--contact_info{
+			{%- if margin[0] != blank -%}margin: {{ margin[0] }};{%- endif -%}
+			{%- if padding[0] != blank -%}padding:{{ padding[0] }};{%- endif -%}
+		}
+	{%- endif -%}
+	{%- if margin[1] != blank or padding[1] != blank -%}
+		@media (max-width:1200px){
+			#shopify-section-{{ section.id }} .wpbingo-section--contact_info{
+				{%- if margin[1] != blank -%}margin: {{ margin[1] }};{%- endif -%}
+				{%- if padding[1] != blank -%}padding:{{ padding[1] }};{%- endif -%}
+			}
+		}
+	{%- endif -%}
+	{%- if margin[2] != blank or padding[2] != blank -%}
+		@media (max-width:991px){
+			#shopify-section-{{ section.id }} .wpbingo-section--contact_info{
+				{%- if margin[2] != blank -%}margin: {{ margin[2] }};{%- endif -%}
+				{%- if padding[2] != blank -%}padding:{{ padding[2] }};{%- endif -%}
+			}
+		}
+	{%- endif -%}
+	{%- if margin[3] != blank or padding[3] != blank -%}
+		@media (max-width:767px){
+			#shopify-section-{{ section.id }} .wpbingo-section--contact_info{
+				{%- if margin[3] != blank -%}margin: {{ margin[3] }};{%- endif -%}
+				{%- if padding[3] != blank -%}padding:{{ padding[3] }};{%- endif -%}
+			}
+		}
+	{%- endif -%}
+	{%- if section.blocks.size > 0 -%}
+		{%- for block in section.blocks -%}
+			{%- case block.type -%}
+				{%- when 'title' -%}
+				#shopify-section-{{ section.id }} .title-{{forloop.index}}{
+					font-size:{{ block.settings.font_size }}px;
+					line-height:{{ block.settings.line_height }}px;
+					font-weight:{{ block.settings.font_weight }};
+					margin:{{ block.settings.margin }};
+					color:{{ block.settings.color }};
+					{%- if block.settings.font != blank -%}
+						font-family:{{ block.settings.font }};
+					{%- endif -%}
+				}
+				{%- when 'desc' -%}
+				#shopify-section-{{ section.id }} .desc-{{forloop.index}}{
+					font-size:{{ block.settings.font_size }}px;
+					line-height:{{ block.settings.line_height }}px;
+					font-weight:{{ block.settings.font_weight }};
+					margin:{{ block.settings.margin }};
+					color:{{ block.settings.color }};
+				}
+				{%- when 'social' -%}
+				#shopify-section-{{ section.id }} .social-{{forloop.index}}{
+					font-size:{{ block.settings.font_size }}px;
+					line-height:{{ block.settings.line_height }}px;
+					font-weight:{{ block.settings.font_weight }};
+					margin:{{ block.settings.margin }};
+					color:{{ block.settings.color }};
+				}
+			{%- endcase -%}
+		{%- endfor -%}
+		@media (max-width:767px){
+			{%- for block in section.blocks -%}
+				{%- case block.type -%}
+					{%- when 'title' -%}
+					#shopify-section-{{ section.id }} .title-{{forloop.index}}{
+						font-size:{{ block.settings.font_size_mobi }}px;
+						line-height:{{ block.settings.line_height_mobi }}px;
+						margin:{{ block.settings.margin_mobi }};
+						color:{{ block.settings.color_mobi }};
+					}
+					{%- when 'desc' -%}
+					#shopify-section-{{ section.id }} .desc-{{forloop.index}}{
+						font-size:{{ block.settings.font_size_mobi }}px;
+						line-height:{{ block.settings.line_height_mobi }}px;
+						margin:{{ block.settings.margin_mobi }};
+						color:{{ block.settings.color_mobi }};
+					}
+					#shopify-section-{{ section.id }} .desc-{{forloop.index}} a{
+						color:{{ block.settings.color_mobi }};
+					}
+					{%- when 'social' -%}
+					#shopify-section-{{ section.id }} .social-{{forloop.index}}{
+						font-size:{{ block.settings.font_size_mobi }}px;
+						line-height:{{ block.settings.line_height_mobi }}px;
+						margin:{{ block.settings.margin_mobi }};
+						color:{{ block.settings.color_mobi }};
+					}
+				{%- endcase -%}
+			{%- endfor -%}
+		}
+	{%- endif -%}
+{%- endstyle -%}
+
+<section class="wpbingo-section wpbingo-section--contact_info wpbingo-section--{{ section.id }} overflow-hidden">
+	<div class="{{ container }}" {{ max_width }}>
+		<div class="wpbingo-section__inner">
+			<div class="wpbingo-section__content">
+				<div class="contact-info container">
+					<div class="content-info">
+						{%- if section.blocks.size > 0 -%}
+							{%- for block in section.blocks -%}
+								{%- case block.type -%}
+									{%- when 'title' -%}
+										<div class="title title-{{forloop.index}}">{{ block.settings.title }}</div>
+									{%- when 'desc' -%}
+										<div class="desc desc-{{forloop.index}}">{{ block.settings.title }}</div>
+									{%- when 'social' -%}
+										<div class="social social-{{forloop.index}}">{{ block.settings.title }}{% include 'social-media' %}</div>
+								{%- endcase -%}
+							{%- endfor -%}
+						{%- endif -%}
+						<div class="contact-map">
+							<div id="MapSection--{{ section.id }}" class="map-section {% if display_map %}map-section--display-map{% endif %}
+								{% if onboarding == true %}map-section--onboarding{% endif %}" data-section-id="{{ section.id }}"  data-section-type="map">
+								<div class="map-section__wrapper">
+									{% if display_map %}
+										<div class="map-section__container" id="Map-{{ section.id }}" data-map
+											data-address-setting="{{ section.settings.map_address | escape }}"
+											data-api-key="{{ section.settings.api_key }}">
+										</div>
+										<div class="map-section__overlay" data-map-overlay></div>
+									{% else %}
+										{{ section.settings.html_map }}
+									{% endif %}
+								</div>
+							</div>
+						</div>
+						{%- if section.settings.contact_form -%}
+					</div>
+					<div class="contact-form-content">
+						{%- if heading != blank -%}
+							<div class="wpbingo-title">
+								<h3 class="wpbingo-title__heading">{{ heading }}</h3>
+							</div>
+						{%- endif -%}
+						{% form 'contact' %}
+							{% if form.posted_successfully? %}
+								<p class="alert alert-success">
+									{{ 'contact.form.post_success' | t }}
+								</p>
+							{% endif %}
+							{{ form.errors | default_errors }}
+							<div class="row">
+								<div class="col-12 col-md-6 col-lg-6 col-xl-6">
+									<div class="form-group required">
+										<label>{{ "contact.form.name" | t }}</label>
+										<input id="contactFormName" class="form-control" type="text" name="contact[{{ 'contact.form.name' | t }}]"
+											value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+											placeholder="{{ "contact.form.your_name" | t }}" required
+											autocapitalize="words"/>
+									</div>
+								</div>
+								<div class="col-12 col-md-6 col-lg-6 col-xl-6">
+									<div class="form-group required">
+										<label>{{ "contact.form.email" | t }}</label>
+										<input id="contactFormEmail" class="form-control{% if form.errors contains 'email' %} is-invalid{% endif %}"
+											type="email" name="contact[email]" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" required
+											placeholder="{{ "contact.form.your_email" | t }}" autocorrect="off" autocapitalize="off" required/>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label>{{ "contact.form.message" | t }}</label>
+								<textarea id="contactFormMessage" class="form-control {% if form.errors contains 'body' %} is-invalid{% endif %}"
+									rows="10" name="contact[{{ 'contact.form.message' | t }}]" rows="4"
+									placeholder="{{ "contact.form.your_message" | t }}"
+									required>{% if form.body %}{{ form.body }}{% endif %}</textarea>
+							</div>
+							<div class="form-button">
+								<input type="submit" class="btn btn-primary" value="{{ 'contact.form.send' | t }}">
+							</div>
+						{% endform %}
+					</div>
+					{%- endif -%}
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+{% schema %}
+{
+	"name": "Contact",
+	"class": "wpbingo-framework",
+	"settings": [
+		{
+			"type": "header",
+			"content": "Layout settings"
+		},
+		{
+			"type": "text",
+			"id": "max_width",
+			"label": "Width container",
+			"info": "Default: 1440px"
+		},
+		{
+			"type": "checkbox",
+			"id": "fullwidth",
+			"label": "Fullwidth"
+		},
+		{
+			"type": "text",
+			"id": "padding",
+			"label": "Padding",
+			"placeholder": "0px 0px 0px 0px",
+			"info":"Screen: desktop | 1200px | 991px | 767px"
+		},
+		{
+			"type": "text",
+			"id": "margin",
+			"label": "Margin",
+			"placeholder": "0px 0px 0px 0px",
+			"info":"Screen: desktop | 1200px | 991px | 767px"
+		},
+		{
+			"type": "header",
+			"content": "General Settings"
+		},
+		{
+			"type": "text",
+			"id": "heading",
+			"label": "Heading",
+			"default": "Contact Us"
+		},
+		{
+			"type": "header",
+			"content": "General Settings"
+		},
+		{
+			"type": "checkbox",
+			"id": "contact_form",
+			"label": "Show contact form",
+			"default":true
+		},
+		{
+			"type": "checkbox",
+			"id": "contact_map",
+			"label": "Show map",
+			"default":true
+		},
+		{
+			"type": "text",
+			"id": "api_key",
+			"label": "Google Maps API key",
+			"info": "You’ll need to [register a Google Maps API Key](https://help.shopify.com/manual/using-themes/troubleshooting/map-section-api-key) to display the map"
+		},
+		{
+			"type": "html",
+			"id": "html_map",
+			"label": "Embed html map"
+		}
+	],
+	"blocks": [
+		{
+			"type": "@app"
+		},
+		{
+			"type": "title",
+			"name": "Title",
+			"settings": [
+				{
+					"type": "text",
+					"id": "title",
+					"label": "Heading",
+					"default": "Heading"
+				},
+				{
+					"type": "text",
+					"id": "font",
+					"label": "Font family"
+				},
+				{
+					"type": "color",
+					"id": "color",
+					"label": "color",
+					"default": "#000000"
+				},
+				{
+					"type": "number",
+					"id": "font_size",
+					"label": "Font size",
+					"default": 24,
+					"info": "px"
+				},
+				{
+					"type": "number",
+					"id": "line_height",
+					"label": "Line height",
+					"default": 34,
+					"info": "px"
+				},
+				{
+					"type": "text",
+					"id": "font_weight",
+					"label": "Font Weight",
+					"default": "400"
+				},
+				{
+					"type": "text",
+					"id": "margin",
+					"label": "Margin",
+					"default": "0px 0px 0px 0px",
+					"info": "top right bottom left"
+				},
+				{
+					"type": "header",
+					"content": "==Mobile",
+					"info": "screen < 767px"
+				},
+				{
+					"type": "color",
+					"id": "color_mobi",
+					"label": "color",
+					"default": "#000"
+				},
+				{
+					"type": "number",
+					"id": "font_size_mobi",
+					"label": "Font size",
+					"default": 20,
+					"info": "px"
+				},
+				{
+					"type": "number",
+					"id": "line_height_mobi",
+					"label": "Line height",
+					"default": 30,
+					"info": "px"
+				},
+				{
+					"type": "text",
+					"id": "margin_mobi",
+					"label": "Margin",
+					"default": "0px 0px 0px 0px",
+					"info": "top right bottom left"
+				}
+			]
+		},
+		{
+			"type": "desc",
+			"name": "Desc",
+			"settings": [
+				{
+					"type": "html",
+					"id": "title",
+					"label": "Content",
+					"default": "Description"
+				},
+				{
+					"type": "color",
+					"id": "color",
+					"label": "color",
+					"default": "#4E4E4E"
+				},
+				{
+					"type": "number",
+					"id": "font_size",
+					"label": "Font size",
+					"default": 16,
+					"info": "px"
+				},
+				{
+					"type": "number",
+					"id": "line_height",
+					"label": "Line height",
+					"default": 24,
+					"info": "px"
+				},
+				{
+					"type": "text",
+					"id": "font_weight",
+					"label": "Font Weight",
+					"default": "400"
+				},
+				{
+					"type": "text",
+					"id": "margin",
+					"label": "Margin",
+					"default": "0px 0px 0px 0px",
+					"info": "top right bottom left"
+				},
+				{
+					"type": "header",
+					"content": "==Mobile",
+					"info": "screen < 767px"
+				},
+				{
+					"type": "color",
+					"id": "color_mobi",
+					"label": "color",
+					"default": "#4E4E4E"
+				},
+				{
+					"type": "number",
+					"id": "font_size_mobi",
+					"label": "Font size",
+					"default": 16,
+					"info": "px"
+				},
+				{
+					"type": "number",
+					"id": "line_height_mobi",
+					"label": "Line height",
+					"default": 24,
+					"info": "px"
+				},
+				{
+					"type": "text",
+					"id": "margin_mobi",
+					"label": "Margin",
+					"default": "0px 0px 0px 0px",
+					"info": "top right bottom left"
+				}
+			]
+		},
+		{
+			"type": "social",
+			"name": "Social",
+			"settings": [
+				{
+					"type": "text",
+					"id": "title",
+					"label": "Heading",
+					"default": "Heading"
+				},
+				{
+					"type": "color",
+					"id": "color",
+					"label": "color",
+					"default": "#000000"
+				},
+				{
+					"type": "number",
+					"id": "font_size",
+					"label": "Font size",
+					"default": 24,
+					"info": "px"
+				},
+				{
+					"type": "number",
+					"id": "line_height",
+					"label": "Line height",
+					"default": 34,
+					"info": "px"
+				},
+				{
+					"type": "text",
+					"id": "font_weight",
+					"label": "Font Weight",
+					"default": "400"
+				},
+				{
+					"type": "text",
+					"id": "margin",
+					"label": "Margin",
+					"default": "0px 0px 0px 0px",
+					"info": "top right bottom left"
+				},
+				{
+					"type": "header",
+					"content": "==Mobile",
+					"info": "screen < 767px"
+				},
+				{
+					"type": "color",
+					"id": "color_mobi",
+					"label": "color",
+					"default": "#000"
+				},
+				{
+					"type": "number",
+					"id": "font_size_mobi",
+					"label": "Font size",
+					"default": 20,
+					"info": "px"
+				},
+				{
+					"type": "number",
+					"id": "line_height_mobi",
+					"label": "Line height",
+					"default": 30,
+					"info": "px"
+				},
+				{
+					"type": "text",
+					"id": "margin_mobi",
+					"label": "Margin",
+					"default": "0px 0px 0px 0px",
+					"info": "top right bottom left"
+				}
+			]
+		}
+	],
+	"presets": [
+		{
+			"name": "Contact",
+			"category": "5. Contact"
+		}
+	]
+}
+{% endschema %}

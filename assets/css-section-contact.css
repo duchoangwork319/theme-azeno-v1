@@ -1,0 +1,155 @@
+/*================== SECTION CONTACT =============*/
+.wpbingo-section--contact_info {
+  z-index: 1;
+  position: relative;
+}
+.wpbingo-section--contact_info .contact-info {
+  display: flex;
+  flex-wrap: wrap;
+  background: #1d1d1d;
+  padding: 80px 0 115px;
+}
+.wpbingo-section--contact_info .contact-info > div {
+  width: 50%;
+  padding: 0 75px;
+}
+.wpbingo-section--contact_info .wpbingo-title__heading {
+  font-size: 30px;
+  color: var(--white);
+  margin-bottom: 30px;
+}
+.wpbingo-section--contact_info .contact-info .content-info .infomation{
+  display: flex;
+  align-items: center;
+}
+.wpbingo-section--contact_info .contact-info .content-info .infomation .icon{
+  font-size: 25px;
+  color: var(--white);
+  fill: var(--white);
+  margin-right: 30px;
+  padding: 17px;
+  border: 1px solid var(--white);
+}
+.wpbingo-section--contact_info .wpbingo-section__content .desc span{
+  color: var(--white);
+}
+.wpbingo-section--contact_info .wpbingo-section__content .desc p{
+  margin: 0;
+}
+.wpbingo-section--contact_info .wpbingo-section__content .desc a{
+  color: var(--white);
+}
+.wpbingo-section--contact_info .wpbingo-section__content .desc a:hover{
+	color: var(--hover-color) !important;
+}
+.wpbingo-section--contact_info .wpbingo-section__content .social {
+  display: flex;
+  align-items: center;
+}
+.wpbingo-section--contact_info .wpbingo-section__content .social .social-icons{
+  position: relative;
+  top: -2px;
+  font-size: 16px;
+  margin: 0 30px;
+}
+.wpbingo-section--contact_info .contact-form > .row {
+  margin: 0 -7.5px;
+}
+.wpbingo-section--contact_info .contact-form > .row > div {
+  padding: 0 7.5px;
+}
+.wpbingo-section--contact_info .contact-form-content label {
+  color: var(--white);
+  font-size: calc(var(--font-size-base) - 3px);
+  text-transform: uppercase;
+  font-weight: var(--body-font-weight-medium);
+  margin-bottom: 10px;
+  position: relative;
+  font-family: var(--font-family-base);
+  letter-spacing: 3px;
+}
+.wpbingo-section--contact_info .form-group.required {
+  position: relative;
+}
+.wpbingo-section--contact_info .form-group.required:before {
+  content: "*";
+  color: red;
+  position: absolute;
+  right: 15px;
+  bottom: 13px;
+  line-height: 1;
+  font-size: 20px;
+}
+.wpbingo-section--contact_info .form-button {
+  margin-top: 30px;
+}
+.wpbingo-section--contact_info .form-button input {
+  height: 55px;
+  line-height: 55px;
+  font-size: var(--font-size-base);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  padding: 0 40px;
+  color: var(--white);
+  background: #555;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 0;
+  width: 100%;
+}
+.wpbingo-section--contact_info .form-button input:hover {
+  background: var(--hover-color);
+  color: var(--white);
+}
+.wpbingo-section--contact_info input.form-control {
+  height: 55px;
+  line-height: 55px;
+  margin-bottom: 20px;
+  width: 100%;
+  padding: 10px 20px;
+  font-weight: var(--body-font-weight-default);
+  border: 1px solid hsla(0, 0%, 100%, .5);
+  color: var(--white);
+  background: transparent;
+}
+.wpbingo-section--contact_info input.form-control::placeholder {
+  color: var(--text-color);
+}
+.wpbingo-section--contact_info textarea {
+  width: 100%;
+  padding: 10px 20px;
+  border: 0;
+  font-weight: var(--body-font-weight-default);
+  border: 1px solid hsla(0, 0%, 100%, .5);
+  color: var(--white);
+  background: transparent;
+  min-height: 270px;
+}
+.wpbingo-section--contact_info textarea::placeholder {
+  color: var(--text-color);
+}
+.wpbingo-section--contact_info textarea:focus {
+  background: transparent;
+  border-color: hsla(0, 0%, 100%, .5);
+}
+@media (max-width: 1200px){
+  .wpbingo-section--contact_info .contact-info > div {
+    padding: 0 30px;
+  }
+}
+@media (max-width:767px){
+  .wpbingo-section--contact_info .contact-info {
+    padding: 50px 0;
+  }
+  .wpbingo-section--contact_info .contact-info > div {
+    width: 100%;
+    padding: 0 15px;
+  }
+  .wpbingo-section--contact_info .contact-info .content-info{
+    margin-bottom: 40px;
+  }
+  .wpbingo-section--contact_info .wpbingo-title__heading {
+    font-size: 25px;
+    margin-bottom: 30px;
+  }
+}

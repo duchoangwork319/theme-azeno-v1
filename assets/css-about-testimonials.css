@@ -1,0 +1,77 @@
+/*=============== SECTION TESTIMONIALS ===========*/
+.wpbingo-section--about-testimonials .testimonial-card{
+  background: var(--white);
+  padding: 40px 90px 35px;
+}
+.wpbingo-section--about-testimonials .content-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wpbingo-section--about-testimonials .content-image .content-info {
+  padding: 0 20px;
+}
+.wpbingo-section--about-testimonials .slick-dots {
+  position: unset;
+  margin-top: 35px;
+}
+.wpbingo-section--about-testimonials .content-image {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+}
+.wpbingo-section--about-testimonials .testimonial-card__rating {
+  margin-bottom: 15px;
+}
+.wpbingo-section--about-testimonials .testimonial-card__rating:before, .wpbingo-section--about-testimonials .testimonial-card__rating:after {
+  display: inline-block;
+  color: #ffc107;
+  font-family: FontAwesome;
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: 9px;
+}
+.wpbingo-section--about-testimonials .testimonial-card__rating:after {
+  color: #e1e1e1;
+}
+.wpbingo-section--about-testimonials .testimonial-card__rating.testimonial-card__rating--1:before {
+  content: "\f005";
+}
+.wpbingo-section--about-testimonials .testimonial-card__rating.testimonial-card__rating--1:after {
+  content: "\f005\f005\f005\f005";
+}
+.wpbingo-section--about-testimonials .testimonial-card__rating.testimonial-card__rating--2:before {
+  content: "\f005\f005";
+}
+.wpbingo-section--about-testimonials .testimonial-card__rating.testimonial-card__rating--2:after {
+  content: "\f005\f005\f005";
+}
+.wpbingo-section--about-testimonials .testimonial-card__rating.testimonial-card__rating--3:before {
+  content: "\f005\f005\f005";
+}
+.wpbingo-section--about-testimonials .testimonial-card__rating.testimonial-card__rating--3:after {
+  content: "\f005\f005";
+}
+.wpbingo-section--about-testimonials .testimonial-card__rating.testimonial-card__rating--4:before {
+  content: "\f005\f005\f005\f005";
+}
+.wpbingo-section--about-testimonials .testimonial-card__rating.testimonial-card__rating--4:after {
+  content: "\f005";
+}
+.wpbingo-section--about-testimonials .testimonial-card__rating.testimonial-card__rating--5:before {
+  content: "\f005\f005\f005\f005\f005";
+}
+@media (max-width: 991px) {
+	.wpbingo-section--about-testimonials .testimonial-card{
+    padding: 30px 15px;
+  }
+}
+@media (max-width: 767px) {
+	.wpbingo-section--about-testimonials .slick-dots {
+    display: inline-flex !important;
+    margin-top: 20px;
+  }
+  .wpbingo-section--about-testimonials .slick-arrow {
+    display: none !important;
+  }
+}

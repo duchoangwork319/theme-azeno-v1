@@ -1,0 +1,117 @@
+/*============== SECTION NEWSLETTER =============*/
+
+.wpbingo-section--newsletter .wpbingo-section__content {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.wpbingo-section--newsletter .wpbingo-section__content .content-newsletter-left {
+  width: 56.3%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 120px;
+}
+.rtl .wpbingo-section--newsletter .wpbingo-section__content .content-newsletter-left {
+  padding: 0 0 0 120px;
+}
+.wpbingo-section--newsletter .wpbingo-section__content .newsletter__content {
+  width: 43.7%;
+}
+.wpbingo-section--newsletter .wpbingo-section__content .section__content .content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.wpbingo-section--newsletter .icon-news {
+  position: relative;
+  top: -3px;
+}
+.wpbingo-section--newsletter .icon-news .content-icon {
+  font-size: 57px;
+  margin-right: 15px;
+  color: var(--gray-dark);
+}
+.rtl .wpbingo-section--newsletter .icon-news .content-icon {
+  margin: 0 0 0 15px;
+}
+.wpbingo-section--newsletter .wpbingo-section__content .section__content .content .wpbingo-title {
+  padding-right: 15px;
+  position: relative;
+}
+.rtl .wpbingo-section--newsletter .wpbingo-section__content .section__content .content .wpbingo-title {
+  padding: 0 0 0 15px;
+}
+.wpbingo-section--newsletter .wpbingo-section__content .section__content .content .wpbingo-title::before {
+  content: "";
+  position: absolute;
+  background: #bbb;
+  width: 1px;
+  height: 46px;
+  right: 0;
+  top: 6px;
+}
+.rtl .wpbingo-section--newsletter .wpbingo-section__content .section__content .content .wpbingo-title::before {
+  left: 0;
+  right: auto;
+}
+.wpbingo-section--newsletter .newsletter-form__wrap {
+  display: flex;
+}
+.wpbingo-section--newsletter .newsletter-form__wrap input {
+  width: 100%;
+  border: 0;
+  padding: 0 20px;
+  font-size: var(--font-size-base);
+  background: var(--white);
+  height: auto;
+  line-height: 55px;
+}
+.wpbingo-section--newsletter .newsletter-form__wrap input::placeholder {
+  color: var(--text-color);
+}
+.wpbingo-section--newsletter .newsletter-form__wrap .newsletter-form__submit {
+  border: 0;
+  background: var(--gray-dark);
+  text-transform: uppercase;
+  color: var(--white);
+  padding: 0 70px;
+  cursor: pointer;
+  margin-left: 5px;
+}
+.wpbingo-section--newsletter .newsletter-form__wrap .newsletter-form__submit:hover {
+  background: var(--theme-color);
+}
+@media (max-width: 1200px) {
+  .wpbingo-section--newsletter .wpbingo-section__content .content-newsletter-left {
+    padding-right: 15px;
+  }
+  .rtl .wpbingo-section--newsletter .wpbingo-section__content .content-newsletter-left {
+    padding: 0 0 0 15px;
+  }
+}
+@media (max-width: 991px) {
+  .wpbingo-section--newsletter .wpbingo-section__content .content-newsletter-left {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 30px;
+    padding: 0;
+  }
+  .wpbingo-section--newsletter .wpbingo-section__content .newsletter__content {
+    width: 100%;
+  }
+}
+@media (max-width: 767px) {
+  .wpbingo-section--newsletter .wpbingo-section__content .content-newsletter-left {
+    flex-direction: column;
+  }
+  .wpbingo-section--newsletter .wpbingo-section__content .section__content .content {
+    flex-direction: column;
+  }
+  .wpbingo-section--newsletter .newsletter-form__wrap .newsletter-form__submit {
+    padding: 0 30px;
+  }
+  .wpbingo-section--newsletter .wpbingo-section__content .section__content .content .wpbingo-title::before {
+    display: none;
+  }
+}

@@ -1,0 +1,60 @@
+/*============== SECTION BRANDS =============*/
+.wpbingo-section--brands .wpbingo-section__inner {
+  border: 1px solid var(--border-color);
+}
+.wpbingo-section--brands .slick-dotted {
+  margin: 0;
+}
+.wpbingo-section--brands .brand-card__img {
+  margin: auto;
+  transition: all 0.5s ease;
+}
+.wpbingo-section--brands .slick-track {
+  display: flex;
+  align-items: center;
+}
+.wpbingo-section--brands .brand-card__link {
+  display: flex;
+  justify-content: center;
+}
+.wpbingo-section--brands .brand-card__link img{
+  max-height: 150px;
+  width: auto
+}
+.wpbingo-section--brands .slick-list {
+  margin: 0;
+}
+.wpbingo-section--brands .brand-card {
+  padding: 0;
+}
+.wpbingo-section--brands .slick-dots {
+  display: none !important;
+}
+.wpbingo-section--brands .brand-card-content {
+  padding: 20px 0;
+  border-right: 1px solid var(--border-color);
+}
+.rtl .wpbingo-section--brands .brand-card-content {
+  border-left: 1px solid var(--border-color);
+  border-right: 0;
+}
+@media (min-width: 1440px) {
+  .wpbingo-section--brands .slick-arrow {
+    border: 0;
+    background: transparent;
+    top: calc(50% - 15px);
+  }
+  .wpbingo-section--brands .slick-arrow::before {
+    font-size: 12px;
+  }
+  .wpbingo-section--brands .slick-arrow:hover {
+    color: var(--theme-color);
+    background: transparent;
+  }
+  .wpbingo-section--brands .slick-prev {
+    left: -30px;
+  }
+  .wpbingo-section--brands .slick-next {
+    right: -30px;
+  }
+}

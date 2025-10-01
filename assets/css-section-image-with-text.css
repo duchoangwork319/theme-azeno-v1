@@ -1,0 +1,43 @@
+/*============== SECTION IMAGE AND TEXT ===================*/
+.wpbingo-section--image-text {
+  font-size: 16px;
+}
+.wpbingo-section--image-text .wpbingo-section__content {
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+}
+.wpbingo-section--image-text .col-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 1440px;
+  padding: 0 15px;
+}
+.wpbingo-section--image-text .featured-banner img {
+  width: unset;
+  max-width: unset;
+}
+.wpbingo-section--image-text .bwp-button {
+  position: relative;
+  display: inline-block;
+  z-index: 1;
+  border: 0;
+  text-transform: revert;
+}
+.wpbingo-section--image-text .bwp-button::before{
+  position: absolute;
+  left: 0;
+  content: "";
+  height: 100%;
+  width: 0;
+  top: 0;
+  z-index: -1;
+  transition:all 0.3s ease;
+}
+.wpbingo-section--image-text .bwp-button:hover:before {
+  width: 100%;
+}

@@ -1,0 +1,77 @@
+/*=============== BLOG ==============*/
+.wpbingo-section--featured-blog .featured-blog__post:hover .article__image img {
+  transform: scale(1.2);
+}
+.wpbingo-section--featured-blog .featured-blog__post .article {
+  margin: 0;
+  padding: 0;
+}
+.wpbingo-section--featured-blog .featured-blog__post .article__heading {
+  margin: 0 0 10px;
+  font-size: var(--font-size-base);
+}
+.wpbingo-section--featured-blog .featured-blog__post .article__image {
+	position: relative;
+	margin: 0 0 25px;
+	overflow:hidden;
+}
+.wpbingo-section--featured-blog .featured-blog__post .article__image img {
+	transition: all 0.8s ease;
+	position: absolute;
+    top: 0;
+    left: 0;
+}
+.wpbingo-section--featured-blog .featured-blog__post .article__meta {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  z-index: 1;
+  margin: 0;
+  padding: 6px 15px;
+  color: var(--gray-dark);
+  line-height: 18px;
+  background-color: var(--white);
+  font-size: calc(var(--font-size-base) - 2px);
+  text-transform: uppercase;
+}
+.wpbingo-section--featured-blog .featured-blog__post .article__meta-date::before {
+  top: 0;
+}
+.wpbingo-section--featured-blog .featured-blog__post .article__meta-author::before {
+  top: 0;
+}
+.wpbingo-section--featured-blog .featured-blog__post .button a {
+  display: inline-block;
+  font-size: calc(var(--font-size-base) - 1px);
+  position: relative;
+}
+.wpbingo-section--featured-blog .featured-blog__post .button a:before {
+  content: "";
+  width: 100%;
+  height: 1px;
+  background: var(--gray-dark);
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  transition: width 0.3s ease;
+}
+.wpbingo-section--featured-blog .featured-blog__post .button a:hover {
+  color: var(--theme-color);
+}
+.wpbingo-section--featured-blog .featured-blog__post .button a:hover:before {
+  width: 0;
+  background: var(--theme-color);
+  left: 0;
+}
+@media (min-width: 1500px) {
+	.wpbingo-section--featured-blog .slick-arrow {
+    background: transparent;
+    box-shadow: unset;
+  }
+  .wpbingo-section--featured-blog .slick-arrow:before {
+    font-size: 25px;
+  }
+  .wpbingo-section--featured-blog .slick-arrow:hover {
+    color: var(--theme-color);
+  }
+}

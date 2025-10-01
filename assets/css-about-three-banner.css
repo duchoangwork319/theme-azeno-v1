@@ -1,0 +1,39 @@
+.wpbingo-about--three-banner .group-banner {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.wpbingo-about--three-banner .group-banner > div {
+    width: 50%;
+}
+.wpbingo-about--three-banner .group-banner .banner-right {
+    padding-left: 105px;
+}
+.wpbingo-about--three-banner .group-banner .banner-right .banner-2{
+    margin-bottom: 145px;
+}
+.wpbingo-about--three-banner .group-banner .banner-right .banner-3 img{
+    margin-left: auto;
+}
+.wpbingo-about--three-banner .featured-banner img {
+    width: revert-layer;
+}
+.rtl .wpbingo-about--three-banner .group-banner .banner-right {
+    padding: 0 105px 0 0;
+}
+.rtl .wpbingo-about--three-banner .group-banner .banner-right .banner-3 img{
+    margin-left: 0;
+    margin-right: auto;
+}
+@media (max-width: 767px) {
+    .wpbingo-about--three-banner .group-banner > div {
+        width: 100%;
+    }
+    .wpbingo-about--three-banner .group-banner .banner-right {
+        padding: 0;
+        margin-top: 15px;
+    }
+    .wpbingo-about--three-banner .group-banner .banner-right .banner-2{
+        margin-bottom: 15px;
+    }
+}

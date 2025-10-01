@@ -1,0 +1,98 @@
+{%- style -%}
+	{%- for block in section.blocks -%}
+		{%- assign image_bg 		=  block.settings.color_image | img_url: 'master' -%}
+		{%- assign variant_name 	=  block.settings.title -%}
+		{%- assign show_image 		=  block.settings.show_image -%}
+		{%- assign show_gradient 	=  block.settings.show_gradient -%}
+		{%- assign color_bg_2 		=  block.settings.select_color_2 -%}
+		{%- assign color_bg_1 		=  block.settings.select_color_1 -%}
+		{%- assign is_label 		=  block.settings.is_label -%}
+		
+		{%- if image_bg != blank and show_image -%}
+			.wpb-variants-swatch {{ variant_name }}{
+				background:url('{{ image_bg }}') !important;
+				background-size:cover !important;
+				background-position: center center !important;
+			}
+		{%- endif -%}
+		
+		{%- if color_bg_2 != blank and color_bg_1 != blank and color_bg_2 != 'rgba(0,0,0,0)' and show_gradient -%}
+			.wpb-variants-swatch {{ variant_name }}{
+				background: linear-gradient(to bottom, {{ color_bg_1 }} 50%,{{ color_bg_2 }} 50%) !important;
+			}
+		{%- endif -%}
+		
+		{%- if color_bg_1 != blank and show_gradient == blank and color_bg_1 != 'rgba(0,0,0,0)' -%}
+			.wpb-variants-swatch {{ variant_name }}{
+				background-color: {{ color_bg_1 }} !important;
+			}
+		{%- endif -%}
+		
+		{%- if is_label -%}
+			.wpb-variants-swatch {{ variant_name }}{
+				display:none !important;
+			}
+		{%- endif -%}
+		
+	{%- endfor -%}
+{%- endstyle -%}
+{% schema %}
+{
+  "name": "Custom Variant",
+  "settings": [
+		{
+			"type": "header",
+			"content": "Custom Variant",
+			"info":"Tutorial Creat Variant [Document](https:\/\/info.bingomore.com/shopify\/document\/wpbingo\/custom_variant.html#sectionCreat\) Tutorial Type Option [Document](https:\/\/info.bingomore.com/shopify\/document\/wpbingo\/custom_variant.html#sectiontype\) Tutorial Custom Variant [Document](https:\/\/info.bingomore.com/shopify\/document\/wpbingo\/custom_variant.html#sectionTwo\)"
+		}
+  ],
+  "blocks": [
+      {
+        "type": "color",
+        "name": "Variant",
+        "settings": [
+			{
+				"type": "text",
+				"id": "title",
+				"label": "Variant Name",
+				"info":"eg: .Black"
+			},
+			{
+				"type": "checkbox",
+				"id": "is_label",
+				"label": "Hidden Variant",
+				"default": false
+			},
+			{
+				"type": "color",
+				"id": "select_color_1",
+				"label": "Select Color"
+			},
+			{
+				"type": "checkbox",
+				"id": "show_gradient",
+				"label": "Show gradient color",
+				"default": false
+			},
+			{
+				"type": "color",
+				"id": "select_color_2",
+				"label": "Select Color gradient"
+			},
+			{
+				"type": "checkbox",
+				"id": "show_image",
+				"label": "Show Image",
+				"default": false
+			},
+			{
+				"type": "image_picker",
+				"id": "color_image",
+				"label": "Variant Image",
+				"info": "Will be displayed when you select Swatch Image"
+			}
+        ]
+      }
+    ]
+}
+{% endschema %}

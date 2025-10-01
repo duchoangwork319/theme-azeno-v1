@@ -1,0 +1,28 @@
+/*============ ABOUT TITLE =============*/
+.wpbingo-section--about-title .wpbingo-section__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.wpbingo-section--about-title .wpbingo-title span{
+    color: var(--theme-color);
+}
+.wpbingo-section--about-title .wpbingo-button a {
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    transition: all 0.2s ease;
+}
+.wpbingo-section--about-title .wpbingo-button a:before {
+    position: absolute;
+    left: 0;
+    content: "";
+    height: 100%;
+    width: 0;
+    top: 0;
+    z-index: -1;
+    transition:all 0.3s ease;
+}
+.wpbingo-section--about-title .wpbingo-button a:hover:before {
+    width: 100%;
+}

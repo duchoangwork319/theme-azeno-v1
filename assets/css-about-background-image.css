@@ -1,0 +1,50 @@
+.wpbingo-about--background .wpbingo-section__inner{
+  position: relative;
+}
+.wpbingo-about--background .wpbingo-title {
+  -webkit-text-stroke: 2px var(--white);
+}
+.wpbingo-about--background .wpbingo-sub-btn a {
+  position: relative;
+  display: inline-block;
+  z-index: 1;
+  border: 0;
+  text-transform: revert;
+}
+.wpbingo-about--background .wpbingo-sub-btn a:before {
+  position: absolute;
+  right: 0;
+  content: "";
+  height: 100%;
+  width: 0;
+  top: 0;
+  z-index: -1;
+}
+.wpbingo-about--background .wpbingo-sub-btn a:hover:before {
+  width: 100%;
+}
+.wpbingo-about--background .content-animation {
+  position: absolute;
+  bottom: 20px;
+  z-index: 10;
+  text-align: center;
+  -webkit-animation: f 3s ease-in infinite;
+  animation: f 3s ease-in infinite;
+  width: 100%;
+}
+.wpbingo-about--background .title-animation {
+  writing-mode: vertical-lr;
+  font-size: var(--font-size-base);
+  margin: auto;
+  color: var(--white);
+}
+.wpbingo-about--background .title-animation::after {
+  display: inline-block;
+  content: "\e908";
+  font-family: icomoon;
+  font-size: 15px;
+  line-height: 1;
+  position: relative;
+  top: 3px;
+  transform: rotate(90deg);
+}

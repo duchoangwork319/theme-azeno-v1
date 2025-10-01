@@ -1,0 +1,421 @@
+{{ 'css-section-ourteam.css' | asset_url | stylesheet_tag }}
+{%- if section.settings.fullwidth -%}
+	{%- assign container = 'container-full' -%}
+{%- elsif section.settings.max_width != blank -%}
+	{%- assign container = 'bwp-container' -%}
+{%- else -%}
+	{%- assign container = 'container' -%}
+{%- endif -%}
+
+{%- assign max_width = '' -%}
+{%- if section.settings.fullwidth == blank and section.settings.max_width != blank -%}
+	{%- assign width_container = section.settings.max_width | plus: 0 -%}
+	{%- capture max_width -%}style="max-width: {{ section.settings.max_width }};"{%- endcapture -%}
+{%- endif -%}
+
+{%- assign nav = section.settings.navigation -%}
+{%- assign infinite = section.settings.infinite -%}
+{%- assign autoplay = section.settings.autoplay -%}
+{%- assign autoplay_speed = section.settings.autoplay_speed | escape -%}
+{%- assign columns = section.settings.columns -%}
+{%- assign column1440 = section.settings.column1440 -%}
+{%- assign column1 = section.settings.column1 -%}
+{%- assign column2 = section.settings.column2 -%}
+{%- assign column3 = section.settings.column3 -%}
+{%- assign column4 = section.settings.column4 -%}
+{% assign margin 	= section.settings.margin | split: "|" %}
+{% assign padding 	= section.settings.padding | split: "|" %}
+{%- style -%}
+	{%- if margin[0] != blank or padding[0] != blank -%}
+		#shopify-section-{{ section.id }} .wpbingo-section--ourteam{
+			{%- if margin[0] != blank -%}margin: {{ margin[0] }};{%- endif -%}
+			{%- if padding[0] != blank -%}padding:{{ padding[0] }};{%- endif -%}
+		}
+	{%- endif -%}
+	{%- if margin[1] != blank or padding[1] != blank -%}
+		@media (max-width:1200px){
+			#shopify-section-{{ section.id }} .wpbingo-section--ourteam{
+				{%- if margin[1] != blank -%}margin: {{ margin[1] }};{%- endif -%}
+				{%- if padding[1] != blank -%}padding:{{ padding[1] }};{%- endif -%}
+			}
+		}
+	{%- endif -%}
+	{%- if margin[2] != blank or padding[2] != blank -%}
+		@media (max-width:991px){
+			#shopify-section-{{ section.id }} .wpbingo-section--ourteam{
+				{%- if margin[2] != blank -%}margin: {{ margin[2] }};{%- endif -%}
+				{%- if padding[2] != blank -%}padding:{{ padding[2] }};{%- endif -%}
+			}
+		}
+	{%- endif -%}
+	{%- if margin[3] != blank or padding[3] != blank -%}
+		@media (max-width:767px){
+			#shopify-section-{{ section.id }} .wpbingo-section--ourteam{
+				{%- if margin[3] != blank -%}margin: {{ margin[3] }};{%- endif -%}
+				{%- if padding[3] != blank -%}padding:{{ padding[3] }};{%- endif -%}
+			}
+		}
+	{%- endif -%}
+{%- endstyle -%}
+
+<section class="wpbingo-section wpbingo-section--ourteam overflow-hidden wpbingo-section--{{ section.id }}">
+	<div class="{{ container }}" {{ max_width }}>
+		<div class="wpbingo-section__inner">
+			<div class="wpbingo-section__content bwp_slider-carousel">
+				{%- if section.blocks.size > 0 -%}
+					<div class="js-carousel slick-carousel" data-nav="{{ nav }}" data-infinite="{{ infinite }}"
+						data-autoplay="{{ autoplay }}"
+						data-autoplayspeed="{{ autoplay_speed }}"
+						data-columns="{{ columns }}"
+						data-column1440="{{ column1440 }}"
+						data-column1="{{ column1 }}"
+						data-column2="{{ column2 }}"
+						data-column3="{{ column3 }}"
+						data-column4="{{ column4 }}">
+						{%- for block in section.blocks -%}
+							{%- assign name = block.settings.name | escape -%}
+							{%- assign job = block.settings.job | escape -%}
+							{%- assign image = block.settings.image -%}
+							<div class="slick-carousel__item">
+								<div class="ourteam-card">
+									<div class="ourteam-card__inner">
+										<div class="ourteam-card__avatar">
+											{%- if image -%}
+												{% include 'img-global' with image: image, class: "ourteam-card__avatar-img", effect: "fade-in" %}
+											{%- else -%}
+												<img class="lazyload fade-in" src="https://placehold.jp/424x484.png" width="424" height="484" />
+											{%- endif -%}
+											<ul class="social-icons">
+												{%- if block.settings.social_facebook_link != blank -%}
+												  <li>
+													<a href="{{ block.settings.social_facebook_link | escape }}" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: 'Facebook' }}">
+													  <i class="fa fa-facebook"></i>
+													  <span>Facebook</span>
+													</a>
+												  </li>
+												{%- endif -%}
+												{%- if block.settings.social_twitter_link != blank -%}
+												  <li>
+													<a href="{{ block.settings.social_twitter_link | escape }}" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: 'Twitter' }}">
+													  <i class="fa fa-twitter"></i>
+													  <span>Twitter</span>
+													</a>
+												  </li>
+												{%- endif -%}
+												{%- if block.settings.social_pinterest_link != blank -%}
+												  <li>
+													<a href="{{ block.settings.social_pinterest_link | escape }}" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: 'Pinterest' }}">
+													  <i class="fa fa-pinterest"></i>
+													  <span>Pinterest</span>
+													</a>
+												  </li>
+												{%- endif -%}
+												{%- if block.settings.social_instagram_link != blank -%}
+												  <li>
+													<a href="{{ block.settings.social_instagram_link | escape }}" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: 'Instagram' }}">
+													  <i class="fa fa-instagram"></i>
+													  <span>Instagram</span>
+													</a>
+												  </li>
+												{%- endif -%}
+												{%- if block.settings.social_snapchat_link != blank -%}
+												  <li>
+													<a href="{{ block.settings.social_snapchat_link | escape }}" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: 'Snapchat' }}">
+													  <i class="fa fa-snapchat"></i>
+													  <span>Snapchat</span>
+													</a>
+												  </li>
+												{%- endif -%}
+												{%- if block.settings.social_google_plus_link != blank -%}
+												  <li>
+													<a href="{{ block.settings.social_google_plus_link | escape }}" rel="publisher" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: 'Google Plus' }}">
+													  <i class="fa fa-google-plus"></i>
+													  <span>Google Plus</span>
+													</a>
+												  </li>
+												{%- endif -%}
+												{%- if block.settings.social_tumblr_link != blank -%}
+												  <li>
+													<a href="{{ block.settings.social_tumblr_link | escape }}" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: 'Tumblr' }}">
+													  <i class="fa fa-tumblr"></i>
+													  <span>Tumblr</span>
+													</a>
+												  </li>
+												{%- endif -%}
+												{%- if block.settings.social_youtube_link != blank -%}
+												  <li>
+													<a href="{{ block.settings.social_youtube_link | escape }}" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: 'YouTube' }}">
+													  <i class="fa fa-youtube"></i>
+													  <span>YouTube</span>
+													</a>
+												  </li>
+												{%- endif -%}
+												{%- if block.settings.social_vimeo_link != blank -%}
+												  <li>
+													<a href="{{ block.settings.social_vimeo_link | escape }}" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: 'Vimeo' }}">
+													  <i class="fa fa-vimeo"></i>
+													  <span>Vimeo</span>
+													</a>
+												  </li>
+												{%- endif -%}
+												{%- if block.settings.social_fancy_link != blank -%}
+												  <li>
+													<a class="social-fancy" href="{{ block.settings.social_fancy_link | escape }}" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: 'Fancy' }}">
+													  {% include 'svg-definitions' with 'fancy' %}
+													  <span>Fancy</span>
+													</a>
+												  </li>
+												{%- endif -%}
+											  </ul>
+										</div>
+										<div class="info">
+											<div class="ourteam-card__name">{{ name }}</div>
+											<div class="ourteam-card__job">{{ job }}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						{%- endfor -%}
+					</div>
+				{%- endif -%}
+			</div>
+		</div>
+	</div>
+</section>
+
+{% schema %}
+{
+  "name": "Ourteam",
+  "class": "wpbingo-framework",
+  "settings": [
+    {
+		"type": "header",
+		"content": "Layout settings"
+    },
+	{
+		"type": "text",
+		"id": "max_width",
+		"label": "Width container",
+		"info": "Default: 1440px"
+	},
+	{
+		"type": "checkbox",
+		"id": "fullwidth",
+		"label": "Fullwidth"
+	},
+	{
+		"type": "text",
+		"id": "padding",
+		"label": "Padding",
+		"placeholder": "0px 0px 0px 0px",
+		"info":"Screen: desktop | 1200px | 991px | 767px"
+	},
+	{
+		"type": "text",
+		"id": "margin",
+		"label": "Margin",
+		"placeholder": "0px 0px 0px 0px",
+		"info":"Screen: desktop | 1200px | 991px | 767px"
+	},
+    {
+		"type": "header",
+		"content": "General Settings"
+    },
+    {
+		"type": "header",
+		"content": "Carousel Settings"
+    },
+    {
+		"type": "checkbox",
+		"id": "navigation",
+		"label": "Show navigation",
+		"default": true
+    },
+    {
+		"type": "checkbox",
+		"id": "infinite",
+		"label": "Infinite loop sliding",
+		"default": true
+    },
+    {
+		"type": "checkbox",
+		"id": "autoplay",
+		"label": "Enable autoplay",
+		"default": false
+    },
+    {
+		"type": "text",
+		"id": "autoplay_speed",
+		"label": "Autoplay speed",
+		"info": "Autoplay speed in milliseconds. Type: int(ms)",
+		"default": "10000"
+    },
+    {
+		"type": "range",
+		"id": "columns",
+		"min": 1,
+		"max": 5,
+		"step": 1,
+		"label": "Number of Columns >1440px",
+		"default": 4,
+		"info": "Desktops"
+	},
+	{
+		"type": "range",
+		"id": "column1440",
+		"min": 1,
+		"max": 5,
+		"step": 1,
+		"label": "Number of Columns 1200px to 1440px",
+		"default": 4,
+		"info": "Desktops"
+	},
+	{
+		"type": "range",
+		"id": "column1",
+		"min": 1,
+		"max": 5,
+		"step": 1,
+		"label": "Number of Columns on 992px to 1199px",
+		"default": 4,
+		"info": "Desktops"
+	},
+	{
+		"type": "range",
+		"id": "column2",
+		"min": 1,
+		"max": 5,
+		"step": 1,
+		"label": "Number of Columns on 768px to 991px",
+		"default": 3,
+		"info": "Laptop"
+	},
+	{
+		"type": "range",
+		"id": "column3",
+		"min": 1,
+		"max": 5,
+		"step": 1,
+		"label": "Number of Columns on 480px to 767px",
+		"default": 1,
+		"info": "Tablets"
+	},
+	{
+		"type": "range",
+		"id": "column4",
+		"min": 1,
+		"max": 5,
+		"step": 1,
+		"label": "Number of Columns in 480px or less than",
+		"default": 1,
+		"info": "Mobile phone"
+	}
+  ],
+  "blocks": [
+    {
+      "type": "ourteam",
+      "name": "Ourteam",
+      "settings": [
+        {
+			"type": "image_picker",
+			"id": "image",
+			"label": "Image"
+        },
+        {	
+			"type": "text",
+			"id": "name",
+			"label": "Name",
+			"default": "John Doe"
+        },
+		{
+			"type": "text",
+			"id": "job",
+			"label": "Job",
+			"default": "Designer"
+        },
+		{
+			"type": "header",
+			"content": "Social"
+        },
+		{
+			"type": "text",
+			"id": "social_facebook_link",
+			"label": "Facebook",
+			"info": "https:\/\/www.facebook.com\/shopify"
+		  },
+		  {
+			"type": "text",
+			"id": "social_twitter_link",
+			"label": "Twitter",
+			"info": "https:\/\/twitter.com\/shopify"
+		  },
+		  {
+			"type": "text",
+			"id": "social_pinterest_link",
+			"label": "Pinterest",
+			"info": "https:\/\/www.pinterest.com\/shopify"
+		  },
+		  {
+			"type": "text",
+			"id": "social_instagram_link",
+			"label": "Instagram",
+			"info": "https:\/\/instagram.com\/shopify"
+		  },
+		  {
+			"type": "text",
+			"id": "social_snapchat_link",
+			"label": "Snapchat",
+			"info": "https:\/\/www.snapchat.com\/add\/shopify"
+		  },
+		  {
+			"type": "text",
+			"id": "social_google_plus_link",
+			"label": "Google Plus",
+			"info": "https:\/\/plus.google.com\/+shopify"
+		  },
+		  {
+			"type": "text",
+			"id": "social_tumblr_link",
+			"label": "Tumblr",
+			"info": "http:\/\/shopify.tumblr.com"
+		  },
+		  {
+			"type": "text",
+			"id": "social_youtube_link",
+			"label": "YouTube",
+			"info": "https:\/\/www.youtube.com\/user\/shopify"
+		  },
+		  {
+			"type": "text",
+			"id": "social_vimeo_link",
+			"label": "Vimeo",
+			"info": "https:\/\/vimeo.com\/shopify"
+		  },
+		  {
+			"type": "text",
+			"id": "social_fancy_link",
+			"label": "Fancy",
+			"info": "http:\/\/fancy.com\/Shopify"
+		  }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Ourteam",
+      "category": "6. Text",
+      "blocks": [
+        {
+          "type": "ourteam"
+        },
+        {
+          "type": "ourteam"
+        },
+        {
+          "type": "ourteam"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,80 @@
+/*===================== SECTION TWO BANNER 2 ==================*/
+.wpbingo-section--two-banner-2 .group-banner {
+    display: flex;
+    flex-wrap: wrap;
+}
+.wpbingo-section--two-banner-2 .group-banner .banner-left {
+    width: 56%;
+}
+.wpbingo-section--two-banner-2 .group-banner .banner-right {
+    width: 44%;
+    padding: 0 15px;
+}
+.wpbingo-section--two-banner-2 .group-banner .banner-left .content-banner-left{
+    padding-top: 260px;
+}
+.wpbingo-section--two-banner-2 .group-banner .banner-right .content-banner-right{
+    max-width: 645px;
+    margin: auto;
+}
+.wpbingo-section--two-banner-2 .group-banner .featured-banner {
+    overflow: unset;
+}
+.wpbingo-section--two-banner-2 .group-banner .featured-banner .bwp-image {
+    overflow: hidden;
+}
+.wpbingo-section--two-banner-2 .group-banner .banner-wrapper-infor {
+    width: 100%;
+    display: flex;
+}
+.wpbingo-section--two-banner-2 .group-banner .banner-wrapper-infor.position-1-absolute, .wpbingo-section--two-banner-2 .group-banner .banner-wrapper-infor.position-2-absolute {
+    position: absolute;
+}
+.wpbingo-section--two-banner-2 .group-banner .banner-wrapper-infor.position-1-unset, .wpbingo-section--two-banner-2 .group-banner .banner-wrapper-infor.position-2-unset {
+    transform: unset !important;
+}
+.wpbingo-section--two-banner-2 .banner-right .title-banner{
+    -webkit-text-stroke: 2px var(--gray-dark);
+    transition: all .3s ease;
+}
+.wpbingo-section--two-banner-2 .bwp-button {
+    position: relative;
+    display: inline-block;
+    z-index: 1;
+    border: 0;
+    text-transform: revert;
+}
+.wpbingo-section--two-banner-2 .bwp-button::before{
+    position: absolute;
+    left: 0;
+    content: "";
+    height: 100%;
+    width: 0;
+    top: 0;
+    z-index: -1;
+    transition:all 0.3s ease;
+}
+.wpbingo-section--two-banner-2 .bwp-button:hover:before {
+    width: 100%;
+}
+@media (max-width: 991px) {
+    .wpbingo-section--two-banner-2 .group-banner .banner-left {
+        width: 100%;
+        margin-bottom: 30px;
+    }
+    .wpbingo-section--two-banner-2 .group-banner .banner-right {
+        width: 100%;
+    }
+    .wpbingo-section--two-banner-2 .group-banner .banner-left .content-banner-left{
+        padding-top: 0;
+    }
+}
+@media (max-width: 767px) {
+    .wpbingo-section--two-banner-2 .group-banner > div {
+        max-width: 100%;
+        flex: 100%;
+    }
+    .wpbingo-section--two-banner-2 .group-banner .banner-left {
+        margin-bottom: 15px;
+    }
+}

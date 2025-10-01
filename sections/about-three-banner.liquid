@@ -1,0 +1,310 @@
+{{ 'css-about-three-banner.css' | asset_url | stylesheet_tag }}
+{%- if section.settings.fullwidth -%}
+	{%- assign container = 'container-full' -%}
+{%- elsif section.settings.max_width != blank -%}
+	{%- assign container = 'bwp-container' -%}
+{%- else -%}
+	{%- assign container = 'container' -%}
+{%- endif -%}
+
+{%- assign max_width = '' -%}
+{%- if section.settings.fullwidth == blank and section.settings.max_width != blank -%}
+	{%- assign width_container = section.settings.max_width | plus: 0 -%}
+	{%- capture max_width -%}style="max-width: {{ section.settings.max_width }};"{%- endcapture -%}
+{%- endif -%}
+
+{%- assign margin = '' -%}
+{%- if section.settings.margin != blank -%}
+  {%- capture margin -%}margin: {{ section.settings.margin }};{%- endcapture -%}
+{%- endif -%}
+{%- assign effect = section.settings.effect -%}
+{% assign margin 	= section.settings.margin | split: "|" %}
+{% assign padding 	= section.settings.padding | split: "|" %}
+{%- style -%}
+	{%- if margin[0] != blank or padding[0] != blank -%}
+		#shopify-section-{{ section.id }} .wpbingo-about--three-banner{
+			{%- if margin[0] != blank -%}margin: {{ margin[0] }};{%- endif -%}
+			{%- if padding[0] != blank -%}padding:{{ padding[0] }};{%- endif -%}
+		}
+	{%- endif -%} 
+	{%- if margin[1] != blank or padding[1] != blank -%}
+		@media (max-width:1200px){
+			#shopify-section-{{ section.id }} .wpbingo-about--three-banner{
+				{%- if margin[1] != blank -%}margin: {{ margin[1] }};{%- endif -%}
+				{%- if padding[1] != blank -%}padding:{{ padding[1] }};{%- endif -%}
+			}
+		}
+	{%- endif -%}
+	{%- if margin[2] != blank or padding[2] != blank -%}
+		@media (max-width:991px){
+			#shopify-section-{{ section.id }} .wpbingo-about--three-banner{
+				{%- if margin[2] != blank -%}margin: {{ margin[2] }};{%- endif -%}
+				{%- if padding[2] != blank -%}padding:{{ padding[2] }};{%- endif -%}
+			}
+		}
+	{%- endif -%}
+	{%- if margin[3] != blank or padding[3] != blank -%}
+		@media (max-width:767px){
+			#shopify-section-{{ section.id }} .wpbingo-about--three-banner{
+				{%- if margin[3] != blank -%}margin: {{ margin[3] }};{%- endif -%}
+				{%- if padding[3] != blank -%}padding:{{ padding[3] }};{%- endif -%}
+			}
+		}
+	{%- endif -%}
+{%- endstyle -%}
+
+<section class="wpbingo-section wpbingo-about--three-banner overflow-hidden">
+	<div class="{{ container }}" {{ max_width }}>
+		<div class="wpbingo-section__inner">
+			<div class="wpbingo-section__content">
+				<div class="group-banner">
+                    <div class="banner-left">
+                        <div class="banner-1 featured-banner bwp-effect-{{ section.settings.effect }}">
+                            <div class="bwp-image" >
+                                <a class="image" href="{{ section.settings.image_url1 }}">
+                                    {%- if section.settings.image1 -%}
+                                        {% include 'img-global' with image: section.settings.image1, class: "featured-banner__img", effect: "fade-in" %}
+                                    {%- else -%}
+                                        <img class="lazyload fade-in" src="https://placehold.jp/945x685.png" width="945" height="685" />
+                                    {%- endif -%}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="banner-right">
+                        <div class="banner-2 featured-banner bwp-effect-{{ section.settings.effect }}">
+                            <div class="bwp-image" >
+                                <a class="image" href="{{ section.settings.image_url2 }}">
+                                    {%- if section.settings.image2 -%}
+                                        {% include 'img-global' with image: section.settings.image2, class: "featured-banner__img", effect: "fade-in" %}
+                                    {%- else -%}
+                                        <img class="lazyload fade-in" src="https://placehold.jp/502x513.png" width="502" height="513" />
+                                    {%- endif -%}
+                                </a>
+                            </div>
+                        </div>
+                        <div class="banner-3 featured-banner bwp-effect-{{ section.settings.effect }}">
+                            <div class="bwp-image">
+                                <a class="image" href="{{ section.settings.image_url3 }}"> 
+                                    {%- if section.settings.image3 -%}
+                                        {% include 'img-global' with image: section.settings.image3, class: "featured-banner__img", effect: "fade-in" %}
+                                    {%- else -%}
+                                        <img class="lazyload fade-in" src="https://placehold.jp/616x557.png" width="616" height="557" />
+                                    {%- endif -%}
+                                </a>
+                            </div>
+                        </div>   
+                    </div>                           
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% schema %}
+{
+	"name": "About Three Banner",
+	"class": "wpbingo-framework",
+	"settings": [
+		{
+			"type": "header",
+			"content": "Layout settings"
+		},
+		{
+			"type": "text",
+			"id": "max_width",
+			"label": "Width container",
+			"info": "Default: 1440px"
+		},
+		{
+			"type": "checkbox",
+			"id": "fullwidth",
+			"label": "Fullwidth"
+		},
+		{
+			"type": "text",
+			"id": "padding",
+			"label": "Padding",
+			"placeholder": "0px 0px 0px 0px",
+			"info":"Screen: desktop | 1200px | 991px | 767px"
+		},
+		{
+			"type": "text",
+			"id": "margin",
+			"label": "Margin",
+			"placeholder": "0px 0px 0px 0px",
+			"info":"Screen: desktop | 1200px | 991px | 767px"
+		},
+		{
+			"type": "header",
+			"content": "Banner 1"
+		},
+		{
+			"type": "image_picker",
+			"id": "image1",
+			"label": "Image"
+		},
+        {
+			"type": "url",
+			"id": "image_url1",
+			"label": "Image URL",
+			"default": "/"
+		},
+		{
+			"type": "header",
+			"content": "Banner 2"
+		},
+		{
+			"type": "image_picker",
+			"id": "image2",
+			"label": "Image"
+		},
+        {
+			"type": "url",
+			"id": "image_url2",
+			"label": "Image URL",
+			"default": "/"
+		},
+		{
+			"type": "header",
+			"content": "Banner 3"
+		},
+		{
+			"type": "image_picker",
+			"id": "image3",
+			"label": "Image"
+		},
+        {
+			"type": "url",
+			"id": "image_url3",
+			"label": "Image URL",
+			"default": "/"
+		},
+		{
+			"type": "select",
+			"id": "effect",
+			"label": "Effect",
+			"options": [
+				{
+					"value": "none",
+					"label": "None"
+				},
+				{
+					"value": "grow",
+					"label": "Grow"
+				},
+				{
+					"value": "shrink",
+					"label": "Shrink"
+				},
+				{
+					"value": "pulse",
+					"label": "Pulse"
+				},
+				{
+					"value": "pulse-grow",
+					"label": "Pulse Grow"
+				},
+				{
+					"value": "pulse-shrink",
+					"label": "Pulse Shrink"
+				},
+				{
+					"value": "push",
+					"label": "Push"
+				},
+				{
+					"value": "pop",
+					"label": "Pop"
+				},
+				{
+					"value": "bounce-in",
+					"label": "Bounce In"
+				},
+				{
+					"value": "bounce-out",
+					"label": "Bounce Out"
+				},
+				{
+					"value": "rotate",
+					"label": "Rotate"
+				},
+				{
+					"value": "grow-rotate",
+					"label": "Grow Rotate"
+				},
+				{
+					"value": "float",
+					"label": "Float"
+				},
+				{
+					"value": "sink",
+					"label": "Sink"
+				},
+				{
+					"value": "bob",
+					"label": "Bob"
+				},
+				{
+					"value": "hang",
+					"label": "Hang"
+				},
+				{
+					"value": "skew",
+					"label": "Skew"
+				},
+				{
+					"value": "skew-forward",
+					"label": "Skew Forward"
+				},
+				{
+					"value": "skew-backward",
+					"label": "Skew Backward"
+				},
+				{
+					"value": "wobble-vertical",
+					"label": "Wobble Vertical"
+				},
+				{
+					"value": "wobble-horizontal",
+					"label": "Wobble Horizontal"
+				},
+				{
+					"value": "wobble-to-bottom-right",
+					"label": "Wobble To Bottom Right"
+				},
+				{
+					"value": "wobble-to-top-right",
+					"label": "Wobble To Top Right"
+				},
+				{
+					"value": "wobble-top",
+					"label": "Wobble Top"
+				},
+				{
+					"value": "wobble-bottom",
+					"label": "Wobble Bottom"
+				},
+				{
+					"value": "wobble-skew",
+					"label": "Wobble Skew"
+				},
+				{
+					"value": "buzz",
+					"label": "Buzz"
+				},
+				{
+					"value": "buzz-out",
+					"label": "Buzz Out"
+				}
+			],
+			"default": "none"
+		}
+	],
+	"presets": [
+		{
+			"name": "About Three Banner",
+			"category": "5. Image"
+		}
+	]
+}
+{% endschema %}

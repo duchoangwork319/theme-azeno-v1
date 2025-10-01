@@ -1,0 +1,29 @@
+/*============= ABOUT POLICY =============*/
+.bwp-about-policy .row--banners {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px;
+}
+.bwp-about-policy .title-banner {
+    margin: 0 0 8px;
+}
+.bwp-about-policy .bwp-image {
+    transition: all .3s ease;
+    margin-bottom: 23px;
+}
+.bwp-about-policy .pos-align-center .featured-banner {
+    text-align: center;
+}
+.bwp-about-policy .pos-align-center .bwp-image {
+    margin: auto;
+    margin-bottom: 23px;
+}
+.bwp-about-policy .pos-align-right .featured-banner {
+    text-align: right;
+}
+.bwp-about-policy .pos-align-right .bwp-image {
+    margin-left: auto;
+}
+.bwp-about-policy .pos-align-right .banner-wrapper-infor {
+    order: 1;
+}

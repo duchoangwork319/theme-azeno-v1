@@ -1,0 +1,13 @@
+.wpbingo-section--collections-image .collection-item {
+  position: relative;
+}
+.collection-item__title .collection-item__link {
+  display: inline-block;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 40px;
+}
+.wpbingo-section--collections-image .slick-arrow {
+  top: calc(50% - 23px);
+}
