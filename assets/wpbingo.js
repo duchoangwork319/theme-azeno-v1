@@ -1992,7 +1992,6 @@ wpbingo.Product = (function () {
 				}.bind(this));
 				$('body').on('wpbingo:media:unslick', function () {
 					$(this.selectors.productMediaGroup, this.$container).slick('unslick');
-					this.isCarouselActive = false;
 				}.bind(this));
 				$('body').trigger('wpbingo:media:slick');
 			}
