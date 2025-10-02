@@ -767,10 +767,6 @@ wpbingo.Variants = (function () {
 			`;
 			}).join('');
 
-			// let $slickElement = $('.js-product-thumbnails', this.$container);
-			// $slickElement.slick('unslick');
-			// $slickElement.empty().html(html);
-			// $slickElement.slick(this.settings.slickThumbsSettings);
 			$('body').trigger('wpbingo:thumb:unslick');
 			$('body').trigger('wpbingo:thumb:html', html);
 			$('body').trigger('wpbingo:thumb:slick');
@@ -1991,6 +1987,7 @@ wpbingo.Product = (function () {
 						this.translateCarouselDots(slick.slideCount, nextSlide, dotStyle);
 					}.bind(this));
 				}.bind(this));
+				
 				$('body').trigger('wpbingo:media:resetslick');
 			}
 		},
