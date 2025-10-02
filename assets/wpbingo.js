@@ -1978,7 +1978,8 @@ wpbingo.Product = (function () {
 					this.updateCarouselDotsA11y(nextSlide);
 					this.translateCarouselDots(slick.slideCount, nextSlide, dotStyle);
 				}.bind(this));
-				
+
+				$('body').on('wpbingo:currency:change', function () {
 			}
 		},
 
