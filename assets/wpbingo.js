@@ -728,7 +728,7 @@ wpbingo.Variants = (function () {
 		 * @property {string} sectionId - The section ID associated with the gallery item.
 		 */
 		/**
-		 * Resets the product thumbnails Slick carousel with new gallery images.
+		 * Updates the product thumbnails Slick carousel with new gallery images.
 		 * @param {Array<GalleryImage>} galleryImages - An array of gallery images to display.
 		 * @returns {void}
 		 */
@@ -772,7 +772,7 @@ wpbingo.Variants = (function () {
 			$('body').trigger('wpbingo:thumb:slick');
 		},
 		/**
-		 * Resets the main product media Slick carousel with new gallery images.
+		 * Updates the main product media Slick carousel with new gallery images.
 		 * @param {Array<GalleryImage>} galleryImages - An array of gallery images to display.
 		 * @returns {void}
 		 */
