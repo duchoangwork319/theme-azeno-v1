@@ -760,7 +760,10 @@ wpbingo.Variants = (function () {
 						width="${item.width || ''}"
 						height="${item.height || ''}"
 					/>
-					${player}
+					${isVideo ? `
+						
+						
+						` : ''}
 					</a>
 				</div>
 			</div>
