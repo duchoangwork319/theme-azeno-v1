@@ -665,7 +665,6 @@ wpbingo.Variants = (function () {
 		this.originalSelectorId = options.originalSelectorId;
 		this.enableHistoryState = options.enableHistoryState;
 		this.variantGallery = options.variantGallery;
-		this.settings = options.settings;
 		this.currentVariant = this._getVariantFromOptions();
 		$(this.singleOptionSelector, this.$container).on(
 			'change', this._onSelectChange.bind(this)
