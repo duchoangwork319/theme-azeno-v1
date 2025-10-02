@@ -774,14 +774,15 @@ wpbingo.Variants = (function () {
 			console.log(this.settings.slickThumbsSettings);
 		},
 
-		_resetProductMediaSlick: function () {
-
+		_resetProductMediaSlick: function (galleryImages) {
+			if (!galleryImages || galleryImages.length === 0) return;
 		},
 
 		_onSelectChange: function () {
 			var variant = this._getVariantFromOptions();
 			var galleryImages = this._getVariantGallery(variant);
 			this._resetProductThumbnailsSlick(galleryImages);
+			this._resetProductMediaSlick(galleryImages);
 
 			if ($('[data-single-option-button]', this.$container).length && $('.color-select', this.$container).length < 1) {
 				this._updateVariantsButton();
