@@ -734,7 +734,7 @@ wpbingo.Variants = (function () {
 		 */
 		_resetProductThumbnailsSlick: function (galleryImages) {
 			if (!galleryImages || galleryImages.length === 0) return;
-
+			console.log(galleryImages);
 			let html = galleryImages.map(item => {
 				let isVideo = item.mediaType === 'video' || item.mediaType === 'external_video' || item.mediaType === 'model';
 				let player = isVideo ? `
@@ -777,7 +777,6 @@ wpbingo.Variants = (function () {
 		_onSelectChange: function () {
 			var variant = this._getVariantFromOptions();
 			var galleryImages = this._getVariantGallery(variant);
-			console.log(galleryImages);
 			this._resetProductThumbnailsSlick(galleryImages);
 
 			if ($('[data-single-option-button]', this.$container).length && $('.color-select', this.$container).length < 1) {
