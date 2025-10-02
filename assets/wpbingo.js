@@ -1979,7 +1979,7 @@ wpbingo.Product = (function () {
 					this.translateCarouselDots(slick.slideCount, nextSlide, dotStyle);
 				}.bind(this));
 
-				$('body').on('wpbingo:currency:change', function () {
+				$('body').on('wpbingo:media:resetslick', function () {
 					$(this.selectors.productMediaGroup, this.$container).slick(this.slickMediaSettings).on('beforeChange', function (event, slick, currentSlide, nextSlide) {
 						this.updateCarouselDotsA11y(nextSlide);
 						this.translateCarouselDots(slick.slideCount, nextSlide, dotStyle);
