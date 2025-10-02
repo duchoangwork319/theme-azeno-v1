@@ -1558,7 +1558,6 @@ wpbingo.Product = (function () {
 				originalSelectorId: this.selectors.originalSelectorId + '--' + this.settings.sectionId,
 				product: this.productSingleObject,
 				variantGallery: this.variantGalleryObject,
-				slickThumbsSettings: this.slickThumbsSettings,
 				settings: {
 					slickThumbsSettings: this.slickThumbsSettings,
 				}
