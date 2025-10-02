@@ -801,7 +801,9 @@ wpbingo.Variants = (function () {
 				`;
 			}).join('');
 
-			
+			let $slickElement = $('.js-product-media', this.$container);
+			$slickElement.slick('unslick');
+			$slickElement.empty().html(html);
 			$('body').trigger('wpbingo:media:resetslick');
 		},
 
