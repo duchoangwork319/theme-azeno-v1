@@ -8147,6 +8147,8 @@ const resetCompare = () => {
 $(document).ready(function() {
 	wpbingo.init();
 	var sections = new wpbingo.Sections();
+	console.log('Welcome to WPBingo - Multipurpose Shopify Theme');
+	
 	sections.register('product-template', wpbingo.Product);
 	sections.register('header-section', wpbingo.HeaderSection);
 	sections.register('header-topbar-section', wpbingo.HeaderSection);
