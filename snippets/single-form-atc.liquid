@@ -86,10 +86,10 @@
 										data-{{ type }}="{{ value }}"
 										title="{{ value | strip | escape }}"
 										class="{{ value | escape }} {% if option_disabled %}disabled{% endif %}">
-										{{ value | escape }}
+										{% comment %} {{ value | escape }}
 										{%- if type != 'label' -%}
 											<span class="tool-tip">{{ value | escape }}</span>
-										{%- endif -%}
+										{%- endif -%} {% endcomment %}
 									</label>
 								{%- endif -%}
 						</div>
