@@ -801,7 +801,7 @@ wpbingo.Variants = (function () {
 				`;
 			}).join('');
 
-
+			
 		},
 
 		_onSelectChange: function () {
@@ -1589,8 +1589,7 @@ wpbingo.Product = (function () {
 				product: this.productSingleObject,
 				variantGallery: this.variantGalleryObject,
 				settings: {
-					slickThumbsSettings: this.slickThumbsSettings,
-					slickMediaSettings: this.slickMediaSettings,
+					slickThumbsSettings: this.slickThumbsSettings
 				}
 			};
 			var count = $(this.selectors.productThumbnails, this.$container).data('columns');
