@@ -778,7 +778,7 @@ wpbingo.Variants = (function () {
 			var variant = this._getVariantFromOptions();
 			var galleryImages = this._getVariantGallery(variant);
 			console.log(galleryImages);
-			this._resetSlick(galleryImages);
+			this._resetProductThumbnailsSlick(galleryImages);
 
 			if ($('[data-single-option-button]', this.$container).length && $('.color-select', this.$container).length < 1) {
 				this._updateVariantsButton();
