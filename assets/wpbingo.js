@@ -664,6 +664,8 @@ wpbingo.Variants = (function () {
 		this.singleOptionSelector = options.singleOptionSelector;
 		this.originalSelectorId = options.originalSelectorId;
 		this.enableHistoryState = options.enableHistoryState;
+		this.variantGallery = options.variantGallery;
+		this.slickThumbsSettings = options.slickThumbsSettings;
 		this.currentVariant = this._getVariantFromOptions();
 		$(this.singleOptionSelector, this.$container).on(
 			'change', this._onSelectChange.bind(this)
@@ -708,8 +710,76 @@ wpbingo.Variants = (function () {
 			return found;
 		},
 
+		_getVariantGallery: function (variant) {
+			if (!this.variantGallery || this.variantGallery.length === 0) return [];
+			let found = this.variantGallery.find(item => item.id === variant.id);
+			return found ? found.variantGalleryHiRes : [];
+		},
+
+		/**
+		 * @typedef {Object} GalleryImage
+		 * @property {string} id - The unique identifier for the gallery item.
+		 * @property {string} url - The URL of the high-resolution image for the gallery item.
+		 * @property {string} mediaType - The type of media (e.g., "image").
+		 * @property {string} alt - The alternative text for the image.
+		 * @property {string} width - The width of the image in pixels.
+		 * @property {string} height - The height of the image in pixels.
+		 * @property {string} sectionId - The section ID associated with the gallery item.
+		 */
+		/**
+		 * Resets the Slick carousel with new gallery images.
+		 * @param {Array<GalleryImage>} galleryImages - An array of gallery images to display.
+		 * @returns {void}
+		 */
+		_resetSlick: function (galleryImages) {
+			if (!galleryImages || galleryImages.length === 0) return;
+
+			let html = galleryImages.map(item => {
+				let isVideo = item.mediaType === 'video' || item.mediaType === 'external_video' || item.mediaType === 'model';
+
+				let player = isVideo ? `
+			<div class="product-single__thumbnail-badge ${item.mediaType}">
+				${item.mediaType === 'model' ? '<i class="icon-model"></i>' : '<i class="feather-play"></i>'}
+			</div>
+			` : '';
+
+				return `
+			<div class="product-single__thumbnail-wrapper">
+				<div class="product-media__wrapper">
+					<a
+					href="javascript:void(0)"
+					class="${isVideo ? 'product-single__video' : 'product-single__thumbnail'}"
+					data-media="${item.url}"
+					data-media-id="${item.sectionId}-${item.id}"
+					data-product-thumbnail
+					>
+					<img
+						class="product-image__thumb lazyload fade-in"
+						src="${item.url}"
+						alt="${item.alt || ''}"
+						width="${item.width || ''}"
+						height="${item.height || ''}"
+					/>
+					${player}
+					</a>
+				</div>
+			</div>
+			`;
+			}).join('');
+
+			let $slickElement = $('.js-product-thumbnails', this.$container);
+			$slickElement.slick('unslick');
+			$slickElement.empty().html(html);
+			$slickElement.slick(this.slickThumbsSettings);
+			console.log(this.slickThumbsSettings);
+		},
+
 		_onSelectChange: function () {
 			var variant = this._getVariantFromOptions();
+			var galleryImages = this._getVariantGallery(variant);
+			console.log(galleryImages);
+			this._resetSlick(galleryImages);
+
 			if ($('[data-single-option-button]', this.$container).length && $('.color-select', this.$container).length < 1) {
 				this._updateVariantsButton();
 				if (!variant || !variant.available) {
@@ -878,18 +948,22 @@ wpbingo.Variants = (function () {
 			});
 		},
 		_updateLabelvariant: function (variant) {
-			var $element = $('.product-single .product-single__form .variants-wrapper')
-			$('.mutil_slider-single').removeClass('active');
-			$($element).each(function () {
-				var $this = $(this);
-				if ($("select", $this).length > 0) {
-					var value = $("select", $this).find(':selected').val();
-				} else {
-					var value = $('input:checked', $this).attr('value');
-				}
-				$('.variants__label span', $this).html(value);
-				$('.mutil_slider-single.' + value + '').addClass('active');
-			});
+			try {
+				var $element = $('.product-single .product-single__form .variants-wrapper')
+				$('.mutil_slider-single').removeClass('active');
+				$($element).each(function () {
+					var $this = $(this);
+					if ($("select", $this).length > 0) {
+						var value = $("select", $this).find(':selected').val();
+					} else {
+						var value = $('input:checked', $this).attr('value');
+					}
+					$('.variants__label span', $this).html(value);
+					$('.mutil_slider-single.' + value + '').addClass('active');
+				});
+			} catch (error) {
+				console.log(error);
+			}
 		},
 		_updateHistoryState: function (variant) {
 			if (!history.replaceState || !variant) {
@@ -1371,6 +1445,9 @@ wpbingo.Product = (function () {
 		this.productSingleObject = JSON.parse(
 			document.getElementById('ProductJson-' + sectionId).innerHTML
 		);
+		this.variantGalleryObject = JSON.parse(
+			document.getElementById('VariantGalleryJson-' + sectionId).innerHTML
+		);
 
 		this.zoomType = $container.data('image-zoom-type');
 		this.isStackedLayout = $container.data('stacked-layout');
@@ -1479,7 +1556,9 @@ wpbingo.Product = (function () {
 				productSelectOption: this.selectors.productSelectOption,
 				singleOptionSelector: this.selectors.singleOptionSelector,
 				originalSelectorId: this.selectors.originalSelectorId + '--' + this.settings.sectionId,
-				product: this.productSingleObject
+				product: this.productSingleObject,
+				variantGallery: this.variantGalleryObject,
+				slickThumbsSettings: this.slickThumbsSettings
 			};
 			var count = $(this.selectors.productThumbnails, this.$container).data('columns');
 			this.variants = new wpbingo.Variants(options);
@@ -8148,8 +8227,6 @@ const resetCompare = () => {
 $(document).ready(function () {
 	wpbingo.init();
 	var sections = new wpbingo.Sections();
-	console.log('Welcome to WPBingo - Multipurpose Shopify Theme');
-
 	sections.register('product-template', wpbingo.Product);
 	sections.register('header-section', wpbingo.HeaderSection);
 	sections.register('header-topbar-section', wpbingo.HeaderSection);
