@@ -776,11 +776,11 @@ wpbingo.Variants = (function () {
 		_resetProductMediaSlick: function (galleryImages) {
 			if (!galleryImages || galleryImages.length === 0) return;
 
-			let html = galleryImages.map(item => {
+			let html = galleryImages.map((item, index) => {
 				return `
 				<div
 					class="js-product-media product-media"
-					data-media-id="${galleryImages.id}"
+					data-media-id="${item.id}"
 					tabindex="-1"
 					>
 					<div class="product-media__wrapper product-media__wrapper--image">
