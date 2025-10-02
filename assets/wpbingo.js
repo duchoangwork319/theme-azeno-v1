@@ -786,14 +786,14 @@ wpbingo.Variants = (function () {
 					<div class="product-media__wrapper product-media__wrapper--image">
 						<img
 						class="mfp-image lazyload fade-in"
-						src="${galleryImages.mediaUrl}"
+						src="${item.mediaUrl}"
 						data-sizes="auto"
 						data-image="true"
-						data-number="0"
-						data-media-id="${galleryImages.id}"
-						width="${galleryImages.width}"
-						height="${galleryImages.height}"
-						alt="${galleryImages.alt}"
+						data-number="${index}"
+						data-media-id="${item.id}"
+						width="${item.width}"
+						height="${item.height}"
+						alt="${item.alt}"
 						>
 						<div class="gallery-cursor"></div>
 					</div>
