@@ -1974,18 +1974,12 @@ wpbingo.Product = (function () {
 					$('.js-product-media-group', $(this)).slick($config);
 				});
 			} else {
-				$(this.selectors.productMediaGroup, this.$container).slick(this.slickMediaSettings).on('beforeChange', function (event, slick, currentSlide, nextSlide) {
-					this.updateCarouselDotsA11y(nextSlide);
-					this.translateCarouselDots(slick.slideCount, nextSlide, dotStyle);
-				}.bind(this));
-
 				$('body').on('wpbingo:media:resetslick', function () {
 					$(this.selectors.productMediaGroup, this.$container).slick(this.slickMediaSettings).on('beforeChange', function (event, slick, currentSlide, nextSlide) {
 						this.updateCarouselDotsA11y(nextSlide);
 						this.translateCarouselDots(slick.slideCount, nextSlide, dotStyle);
 					}.bind(this));
 				}.bind(this));
-
 				$('body').trigger('wpbingo:media:resetslick');
 			}
 		},
