@@ -767,10 +767,13 @@ wpbingo.Variants = (function () {
 			`;
 			}).join('');
 
-			let $slickElement = $('.js-product-thumbnails', this.$container);
-			$slickElement.slick('unslick');
-			$slickElement.empty().html(html);
-			$slickElement.slick(this.settings.slickThumbsSettings);
+			// let $slickElement = $('.js-product-thumbnails', this.$container);
+			// $slickElement.slick('unslick');
+			// $slickElement.empty().html(html);
+			// $slickElement.slick(this.settings.slickThumbsSettings);
+			$('body').trigger('wpbingo:thumb:unslick');
+			$('body').trigger('wpbingo:thumb:html', html);
+			$('body').trigger('wpbingo:thumb:slick');
 		},
 		/**
 		 * Resets the main product media Slick carousel with new gallery images.
@@ -2019,7 +2022,17 @@ wpbingo.Product = (function () {
 					$('.js-product-thumbnails', $(this)).slick($configThumb);
 				});
 			} else {
-				$(this.selectors.productThumbnails, this.$container).slick(this.slickThumbsSettings);
+				// $(this.selectors.productThumbnails, this.$container).slick(this.slickThumbsSettings);
+				$('body').on('wpbingo:thumb:slick', function () {
+					$(this.selectors.productThumbnails, this.$container).slick(this.slickThumbsSettings);
+				}.bind(this));
+				$('body').on('wpbingo:thumb:html', function (event, html) {
+					$(this.selectors.productThumbnails, this.$container).empty().html(html);
+				}.bind(this));
+				$('body').on('wpbingo:thumb:unslick', function () {
+					$(this.selectors.productThumbnails, this.$container).slick('unslick');
+				}.bind(this));
+				$('body').trigger('wpbingo:thumb:slick');
 			}
 		},
 
