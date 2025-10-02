@@ -800,6 +800,8 @@ wpbingo.Variants = (function () {
 				</div>
 				`;
 			}).join('');
+
+			
 		},
 
 		_onSelectChange: function () {
