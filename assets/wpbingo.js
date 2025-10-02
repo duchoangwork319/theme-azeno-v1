@@ -778,7 +778,7 @@ wpbingo.Variants = (function () {
 
 			let html = galleryImages.map((item, index) => {
 				return `
-				<div class="js-product-media-item product-single__media-item" data-slick-media-label="{{ thumbnail_alt }}">
+				<div class="js-product-media-item product-single__media-item" data-slick-media-label="${item.alt || ''}">
 					<div
 						class="js-product-media product-media"
 						data-media-id="${item.id}"
