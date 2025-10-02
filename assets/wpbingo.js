@@ -774,6 +774,8 @@ wpbingo.Variants = (function () {
 			console.log(this.settings.slickThumbsSettings);
 		},
 
+		_resetProductMedias
+
 		_onSelectChange: function () {
 			var variant = this._getVariantFromOptions();
 			var galleryImages = this._getVariantGallery(variant);
