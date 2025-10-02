@@ -72,7 +72,7 @@
 													data-{{ type }}="{{ value }}"
 													title="{{ value | strip | escape }}"
 													style="background:url('{{ variant_img }}');background-size: cover;background-position: center;"
-													class="{% if option_disabled %}disabled{% endif %}">
+													class="{% if option_disabled %}disabled{% endif %} color">
 													{{ value | escape }}
 													preview_image: {{ media.preview_image }}
 													{%- if type != 'label' -%}
