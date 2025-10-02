@@ -664,6 +664,7 @@ wpbingo.Variants = (function () {
 		this.singleOptionSelector = options.singleOptionSelector;
 		this.originalSelectorId = options.originalSelectorId;
 		this.enableHistoryState = options.enableHistoryState;
+		this.variantGallery = options.variantGallery;
 		this.currentVariant = this._getVariantFromOptions();
 		$(this.singleOptionSelector, this.$container).on(
 			'change', this._onSelectChange.bind(this)
@@ -707,6 +708,109 @@ wpbingo.Variants = (function () {
 			});
 			return found;
 		},
+		/**
+		 * Gets the high-resolution gallery images for a specific variant.
+		 * @param {Object} variant - The variant object for which to retrieve gallery images. 
+		 * @returns {Array} - An array of high-resolution gallery images.
+		 */
+		_getVariantGallery: function (variant) {
+			if (!this.variantGallery || this.variantGallery.length === 0) return [];
+			let found = this.variantGallery.find(item => item.id === variant.id);
+			return found ? found.variantGalleryHiRes : [];
+		},
+		/**
+		 * @typedef {Object} GalleryImage
+		 * @property {string} id - The unique identifier for the gallery item.
+		 * @property {string} thumbnailUrl - The URL of the thumbnail image for the gallery item.
+		 * @property {string} mediaUrl - The URL of the high-resolution image for the gallery item.
+		 * @property {string} mediaType - The type of media (e.g., "image").
+		 * @property {string} alt - The alternative text for the image.
+		 * @property {string} width - The width of the image in pixels.
+		 * @property {string} height - The height of the image in pixels.
+		 * @property {string} sectionId - The section ID associated with the gallery item.
+		 */
+		/**
+		 * Updates the product thumbnails Slick carousel with new gallery images.
+		 * @param {Array<GalleryImage>} galleryImages - An array of gallery images to display.
+		 * @returns {void}
+		 */
+		_updateProductThumbnailsSlick: function (galleryImages) {
+			if (!galleryImages || galleryImages.length === 0) return;
+			let html = galleryImages.map(item => {
+				let isVideo = item.mediaType === 'video' || item.mediaType === 'external_video' || item.mediaType === 'model';
+				let player = isVideo ? `
+			<div class="product-single__thumbnail-badge ${item.mediaType}">
+				${item.mediaType === 'model' ? '<i class="icon-model"></i>' : '<i class="feather-play"></i>'}
+			</div>
+			` : '';
+
+				return `
+			<div class="product-single__thumbnail-wrapper">
+				<div class="product-media__wrapper">
+					<a
+					href="javascript:void(0)"
+					class="${isVideo ? 'product-single__video' : 'product-single__thumbnail'}"
+					data-media="${item.mediaUrl}"
+					data-media-id="${item.sectionId}-${item.id}"
+					data-product-thumbnail
+					>
+					<img
+						class="product-image__thumb lazyload fade-in"
+						src="${item.thumbnailUrl}"
+						alt="${item.alt || ''}"
+						width="${item.width || ''}"
+						height="${item.height || ''}"
+					/>
+					${player}
+					</a>
+				</div>
+			</div>
+			`;
+			}).join('');
+
+			$('body').trigger('wpbingo:thumb:unslick');
+			$('body').trigger('wpbingo:thumb:html', html);
+			$('body').trigger('wpbingo:thumb:slick');
+		},
+		/**
+		 * Updates the main product media Slick carousel with new gallery images.
+		 * @param {Array<GalleryImage>} galleryImages - An array of gallery images to display.
+		 * @returns {void}
+		 */
+		_updateProductMediaSlick: function (galleryImages) {
+			if (!galleryImages || galleryImages.length === 0) return;
+
+			let html = galleryImages.map((item, index) => {
+				return `
+				<div class="js-product-media-item product-single__media-item" data-slick-media-label="${item.alt || ''}">
+					<div
+						class="js-product-media product-media"
+						data-media-id="${item.id}"
+						tabindex="-1"
+					>
+						<div class="product-media__wrapper product-media__wrapper--image">
+							<img
+								class="mfp-image lazyload fade-in"
+								src="${item.mediaUrl}"
+								data-sizes="auto"
+								data-image="true"
+								data-number="${index}"
+								data-media-id="${item.id}"
+								width="${item.width}"
+								height="${item.height}"
+								alt="${item.alt}"
+							/>
+							<div class="gallery-cursor"></div>
+						</div>
+					</div>
+				</div>
+				`;
+			}).join('');
+
+			$('body').trigger('wpbingo:media:unslick');
+			$('body').trigger('wpbingo:media:html', html);
+			$('body').trigger('wpbingo:media:slick');
+		},
 
 		_onSelectChange: function () {
 			var variant = this._getVariantFromOptions();
@@ -724,6 +828,9 @@ wpbingo.Variants = (function () {
 			if (!variant) return;
 			this._updateMasterSelect(variant);
 			this._updateMedia(variant);
+			var galleryImages = this._getVariantGallery(variant);
+			this._updateProductThumbnailsSlick(galleryImages);
+			this._updateProductMediaSlick(galleryImages);
 			this._updatePrice(variant);
 			this._updateQuantity(variant);
 			this._updateOption(variant);
@@ -878,18 +985,22 @@ wpbingo.Variants = (function () {
 			});
 		},
 		_updateLabelvariant: function (variant) {
-			var $element = $('.product-single .product-single__form .variants-wrapper')
-			$('.mutil_slider-single').removeClass('active');
-			$($element).each(function () {
-				var $this = $(this);
-				if ($("select", $this).length > 0) {
-					var value = $("select", $this).find(':selected').val();
-				} else {
-					var value = $('input:checked', $this).attr('value');
-				}
-				$('.variants__label span', $this).html(value);
-				$('.mutil_slider-single.' + value + '').addClass('active');
-			});
+			try {
+				var $element = $('.product-single .product-single__form .variants-wrapper')
+				$('.mutil_slider-single').removeClass('active');
+				$($element).each(function () {
+					var $this = $(this);
+					if ($("select", $this).length > 0) {
+						var value = $("select", $this).find(':selected').val();
+					} else {
+						var value = $('input:checked', $this).attr('value');
+					}
+					$('.variants__label span', $this).html(value);
+					$('.mutil_slider-single.' + value + '').addClass('active');
+				});
+			} catch (error) {
+				console.log(error);
+			}
 		},
 		_updateHistoryState: function (variant) {
 			if (!history.replaceState || !variant) {
@@ -959,7 +1070,7 @@ wpbingo.ProductModel = (function () {
 	var models = {};
 	var xrButtons = {};
 	var selectors = {
-		productMediaGroup: '.js-product-media-group',
+		productMediaGroup: '.c',
 		productMediaGroupWrapper: '.js-product-single-media',
 		xrButton: '[data-shopify-xr]',
 		xrButtonSingle: '[data-shopify-xr-single]'
@@ -1371,6 +1482,9 @@ wpbingo.Product = (function () {
 		this.productSingleObject = JSON.parse(
 			document.getElementById('ProductJson-' + sectionId).innerHTML
 		);
+		this.variantGalleryObject = JSON.parse(
+			document.getElementById('VariantGalleryJson-' + sectionId).innerHTML
+		);
 
 		this.zoomType = $container.data('image-zoom-type');
 		this.isStackedLayout = $container.data('stacked-layout');
@@ -1479,7 +1593,8 @@ wpbingo.Product = (function () {
 				productSelectOption: this.selectors.productSelectOption,
 				singleOptionSelector: this.selectors.singleOptionSelector,
 				originalSelectorId: this.selectors.originalSelectorId + '--' + this.settings.sectionId,
-				product: this.productSingleObject
+				product: this.productSingleObject,
+				variantGallery: this.variantGalleryObject
 			};
 			var count = $(this.selectors.productThumbnails, this.$container).data('columns');
 			this.variants = new wpbingo.Variants(options);
@@ -1862,10 +1977,19 @@ wpbingo.Product = (function () {
 					$('.js-product-media-group', $(this)).slick($config);
 				});
 			} else {
-				$(this.selectors.productMediaGroup, this.$container).slick(this.slickMediaSettings).on('beforeChange', function (event, slick, currentSlide, nextSlide) {
-					this.updateCarouselDotsA11y(nextSlide);
-					this.translateCarouselDots(slick.slideCount, nextSlide, dotStyle);
-				}.bind(this))
+				$('body').on('wpbingo:media:slick', function () {
+					$(this.selectors.productMediaGroup, this.$container).slick(this.slickMediaSettings).on('beforeChange', function (event, slick, currentSlide, nextSlide) {
+						this.updateCarouselDotsA11y(nextSlide);
+						this.translateCarouselDots(slick.slideCount, nextSlide, dotStyle);
+					}.bind(this));
+				}.bind(this));
+				$('body').on('wpbingo:media:html', function (event, html) {
+					$(this.selectors.productMediaGroup, this.$container).empty().html(html);
+				}.bind(this));
+				$('body').on('wpbingo:media:unslick', function () {
+					$(this.selectors.productMediaGroup, this.$container).slick('unslick');
+				}.bind(this));
+				$('body').trigger('wpbingo:media:slick');
 			}
 		},
 
@@ -1896,7 +2020,17 @@ wpbingo.Product = (function () {
 					$('.js-product-thumbnails', $(this)).slick($configThumb);
 				});
 			} else {
-				$(this.selectors.productThumbnails, this.$container).slick(this.slickThumbsSettings);
+				// $(this.selectors.productThumbnails, this.$container).slick(this.slickThumbsSettings);
+				$('body').on('wpbingo:thumb:slick', function () {
+					$(this.selectors.productThumbnails, this.$container).slick(this.slickThumbsSettings);
+				}.bind(this));
+				$('body').on('wpbingo:thumb:html', function (event, html) {
+					$(this.selectors.productThumbnails, this.$container).empty().html(html);
+				}.bind(this));
+				$('body').on('wpbingo:thumb:unslick', function () {
+					$(this.selectors.productThumbnails, this.$container).slick('unslick');
+				}.bind(this));
+				$('body').trigger('wpbingo:thumb:slick');
 			}
 		},
 
@@ -8148,8 +8282,6 @@ const resetCompare = () => {
 $(document).ready(function () {
 	wpbingo.init();
 	var sections = new wpbingo.Sections();
-	console.log('Welcome to WPBingo - Multipurpose Shopify Theme');
-
 	sections.register('product-template', wpbingo.Product);
 	sections.register('header-section', wpbingo.HeaderSection);
 	sections.register('header-topbar-section', wpbingo.HeaderSection);
