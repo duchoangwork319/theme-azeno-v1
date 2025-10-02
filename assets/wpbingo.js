@@ -1977,7 +1977,8 @@ wpbingo.Product = (function () {
 				$(this.selectors.productMediaGroup, this.$container).slick(this.slickMediaSettings).on('beforeChange', function (event, slick, currentSlide, nextSlide) {
 					this.updateCarouselDotsA11y(nextSlide);
 					this.translateCarouselDots(slick.slideCount, nextSlide, dotStyle);
-				}.bind(this))
+				}.bind(this));
+				
 			}
 		},
 
