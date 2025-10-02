@@ -86,7 +86,7 @@
 									<label for="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}"
 										data-{{ type }}="{{ value }}"
 										title="{{ value | strip | escape }}"
-										class="{{ value | escape }} {% if option_disabled %}disabled{% endif %} color">
+										class="{{ value | escape }} {% if option_disabled %}disabled{% endif %}ProductSelect-option-color">
 										{{ value | escape }}
 										{%- if type != 'label' -%}
 											<span class="tool-tip">{{ value | escape }}</span>
