@@ -772,7 +772,11 @@ wpbingo.Variants = (function () {
 			$slickElement.empty().html(html);
 			$slickElement.slick(this.settings.slickThumbsSettings);
 		},
-
+		/**
+		 * Resets the main product media Slick carousel with new gallery images.
+		 * @param {Array<GalleryImage>} galleryImages - An array of gallery images to display.
+		 * @returns {void}
+		 */
 		_resetProductMediaSlick: function (galleryImages) {
 			if (!galleryImages || galleryImages.length === 0) return;
 
