@@ -665,7 +665,7 @@ wpbingo.Variants = (function () {
 		this.originalSelectorId = options.originalSelectorId;
 		this.enableHistoryState = options.enableHistoryState;
 		this.variantGallery = options.variantGallery;
-		this.slickThumbsSettings = options.slickThumbsSettings;
+		this.settings = options.settings;
 		this.currentVariant = this._getVariantFromOptions();
 		$(this.singleOptionSelector, this.$container).on(
 			'change', this._onSelectChange.bind(this)
@@ -770,8 +770,8 @@ wpbingo.Variants = (function () {
 			let $slickElement = $('.js-product-thumbnails', this.$container);
 			$slickElement.slick('unslick');
 			$slickElement.empty().html(html);
-			$slickElement.slick(this.slickThumbsSettings);
-			console.log(this.slickThumbsSettings);
+			$slickElement.slick(this.settings.slickThumbsSettings);
+			console.log(this.settings.slickThumbsSettings);
 		},
 
 		_onSelectChange: function () {
