@@ -720,7 +720,7 @@ wpbingo.Variants = (function () {
 		 * @typedef {Object} GalleryImage
 		 * @property {string} id - The unique identifier for the gallery item.
 		 * @property {string} thumbnailUrl - The URL of the thumbnail image for the gallery item.
-		 * @property {string} url - The URL of the high-resolution image for the gallery item.
+		 * @property {string} mediaUrl - The URL of the high-resolution image for the gallery item.
 		 * @property {string} mediaType - The type of media (e.g., "image").
 		 * @property {string} alt - The alternative text for the image.
 		 * @property {string} width - The width of the image in pixels.
@@ -750,13 +750,13 @@ wpbingo.Variants = (function () {
 					<a
 					href="javascript:void(0)"
 					class="${isVideo ? 'product-single__video' : 'product-single__thumbnail'}"
-					data-media="${item.url}"
+					data-media="${item.mediaUrl}"
 					data-media-id="${item.sectionId}-${item.id}"
 					data-product-thumbnail
 					>
 					<img
 						class="product-image__thumb lazyload fade-in"
-						src="${item.url}"
+						src="${item.thumbnailUrl}"
 						alt="${item.alt || ''}"
 						width="${item.width || ''}"
 						height="${item.height || ''}"
