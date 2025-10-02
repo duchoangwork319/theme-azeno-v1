@@ -732,7 +732,7 @@ wpbingo.Variants = (function () {
 		 * @param {Array<GalleryImage>} galleryImages - An array of gallery images to display.
 		 * @returns {void}
 		 */
-		_resetProductThumbnailsSlick: function (galleryImages) {
+		_updateProductThumbnailsSlick: function (galleryImages) {
 			if (!galleryImages || galleryImages.length === 0) return;
 			console.log(galleryImages);
 			let html = galleryImages.map(item => {
@@ -776,7 +776,7 @@ wpbingo.Variants = (function () {
 		 * @param {Array<GalleryImage>} galleryImages - An array of gallery images to display.
 		 * @returns {void}
 		 */
-		_resetProductMediaSlick: function (galleryImages) {
+		_updateProductMediaSlick: function (galleryImages) {
 			if (!galleryImages || galleryImages.length === 0) return;
 
 			let html = galleryImages.map((item, index) => {
@@ -828,8 +828,8 @@ wpbingo.Variants = (function () {
 			this._updateMasterSelect(variant);
 			this._updateMedia(variant);
 			var galleryImages = this._getVariantGallery(variant);
-			this._resetProductThumbnailsSlick(galleryImages);
-			this._resetProductMediaSlick(galleryImages);
+			this._updateProductThumbnailsSlick(galleryImages);
+			this._updateProductMediaSlick(galleryImages);
 			this._updatePrice(variant);
 			this._updateQuantity(variant);
 			this._updateOption(variant);
