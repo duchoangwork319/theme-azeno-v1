@@ -737,7 +737,6 @@ wpbingo.Variants = (function () {
 
 			let html = galleryImages.map(item => {
 				let isVideo = item.mediaType === 'video' || item.mediaType === 'external_video' || item.mediaType === 'model';
-
 				let player = isVideo ? `
 			<div class="product-single__thumbnail-badge ${item.mediaType}">
 				${item.mediaType === 'model' ? '<i class="icon-model"></i>' : '<i class="feather-play"></i>'}
