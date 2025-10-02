@@ -813,10 +813,6 @@ wpbingo.Variants = (function () {
 
 		_onSelectChange: function () {
 			var variant = this._getVariantFromOptions();
-			var galleryImages = this._getVariantGallery(variant);
-			this._resetProductThumbnailsSlick(galleryImages);
-			this._resetProductMediaSlick(galleryImages);
-
 			if ($('[data-single-option-button]', this.$container).length && $('.color-select', this.$container).length < 1) {
 				this._updateVariantsButton();
 				if (!variant || !variant.available) {
@@ -831,6 +827,9 @@ wpbingo.Variants = (function () {
 			if (!variant) return;
 			this._updateMasterSelect(variant);
 			this._updateMedia(variant);
+			var galleryImages = this._getVariantGallery(variant);
+			this._resetProductThumbnailsSlick(galleryImages);
+			this._resetProductMediaSlick(galleryImages);
 			this._updatePrice(variant);
 			this._updateQuantity(variant);
 			this._updateOption(variant);
