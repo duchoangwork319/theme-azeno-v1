@@ -87,7 +87,7 @@
 										title="{{ value | strip | escape }}"
 										class="{{ value | escape }} {% if option_disabled %}disabled{% endif %}">
 										{{ value | escape }}
-										{{ media.preview_image }}
+										preview_image: {{ media.preview_image }}
 										{%- if type != 'label' -%}
 											<span class="tool-tip">{{ value | escape }}</span>
 										{%- endif -%}
