@@ -760,12 +760,7 @@ wpbingo.Variants = (function () {
 						width="${item.width || ''}"
 						height="${item.height || ''}"
 					/>
-					${isVideo ? `
-						<div class="product-single__thumbnail-badge ${item.mediaType}">
-				${item.mediaType === 'model' ? '<i class="icon-model"></i>' : '<i class="feather-play"></i>'}
-			</div>
-						
-						` : ''}
+					${player}
 					</a>
 				</div>
 			</div>
