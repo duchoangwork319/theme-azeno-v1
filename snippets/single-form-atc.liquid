@@ -73,7 +73,7 @@
 													title="{{ value | strip | escape }}"
 													style="background:url('{{ variant_img }}');background-size: cover;background-position: center;"
 													class="{% if option_disabled %}disabled{% endif %}">
-													{% comment %} {{ value | escape }} {% endcomment %}
+													{{ value | escape }}
 													{%- if type != 'label' -%}
 														<span class="tool-tip">{{ value | escape }}</span>
 													{%- endif -%}
@@ -86,10 +86,11 @@
 										data-{{ type }}="{{ value }}"
 										title="{{ value | strip | escape }}"
 										class="{{ value | escape }} {% if option_disabled %}disabled{% endif %}">
-										{% comment %} {{ value | escape }}
+										{{ value | escape }}
+										{{ media.preview_image }}
 										{%- if type != 'label' -%}
 											<span class="tool-tip">{{ value | escape }}</span>
-										{%- endif -%} {% endcomment %}
+										{%- endif -%}
 									</label>
 								{%- endif -%}
 						</div>
