@@ -802,6 +802,7 @@ wpbingo.Variants = (function () {
 			}).join('');
 
 			
+			$('body').trigger('wpbingo:media:resetslick');
 		},
 
 		_onSelectChange: function () {
