@@ -1595,10 +1595,7 @@ wpbingo.Product = (function () {
 				singleOptionSelector: this.selectors.singleOptionSelector,
 				originalSelectorId: this.selectors.originalSelectorId + '--' + this.settings.sectionId,
 				product: this.productSingleObject,
-				variantGallery: this.variantGalleryObject,
-				settings: {
-					slickThumbsSettings: this.slickThumbsSettings
-				}
+				variantGallery: this.variantGalleryObject
 			};
 			var count = $(this.selectors.productThumbnails, this.$container).data('columns');
 			this.variants = new wpbingo.Variants(options);
