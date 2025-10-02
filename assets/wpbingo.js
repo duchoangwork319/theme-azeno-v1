@@ -709,13 +709,11 @@ wpbingo.Variants = (function () {
 			});
 			return found;
 		},
-
 		_getVariantGallery: function (variant) {
 			if (!this.variantGallery || this.variantGallery.length === 0) return [];
 			let found = this.variantGallery.find(item => item.id === variant.id);
 			return found ? found.variantGalleryHiRes : [];
 		},
-
 		/**
 		 * @typedef {Object} GalleryImage
 		 * @property {string} id - The unique identifier for the gallery item.
@@ -734,7 +732,6 @@ wpbingo.Variants = (function () {
 		 */
 		_updateProductThumbnailsSlick: function (galleryImages) {
 			if (!galleryImages || galleryImages.length === 0) return;
-			console.log(galleryImages);
 			let html = galleryImages.map(item => {
 				let isVideo = item.mediaType === 'video' || item.mediaType === 'external_video' || item.mediaType === 'model';
 				let player = isVideo ? `
