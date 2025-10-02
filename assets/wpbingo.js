@@ -780,27 +780,23 @@ wpbingo.Variants = (function () {
 				return `
 				<div
 					class="js-product-media product-media"
-					data-media-id="{{ media_id }}"
+					data-media-id="${galleryImages.id}"
 					tabindex="-1"
 					>
-					{% case media.media_type %}
-						{% when 'image' %}
-						<div class="product-media__wrapper product-media__wrapper--image">
-							{% assign img_url = media | img_url: '1x1' | replace: '_1x1.', '_{width}x.' %}
-							<img
-							class="mfp-image lazyload fade-in"
-							src="{{ media | img_url: '1080x1080' }}"
-							data-sizes="auto"
-							data-image="true"
-							data-number="{{ forloop.index | minus: 1 }}"
-							data-media-id="{{ media.id }}"
-							width="{{ media.width }}"
-							height="{{ media.height }}"
-							alt="{{ media.alt | escape }}"
-							>
-							<div class="gallery-cursor"></div>
-						</div>
-					{% endcase %}
+					<div class="product-media__wrapper product-media__wrapper--image">
+						<img
+						class="mfp-image lazyload fade-in"
+						src="${galleryImages.mediaUrl}"
+						data-sizes="auto"
+						data-image="true"
+						data-number="0"
+						data-media-id="${galleryImages.id}"
+						width="${galleryImages.width}"
+						height="${galleryImages.height}"
+						alt="${galleryImages.alt}"
+						>
+						<div class="gallery-cursor"></div>
+					</div>
 				</div>
 				`;
 			}).join('');
