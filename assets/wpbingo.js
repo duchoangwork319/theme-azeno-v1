@@ -719,6 +719,7 @@ wpbingo.Variants = (function () {
 		/**
 		 * @typedef {Object} GalleryImage
 		 * @property {string} id - The unique identifier for the gallery item.
+		 * @property {string} thumbnailUrl - The URL of the thumbnail image for the gallery item.
 		 * @property {string} url - The URL of the high-resolution image for the gallery item.
 		 * @property {string} mediaType - The type of media (e.g., "image").
 		 * @property {string} alt - The alternative text for the image.
