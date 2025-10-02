@@ -73,8 +73,7 @@
 													title="{{ value | strip | escape }}"
 													style="background:url('{{ variant_img }}');background-size: cover;background-position: center;"
 													class="{% if option_disabled %}disabled{% endif %}">
-													{{ value | escape }}
-													{{ media.preview_image }}
+													{% comment %} {{ value | escape }} {% endcomment %}
 													{%- if type != 'label' -%}
 														<span class="tool-tip">{{ value | escape }}</span>
 													{%- endif -%}
