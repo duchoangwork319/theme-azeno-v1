@@ -113,7 +113,7 @@
 								{%- endif -%}
 							{%- endif -%}
 						{%- endfor -%}
-						<div class="single-option-selector checkbox" data-single-option-button>
+						<div class="single-option-selector checkbox" data-single-option-button-2>
 							<input type="radio" {% if option.selected_value == value %} checked="checked"{% endif %}
 								{% if option_disabled %} disabled="disabled"{% endif %}
 								value="{{ value | escape }}"
@@ -156,7 +156,7 @@
 								{%- endif -%}
 							{%- endif -%}
 						{%- endfor -%}
-						<div class="single-option-selector color-checkbox" data-single-option-button>
+						<div class="single-option-selector color-checkbox" data-single-option-button-3>
 							<input type="radio" {% if option.selected_value == value %} checked="checked"{% endif %}
 								{% if option_disabled %} disabled="disabled"{% endif %}
 								value="{{ value | escape }}"
@@ -231,7 +231,7 @@
 									{%- endif -%}
 								{%- endif -%}
 							{%- endfor -%}
-							<div class="single-option-selector" data-single-option-button>
+							<div class="single-option-selector" data-single-option-button-4>
 								<input type="radio" {% if option.selected_value == value %} checked="checked"{% endif %}
 									{% if option_disabled %} disabled="disabled"{% endif %}
 									value="{{ value | escape }}"
