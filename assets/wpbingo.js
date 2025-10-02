@@ -778,24 +778,26 @@ wpbingo.Variants = (function () {
 
 			let html = galleryImages.map((item, index) => {
 				return `
-				<div
-					class="js-product-media product-media"
-					data-media-id="${item.id}"
-					tabindex="-1"
-				>
-					<div class="product-media__wrapper product-media__wrapper--image">
-						<img
-							class="mfp-image lazyload fade-in"
-							src="${item.mediaUrl}"
-							data-sizes="auto"
-							data-image="true"
-							data-number="${index}"
-							data-media-id="${item.id}"
-							width="${item.width}"
-							height="${item.height}"
-							alt="${item.alt}"
-						/>
-						<div class="gallery-cursor"></div>
+				<div class="js-product-media-item product-single__media-item" data-slick-media-label="{{ thumbnail_alt }}">
+					<div
+						class="js-product-media product-media"
+						data-media-id="${item.id}"
+						tabindex="-1"
+					>
+						<div class="product-media__wrapper product-media__wrapper--image">
+							<img
+								class="mfp-image lazyload fade-in"
+								src="${item.mediaUrl}"
+								data-sizes="auto"
+								data-image="true"
+								data-number="${index}"
+								data-media-id="${item.id}"
+								width="${item.width}"
+								height="${item.height}"
+								alt="${item.alt}"
+							/>
+							<div class="gallery-cursor"></div>
+						</div>
 					</div>
 				</div>
 				`;
