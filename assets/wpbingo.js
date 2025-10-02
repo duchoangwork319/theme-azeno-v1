@@ -1985,6 +1985,8 @@ wpbingo.Product = (function () {
 						this.translateCarouselDots(slick.slideCount, nextSlide, dotStyle);
 					}.bind(this));
 				}.bind(this));
+
+				$('body').trigger('wpbingo:media:resetslick');
 			}
 		},
 
