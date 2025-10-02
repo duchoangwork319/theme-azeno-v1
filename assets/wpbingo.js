@@ -1980,8 +1980,8 @@ wpbingo.Product = (function () {
 				}.bind(this));
 
 				$('body').on('wpbingo:currency:change', function () {
-					
-				});
+
+				}.bind(this));
 			}
 		},
 
