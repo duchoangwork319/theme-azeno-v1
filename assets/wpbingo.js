@@ -775,6 +775,10 @@ wpbingo.Variants = (function () {
 
 		_resetProductMediaSlick: function (galleryImages) {
 			if (!galleryImages || galleryImages.length === 0) return;
+
+			let html = galleryImages.map(item => {
+				
+			}).join('');
 		},
 
 		_onSelectChange: function () {
