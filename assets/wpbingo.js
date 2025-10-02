@@ -809,7 +809,7 @@ wpbingo.Variants = (function () {
 			let $slickElement = $('.js-product-media-group', this.$container);
 			$slickElement.slick('unslick');
 			$slickElement.empty().html(html);
-			$('body').trigger('wpbingo:media:resetslick');
+			$('body').trigger('wpbingo:media:slick');
 		},
 
 		_onSelectChange: function () {
@@ -1981,14 +1981,20 @@ wpbingo.Product = (function () {
 					$('.js-product-media-group', $(this)).slick($config);
 				});
 			} else {
-				$('body').on('wpbingo:media:resetslick', function () {
+				$('body').on('wpbingo:media:slick', function () {
 					$(this.selectors.productMediaGroup, this.$container).slick(this.slickMediaSettings).on('beforeChange', function (event, slick, currentSlide, nextSlide) {
 						this.updateCarouselDotsA11y(nextSlide);
 						this.translateCarouselDots(slick.slideCount, nextSlide, dotStyle);
 					}.bind(this));
 				}.bind(this));
-				
-				$('body').trigger('wpbingo:media:resetslick');
+				$('body').on('wpbingo:media:html', function (event, html) {
+					$(this.selectors.productMediaGroup, this.$container).empty().html(html);
+				}.bind(this));
+				$('body').on('wpbingo:media:unslick', function () {
+					$(this.selectors.productMediaGroup, this.$container).slick('unslick');
+					this.isCarouselActive = false;
+				}.bind(this));
+				$('body').trigger('wpbingo:media:slick');
 			}
 		},
 
