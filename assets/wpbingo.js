@@ -728,11 +728,11 @@ wpbingo.Variants = (function () {
 		 * @property {string} sectionId - The section ID associated with the gallery item.
 		 */
 		/**
-		 * Resets the Slick carousel with new gallery images.
+		 * Resets the product thumbnails Slick carousel with new gallery images.
 		 * @param {Array<GalleryImage>} galleryImages - An array of gallery images to display.
 		 * @returns {void}
 		 */
-		_resetSlick: function (galleryImages) {
+		_resetProductThumbnailsSlick: function (galleryImages) {
 			if (!galleryImages || galleryImages.length === 0) return;
 
 			let html = galleryImages.map(item => {
