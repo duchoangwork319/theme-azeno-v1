@@ -771,7 +771,6 @@ wpbingo.Variants = (function () {
 			$slickElement.slick('unslick');
 			$slickElement.empty().html(html);
 			$slickElement.slick(this.settings.slickThumbsSettings);
-			console.log(this.settings.slickThumbsSettings);
 		},
 
 		_resetProductMediaSlick: function (galleryImages) {
