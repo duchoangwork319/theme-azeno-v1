@@ -72,7 +72,7 @@
 													data-{{ type }}="{{ value }}"
 													title="{{ value | strip | escape }}"
 													style="background:url('{{ variant_img }}');background-size: cover;background-position: center;"
-													class="{% if option_disabled %}disabled{% endif %} color">
+													class="{% if option_disabled %}disabled{% endif %}">
 													{{ value | escape }}
 													preview_image: {{ media.preview_image }}
 													{%- if type != 'label' -%}
@@ -86,7 +86,7 @@
 									<label for="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}"
 										data-{{ type }}="{{ value }}"
 										title="{{ value | strip | escape }}"
-										class="{{ value | escape }} {% if option_disabled %}disabled{% endif %}">
+										class="{{ value | escape }} {% if option_disabled %}disabled{% endif %} color">
 										{{ value | escape }}
 										{%- if type != 'label' -%}
 											<span class="tool-tip">{{ value | escape }}</span>
