@@ -1,4 +1,4 @@
-{% comment %} <div id="{{ section.settings.form_id }}" class="custom-form">
+<div id="{{ section.settings.form_id }}" class="custom-form">
   {% if section.settings.form_name != blank %}
     <h2>{{ section.settings.form_name }}</h2>
   {% endif %}
@@ -12,7 +12,7 @@
     {% endfor %}
     <button type="submit">{{ section.settings.button_text }}</button>
   </form>
-</div> {% endcomment %}
+</div>
 
 {% schema %}
 {
