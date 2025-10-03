@@ -17,10 +17,62 @@
 {% schema %}
 {
   "name": "Custom Form",
+  "settings": [
+    {
+      "type": "text",
+      "id": "form_id",
+      "label": "Form ID",
+      "default": "custom_form"
+    },
+    {
+      "type": "text",
+      "id": "form_name",
+      "label": "Form name",
+      "default": "Contact Us"
+    },
+    {
+      "type": "text",
+      "id": "form_description",
+      "label": "Form description",
+      "default": "Please fill in the form below."
+    },
+    {
+      "type": "text",
+      "id": "form_action",
+      "label": "Form action URL",
+      "default": "#"
+    },
+    {
+      "type": "select",
+      "id": "form_method",
+      "label": "Form method",
+      "default": "POST",
+      "options": [
+        { "value": "GET", "label": "GET" },
+        { "value": "POST", "label": "POST" }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Submit button text",
+      "default": "Submit"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "input_block",
+      "name": "Input field"
+    },
+    {
+      "type": "select_block",
+      "name": "Select field"
+    }
+  ],
   "presets": [
     {
       "name": "Custom Form",
-      "category": "Custom"
+      "category": "8. Forms"
     }
   ]
 }
