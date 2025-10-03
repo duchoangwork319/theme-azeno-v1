@@ -1070,7 +1070,7 @@ wpbingo.ProductModel = (function () {
 	var models = {};
 	var xrButtons = {};
 	var selectors = {
-		productMediaGroup: '.c',
+		productMediaGroup: '.js-product-media-group',
 		productMediaGroupWrapper: '.js-product-single-media',
 		xrButton: '[data-shopify-xr]',
 		xrButtonSingle: '[data-shopify-xr-single]'
