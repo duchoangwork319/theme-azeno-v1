@@ -41,12 +41,6 @@
       "id": "button_text",
       "label": "Submit button text",
       "default": "Submit"
-    },
-    {
-      "type": "textarea",
-      "id": "custom_css",
-      "label": "Custom CSS",
-      "default": "Blank"
     }
   ],
   "blocks": [
@@ -68,10 +62,6 @@
   ]
 }
 {% endschema %}
-
-{% comment %} {% stylesheet %}
-  {{ section.settings.custom_css }}
-{% endstylesheet %} {% endcomment %}
 
 <div id="{{ section.settings.form_id }}" class="custom-form">
   {% if section.settings.form_name != blank %}
