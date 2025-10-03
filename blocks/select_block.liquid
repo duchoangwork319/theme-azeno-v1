@@ -1,0 +1,26 @@
+{% schema %}
+{
+  "name": "Select field",
+  "settings": [
+    {
+      "type": "text",
+      "id": "select_name",
+      "label": "Name"
+    },
+    {
+      "type": "textarea",
+      "id": "select_values",
+      "label": "Values (comma separated)",
+      "default": "Option 1,Option 2,Option 3"
+    }
+  ]
+}
+{% endschema %}
+
+<label for="{{ block.settings.select_name }}">{{ block.settings.select_name }}</label>
+<select name="{{ block.settings.select_name }}" id="{{ block.settings.select_name }}">
+  {% assign options = block.settings.select_values | split: ',' %}
+  {% for opt in options %}
+    <option value="{{ opt | strip }}">{{ opt | strip }}</option>
+  {% endfor %}
+</select>

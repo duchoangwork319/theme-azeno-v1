@@ -1,0 +1,61 @@
+{% schema %}
+{
+  "name": "Input field",
+  "settings": [
+    {
+      "type": "select",
+      "id": "input_type",
+      "label": "Type",
+      "default": "text",
+      "options": [
+        { "value": "text", "label": "Text" },
+        { "value": "email", "label": "Email" },
+        { "value": "hidden", "label": "Hidden" }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "input_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "input_label",
+      "label": "Label"
+    },
+    {
+      "type": "number",
+      "id": "min_length",
+      "label": "Min length"
+    },
+    {
+      "type": "number",
+      "id": "max_length",
+      "label": "Max length"
+    },
+    {
+      "type": "text",
+      "id": "default_value",
+      "label": "Default value"
+    }
+  ]
+}
+{% endschema %}
+
+{% if block.settings.input_type != 'hidden' %}
+  <label for="{{ block.settings.input_name }}">{{ block.settings.input_label }}</label>
+{% endif %}
+<input
+  type="{{ block.settings.input_type }}"
+  name="{{ block.settings.input_name }}"
+  id="{{ block.settings.input_name }}"
+  {% if block.settings.default_value != blank %}
+    value="{{ block.settings.default_value }}"
+  {% endif %}
+  {% if block.settings.min_length %}
+    minlength="{{ block.settings.min_length }}"
+  {% endif %}
+  {% if block.settings.max_length %}
+    maxlength="{{ block.settings.max_length }}"
+  {% endif %}
+>
