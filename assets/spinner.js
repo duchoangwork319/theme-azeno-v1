@@ -35,6 +35,9 @@ function initSpinnerHandler() {
             .addClass('spinner');
 
         $container.append($backdrop).append($spinner);
+        if (!isPageLevel) {
+            $container.addClass('spinner-relative');
+        }
     }
 
     // Global stop function
