@@ -1,0 +1,82 @@
+<script>
+    function injectContactUsAppScript() {
+        const contactUsForm = document.getElementById('contactUsForm');
+        if (!contactUsForm) return;
+
+        console.log('Contact Us script loaded');
+
+        /**
+         * Display or hide an element within a source element
+         * @param {HTMLElement} source - The source element to search within
+         * @param {string} target - The selector of the target element to display/hide
+         * @param {string} [style='block'] - The display style to apply (default is 'block')
+         */
+        const display = (source, target, style) => {
+            source.querySelectorAll(target).forEach(item => {
+                item.style.display = style || 'block';
+            });
+        };
+
+        /**
+         * Get the full phone input value including country code
+         * @param {HTMLFormElement} form - The form element containing the phone inputs
+         * @returns {string} - The full phone number with country code
+         */
+        const getPhoneInput = (form) => {
+            const countryCode = form.querySelector('select.phone-country-select');
+            const phoneNumber = form.querySelector('input.phone-input');
+            if (!phoneNumber || !phoneNumber.value || !phoneNumber.value.trim()) return '';
+            if (!countryCode) return phoneNumber ? phoneNumber.value : '';
+            return countryCode.value + phoneNumber.value;
+        };
+
+        contactUsForm.addEventListener('submit', e => {
+            e.preventDefault();
+            const button = contactUsForm.querySelector('button[type="submit"]');
+            const action = contactUsForm.getAttribute('action') || '';
+            const formData = new FormData(contactUsForm, button);
+            const phoneInput = getPhoneInput(contactUsForm);
+            if (phoneInput) {
+                formData.set('phoneNumber', phoneInput);
+            }
+            const data = Object.fromEntries(formData.entries());
+            const formWrapper = document.querySelector('.contactUsForm-wrapper');
+
+            button.disabled = true;
+            display(contactUsForm, '.invalid-message', 'none');
+            $(formWrapper).spinner().start();
+
+            fetch(action, {
+                method: 'POST',
+                redirect: "follow",
+                headers: {
+                    'Content-Type': 'text/plain;charset=utf-8'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .then(result => {
+                    console.log('Success:', result);
+                    if (!result) return;
+                    if (result.success) {
+                        display(contactUsForm, '.form-inner', 'none');
+                        display(contactUsForm, '.form-response-message', 'block');
+                        display(formWrapper, '.form-title', 'none');
+                        display(formWrapper, '.form-description', 'none');
+                    } else if (result.field) {
+                        display(contactUsForm, `#${result.field}+.invalid-message`, 'block');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    if (error.field) {
+                        display(contactUsForm, `#${error.field}+.invalid-message`, 'block');
+                    }
+                }).finally(() => {
+                    button.disabled = false;
+                    $(formWrapper).spinner().stop();
+                });
+        });
+    }
+    injectContactUsAppScript();
+</script>

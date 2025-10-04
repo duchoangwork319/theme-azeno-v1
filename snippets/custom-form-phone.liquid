@@ -1,0 +1,38 @@
+<div class="phone-input-wrapper">
+  <select name="{{ input_name }}_country" id="{{ input_name }}_country" class="phone-country-select">
+    <option value="+1">+1 (US)</option>
+    <option value="+44">+44 (UK)</option>
+    <option value="+33">+33 (FR)</option>
+    <option value="+49">+49 (DE)</option>
+    <option value="+39">+39 (IT)</option>
+    <option value="+34">+34 (ES)</option>
+    <option value="+81">+81 (JP)</option>
+    <option value="+86">+86 (CN)</option>
+    <option value="+91">+91 (IN)</option>
+    <option value="+61">+61 (AU)</option>
+    <option value="+7">+7 (RU)</option>
+    <option value="+55">+55 (BR)</option>
+    <option value="+52">+52 (MX)</option>
+    <option value="+82">+82 (KR)</option>
+    <option value="+65">+65 (SG)</option>
+  </select>
+  <input
+    type="text"
+    name="{{ input_name }}"
+    id="{{ input_name }}"
+    autocomplete="on"
+    class="phone-input"
+    {% if required %}
+      required
+    {% endif %}
+    {% if default_value != blank %}
+      value="{{ default_value }}"
+    {% endif %}
+    {% if min_length %}
+      minlength="{{ min_length }}"
+    {% endif %}
+    {% if max_length %}
+      maxlength="{{ max_length }}"
+    {% endif %}
+  >
+</div>
