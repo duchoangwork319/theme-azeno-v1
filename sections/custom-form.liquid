@@ -182,7 +182,7 @@
                   maxlength="{{ block.settings.max_length }}"
                 {% endif %}
               >
-              <div class="invalid-message">  </div>
+              <div class="invalid-message"> {{ block.settings.error_message }} </div>
             </div>
           {% when 'select' %}
             <div class="form-group select-form-group">
@@ -193,7 +193,7 @@
                   <option value="{{ opt | strip }}">{{ opt | strip }}</option>
                 {% endfor %}
               </select>
-              <div class="invalid-message">  </div>
+              <div class="invalid-message"> {{ block.settings.error_message }} </div>
             </div>
           {% when 'textarea' %}
             <div class="form-group textarea-form-group">
