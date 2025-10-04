@@ -255,7 +255,12 @@
             </div>
           {% when 'textarea' %}
             <div class="form-group textarea-form-group {{ block.settings.textarea_name | replace: '.', '' }}-form-group">
-              <label for="{{ block.settings.textarea_name }}">{{ block.settings.textarea_label }}</label>
+              <label for="{{ block.settings.textarea_name }}">
+                {{ block.settings.textarea_label }}
+                {% if block.settings.required -%}
+                  <span class="required">*</span>
+                {%- endif %}
+              </label>
               <textarea
                 name="{{ block.settings.textarea_name }}"
                 id="{{ block.settings.textarea_name }}"
