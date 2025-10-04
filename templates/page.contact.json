@@ -119,7 +119,7 @@
         "form_max_width": 600,
         "form_alignment": "center",
         "form_margin": "0 auto",
-        "form_padding": "20px",
+        "form_padding": "36px 20px",
         "form_background": "#dedede"
       }
     }
