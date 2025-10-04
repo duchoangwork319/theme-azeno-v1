@@ -219,8 +219,8 @@
     {% for block in section.blocks %}
       {% if block.type == 'success' %}
         <div class="form-response-message" style="display: none;">
-          <div class="success-title">{{ block.settings.title }}</div>
-          <div class="success-message">{{ block.settings.message }}</div>
+          <p class="success-title">{{ block.settings.title }}</p>
+          <p class="success-message">{{ block.settings.message }}</p>
         </div>
       {% endif %}
     {% endfor %}
