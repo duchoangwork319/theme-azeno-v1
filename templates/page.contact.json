@@ -40,10 +40,21 @@
             "max_length": 50,
             "default_value": ""
           }
+        },
+        "input_block_96qe8Y": {
+          "type": "input_block",
+          "settings": {
+            "input_type": "email",
+            "input_name": "email",
+            "input_label": "Email",
+            "max_length": 100,
+            "default_value": ""
+          }
         }
       },
       "block_order": [
-        "input_block_bGh3cx"
+        "input_block_bGh3cx",
+        "input_block_96qe8Y"
       ],
       "name": "Custom Form",
       "settings": {
