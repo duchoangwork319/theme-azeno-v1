@@ -125,7 +125,7 @@
         "button_text": "Submit",
         "form_max_width": 770,
         "form_alignment": "center",
-        "form_margin": "0 auto",
+        "form_margin": "0 auto 50px auto",
         "form_padding": "20px 120px",
         "form_background": "#f6f6f6"
       }
