@@ -120,7 +120,7 @@
         "form_id": "contactUsForm",
         "form_name": "We’re here to help! Please fill out the information below.",
         "form_description": "",
-        "form_action": "https://script.google.com/macros/s/AKfycbxLRK8R5A02qM7tvOMPyAkbvDdKCFNy4v88YZ1zcV9Rpx8jYuPWMlxai0n_QY32dEQd/exec",
+        "form_action": "https://script.google.com/macros/s/AKfycbwLY-BT6Bcw8yxSC17ge1XTRV5QDH6kxFKEivKR0NKqXksWUrRR8xLjSniYFSKMF0BN/exec",
         "form_method": "POST",
         "button_text": "Submit",
         "form_max_width": 770,
