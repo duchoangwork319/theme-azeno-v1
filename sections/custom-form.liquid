@@ -216,7 +216,14 @@
         <button type="submit">{{ section.settings.button_text }}</button>
       </div>
     </div>
-    {}
+    {% for block in section.blocks %}
+      {% if block.type == 'success' %}
+        <div class="form-response-message" style="display: none;">
+          <div class="success-title">{{ block.settings.title }}</div>
+          <div class="success-message">{{ block.settings.message }}</div>
+        </div>
+      {% endif %}
+    {% endfor %}
   </form>
 </div>
 
