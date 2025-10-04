@@ -20,14 +20,6 @@
         "align_breadcrumb": "center"
       }
     },
-    "main": {
-      "type": "main-page",
-      "settings": {
-        "enable": false,
-        "padding_top": 28,
-        "padding_bottom": 28
-      }
-    },
     "custom_form_ngYq6w": {
       "type": "custom-form",
       "blocks": {
@@ -122,11 +114,19 @@
         "form_padding": "20px 120px",
         "form_background": "#f6f6f6"
       }
+    },
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "enable": false,
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
     }
   },
   "order": [
     "breadcrumb",
-    "main",
-    "custom_form_ngYq6w"
+    "custom_form_ngYq6w",
+    "main"
   ]
 }
