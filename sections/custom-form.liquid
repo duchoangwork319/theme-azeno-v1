@@ -135,7 +135,9 @@
 
 <div class="{{ section.settings.form_id }}-wrapper">
   {% if section.settings.form_name != blank %}
-    <h2 class="form-title">{{ section.settings.form_name }}</h2>
+    <h2 class="form-title {% if section.settings.form_description == blank %} no-description {% endif %}">
+      {{ section.settings.form_name }}
+    </h2>
   {% endif %}
   {% if section.settings.form_description != blank %}
     <p class="form-description">{{ section.settings.form_description }}</p>
@@ -182,7 +184,7 @@
                   maxlength="{{ block.settings.max_length }}"
                 {% endif %}
               >
-              <div class="invalid-message"> {{ block.settings.error_message }} </div>
+              <div class="invalid-message">{{ block.settings.error_message }}</div>
             </div>
           {% when 'select' %}
             <div class="form-group select-form-group">
@@ -193,7 +195,7 @@
                   <option value="{{ opt | strip }}">{{ opt | strip }}</option>
                 {% endfor %}
               </select>
-              <div class="invalid-message"> {{ block.settings.error_message }} </div>
+              <div class="invalid-message">{{ block.settings.error_message }}</div>
             </div>
           {% when 'textarea' %}
             <div class="form-group textarea-form-group">
@@ -208,7 +210,7 @@
                   maxlength="{{ block.settings.max_length }}"
                 {% endif %}
               ></textarea>
-              <div class="invalid-message">  </div>
+              <div class="invalid-message">{{ block.settings.error_message }}</div>
             </div>
         {% endcase %}
       {% endfor %}
