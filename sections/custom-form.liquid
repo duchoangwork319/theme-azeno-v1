@@ -259,6 +259,9 @@
               <textarea
                 name="{{ block.settings.textarea_name }}"
                 id="{{ block.settings.textarea_name }}"
+                {% if block.settings.required %}
+                  required
+                {% endif %}
                 {% if block.settings.min_length %}
                   minlength="{{ block.settings.min_length }}"
                 {% endif %}
