@@ -50,10 +50,11 @@
         "input_byUhKt": {
           "type": "input",
           "settings": {
-            "required": false,
+            "required": true,
             "input_type": "phone",
             "input_name": "phoneNumber",
             "input_label": "Phone Number",
+            "max_length": 48,
             "default_value": "",
             "error_message": "'Phone Number' is required and must not exceed 15 characters."
           }
