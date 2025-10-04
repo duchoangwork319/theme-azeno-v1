@@ -113,7 +113,7 @@
   }
 {% endstyle %}
 
-<div id="{{ section.settings.form_id }}" class="{{ section.settings.class }}">
+<div class="{{ section.settings.class }}">
   {% if section.settings.form_name != blank %}
     <div class="form-title">{{ section.settings.form_name }}</div>
   {% endif %}
@@ -121,7 +121,7 @@
     <div class="form-description">{{ section.settings.form_description }}</div>
   {% endif %}
 
-  <form action="{{ section.settings.form_action }}" method="{{ section.settings.form_method }}">
+  <form id="{{ section.settings.form_id }}" action="{{ section.settings.form_action }}" method="{{ section.settings.form_method }}">
     {% for block in section.blocks %}
       {% case block.type %}
         {% when 'input' %}
