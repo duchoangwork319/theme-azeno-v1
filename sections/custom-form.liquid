@@ -168,8 +168,14 @@
                   {%- endif %}
                 </label>
               {% endif %}
-              
+
               {% if block.settings.input_type == 'phone' %}
+                {% render 'phone-input',
+                  input_name: block.settings.input_name,
+                  required: block.settings.required,
+                  default_value: block.settings.default_value,
+                  error_message: block.settings.error_message
+                %}
               {% endif %}
 
               {% if block.settings.input_type != 'phone' %}
