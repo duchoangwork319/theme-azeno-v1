@@ -112,15 +112,15 @@
       "settings": {
         "form_id": "contactUsForm",
         "form_name": "Contact Us",
-        "form_description": "Please fill in the form below.",
+        "form_description": "We’re here to help! Please fill out the information below.",
         "form_action": "#",
         "form_method": "POST",
         "button_text": "Submit",
-        "form_max_width": 800,
+        "form_max_width": 770,
         "form_alignment": "center",
         "form_margin": "0 auto",
         "form_padding": "20px 120px",
-        "form_background": "#e2e2e2"
+        "form_background": "#f6f6f6"
       }
     }
   },
