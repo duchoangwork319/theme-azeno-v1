@@ -170,7 +170,7 @@
               {% endif %}
 
               {% if block.settings.input_type == 'phone' %}
-                {% render 'phone-input',
+                {% render 'custom-form-phone',
                   input_name: block.settings.input_name,
                   required: block.settings.required,
                   default_value: block.settings.default_value,
