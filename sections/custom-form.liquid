@@ -119,10 +119,10 @@
 
 <div id="{{ section.settings.form_id }}" class="{{ section.settings.class }}">
   {% if section.settings.form_name != blank %}
-    <h2 class="form-title">{{ section.settings.form_name }}</h2>
+    <div class="form-title">{{ section.settings.form_name }}</div>
   {% endif %}
   {% if section.settings.form_description != blank %}
-    <p class="form-description">{{ section.settings.form_description }}</p>
+    <div class="form-description">{{ section.settings.form_description }}</div>
   {% endif %}
 
   <form action="{{ section.settings.form_action }}" method="{{ section.settings.form_method }}">
