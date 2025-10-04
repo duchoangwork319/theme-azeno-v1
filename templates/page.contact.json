@@ -105,7 +105,7 @@
         "form_id": "contactUsForm",
         "form_name": "Contact Us",
         "form_description": "We’re here to help! Please fill out the information below.",
-        "form_action": "#",
+        "form_action": "https://script.google.com/macros/s/AKfycbw-hVd4LJTCNR2dYlobgGqLO4YsFZfcI7_fVsLOf4YEN2FMcyfu2JKlpDeiBCpxvoUz/exec",
         "form_method": "POST",
         "button_text": "Submit",
         "form_max_width": 770,
