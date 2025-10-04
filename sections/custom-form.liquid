@@ -171,29 +171,29 @@
               {% if block.settings.input_type == 'phone' %}
               {% endif %}
               {% if block.settings.input_type != 'phone' %}
+                <input
+                  type="{{ block.settings.input_type }}"
+                  name="{{ block.settings.input_name }}"
+                  id="{{ block.settings.input_name }}"
+                  autocomplete="on"
+                  {% if block.settings.required %}
+                    required
+                  {% endif %}
+                  {% if block.settings.input_type == 'email' %}
+                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                    title="Please enter a valid email address."
+                  {% endif %}
+                  {% if block.settings.default_value != blank %}
+                    value="{{ block.settings.default_value }}"
+                  {% endif %}
+                  {% if block.settings.min_length %}
+                    minlength="{{ block.settings.min_length }}"
+                  {% endif %}
+                  {% if block.settings.max_length %}
+                    maxlength="{{ block.settings.max_length }}"
+                  {% endif %}
+                >
               {% endif %}
-              <input
-                type="{{ block.settings.input_type }}"
-                name="{{ block.settings.input_name }}"
-                id="{{ block.settings.input_name }}"
-                autocomplete="on"
-                {% if block.settings.required %}
-                  required
-                {% endif %}
-                {% if block.settings.input_type == 'email' %}
-                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                  title="Please enter a valid email address."
-                {% endif %}
-                {% if block.settings.default_value != blank %}
-                  value="{{ block.settings.default_value }}"
-                {% endif %}
-                {% if block.settings.min_length %}
-                  minlength="{{ block.settings.min_length }}"
-                {% endif %}
-                {% if block.settings.max_length %}
-                  maxlength="{{ block.settings.max_length }}"
-                {% endif %}
-              >
               <div class="invalid-message">{{ block.settings.error_message }}</div>
             </div>
           {% when 'select' %}
