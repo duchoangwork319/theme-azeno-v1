@@ -110,7 +110,7 @@
     {% for block in section.blocks %}
       {% case block.type %}
         {% when 'input' %}
-          <div class="form-group">
+          <div class="form-group input-form-group">
             {% if block.settings.input_type != 'hidden' %}
               <label for="{{ block.settings.input_name }}">
                 {{ block.settings.input_label }}
@@ -142,7 +142,7 @@
             >
           </div>
         {% when 'select' %}
-          <div class="form-group">
+          <div class="form-group select-form-group">
             <label for="{{ block.settings.select_name }}">{{ block.settings.select_label }}</label>
             <select name="{{ block.settings.select_name }}" id="{{ block.settings.select_name }}">
               {% assign options = block.settings.select_values | split: ',' %}
@@ -152,7 +152,7 @@
             </select>
           </div>
         {% when 'textarea' %}
-          <div class="form-group">
+          <div class="form-group textarea-form-group">
             <label for="{{ block.settings.textarea_name }}">{{ block.settings.textarea_label }}</label>
             <textarea
               name="{{ block.settings.textarea_name }}"
@@ -167,7 +167,7 @@
           </div>
       {% endcase %}
     {% endfor %}
-    <div class="form-group">
+    <div class="form-group submit-form-group">
       <button type="submit">{{ section.settings.button_text }}</button>
     </div>
   </form>
