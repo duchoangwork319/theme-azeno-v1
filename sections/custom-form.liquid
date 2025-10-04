@@ -1,5 +1,5 @@
 {% style %}
-  #{{ section.settings.form_id }}-[id] {
+  #{{ section.settings.form_id }} {
     max-width: {{ section.settings.form_max_width }}px;
     margin: {{ section.settings.form_margin }};
     padding: {{ section.settings.form_padding }};
@@ -7,39 +7,39 @@
     text-align: {{ section.settings.form_alignment }};
   }
 
-  #{{ section.settings.form_id }}-[id] h2 {
+  #{{ section.settings.form_id }} h2 {
     margin: 0 0 1rem 0;
     font-weight: 600;
   }
 
-  #{{ section.settings.form_id }}-[id] p {
+  #{{ section.settings.form_id }} p {
     margin: 0 0 2rem 0;
     color: #666;
   }
 
-  #{{ section.settings.form_id }}-[id] form {
+  #{{ section.settings.form_id }} form {
     text-align: left;
   }
 
-  #{{ section.settings.form_id }}-[id] .form-group {
+  #{{ section.settings.form_id }} .form-group {
     margin-bottom: 1.5rem;
   }
 
-  #{{ section.settings.form_id }}-[id] .form-group label {
+  #{{ section.settings.form_id }} .form-group label {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 500;
     color: #333;
   }
 
-  #{{ section.settings.form_id }}-[id] .form-group label .required {
+  #{{ section.settings.form_id }} .form-group label .required {
     color: #e74c3c;
     margin-left: 0.25rem;
   }
 
-  #{{ section.settings.form_id }}-[id] .form-group input,
-  #{{ section.settings.form_id }}-[id] .form-group select,
-  #{{ section.settings.form_id }}-[id] .form-group textarea {
+  #{{ section.settings.form_id }} .form-group input,
+  #{{ section.settings.form_id }} .form-group select,
+  #{{ section.settings.form_id }} .form-group textarea {
     width: 100%;
     padding: 0.75rem;
     border: 1px solid #ddd;
@@ -50,19 +50,19 @@
     transition: border-color 0.2s ease;
   }
 
-  #{{ section.settings.form_id }}-[id] .form-group input:focus,
-  #{{ section.settings.form_id }}-[id] .form-group select:focus,
-  #{{ section.settings.form_id }}-[id] .form-group textarea:focus {
+  #{{ section.settings.form_id }} .form-group input:focus,
+  #{{ section.settings.form_id }} .form-group select:focus,
+  #{{ section.settings.form_id }} .form-group textarea:focus {
     outline: none;
     border-color: #333;
   }
 
-  #{{ section.settings.form_id }}-[id] .form-group textarea {
+  #{{ section.settings.form_id }} .form-group textarea {
     resize: vertical;
     min-height: 120px;
   }
 
-  #{{ section.settings.form_id }}-[id] button {
+  #{{ section.settings.form_id }} button {
     background-color: #333;
     color: #fff;
     border: none;
@@ -75,30 +75,30 @@
     margin-top: 1rem;
   }
 
-  #{{ section.settings.form_id }}-[id] button:hover {
+  #{{ section.settings.form_id }} button:hover {
     background-color: #000;
   }
 
   @media (max-width: 768px) {
-    #{{ section.settings.form_id }}-[id] {
+    #{{ section.settings.form_id }} {
       margin: 1rem;
       padding: 1rem;
     }
 
-    #{{ section.settings.form_id }}-[id] .form-group input,
-    #{{ section.settings.form_id }}-[id] .form-group select,
-    #{{ section.settings.form_id }}-[id] .form-group textarea {
+    #{{ section.settings.form_id }} .form-group input,
+    #{{ section.settings.form_id }} .form-group select,
+    #{{ section.settings.form_id }} .form-group textarea {
       padding: 0.875rem;
     }
 
-    #{{ section.settings.form_id }}-[id] button {
+    #{{ section.settings.form_id }} button {
       width: 100%;
       padding: 1rem;
     }
   }
 {% endstyle %}
 
-<div id="{{ section.settings.form_id }}-[id]" class="custom-form">
+<div id="{{ section.settings.form_id }}" class="{{ section.settings.class }}">
   {% if section.settings.form_name != blank %}
     <h2>{{ section.settings.form_name }}</h2>
   {% endif %}
