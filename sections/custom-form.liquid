@@ -98,6 +98,10 @@
       padding: 1rem;
     }
 
+    #{{ section.settings.form_id }} .form-group {
+      margin-bottom: 1rem;
+    }
+
     #{{ section.settings.form_id }} button {
       width: 100%;
       padding: 1rem;
@@ -113,7 +117,11 @@
     <p class="form-description">{{ section.settings.form_description }}</p>
   {% endif %}
 
-  <form id="{{ section.settings.form_id }}" action="{{ section.settings.form_action }}" method="{{ section.settings.form_method }}">
+  <form
+    id="{{ section.settings.form_id }}"
+    action="{{ section.settings.form_action }}"
+    method="{{ section.settings.form_method }}"
+  >
     {% for block in section.blocks %}
       {% case block.type %}
         {% when 'input' %}
