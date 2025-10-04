@@ -105,10 +105,10 @@
 
 <div class="{{ section.settings.form_id }}-wrapper">
   {% if section.settings.form_name != blank %}
-    <div class="form-title">{{ section.settings.form_name }}</div>
+    <h2 class="form-title">{{ section.settings.form_name }}</h2>
   {% endif %}
   {% if section.settings.form_description != blank %}
-    <div class="form-description">{{ section.settings.form_description }}</div>
+    <p class="form-description">{{ section.settings.form_description }}</p>
   {% endif %}
 
   <form id="{{ section.settings.form_id }}" action="{{ section.settings.form_action }}" method="{{ section.settings.form_method }}">
