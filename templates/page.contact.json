@@ -60,12 +60,31 @@
             "max_length": 15,
             "default_value": ""
           }
+        },
+        "select_block_6nwNJJ": {
+          "type": "select_block",
+          "settings": {
+            "select_name": "helpWith",
+            "select_values": "Option 1,Option 2,Option 3"
+          }
+        },
+        "input_block_zjCM3D": {
+          "type": "input_block",
+          "settings": {
+            "input_type": "text",
+            "input_name": "orderNo",
+            "input_label": "Order #",
+            "max_length": 50,
+            "default_value": ""
+          }
         }
       },
       "block_order": [
         "input_block_bGh3cx",
         "input_block_96qe8Y",
-        "input_block_VgdCQ7"
+        "input_block_VgdCQ7",
+        "select_block_6nwNJJ",
+        "input_block_zjCM3D"
       ],
       "name": "Custom Form",
       "settings": {
