@@ -130,7 +130,7 @@
     action="{{ section.settings.form_action }}"
     method="{{ section.settings.form_method }}"
   >
-    <div>
+    <div class="form-inner">
       {% for block in section.blocks %}
         {% case block.type %}
           {% when 'input' %}
