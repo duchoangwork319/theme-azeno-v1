@@ -243,7 +243,12 @@
             </div>
           {% when 'select' %}
             <div class="form-group select-form-group {{ block.settings.select_name | replace: '.', '' }}-form-group">
-              <label for="{{ block.settings.select_name }}">{{ block.settings.select_label }}</label>
+              <label for="{{ block.settings.select_name }}">
+                {{ block.settings.select_label }}
+                {% if block.settings.required -%}
+                  <span class="required">*</span>
+                {%- endif %}
+              </label>
               <select name="{{ block.settings.select_name }}" id="{{ block.settings.select_name }}">
                 {% assign options = block.settings.select_values | split: ',' %}
                 {% for opt in options %}
