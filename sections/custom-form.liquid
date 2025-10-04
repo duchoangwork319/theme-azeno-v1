@@ -4,7 +4,6 @@
     margin: {{ section.settings.form_margin }};
     padding: {{ section.settings.form_padding }};
     background-color: {{ section.settings.form_background }};
-    text-align: {{ section.settings.form_alignment }};
   }
 
   .{{ section.settings.form_id }}-wrapper h2 {
@@ -286,17 +285,6 @@
       "id": "form_max_width",
       "label": "Form max width (px)",
       "default": 600
-    },
-    {
-      "type": "select",
-      "id": "form_alignment",
-      "label": "Form alignment",
-      "default": "left",
-      "options": [
-        { "value": "left", "label": "Left" },
-        { "value": "center", "label": "Center" },
-        { "value": "right", "label": "Right" }
-      ]
     },
     {
       "type": "text",
