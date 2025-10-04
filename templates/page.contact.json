@@ -35,8 +35,9 @@
           "type": "input_block",
           "settings": {
             "input_type": "text",
-            "input_name": "",
-            "input_label": "",
+            "input_name": "name",
+            "input_label": "Name",
+            "max_length": 50,
             "default_value": ""
           }
         }
