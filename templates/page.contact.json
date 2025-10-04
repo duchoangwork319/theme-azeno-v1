@@ -27,10 +27,37 @@
         "padding_top": 28,
         "padding_bottom": 28
       }
+    },
+    "custom_form_9W68BJ": {
+      "type": "custom-form",
+      "blocks": {
+        "input_block_bGh3cx": {
+          "type": "input_block",
+          "settings": {
+            "input_type": "text",
+            "input_name": "",
+            "input_label": "",
+            "default_value": ""
+          }
+        }
+      },
+      "block_order": [
+        "input_block_bGh3cx"
+      ],
+      "name": "Custom Form",
+      "settings": {
+        "form_id": "custom_form",
+        "form_name": "Contact Us",
+        "form_description": "Please fill in the form below.",
+        "form_action": "#",
+        "form_method": "POST",
+        "button_text": "Submit"
+      }
     }
   },
   "order": [
     "breadcrumb",
-    "main"
+    "main",
+    "custom_form_9W68BJ"
   ]
 }
