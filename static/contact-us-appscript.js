@@ -36,11 +36,11 @@ function doPost(e) {
       })).setMimeType(ContentService.MimeType.JSON);
     }
 
-    if (!phoneNumber || phoneNumber.length > 15) {
+    if (!phoneNumber || phoneNumber.length > 50) {
       return ContentService.createTextOutput(JSON.stringify({
         field: "phoneNumber",
         success: false,
-        message: "Invalid input: 'phoneNumber' is required and must not exceed 15 characters."
+        message: "Invalid input: 'phoneNumber' is required and must not exceed 50 characters."
       })).setMimeType(ContentService.MimeType.JSON);
     }
 
