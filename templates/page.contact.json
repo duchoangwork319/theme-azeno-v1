@@ -27,10 +27,86 @@
         "padding_top": 28,
         "padding_bottom": 28
       }
+    },
+    "custom_form_ngYq6w": {
+      "type": "custom-form",
+      "blocks": {
+        "input_6bzV4R": {
+          "type": "input",
+          "settings": {
+            "input_type": "text",
+            "input_name": "name",
+            "input_label": "Name",
+            "max_length": 50,
+            "default_value": ""
+          }
+        },
+        "input_fJMn9f": {
+          "type": "input",
+          "settings": {
+            "input_type": "email",
+            "input_name": "email",
+            "input_label": "Email",
+            "max_length": 100,
+            "default_value": ""
+          }
+        },
+        "input_byUhKt": {
+          "type": "input",
+          "settings": {
+            "input_type": "text",
+            "input_name": "phoneNumber",
+            "input_label": "Phone Number",
+            "default_value": ""
+          }
+        },
+        "select_NX9nwf": {
+          "type": "select",
+          "settings": {
+            "select_name": "helpWith",
+            "select_values": "Order Status/Changes,Returns,Product Inquiries,Other,Partnership"
+          }
+        },
+        "input_U7TxjB": {
+          "type": "input",
+          "settings": {
+            "input_type": "text",
+            "input_name": "orderNo",
+            "input_label": "Order #",
+            "max_length": 50,
+            "default_value": ""
+          }
+        },
+        "select_JfVftT": {
+          "type": "select",
+          "settings": {
+            "select_name": "shippingToCountry",
+            "select_values": "Singapore,Hong Kong,Viet Nam"
+          }
+        }
+      },
+      "block_order": [
+        "input_6bzV4R",
+        "input_fJMn9f",
+        "input_byUhKt",
+        "select_NX9nwf",
+        "input_U7TxjB",
+        "select_JfVftT"
+      ],
+      "name": "Custom Form",
+      "settings": {
+        "form_id": "custom_form",
+        "form_name": "Contact Us",
+        "form_description": "Please fill in the form below.",
+        "form_action": "#",
+        "form_method": "POST",
+        "button_text": "Submit"
+      }
     }
   },
   "order": [
     "breadcrumb",
-    "main"
+    "main",
+    "custom_form_ngYq6w"
   ]
 }
