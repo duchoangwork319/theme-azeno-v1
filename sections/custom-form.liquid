@@ -216,7 +216,10 @@
         <button type="submit">{{ section.settings.button_text }}</button>
       </div>
     </div>
-    <div class="form-response-message" style="display: none;">
+    <div
+      class="form-response-message"
+      style="{% if content_for_header contains 'shopify.design.mode' %}display: block;{% else %}display: none;{% endif %}"
+    >
       {% assign success_messages = section.settings.form_success_message | split: '\n' %}
       {% for message in success_messages %}
         {% if forloop.first %}
