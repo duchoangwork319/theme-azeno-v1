@@ -67,7 +67,7 @@
           "type": "select",
           "settings": {
             "select_name": "helpWith",
-            "select_label": "",
+            "select_label": "What can we help you with?",
             "select_values": "Order Status/Changes,Returns,Product Inquiries,Other,Partnership"
           }
         },
@@ -86,7 +86,7 @@
           "type": "select",
           "settings": {
             "select_name": "shippingToCountry",
-            "select_label": "",
+            "select_label": "Shipping to Country",
             "select_values": "Singapore,Hong Kong,Viet Nam"
           }
         },
