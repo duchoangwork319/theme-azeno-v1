@@ -51,7 +51,7 @@
           "type": "input",
           "settings": {
             "required": false,
-            "input_type": "text",
+            "input_type": "phone",
             "input_name": "phoneNumber",
             "input_label": "Phone Number",
             "default_value": "",
@@ -124,7 +124,6 @@
         "form_method": "POST",
         "button_text": "Submit",
         "form_max_width": 770,
-        "form_alignment": "center",
         "form_margin": "0 auto 50px auto",
         "form_padding": "20px 120px",
         "form_background": "#f6f6f6"
