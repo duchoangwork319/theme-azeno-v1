@@ -26,7 +26,7 @@
         "input_6bzV4R": {
           "type": "input",
           "settings": {
-            "required": false,
+            "required": true,
             "input_type": "text",
             "input_name": "name",
             "input_label": "Name",
@@ -38,7 +38,7 @@
         "input_fJMn9f": {
           "type": "input",
           "settings": {
-            "required": false,
+            "required": true,
             "input_type": "email",
             "input_name": "email",
             "input_label": "Email",
@@ -71,7 +71,7 @@
         "input_U7TxjB": {
           "type": "input",
           "settings": {
-            "required": false,
+            "required": true,
             "input_type": "text",
             "input_name": "orderNo",
             "input_label": "Order #",
