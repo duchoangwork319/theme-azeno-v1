@@ -118,7 +118,7 @@
     "main": {
       "type": "main-page",
       "settings": {
-        "enable": false,
+        "enable": true,
         "padding_top": 28,
         "padding_bottom": 28
       }
