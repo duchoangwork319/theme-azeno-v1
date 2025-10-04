@@ -77,6 +77,23 @@
             "max_length": 50,
             "default_value": ""
           }
+        },
+        "select_block_G77NmW": {
+          "type": "select_block",
+          "settings": {
+            "select_name": "shippingToCountry",
+            "select_values": "Option 1,Option 2,Option 3"
+          }
+        },
+        "input_block_faQNxM": {
+          "type": "input_block",
+          "settings": {
+            "input_type": "text",
+            "input_name": "message",
+            "input_label": "Message",
+            "max_length": 50,
+            "default_value": ""
+          }
         }
       },
       "block_order": [
@@ -84,7 +101,9 @@
         "input_block_96qe8Y",
         "input_block_VgdCQ7",
         "select_block_6nwNJJ",
-        "input_block_zjCM3D"
+        "input_block_zjCM3D",
+        "select_block_G77NmW",
+        "input_block_faQNxM"
       ],
       "name": "Custom Form",
       "settings": {
