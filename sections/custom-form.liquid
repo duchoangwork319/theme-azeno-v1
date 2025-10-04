@@ -8,7 +8,34 @@
 
   <form action="{{ section.settings.form_action }}" method="{{ section.settings.form_method }}">
     {% for block in section.blocks %}
-      {% render block %}
+      {% case block.type %}
+        {% when 'input' %}
+          {% if block.settings.input_type != 'hidden' %}
+            <label for="{{ block.settings.input_name }}">{{ block.settings.input_label }}</label>
+          {% endif %}
+          <input
+            type="{{ block.settings.input_type }}"
+            name="{{ block.settings.input_name }}"
+            id="{{ block.settings.input_name }}"
+            {% if block.settings.default_value != blank %}
+              value="{{ block.settings.default_value }}"
+            {% endif %}
+            {% if block.settings.min_length %}
+              minlength="{{ block.settings.min_length }}"
+            {% endif %}
+            {% if block.settings.max_length %}
+              maxlength="{{ block.settings.max_length }}"
+            {% endif %}
+          >
+        {% when 'select' %}
+          <label for="{{ block.settings.select_name }}">{{ block.settings.select_name }}</label>
+          <select name="{{ block.settings.select_name }}" id="{{ block.settings.select_name }}">
+            {% assign options = block.settings.select_values | split: ',' %}
+            {% for opt in options %}
+              <option value="{{ opt | strip }}">{{ opt | strip }}</option>
+            {% endfor %}
+          </select>
+      {% endcase %}
     {% endfor %}
     <button type="submit">{{ section.settings.button_text }}</button>
   </form>
