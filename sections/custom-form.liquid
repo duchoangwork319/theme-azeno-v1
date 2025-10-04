@@ -1,4 +1,104 @@
-<div id="{{ section.settings.form_id }}" class="custom-form">
+{% style %}
+  #{{ section.settings.form_id }}-[id] {
+    max-width: {{ section.settings.form_max_width }}px;
+    margin: {{ section.settings.form_margin }};
+    padding: {{ section.settings.form_padding }};
+    background-color: {{ section.settings.form_background }};
+    text-align: {{ section.settings.form_alignment }};
+  }
+
+  #{{ section.settings.form_id }}-[id] h2 {
+    margin: 0 0 1rem 0;
+    font-weight: 600;
+  }
+
+  #{{ section.settings.form_id }}-[id] p {
+    margin: 0 0 2rem 0;
+    color: #666;
+  }
+
+  #{{ section.settings.form_id }}-[id] form {
+    text-align: left;
+  }
+
+  #{{ section.settings.form_id }}-[id] .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  #{{ section.settings.form_id }}-[id] .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #333;
+  }
+
+  #{{ section.settings.form_id }}-[id] .form-group label .required {
+    color: #e74c3c;
+    margin-left: 0.25rem;
+  }
+
+  #{{ section.settings.form_id }}-[id] .form-group input,
+  #{{ section.settings.form_id }}-[id] .form-group select,
+  #{{ section.settings.form_id }}-[id] .form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 0;
+    font-size: 1rem;
+    font-family: inherit;
+    background-color: #fff;
+    transition: border-color 0.2s ease;
+  }
+
+  #{{ section.settings.form_id }}-[id] .form-group input:focus,
+  #{{ section.settings.form_id }}-[id] .form-group select:focus,
+  #{{ section.settings.form_id }}-[id] .form-group textarea:focus {
+    outline: none;
+    border-color: #333;
+  }
+
+  #{{ section.settings.form_id }}-[id] .form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  #{{ section.settings.form_id }}-[id] button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 0;
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-top: 1rem;
+  }
+
+  #{{ section.settings.form_id }}-[id] button:hover {
+    background-color: #000;
+  }
+
+  @media (max-width: 768px) {
+    #{{ section.settings.form_id }}-[id] {
+      margin: 1rem;
+      padding: 1rem;
+    }
+
+    #{{ section.settings.form_id }}-[id] .form-group input,
+    #{{ section.settings.form_id }}-[id] .form-group select,
+    #{{ section.settings.form_id }}-[id] .form-group textarea {
+      padding: 0.875rem;
+    }
+
+    #{{ section.settings.form_id }}-[id] button {
+      width: 100%;
+      padding: 1rem;
+    }
+  }
+{% endstyle %}
+
+<div id="{{ section.settings.form_id }}-[id]" class="custom-form">
   {% if section.settings.form_name != blank %}
     <h2>{{ section.settings.form_name }}</h2>
   {% endif %}
@@ -10,31 +110,61 @@
     {% for block in section.blocks %}
       {% case block.type %}
         {% when 'input' %}
-          {% if block.settings.input_type != 'hidden' %}
-            <label for="{{ block.settings.input_name }}">{{ block.settings.input_label }}</label>
-          {% endif %}
-          <input
-            type="{{ block.settings.input_type }}"
-            name="{{ block.settings.input_name }}"
-            id="{{ block.settings.input_name }}"
-            {% if block.settings.default_value != blank %}
-              value="{{ block.settings.default_value }}"
+          <div class="form-group">
+            {% if block.settings.input_type != 'hidden' %}
+              <label for="{{ block.settings.input_name }}">
+                {{ block.settings.input_label }}
+                {% if block.settings.required -%}
+                  <span class="required">*</span>
+                {%- endif %}
+              </label>
             {% endif %}
-            {% if block.settings.min_length %}
-              minlength="{{ block.settings.min_length }}"
-            {% endif %}
-            {% if block.settings.max_length %}
-              maxlength="{{ block.settings.max_length }}"
-            {% endif %}
-          >
+            <input
+              type="{{ block.settings.input_type }}"
+              name="{{ block.settings.input_name }}"
+              id="{{ block.settings.input_name }}"
+              {% if block.settings.required %}
+                required
+              {% endif %}
+              {% if block.settings.input_type == 'email' %}
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                title="Please enter a valid email address."
+              {% endif %}
+              {% if block.settings.default_value != blank %}
+                value="{{ block.settings.default_value }}"
+              {% endif %}
+              {% if block.settings.min_length %}
+                minlength="{{ block.settings.min_length }}"
+              {% endif %}
+              {% if block.settings.max_length %}
+                maxlength="{{ block.settings.max_length }}"
+              {% endif %}
+            >
+          </div>
         {% when 'select' %}
-          <label for="{{ block.settings.select_name }}">{{ block.settings.select_name }}</label>
-          <select name="{{ block.settings.select_name }}" id="{{ block.settings.select_name }}">
-            {% assign options = block.settings.select_values | split: ',' %}
-            {% for opt in options %}
-              <option value="{{ opt | strip }}">{{ opt | strip }}</option>
-            {% endfor %}
-          </select>
+          <div class="form-group">
+            <label for="{{ block.settings.select_name }}">{{ block.settings.select_label }}</label>
+            <select name="{{ block.settings.select_name }}" id="{{ block.settings.select_name }}">
+              {% assign options = block.settings.select_values | split: ',' %}
+              {% for opt in options %}
+                <option value="{{ opt | strip }}">{{ opt | strip }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        {% when 'textarea' %}
+          <div class="form-group">
+            <label for="{{ block.settings.textarea_name }}">{{ block.settings.textarea_label }}</label>
+            <textarea
+              name="{{ block.settings.textarea_name }}"
+              id="{{ block.settings.textarea_name }}"
+              {% if block.settings.min_length %}
+                minlength="{{ block.settings.min_length }}"
+              {% endif %}
+              {% if block.settings.max_length %}
+                maxlength="{{ block.settings.max_length }}"
+              {% endif %}
+            ></textarea>
+          </div>
       {% endcase %}
     {% endfor %}
     <button type="submit">{{ section.settings.button_text }}</button>
@@ -44,6 +174,7 @@
 {% schema %}
 {
   "name": "Custom Form",
+  "class": "custom-form",
   "settings": [
     {
       "type": "text",
@@ -84,6 +215,41 @@
       "id": "button_text",
       "label": "Submit button text",
       "default": "Submit"
+    },
+    {
+      "type": "number",
+      "id": "form_max_width",
+      "label": "Form max width (px)",
+      "default": 600
+    },
+    {
+      "type": "select",
+      "id": "form_alignment",
+      "label": "Form alignment",
+      "default": "left",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "form_margin",
+      "label": "Form margin (CSS shorthand)",
+      "default": "0 auto"
+    },
+    {
+      "type": "text",
+      "id": "form_padding",
+      "label": "Form padding (CSS shorthand)",
+      "default": "20px"
+    },
+    {
+      "type": "color",
+      "id": "form_background",
+      "label": "Form background color",
+      "default": "#ffffff"
     }
   ],
   "blocks": [
@@ -91,6 +257,12 @@
       "type": "input",
       "name": "Input field",
       "settings": [
+        {
+          "type": "checkbox",
+          "id": "required",
+          "label": "Required",
+          "default": false
+        },
         {
           "type": "select",
           "id": "input_type",
