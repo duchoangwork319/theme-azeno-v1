@@ -1,9 +1,9 @@
 {% style %}
   .{{ section.settings.form_id }}-wrapper {
-    max-width: {{ section.settings.form_max_width }}px;
-    margin: {{ section.settings.form_margin }};
-    padding: {{ section.settings.form_padding }};
-    background-color: {{ section.settings.form_background }};
+    max-width: {{ section.settings.form_id }}px;
+    margin: {{ section.settings.form_id }};
+    padding: {{ section.settings.form_id }};
+    background-color: {{ section.settings.form_id }};
   }
 
   .{{ section.settings.form_id }}-wrapper h2 {
@@ -119,6 +119,27 @@
     color: #333;
   }
 
+  #{{ section.settings.form_id }} .phone-input-wrapper {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  #{{ section.settings.form_id }} .phone-country-select {
+    flex: 0 0 120px;
+    width: 120px;
+    padding: 0.5rem;
+    border: 2px solid black;
+    border-radius: 0;
+    font-size: 1rem;
+    font-family: var(--font-family-base);
+    background-color: #fff;
+  }
+
+  #{{ section.settings.form_id }} .phone-input-wrapper input {
+    flex: 1;
+    margin: 0;
+  }
+
   @media (max-width: 768px) {
     .{{ section.settings.form_id }}-wrapper {
       padding: 1rem;
@@ -135,6 +156,16 @@
     #{{ section.settings.form_id }} button {
       width: 100%;
       padding: 1rem;
+    }
+
+    #{{ section.settings.form_id }} .phone-input-wrapper {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    #{{ section.settings.form_id }} .phone-country-select {
+      flex: none;
+      width: 100%;
     }
   }
 {% endstyle %}
@@ -170,12 +201,14 @@
               {% endif %}
 
               {% if block.settings.input_type == 'phone' %}
-                {% render 'custom-form-phone',
-                  input_name: block.settings.input_name,
-                  required: block.settings.required,
-                  default_value: block.settings.default_value,
-                  error_message: block.settings.error_message
-                %}
+                <div class="phone-input-wrapper">
+                  {% render 'custom-form-phone',
+                    input_name: block.settings.input_name,
+                    required: block.settings.required,
+                    default_value: block.settings.default_value,
+                    error_message: block.settings.error_message
+                  %}
+                </div>
               {% endif %}
 
               {% if block.settings.input_type != 'phone' %}
