@@ -34,6 +34,7 @@
         "input_6bzV4R": {
           "type": "input",
           "settings": {
+            "required": false,
             "input_type": "text",
             "input_name": "name",
             "input_label": "Name",
@@ -44,6 +45,7 @@
         "input_fJMn9f": {
           "type": "input",
           "settings": {
+            "required": false,
             "input_type": "email",
             "input_name": "email",
             "input_label": "Email",
@@ -54,6 +56,7 @@
         "input_byUhKt": {
           "type": "input",
           "settings": {
+            "required": false,
             "input_type": "text",
             "input_name": "phoneNumber",
             "input_label": "Phone Number",
@@ -71,6 +74,7 @@
         "input_U7TxjB": {
           "type": "input",
           "settings": {
+            "required": false,
             "input_type": "text",
             "input_name": "orderNo",
             "input_label": "Order #",
@@ -111,7 +115,12 @@
         "form_description": "Please fill in the form below.",
         "form_action": "#",
         "form_method": "POST",
-        "button_text": "Submit"
+        "button_text": "Submit",
+        "form_max_width": 600,
+        "form_alignment": "center",
+        "form_margin": "0 auto",
+        "form_padding": "20px",
+        "form_background": "#dedede"
       }
     }
   },
