@@ -62,11 +62,62 @@
   "blocks": [
     {
       "type": "input_block",
-      "name": "Input field"
+      "name": "Input field",
+      "settings": [
+        {
+          "type": "select",
+          "id": "input_type",
+          "label": "Type",
+          "default": "text",
+          "options": [
+            { "value": "text", "label": "Text" },
+            { "value": "email", "label": "Email" },
+            { "value": "hidden", "label": "Hidden" }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "input_name",
+          "label": "Name"
+        },
+        {
+          "type": "text",
+          "id": "input_label",
+          "label": "Label"
+        },
+        {
+          "type": "number",
+          "id": "min_length",
+          "label": "Min length"
+        },
+        {
+          "type": "number",
+          "id": "max_length",
+          "label": "Max length"
+        },
+        {
+          "type": "text",
+          "id": "default_value",
+          "label": "Default value"
+        }
+      ]
     },
     {
       "type": "select_block",
-      "name": "Select field"
+      "name": "Select field",
+      "settings": [
+        {
+          "type": "text",
+          "id": "select_name",
+          "label": "Name"
+        },
+        {
+          "type": "textarea",
+          "id": "select_values",
+          "label": "Values (comma separated)",
+          "default": "Option 1,Option 2,Option 3"
+        }
+      ]
     }
   ],
   "presets": [
