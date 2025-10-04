@@ -64,6 +64,7 @@
           "type": "select",
           "settings": {
             "select_name": "helpWith",
+            "select_label": "",
             "select_values": "Order Status/Changes,Returns,Product Inquiries,Other,Partnership"
           }
         },
@@ -81,7 +82,16 @@
           "type": "select",
           "settings": {
             "select_name": "shippingToCountry",
+            "select_label": "",
             "select_values": "Singapore,Hong Kong,Viet Nam"
+          }
+        },
+        "textarea_UBmXfp": {
+          "type": "textarea",
+          "settings": {
+            "textarea_name": "message",
+            "textarea_label": "Message",
+            "max_length": 255
           }
         }
       },
@@ -91,7 +101,8 @@
         "input_byUhKt",
         "select_NX9nwf",
         "input_U7TxjB",
-        "select_JfVftT"
+        "select_JfVftT",
+        "textarea_UBmXfp"
       ],
       "name": "Custom Form",
       "settings": {
