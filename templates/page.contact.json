@@ -50,11 +50,22 @@
             "max_length": 100,
             "default_value": ""
           }
+        },
+        "input_block_VgdCQ7": {
+          "type": "input_block",
+          "settings": {
+            "input_type": "text",
+            "input_name": "phoneNumber",
+            "input_label": "Phone Number",
+            "max_length": 15,
+            "default_value": ""
+          }
         }
       },
       "block_order": [
         "input_block_bGh3cx",
-        "input_block_96qe8Y"
+        "input_block_96qe8Y",
+        "input_block_VgdCQ7"
       ],
       "name": "Custom Form",
       "settings": {
