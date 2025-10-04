@@ -168,7 +168,10 @@
                   {%- endif %}
                 </label>
               {% endif %}
-              {}
+              {% if block.settings.input_type == 'phone' %}
+              {% endif %}
+              {% if block.settings.input_type != 'phone' %}
+              {% endif %}
               <input
                 type="{{ block.settings.input_type }}"
                 name="{{ block.settings.input_name }}"
