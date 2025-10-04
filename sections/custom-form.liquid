@@ -247,7 +247,8 @@
               <select name="{{ block.settings.select_name }}" id="{{ block.settings.select_name }}">
                 {% assign options = block.settings.select_values | split: ',' %}
                 {% for opt in options %}
-                  <option value="{{ opt | strip }}" {% if opt == block.settings.default_value %}selected{% endif %}>{{ opt | strip }}</option>
+                  {% assign variable_name = opt | strip %}
+                  <option value="{{ variable_name }}" {% if variable_name == block.settings.default_value %}selected{% endif %}>{{ variable_name }}</option>
                 {% endfor %}
               </select>
               <div class="invalid-message">{{ block.settings.error_message }}</div>
