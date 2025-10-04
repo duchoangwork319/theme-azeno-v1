@@ -78,6 +78,8 @@ function initSpinnerHandler() {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        .spinner-relative { position: relative; }
     `;
     document.head.appendChild(style);
 }
