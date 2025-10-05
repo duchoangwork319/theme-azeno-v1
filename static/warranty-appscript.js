@@ -1,35 +1,43 @@
+function createTextOutput(field, success, message) {
+  return ContentService.createTextOutput(JSON.stringify({
+    field: field,
+    success: success,
+    message: message
+  })).setMimeType(ContentService.MimeType.JSON);
+}
+
 function doPost(e) {
   try {
-    const formData = JSON.parse(e.postData.contents);
-    const warrantyFileCount = parseInt(formData.warrantyFileCount || 0, 10);
-    const maxTotalFiles = 5;
-    const maxTotalSizeBytes = 5 * 1024 * 1024; // 5 MB
+    const scriptProperties = PropertiesService.getScriptProperties();
+    const folderId = scriptProperties.getProperty('FOLDER_ID');
+    const propWarrantyFileMaxFiles = scriptProperties.getProperty('WARRANTY_FILE_MAX_FILES') || '5';
+    const propWarrantyFileMaxSizeMB = scriptProperties.getProperty('WARRANTY_FILE_MAX_SIZE_MB') || '5';
+    const spreadsheetId = scriptProperties.getProperty('SPREADSHEET_ID');
 
-    if (warrantyFileCount > maxTotalFiles) {
-      return ContentService.createTextOutput(JSON.stringify({
-        success: false,
-        message: `Too many files uploaded. Maximum is 5. Current is ${warrantyFileCount}.`
-      })).setMimeType(ContentService.MimeType.JSON);
+    const formData = JSON.parse(e.postData.contents);
+    const warrantyFileCount = parseInt(formData.warrantyFile_count || 0, 10);
+    const warrantyMaxTotalFiles = parseInt(propWarrantyFileMaxFiles, 10);
+    const warrantyMaxTotalSizeBytes = parseInt(propWarrantyFileMaxSizeMB, 10) * 1024 * 1024; // Convert MB to bytes
+
+    if (warrantyFileCount > warrantyMaxTotalFiles) {
+      return createTextOutput("warrantyFile", false, `Too many files uploaded. Maximum is ${warrantyMaxTotalFiles}. Current is ${warrantyFileCount}.`);
     }
 
-    const folder = DriveApp.getFolderById("1gFwaLBvRhVlIgHGFCmaY2vRyDshVIRh6");
+    const folder = DriveApp.getFolderById(folderId);
     const warrantyUploadedFiles = [];
     const warrantyBlobs = [];
 
     for (let i = 0; i < warrantyFileCount; i++) {
-      const filename = formData[`warrantyFileName_${i}`];
-      const filetype = formData[`warrantyFileType_${i}`];
-      const byteArray = formData[`warrantyFile_${i}`].split(',').map(Number);
+      const filename = formData[`warrantyFile_name_${i}`];
+      const filetype = formData[`warrantyFile_type_${i}`];
+      const byteArray = formData[`warrantyFile_data_${i}`].split(',').map(Number);
       const fileBlob = Utilities.newBlob(byteArray, filetype, filename);
       warrantyBlobs.push(fileBlob);
     }
 
     const totalSize = warrantyBlobs.reduce((sum, blob) => sum + blob.getBytes().length, 0);
-    if (totalSize > maxTotalSizeBytes) {
-      return ContentService.createTextOutput(JSON.stringify({
-        success: false,
-        message: `Total file size exceeds 5 MB limit. Current is ${totalSize} bytes.`
-      })).setMimeType(ContentService.MimeType.JSON);
+    if (totalSize > warrantyMaxTotalSizeBytes) {
+      return createTextOutput("warrantyFile", false, `Total file size exceeds ${warrantyMaxTotalSizeBytes} bytes limit. Current is ${totalSize} bytes.`);
     }
 
     warrantyBlobs.forEach(blob => {
@@ -40,15 +48,10 @@ function doPost(e) {
       });
     });
 
-    return ContentService.createTextOutput(JSON.stringify({
-      success: true,
-      files: warrantyUploadedFiles
-    })).setMimeType(ContentService.MimeType.JSON);
+    return createTextOutput(null, true, "Files uploaded successfully.");
 
   } catch (err) {
-    return ContentService.createTextOutput(JSON.stringify({
-      success: false,
-      message: err.toString()
-    })).setMimeType(ContentService.MimeType.JSON);
+    Logger.log("Error during doPost: " + err.message);
+    return createTextOutput(null, false, "An error occurred: " + err.message);
   }
 }
