@@ -1,0 +1,206 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "breadcrumb": {
+      "type": "page-breadcrumb",
+      "settings": {
+        "enable": true,
+        "bgimage": false,
+        "show_pagetitle": true,
+        "show_breadcrumb": true,
+        "color_breadcrumb": "#222222",
+        "align_breadcrumb": "center"
+      }
+    },
+    "custom_form_ngYq6w": {
+      "type": "custom-form",
+      "blocks": {
+        "input_YGCQm8": {
+          "type": "input",
+          "settings": {
+            "required": true,
+            "input_type": "email",
+            "input_name": "email",
+            "input_label": "Email",
+            "max_length": 100,
+            "default_value": "",
+            "error_message": "'email' is required, must not exceed 100 characters, and must be a valid email address."
+          }
+        },
+        "select_aXFML4": {
+          "type": "select",
+          "settings": {
+            "required": true,
+            "select_name": "productModelNo",
+            "select_label": "Product / Model no",
+            "select_values": "Option 1,Option 2,Option 3",
+            "default_value": "",
+            "error_message": ""
+          }
+        },
+        "select_3DAG9X": {
+          "type": "select",
+          "settings": {
+            "required": true,
+            "select_name": "size",
+            "select_label": "Size",
+            "select_values": "S,M,L",
+            "default_value": "",
+            "error_message": ""
+          }
+        },
+        "input_Vfc4iR": {
+          "type": "input",
+          "settings": {
+            "required": true,
+            "input_type": "text",
+            "input_name": "name",
+            "input_label": "Name",
+            "max_length": 50,
+            "default_value": "",
+            "error_message": "'name' is required and must not exceed 50 characters."
+          }
+        },
+        "input_JqFC7K": {
+          "type": "input",
+          "settings": {
+            "required": true,
+            "input_type": "text",
+            "input_name": "address",
+            "input_label": "Address",
+            "max_length": 100,
+            "default_value": "",
+            "error_message": "'address' is required and must not exceed 100 characters."
+          }
+        },
+        "input_HiynMD": {
+          "type": "input",
+          "settings": {
+            "required": true,
+            "input_type": "text",
+            "input_name": "zipCity",
+            "input_label": "Zip & City",
+            "max_length": 50,
+            "default_value": "",
+            "error_message": "'Zip & City' is required and must not exceed 50 characters."
+          }
+        },
+        "select_VNBtPf": {
+          "type": "select",
+          "settings": {
+            "required": false,
+            "select_name": "area",
+            "select_label": "Area",
+            "select_values": "Area 1,Area 2,Area 3",
+            "default_value": "",
+            "error_message": ""
+          }
+        },
+        "input_cJ34G4": {
+          "type": "input",
+          "settings": {
+            "required": true,
+            "input_type": "phone",
+            "input_name": "phoneNumber",
+            "input_label": "Phone",
+            "max_length": 50,
+            "default_value": "",
+            "error_message": "'Phone' is required and must not exceed 50 characters."
+          }
+        },
+        "textarea_idXWYz": {
+          "type": "textarea",
+          "settings": {
+            "required": false,
+            "textarea_name": "message",
+            "textarea_label": "Message",
+            "max_length": 255,
+            "error_message": "'Message' is required and must not exceed 255 characters."
+          }
+        },
+        "file_upload_CA4Nrh": {
+          "type": "file_upload",
+          "settings": {
+            "required": false,
+            "file_name": "warranty_file",
+            "file_label": "Image of the product",
+            "accepted_file_types": ".jpg,.png,.pdf",
+            "max_files_size": 5,
+            "max_total_files": 3,
+            "upload_mode": "multiple",
+            "error_message": "Total file size exceeds 5 MB limit and Maximum total file is 3"
+          }
+        },
+        "file_upload_peDaJm": {
+          "type": "file_upload",
+          "settings": {
+            "required": false,
+            "file_name": "attachments",
+            "file_label": "Attachments",
+            "accepted_file_types": "",
+            "max_files_size": 5,
+            "max_total_files": 5,
+            "upload_mode": "multiple",
+            "error_message": ""
+          }
+        },
+        "success_bAkkFf": {
+          "type": "success",
+          "settings": {
+            "title": "Thank you!",
+            "message": "Your form has been submitted successfully."
+          }
+        }
+      },
+      "block_order": [
+        "input_YGCQm8",
+        "select_aXFML4",
+        "select_3DAG9X",
+        "input_Vfc4iR",
+        "input_JqFC7K",
+        "input_HiynMD",
+        "select_VNBtPf",
+        "input_cJ34G4",
+        "textarea_idXWYz",
+        "file_upload_CA4Nrh",
+        "file_upload_peDaJm",
+        "success_bAkkFf"
+      ],
+      "name": "Custom Form",
+      "settings": {
+        "form_id": "warrantyForm",
+        "form_name": "Please fill in the information and attach your purchase voucher in the bottom of the form.",
+        "form_description": "",
+        "form_action": "https://script.google.com/macros/s/AKfycbxBaCnOAdBGGXh7mu4HdHraJlAQQV8oS6UiBTjw52N7uge_9ro4Y6K8nFVWlPjCzT71/exec",
+        "form_method": "POST",
+        "button_text": "Submit",
+        "form_max_width": 770,
+        "form_margin": "0 auto 50px auto",
+        "form_padding": "20px 120px",
+        "form_background": "#f6f6f6"
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "custom_css": [],
+      "settings": {
+        "enable": true,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "breadcrumb",
+    "custom_form_ngYq6w",
+    "main"
+  ]
+}
