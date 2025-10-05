@@ -1,0 +1,527 @@
+{% style %}
+  .{{ section.settings.form_id }}-wrapper {
+    max-width: {{ section.settings.form_max_width }}px;
+    margin: {{ section.settings.form_margin }};
+    padding: {{ section.settings.form_padding }};
+    background-color: {{ section.settings.form_background }};
+  }
+
+  .{{ section.settings.form_id }}-wrapper h2 {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #333;
+    text-align: center;
+  }
+
+  .{{ section.settings.form_id }}-wrapper h2.no-description {
+    margin-bottom: 2rem;
+  }
+
+  .{{ section.settings.form_id }}-wrapper p {
+    font-size: 16px;
+    margin-bottom: 2rem;
+    color: #666;
+    text-align: center;
+  }
+
+  .{{ section.settings.form_id }}-wrapper form {
+    text-align: left;
+  }
+
+  #{{ section.settings.form_id }} .invalid-message {
+    color: #e74c3c;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    display: none;
+  }
+
+  #{{ section.settings.form_id }} .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  #{{ section.settings.form_id }} .form-group label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-weight: bold;
+    font-size: 1rem;
+    color: #333;
+    text-transform: uppercase;
+    font-family: var(--font-family-base);
+  }
+
+  #{{ section.settings.form_id }} .form-group label .required {
+    color: #e74c3c;
+    margin-left: 0.25rem;
+  }
+
+  #{{ section.settings.form_id }} .form-group input,
+  #{{ section.settings.form_id }} .form-group select,
+  #{{ section.settings.form_id }} .form-group textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 2px solid black;
+    border-radius: 0;
+    font-size: 1rem;
+    font-family: inherit;
+    background-color: #fff;
+    font-family: var(--font-family-base);
+  }
+
+  #{{ section.settings.form_id }} .form-group input:focus,
+  #{{ section.settings.form_id }} .form-group select:focus,
+  #{{ section.settings.form_id }} .form-group textarea:focus {
+    outline: none;
+  }
+
+  #{{ section.settings.form_id }} .form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  #{{ section.settings.form_id }} button {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 0;
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  #{{ section.settings.form_id }} button:hover {
+    background-color: #333;
+  }
+
+  #{{ section.settings.form_id }} button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+
+  #{{ section.settings.form_id }} .submit-form-group {
+    text-align: center;
+  }
+
+  #{{ section.settings.form_id }} .form-response-message {
+    text-align: center;
+    margin-top: 1.5rem;
+  }
+
+  #{{ section.settings.form_id }} .form-response-message .success-title {
+    font-size: 48px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0.5rem;
+  }
+
+  #{{ section.settings.form_id }} .form-response-message .success-message {
+    font-size: 1rem;
+    color: #333;
+  }
+
+  /* Phone Input Styles */
+  #{{ section.settings.form_id }} .phone-input-wrapper {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  #{{ section.settings.form_id }} .phone-input-wrapper select {
+    flex: 0 0 120px;
+    width: 120px;
+    padding: 0.5rem;
+    border: 2px solid black;
+    border-radius: 0;
+    font-size: 1rem;
+    font-family: var(--font-family-base);
+    background-color: #fff;
+  }
+
+  #{{ section.settings.form_id }} .phone-input-wrapper input {
+    flex: 1;
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .{{ section.settings.form_id }}-wrapper {
+      padding: 1rem;
+    }
+
+    .{{ section.settings.form_id }}-wrapper h2 {
+      font-size: 32px;
+    }
+
+    #{{ section.settings.form_id }} .form-group {
+      margin-bottom: 1rem;
+    }
+
+    #{{ section.settings.form_id }} button {
+      width: 100%;
+      padding: 1rem;
+    }
+
+    #{{ section.settings.form_id }} .phone-input-wrapper {
+      flex-direction: row;
+      gap: 0.5rem;
+    }
+
+    #{{ section.settings.form_id }} .phone-input-wrapper select {
+      flex: none;
+    }
+  }
+{% endstyle %}
+
+<div class="{{ section.settings.form_id }}-wrapper">
+  <div class="form-header">
+    {% if section.settings.form_name != blank %}
+      <h2 class="form-title {% if section.settings.form_description == blank %} no-description {% endif %}">
+        {{ section.settings.form_name }}
+      </h2>
+    {% endif %}
+    {% if section.settings.form_description != blank %}
+      <p class="form-description">{{ section.settings.form_description }}</p>
+    {% endif %}
+  </div>
+
+  <form
+    id="{{ section.settings.form_id }}"
+    class="{{ section.settings.form_id }}-form"
+    action="{{ section.settings.form_action }}"
+    method="{{ section.settings.form_method }}"
+  >
+    <div class="form-inner">
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'input' %}
+            <div class="form-group input-form-group {{ block.settings.input_name | replace: '.', '' }}-form-group">
+              {% if block.settings.input_type != 'hidden' %}
+                <label for="{{ block.settings.input_name }}">
+                  {{ block.settings.input_label }}
+                  {% if block.settings.required -%}
+                    <span class="required">*</span>
+                  {%- endif %}
+                </label>
+              {% endif %}
+
+              {% if block.settings.input_type == 'phone' %}
+                {% render 'custom-form-phone',
+                  input_name: block.settings.input_name,
+                  required: block.settings.required,
+                  default_value: block.settings.default_value,
+                  error_message: block.settings.error_message,
+                  min_length: block.settings.min_length,
+                  max_length: block.settings.max_length
+                %}
+              {% endif %}
+
+              {% if block.settings.input_type != 'phone' %}
+                <input
+                  type="{{ block.settings.input_type }}"
+                  name="{{ block.settings.input_name }}"
+                  id="{{ block.settings.input_name }}"
+                  autocomplete="on"
+                  {% if block.settings.required %}
+                    required
+                  {% endif %}
+                  {% if block.settings.input_type == 'email' %}
+                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                    title="Please enter a valid email address."
+                  {% endif %}
+                  {% if block.settings.default_value != blank %}
+                    value="{{ block.settings.default_value }}"
+                  {% endif %}
+                  {% if block.settings.min_length %}
+                    minlength="{{ block.settings.min_length }}"
+                  {% endif %}
+                  {% if block.settings.max_length %}
+                    maxlength="{{ block.settings.max_length }}"
+                  {% endif %}
+                >
+              {% endif %}
+              <div class="invalid-message">{{ block.settings.error_message }}</div>
+            </div>
+          {% when 'select' %}
+            <div class="form-group select-form-group {{ block.settings.select_name | replace: '.', '' }}-form-group">
+              <label for="{{ block.settings.select_name }}">
+                {{ block.settings.select_label }}
+                {% if block.settings.required -%}
+                  <span class="required">*</span>
+                {%- endif %}
+              </label>
+              <select name="{{ block.settings.select_name }}" id="{{ block.settings.select_name }}">
+                {% assign options = block.settings.select_values | split: ',' %}
+                {% for opt in options %}
+                  {% assign opt_value = opt | strip %}
+                  <option value="{{ opt_value }}" {% if opt_value == block.settings.default_value %}selected{% endif %}>{{ opt_value }}</option>
+                {% endfor %}
+              </select>
+              <div class="invalid-message">{{ block.settings.error_message }}</div>
+            </div>
+          {% when 'textarea' %}
+            <div class="form-group textarea-form-group {{ block.settings.textarea_name | replace: '.', '' }}-form-group">
+              <label for="{{ block.settings.textarea_name }}">
+                {{ block.settings.textarea_label }}
+                {% if block.settings.required -%}
+                  <span class="required">*</span>
+                {%- endif %}
+              </label>
+              <textarea
+                name="{{ block.settings.textarea_name }}"
+                id="{{ block.settings.textarea_name }}"
+                {% if block.settings.required %}
+                  required
+                {% endif %}
+                {% if block.settings.min_length %}
+                  minlength="{{ block.settings.min_length }}"
+                {% endif %}
+                {% if block.settings.max_length %}
+                  maxlength="{{ block.settings.max_length }}"
+                {% endif %}
+              ></textarea>
+              <div class="invalid-message">{{ block.settings.error_message }}</div>
+            </div>
+        {% endcase %}
+      {% endfor %}
+      <div class="form-group submit-form-group">
+        <button type="submit">{{ section.settings.button_text }}</button>
+      </div>
+    </div>
+    {% for block in section.blocks %}
+      {% if block.type == 'success' %}
+        <div class="form-response-message" style="display: none;">
+          <p class="success-title">{{ block.settings.title }}</p>
+          <p class="success-message">{{ block.settings.message }}</p>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </form>
+</div>
+
+{% schema %}
+{
+  "name": "Custom Form",
+  "class": "custom-form",
+  "settings": [
+    {
+      "type": "text",
+      "id": "form_id",
+      "label": "Form ID",
+      "default": "custom_form"
+    },
+    {
+      "type": "text",
+      "id": "form_name",
+      "label": "Form name",
+      "default": "Contact Us"
+    },
+    {
+      "type": "text",
+      "id": "form_description",
+      "label": "Form description",
+      "default": "Please fill in the form below."
+    },
+    {
+      "type": "text",
+      "id": "form_action",
+      "label": "Form action URL",
+      "default": "#"
+    },
+    {
+      "type": "select",
+      "id": "form_method",
+      "label": "Form method",
+      "default": "POST",
+      "options": [
+        { "value": "GET", "label": "GET" },
+        { "value": "POST", "label": "POST" }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Submit button text",
+      "default": "Submit"
+    },
+    {
+      "type": "number",
+      "id": "form_max_width",
+      "label": "Form max width (px)",
+      "default": 600
+    },
+    {
+      "type": "text",
+      "id": "form_margin",
+      "label": "Form margin (CSS shorthand)",
+      "default": "0 auto"
+    },
+    {
+      "type": "text",
+      "id": "form_padding",
+      "label": "Form padding (CSS shorthand)",
+      "default": "20px"
+    },
+    {
+      "type": "color",
+      "id": "form_background",
+      "label": "Form background color",
+      "default": "#ffffff"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "input",
+      "name": "FG Input",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "required",
+          "label": "Required",
+          "default": false
+        },
+        {
+          "type": "select",
+          "id": "input_type",
+          "label": "Type",
+          "default": "text",
+          "options": [
+            { "value": "text", "label": "Text" },
+            { "value": "email", "label": "Email" },
+            { "value": "hidden", "label": "Hidden" },
+            { "value": "phone", "label": "Phone" }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "input_name",
+          "label": "Name"
+        },
+        {
+          "type": "text",
+          "id": "input_label",
+          "label": "Label"
+        },
+        {
+          "type": "number",
+          "id": "min_length",
+          "label": "Min length"
+        },
+        {
+          "type": "number",
+          "id": "max_length",
+          "label": "Max length"
+        },
+        {
+          "type": "text",
+          "id": "default_value",
+          "label": "Default value"
+        },
+        {
+          "type": "text",
+          "id": "error_message",
+          "label": "Error message"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "name": "FG Select",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "required",
+          "label": "Required",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "select_name",
+          "label": "Name"
+        },
+        {
+          "type": "text",
+          "id": "select_label",
+          "label": "Label"
+        },
+        {
+          "type": "textarea",
+          "id": "select_values",
+          "label": "Values (comma separated)",
+          "default": "Option 1,Option 2,Option 3"
+        },
+        {
+          "type": "text",
+          "id": "default_value",
+          "label": "Default value"
+        },
+        {
+          "type": "text",
+          "id": "error_message",
+          "label": "Error message"
+        }
+      ]
+    },
+    {
+      "type": "textarea",
+      "name": "FG Textarea",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "required",
+          "label": "Required",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "textarea_name",
+          "label": "Name"
+        },
+        {
+          "type": "text",
+          "id": "textarea_label",
+          "label": "Label"
+        },
+        {
+          "type": "number",
+          "id": "min_length",
+          "label": "Min length"
+        },
+        {
+          "type": "number",
+          "id": "max_length",
+          "label": "Max length"
+        },
+        {
+          "type": "text",
+          "id": "error_message",
+          "label": "Error message"
+        }
+      ]
+    },
+    {
+      "type": "success",
+      "name": "FG Response",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Success Title",
+          "default": "Thank you!"
+        },
+        {
+          "type": "textarea",
+          "id": "message",
+          "label": "Success Message",
+          "default": "Your form has been submitted successfully."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Form",
+      "category": "8. Forms"
+    }
+  ]
+}
+{% endschema %}
