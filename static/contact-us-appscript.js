@@ -1,79 +1,68 @@
+function createTextOutput(field, success, message) {
+  return ContentService.createTextOutput(JSON.stringify({
+    field: field,
+    success: success,
+    message: message
+  })).setMimeType(ContentService.MimeType.JSON);
+}
+
 function doPost(e) {
   try {
-    // Get the active spreadsheet and the target sheet by name
-    const sheet = SpreadsheetApp.openById('17QP8dcGKbqdgSP5FZqQ1nkK22xDTI32uR5gkuTYXtJo');
+    const scriptProperties = PropertiesService.getScriptProperties();
+    const spreadsheetId = scriptProperties.getProperty('SPREADSHEET_ID');
+    if (!spreadsheetId) {
+      throw new Error("Spreadsheet ID not set in script properties.");
+    }
 
-    // Check if the sheet exists
+    const sheet = SpreadsheetApp.openById(spreadsheetId);
     if (!sheet) {
       throw new Error("Sheet 'Contact Us' not found.");
     }
 
-    const input = JSON.parse(e.postData.contents);
-    // Extract form data from the input object
-    const name = input.name;
-    const email = input.email;
-    const phoneNumber = input.phoneNumber;
-    const helpWith = input.helpWith;
-    const orderNo = input.orderNo;
-    const shippingToCountry = input.shippingToCountry;
-    const message = input.message;
+    const formData = JSON.parse(e.postData.contents);
+    const name = formData.name;
+    const email = formData.email;
+    const phoneCountry = formData.phoneNumber_country || '';
+    const phoneNumber = formData.phoneNumber;
+    const helpWith = formData.helpWith;
+    const orderNo = formData.orderNo;
+    const shippingToCountry = formData.shippingToCountry;
+    const message = formData.message;
+    const fullPhoneNumber = phoneCountry + phoneNumber;
 
     // Validation
     if (!name || name.length > 50) {
-      return ContentService.createTextOutput(JSON.stringify({
-        field: "name",
-        success: false,
-        message: "Invalid input: 'name' is required and must not exceed 50 characters."
-      })).setMimeType(ContentService.MimeType.JSON);
+      return createTextOutput("name", false, "Invalid input: 'Name' is required and must not exceed 50 characters.");
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /[a-z0-9._\%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$/;
     if (!email || email.length > 100 || !emailRegex.test(email)) {
-      return ContentService.createTextOutput(JSON.stringify({
-        field: "email",
-        success: false,
-        message: "Invalid input: 'email' is required, must not exceed 100 characters, and must be a valid email address."
-      })).setMimeType(ContentService.MimeType.JSON);
+      return createTextOutput("email", false, "Invalid input: 'Email' is required, must not exceed 100 characters, and must be a valid email address.");
     }
 
-    if (!phoneNumber || phoneNumber.length > 50) {
-      return ContentService.createTextOutput(JSON.stringify({
-        field: "phoneNumber",
-        success: false,
-        message: "Invalid input: 'phoneNumber' is required and must not exceed 50 characters."
-      })).setMimeType(ContentService.MimeType.JSON);
+    const phoneCountryRegex = /^\+\d+$/;
+    if (phoneCountry && !phoneCountryRegex.test(phoneCountry)) {
+      return createTextOutput("phoneNumber", false, "Invalid input: 'Phone Country' must start with '+' followed by numbers.");
+    }
+
+    if (!phoneNumber || phoneNumber.length > 15) {
+      return createTextOutput("phoneNumber", false, "Invalid input: 'Phone Number' is required and must not exceed 15 characters.");
     }
 
     if (!helpWith || helpWith.length > 50) {
-      return ContentService.createTextOutput(JSON.stringify({
-        field: "helpWith",
-        success: false,
-        message: "Invalid input: 'helpWith' is required and must not exceed 50 characters."
-      })).setMimeType(ContentService.MimeType.JSON);
+      return createTextOutput("helpWith", false, "Invalid input: 'What can we help you with?' is required and must not exceed 50 characters.");
     }
 
     if (!orderNo || orderNo.length > 50) {
-      return ContentService.createTextOutput(JSON.stringify({
-        field: "orderNo",
-        success: false,
-        message: "Invalid input: 'orderNo' is required and must not exceed 50 characters."
-      })).setMimeType(ContentService.MimeType.JSON);
+      return createTextOutput("orderNo", false, "Invalid input: 'Order #' is required and must not exceed 50 characters.");
     }
 
     if (!shippingToCountry || shippingToCountry.length > 50) {
-      return ContentService.createTextOutput(JSON.stringify({
-        field: "shippingToCountry",
-        success: false,
-        message: "Invalid input: 'shippingToCountry' is required and must not exceed 50 characters."
-      })).setMimeType(ContentService.MimeType.JSON);
+      return createTextOutput("shippingToCountry", false, "Invalid input: 'Shipping To Country' is required and must not exceed 50 characters.");
     }
 
     if (!message || message.length > 255) {
-      return ContentService.createTextOutput(JSON.stringify({
-        field: "message",
-        success: false,
-        message: "Invalid input: 'message' is required and must not exceed 255 characters."
-      })).setMimeType(ContentService.MimeType.JSON);
+      return createTextOutput("message", false, "Invalid input: 'Message' is required and must not exceed 255 characters.");
     }
 
     // Get the current timestamp
@@ -84,7 +73,7 @@ function doPost(e) {
       timestamp, // Add a timestamp for when the form was submitted
       name,
       email,
-      phoneNumber,
+      fullPhoneNumber,
       helpWith,
       orderNo,
       shippingToCountry,
@@ -95,19 +84,13 @@ function doPost(e) {
     sheet.appendRow(rowData);
 
     // Return a JSON success response
-    return ContentService.createTextOutput(JSON.stringify({
-      success: true,
-      message: "Form submitted successfully!"
-    })).setMimeType(ContentService.MimeType.JSON);
+    return createTextOutput(null, true, "Form submitted successfully.");
 
   } catch (error) {
     // Log the error for debugging
     Logger.log("Error during doPost: " + error.message);
 
     // Return a JSON error response
-    return ContentService.createTextOutput(JSON.stringify({
-      success: false,
-      message: "An error occurred during submission: " + error.message
-    })).setMimeType(ContentService.MimeType.JSON);
+    return createTextOutput(null, false, "An error occurred: " + error.message);
   }
 }

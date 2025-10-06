@@ -1,6 +1,26 @@
 'use strict';
 
 /**
+ * Scrolls the page to the specified element
+ * @param {jQuery<HTMLElement>} element - The target element to scroll to
+ */
+function scrollTo(element) {
+    $('html, body').animate({
+        scrollTop: $(element).offset().top - 200
+    }, 100);
+}
+
+/**
+ * Shows an error message for a specific field and scrolls to it
+ * @param {jQuery<HTMLElement>} wrapper - The form wrapper element
+ * @param {string} field - The name of the field
+ */
+function showError(wrapper, field) {
+    wrapper.find(`.${field}-form-group .invalid-message`).css('display', 'block');
+    scrollTo(wrapper.find(`.${field}-form-group`));
+}
+
+/**
  * Reads a file as an ArrayBuffer
  * @param {File} file - The file to read
  * @returns {Promise<ArrayBuffer>} - A promise that resolves with the file's ArrayBuffer
@@ -18,7 +38,7 @@ function readFileAsync(file) {
  * Handles file input change event to read and store file data
  */
 function handleFileUpload() {
-    $('#warrantyForm input[type="file"]').on('change', function (e) {
+    $('.custom-form-element input[type="file"]').on('change', function (e) {
         const files = e.target.files;
         const self = $(this);
         const uploadedFiles = [];
@@ -62,41 +82,58 @@ function validateFileInput(target) {
 }
 
 /**
- * Initializes the warranty form submission handling
+ * Initializes form submission handling for all custom forms
  */
-function initWarrantyForm() {
-    $('#warrantyForm').on('submit', function (e) {
+function initAllCustomForm() {
+    $('form.custom-form-element').on('submit', function (e) {
         e.preventDefault();
 
         const self = $(this);
-        const form = e.target;
-        const button = form.querySelector('button[type="submit"]');
-        const formData = new FormData(form, button);
+        const button = self.find('button[type="submit"]').get(0);
+        const action = self.attr('action') || '';
+        const formData = new FormData(self[0], button);
+        const formWrapper = self.parents('.form-wrapper');
 
         button.disabled = true;
-        self.spinner().start();
         self.find('.invalid-message').css('display', 'none');
-        const warrantyFileInput = $('#warranty_file', self);
-        const warrantyUploadedFiles = warrantyFileInput.data('uploaded-files') || [];
-        const warrantyValidation = validateFileInput(warrantyFileInput);
-        if (!warrantyValidation.valid) {
-            warrantyFileInput.parents('.form-group').find('.invalid-message').css('display', 'block');
-            button.disabled = false;
-            self.spinner().stop();
-            return;
+        formWrapper.spinner().start();
+
+        const fileInputs = Array.from($('input[type="file"]', self));
+
+        // Validate file inputs
+        for (let i = 0; i < fileInputs.length; i++) {
+            const fileInput = $(fileInputs[i]);
+            const validation = validateFileInput(fileInput);
+
+            if (!validation.valid) {
+                fileInput.parents('.form-group').find('.invalid-message').css('display', 'block');
+                button.disabled = false;
+                formWrapper.spinner().stop();
+                return;
+            }
         }
 
-        warrantyUploadedFiles.forEach((file, index) => {
-            formData.append(`warrantyFileName_${index}`, file.name);
-            formData.append(`warrantyFileType_${index}`, file.type);
-            formData.append(`warrantyFile_${index}`, file.data);
+        // Append file data to formData
+        fileInputs.forEach((fileInput) => {
+            const $fileInput = $(fileInput);
+            const inputName = $fileInput.attr('name').replace('[]', '');
+            const uploadedFiles = $fileInput.data('uploaded-files') || [];
+
+            uploadedFiles.forEach((file, fileIndex) => {
+                formData.append(`${inputName}_name_${fileIndex}`, file.name);
+                formData.append(`${inputName}_type_${fileIndex}`, file.type);
+                formData.append(`${inputName}_data_${fileIndex}`, file.data);
+            });
+
+            formData.append(`${inputName}_count`, uploadedFiles.length);
         });
-        formData.append('warrantyFileCount', warrantyUploadedFiles.length);
 
         const formDataObj = Object.fromEntries(formData.entries());
         const body = JSON.stringify(formDataObj);
 
-        fetch(form.action, {
+        console.log('Sending form data:', formDataObj);
+
+        fetch(action, {
             method: 'POST',
             redirect: "follow",
             headers: {
@@ -104,25 +141,38 @@ function initWarrantyForm() {
             },
             body: body
         })
-            .then(res => res.json())
+            .then(response => response.json())
             .then(result => {
+                console.log('Success:', result);
+                if (!result) return;
                 if (result.success) {
-                    alert("Warranty form submitted successfully!");
-                } else if (result.message) {
-                    alert("Error: " + result.message);
+                    formWrapper.find('.form-header').css('display', 'none');
+                    self.find('.form-inner').css('display', 'none');
+                    self.find('.form-response-message').css('display', 'block');
+                    scrollTo(self.find('.form-response-message'));
+                } else if (result.field) {
+                    showError(self, result.field);
                 }
             })
-            .catch(err => alert("Submission failed: " + err))
-            .finally(() => {
+            .catch(error => {
+                console.error('Error:', error);
+                if (error.field) {
+                    showError(self, error.field);
+                }
+            }).finally(() => {
                 button.disabled = false;
-                self.spinner().stop();
+                formWrapper.spinner().stop();
             });
     });
 }
 
 $(document).ready(function () {
-    if ($('#warrantyForm').length === 0) return;
-    console.log("Warranty Form script loaded.");
-    handleFileUpload();
-    initWarrantyForm();
+    const customForm = $('.custom-form-element');
+    if (customForm.length) {
+        customForm.each(function () {
+            console.log('Initializing custom form:', $(this).attr('id'));
+        });
+        handleFileUpload();
+        initAllCustomForm();
+    }
 });

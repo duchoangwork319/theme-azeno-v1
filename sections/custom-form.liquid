@@ -213,7 +213,7 @@
 
   <form
     id="{{ section.settings.form_id }}"
-    class="{{ section.settings.form_id }}-form"
+    class="custom-form-element {{ section.settings.form_id }}-form"
     action="{{ section.settings.form_action }}"
     method="{{ section.settings.form_method }}"
   >
@@ -252,7 +252,7 @@
                     required
                   {% endif %}
                   {% if block.settings.input_type == 'email' %}
-                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                    pattern="[a-z0-9._\%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
                     title="Please enter a valid email address."
                   {% endif %}
                   {% if block.settings.default_value != blank %}

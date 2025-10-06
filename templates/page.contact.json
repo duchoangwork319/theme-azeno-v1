@@ -32,7 +32,7 @@
             "input_label": "Name",
             "max_length": 50,
             "default_value": "",
-            "error_message": "'name' is required and must not exceed 50 characters."
+            "error_message": "'Name' is required and must not exceed 50 characters."
           }
         },
         "input_fJMn9f": {
@@ -54,7 +54,7 @@
             "input_type": "phone",
             "input_name": "phoneNumber",
             "input_label": "Phone Number",
-            "max_length": 48,
+            "max_length": 15,
             "default_value": "",
             "error_message": "'Phone Number' is required and must not exceed 15 characters."
           }
@@ -62,11 +62,12 @@
         "select_NX9nwf": {
           "type": "select",
           "settings": {
+            "required": true,
             "select_name": "helpWith",
             "select_label": "What can we help you with?",
             "select_values": "Order Status/Changes,Returns,Product Inquiries,Other,Partnership",
             "default_value": "",
-            "error_message": "'helpWith' is required and must not exceed 50 characters."
+            "error_message": "'What can we help you with?' is required and must not exceed 50 characters."
           }
         },
         "input_U7TxjB": {
@@ -84,11 +85,12 @@
         "select_JfVftT": {
           "type": "select",
           "settings": {
+            "required": true,
             "select_name": "shippingToCountry",
             "select_label": "Shipping to Country",
             "select_values": "Singapore,Hong Kong,Viet Nam",
             "default_value": "",
-            "error_message": "'shippingToCountry' is required and must not exceed 50 characters."
+            "error_message": "'Shipping to Country' is required and must not exceed 50 characters."
           }
         },
         "textarea_UBmXfp": {
@@ -98,7 +100,7 @@
             "textarea_name": "message",
             "textarea_label": "Message",
             "max_length": 255,
-            "error_message": "'message' is required and must not exceed 255 characters."
+            "error_message": "'Message' is required and must not exceed 255 characters."
           }
         },
         "success_bAkkFf": {
@@ -124,7 +126,7 @@
         "form_id": "contactUsForm",
         "form_name": "We’re here to help! Please fill out the information below.",
         "form_description": "",
-        "form_action": "https://script.google.com/macros/s/AKfycbwLY-BT6Bcw8yxSC17ge1XTRV5QDH6kxFKEivKR0NKqXksWUrRR8xLjSniYFSKMF0BN/exec",
+        "form_action": "https://script.google.com/macros/s/AKfycbwx8aagu1PugYRNf7SGk1LycAdVZD4R1QxHjEZhFWRAu4_ybjteag5lIGxwW78wb9RFmQ/exec",
         "form_method": "POST",
         "button_text": "Submit",
         "form_max_width": 770,
