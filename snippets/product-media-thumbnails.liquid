@@ -4,8 +4,8 @@
 		<img src="http://img.youtube.com/vi/{{ videoId[1] }}/sddefault.jpg" width="300" height="400" />
 	</div>
 {% endif %}
-{% for media in product.media %}
-	{% if product.media.size > 0 %}
+{% for media in media_collection %}
+	{% if media_collection_count > 0 %}
 		{%- if varriant_array != blank -%}
 			{%- if media.alt ==  varriant_image -%}
 				<div class="product-single__thumbnail-wrapper">
