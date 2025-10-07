@@ -16,8 +16,11 @@ function scrollTo(element) {
  * @param {string} field - The name of the field
  */
 function showError(wrapper, field) {
-    wrapper.find(`.${field}-form-group .invalid-message`).css('display', 'block');
-    scrollTo(wrapper.find(`.${field}-form-group`));
+    const fieldElement = wrapper.find(`.${field}-form-group`);
+    if (fieldElement.length) {
+        fieldElement.find('.invalid-message').css('display', 'block');
+        scrollTo(fieldElement);
+    }
 }
 
 /**
@@ -63,11 +66,10 @@ function handleFileUpload() {
 
 /**
  * Validates the file input based on max total files and max total size
- * @param {JQuery<HTMLElement>} target - The file input element
+ * @param {JQuery<HTMLElement>} fileInput - The file input element
  * @returns {Object} - The validation result
  */
-function validateFileInput(target) {
-    const fileInput = $(target);
+function validateFileInput(fileInput) {
     const maxTotalFiles = parseInt(fileInput.data('max-total-files'), 10) || 5;
     const maxFileSizeMB = parseInt(fileInput.data('max-files-size'), 10) || 5;
     const maxFileSizeBytes = maxFileSizeMB * 1024 * 1024;
@@ -132,6 +134,7 @@ function initAllCustomForm() {
         const body = JSON.stringify(formDataObj);
 
         console.log('Sending form data:', formDataObj);
+        // return;
 
         fetch(action, {
             method: 'POST',
@@ -147,18 +150,17 @@ function initAllCustomForm() {
                 if (!result) return;
                 if (result.success) {
                     formWrapper.find('.form-header').css('display', 'none');
-                    self.find('.form-inner').css('display', 'none');
-                    self.find('.form-response-message').css('display', 'block');
-                    scrollTo(self.find('.form-response-message'));
-                } else if (result.field) {
-                    showError(self, result.field);
+                    formWrapper.find('.form-inner').css('display', 'none');
+                    formWrapper.find('.form-response-message').css('display', 'block');
+                    scrollTo(formWrapper.find('.form-response-message'));
+                } else {
+                    showError(formWrapper, result.field);
                 }
             })
             .catch(error => {
+                if (!error) return;
                 console.error('Error:', error);
-                if (error.field) {
-                    showError(self, error.field);
-                }
+                showError(self, error.field);
             }).finally(() => {
                 button.disabled = false;
                 formWrapper.spinner().stop();
