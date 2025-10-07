@@ -130,7 +130,7 @@
           "type": "file_upload",
           "settings": {
             "required": false,
-            "file_name": "warranty_file",
+            "file_name": "warrantyFile",
             "file_label": "Image of the product",
             "accepted_file_types": ".jpg,.png,.pdf",
             "max_files_size": 5,
@@ -143,13 +143,13 @@
           "type": "file_upload",
           "settings": {
             "required": false,
-            "file_name": "attachments",
+            "file_name": "attachmentFile",
             "file_label": "Attachments",
             "accepted_file_types": "",
-            "max_files_size": 5,
+            "max_files_size": 3,
             "max_total_files": 5,
             "upload_mode": "multiple",
-            "error_message": ""
+            "error_message": "Total file size exceeds 5 MB limit and Maximum total file is 3"
           }
         },
         "success_bAkkFf": {
