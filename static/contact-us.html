@@ -1,0 +1,80 @@
+<script>
+    function injectContactUsAppScript() {
+        const contactUsForm = document.getElementById('contactUsForm');
+        if (!contactUsForm) return;
+
+        console.log('Contact Us script loaded');
+
+        /**
+         * Get the full phone input value including country code
+         * @param {HTMLFormElement} form - The form element containing the phone inputs
+         * @returns {string} - The full phone number with country code
+         */
+        const getPhoneInput = (form) => {
+            const countryCode = form.querySelector('select.phone-country-select');
+            const phoneNumber = form.querySelector('input.phone-input');
+            if (!phoneNumber || !phoneNumber.value || !phoneNumber.value.trim()) return '';
+            if (!countryCode) return phoneNumber ? phoneNumber.value : '';
+            return countryCode.value + phoneNumber.value;
+        };
+
+        contactUsForm.addEventListener('submit', e => {
+            e.preventDefault();
+            const button = contactUsForm.querySelector('button[type="submit"]');
+            const action = contactUsForm.getAttribute('action') || '';
+            const formData = new FormData(contactUsForm, button);
+            const phoneInput = getPhoneInput(contactUsForm);
+            if (phoneInput) {
+                formData.set('phoneNumber', phoneInput);
+            }
+            const data = Object.fromEntries(formData.entries());
+            const formWrapper = $('.contactUsForm-wrapper');
+            const contactUsFormEl = $(contactUsForm);
+
+            button.disabled = true;
+            contactUsFormEl.find('.invalid-message').css('display', 'none');
+            formWrapper.spinner().start();
+
+            fetch(action, {
+                method: 'POST',
+                redirect: "follow",
+                headers: {
+                    'Content-Type': 'text/plain;charset=utf-8'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .then(result => {
+                    console.log('Success:', result);
+                    if (!result) return;
+                    if (result.success) {
+                        contactUsFormEl.find('.form-inner').css('display', 'none');
+                        contactUsFormEl.find('.form-response-message').css('display', 'block');
+                        formWrapper.find('.form-title').css('display', 'none');
+                        formWrapper.find('.form-description').css('display', 'none');
+                        $('html, body').animate({
+                            scrollTop: contactUsFormEl.find('.form-response-message').offset().top - 100
+                        }, '100');
+                    } else if (result.field) {
+                        contactUsFormEl.find(`.${result.field}-form-group .invalid-message`).css('display', 'block');
+                        $('html, body').animate({
+                            scrollTop: contactUsFormEl.find(`.${result.field}-form-group`).offset().top - 100
+                        }, '100');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    if (error.field) {
+                        contactUsFormEl.find(`.${error.field}-form-group .invalid-message`).css('display', 'block');
+                        $('html, body').animate({
+                            scrollTop: contactUsFormEl.find(`.${error.field}-form-group`).offset().top - 100
+                        }, '100');
+                    }
+                }).finally(() => {
+                    button.disabled = false;
+                    formWrapper.spinner().stop();
+                });
+        });
+    }
+    injectContactUsAppScript();
+</script>
