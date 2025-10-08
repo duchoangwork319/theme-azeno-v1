@@ -78,6 +78,12 @@
                             <!-- End of Judge.me code -->
                           </div>
                         {%- endif -%}
+                      {%- when '@app' -%}
+                        {% if block.id contains 'doran_product_reviews' %}
+                          <div id={{ block.id }} class="app-container">
+                            {% render block %}
+                          </div>
+                        {% endif %}
                       {%- when 'title' -%}
                         <h1
                           class="product-single__title"
