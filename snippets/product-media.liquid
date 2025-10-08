@@ -49,7 +49,7 @@
 {% endcapture %}
 {% assign image_360 = array_360 | split: ' ' %}
 {% if section.settings.use_metafields_media %}
-  {% assign media_collection = current_variant.metafields.custom.variant_gallery_hi_res.value %}
+  {% assign media_collection = current_variant.metafields.custom.variant_media_hi_res.value %}
   {% assign media_collection_count = media_collection.count %}
 {% else %}
   {% assign media_collection = product.media %}

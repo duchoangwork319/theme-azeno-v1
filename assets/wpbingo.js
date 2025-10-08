@@ -664,7 +664,7 @@ wpbingo.Variants = (function () {
 		this.singleOptionSelector = options.singleOptionSelector;
 		this.originalSelectorId = options.originalSelectorId;
 		this.enableHistoryState = options.enableHistoryState;
-		this.variantGallery = options.variantGallery;
+		this.variantMedia = options.variantMedia;
 		this.currentVariant = this._getVariantFromOptions();
 		$(this.singleOptionSelector, this.$container).on(
 			'change', this._onSelectChange.bind(this)
@@ -713,10 +713,10 @@ wpbingo.Variants = (function () {
 		 * @param {Object} variant - The variant object for which to retrieve gallery images. 
 		 * @returns {Array} - An array of high-resolution gallery images.
 		 */
-		_getVariantGallery: function (variant) {
-			if (!this.variantGallery || this.variantGallery.length === 0) return [];
-			let found = this.variantGallery.find(item => item.id === variant.id);
-			return found ? found.variantGalleryHiRes : [];
+		_getVariantMedia: function (variant) {
+			if (!this.variantMedia || this.variantMedia.length === 0) return [];
+			let found = this.variantMedia.find(item => item.id === variant.id);
+			return found ? found.variantMediaHiRes : [];
 		},
 		/**
 		 * @typedef {Object} GalleryImage
@@ -731,12 +731,12 @@ wpbingo.Variants = (function () {
 		 */
 		/**
 		 * Updates the product thumbnails Slick carousel with new gallery images.
-		 * @param {Array<GalleryImage>} galleryImages - An array of gallery images to display.
+		 * @param {Array<GalleryImage>} variantMediaArr - An array of gallery images to display.
 		 * @returns {void}
 		 */
-		_updateProductThumbnailsSlick: function (galleryImages) {
-			if (!galleryImages || galleryImages.length === 0) return;
-			let html = galleryImages.map(item => {
+		_updateProductThumbnailsSlick: function (variantMediaArr) {
+			if (!variantMediaArr || variantMediaArr.length === 0) return;
+			let html = variantMediaArr.map(item => {
 				let isVideo = item.mediaType === 'video' || item.mediaType === 'external_video' || item.mediaType === 'model';
 				let player = isVideo ? `
 			<div class="product-single__thumbnail-badge ${item.mediaType}">
@@ -774,13 +774,13 @@ wpbingo.Variants = (function () {
 		},
 		/**
 		 * Updates the main product media Slick carousel with new gallery images.
-		 * @param {Array<GalleryImage>} galleryImages - An array of gallery images to display.
+		 * @param {Array<GalleryImage>} variantMediaArr - An array of gallery images to display.
 		 * @returns {void}
 		 */
-		_updateProductMediaSlick: function (galleryImages) {
-			if (!galleryImages || galleryImages.length === 0) return;
+		_updateProductMediaSlick: function (variantMediaArr) {
+			if (!variantMediaArr || variantMediaArr.length === 0) return;
 
-			let html = galleryImages.map((item, index) => {
+			let html = variantMediaArr.map((item, index) => {
 				return `
 				<div class="js-product-media-item product-single__media-item" data-slick-media-label="${item.alt || ''}">
 					<div
@@ -830,9 +830,9 @@ wpbingo.Variants = (function () {
 			this._updateMasterSelect(variant);
 			this._updateMedia(variant);
 			if ($('.use-metafields-media').length > 0) {
-				var galleryImages = this._getVariantGallery(variant);
-				this._updateProductThumbnailsSlick(galleryImages);
-				this._updateProductMediaSlick(galleryImages);
+				var variantMediaArr = this._getVariantMedia(variant);
+				this._updateProductThumbnailsSlick(variantMediaArr);
+				this._updateProductMediaSlick(variantMediaArr);
 			}
 			this._updatePrice(variant);
 			this._updateQuantity(variant);
@@ -1485,8 +1485,8 @@ wpbingo.Product = (function () {
 		this.productSingleObject = JSON.parse(
 			document.getElementById('ProductJson-' + sectionId).innerHTML
 		);
-		this.variantGalleryObject = JSON.parse(
-			document.getElementById('VariantGalleryJson-' + sectionId).innerHTML
+		this.variantMediaObject = JSON.parse(
+			document.getElementById('VariantMediaJson-' + sectionId).innerHTML
 		);
 
 		this.zoomType = $container.data('image-zoom-type');
@@ -1607,7 +1607,7 @@ wpbingo.Product = (function () {
 				singleOptionSelector: this.selectors.singleOptionSelector,
 				originalSelectorId: this.selectors.originalSelectorId + '--' + this.settings.sectionId,
 				product: this.productSingleObject,
-				variantGallery: this.variantGalleryObject
+				variantMedia: this.variantMediaObject
 			};
 			var count = $(this.selectors.productThumbnails, this.$container).data('columns');
 			this.variants = new wpbingo.Variants(options);
