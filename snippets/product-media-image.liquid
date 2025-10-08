@@ -2,7 +2,7 @@
 	{%- assign width = 770 -%}
 	{%- assign height = 770 -%}
 	{%- assign first_3d_model = product.media | where: 'media_type', 'model' | first -%}
-	{%- for media in product.media -%}
+	{%- for media in media_collection -%}
 		{%- assign featured = false -%}
 		{%- if media == featured_media -%}
 			{%- assign featured = true -%}
