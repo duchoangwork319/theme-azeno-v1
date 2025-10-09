@@ -334,6 +334,7 @@
 						{%- assign current_variant 	= product.selected_or_first_available_variant -%}
 						{%- for value in option.values -%}
 							{% assign active = ' ' %}
+							{% assign safe_value = value | escape | replace: '/', '-' | replace: ' ', '-' %}
 							{% if forloop.first == true %}{% assign active = ' active' %}{% endif %}
 							{%- if forloop.index <= settings.number_variants -%}
 								{%- assign option_disabled = true -%}
@@ -378,7 +379,7 @@
 									{%- endfor -%}
 								{%- else -%}
 									<div class="swatch-items{{ active }}{% if option_disabled %} disabled{% endif %}">
-										<label class="{{ value }}" data-index="option{{ option_index }}" title="{{ value | strip | escape }}" data-variant="{{ value | strip | escape }}" >
+										<label class="{{ value }} {{ safe_value }}" data-index="option{{ option_index }}" title="{{ value | strip | escape }}" data-variant="{{ value | strip | escape }}" >
 											{{ value }}
 											<span>{{ value }}</span>
 										</label>
