@@ -41,7 +41,7 @@
             "required": true,
             "select_name": "productModelNo",
             "select_label": "Product / Model no",
-            "select_values": "Option 1,Option 2,Option 3",
+            "select_values": "Option 1,Option 2,Option 3,Option 4,Option 6,Option 5",
             "default_value": "",
             "error_message": ""
           }
