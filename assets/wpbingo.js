@@ -1998,6 +1998,8 @@ wpbingo.Product = (function () {
 				}.bind(this));
 				$('body').off('wpbingo:noslick:media:html').on('wpbingo:media:html', function (event, html) {
 					$(this.selectors.productMediaGroup, this.$container).empty().html(html);
+					this.view_gallery_product();
+					this.gallery_cursor();
 				}.bind(this));
 				$('body').on('wpbingo:media:unslick', function () {
 					let productMediaGroup = $(this.selectors.productMediaGroup, this.$container);
