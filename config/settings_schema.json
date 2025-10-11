@@ -8,6 +8,21 @@
     "theme_support_url": "https:\/\/wpbingo.ticksy.com"
   },
   {
+    "name": "Schema",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Schema application/ld+json Settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_jsonld",
+        "label": "Enable Schema",
+        "default": true
+      }
+    ]
+  },
+  {
     "name": "Colors",
     "settings": [
       {
