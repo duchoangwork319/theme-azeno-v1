@@ -31,6 +31,7 @@
 					{%- for value in option.values -%}
 						{%- assign option_disabled = true -%}
 						{%- assign variant_alt = 'false' -%}
+						{% assign safe_value = value | escape | replace: '/', '-' | replace: ' ', '-' %}
 						{%- for variant in product.variants -%}
 							{%- if variant.available -%}
 								{%- if option_index == 1 and variant.option1 == value -%}
@@ -58,6 +59,7 @@
 							<input type="radio" {% if option.selected_value == value %} checked="checked"{% endif %}
 								{% if option_disabled %} disabled="disabled"{% endif %}
 								value="{{ value | escape }}"
+								data-safe-value="{{ safe_value }}"
 								data-index="option{{ option_index }}"
 								name="option{{ option.position }}"
 								class="js-single-option-selector{% if option_disabled %} disabled{% endif %}"
@@ -85,7 +87,7 @@
 									<label for="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}"
 										data-{{ type }}="{{ value }}"
 										title="{{ value | strip | escape }}"
-										class="{{ value | escape }} {% if option_disabled %}disabled{% endif %}">
+										class="{{ value | escape }} {{ safe_value }} {% if option_disabled %}disabled{% endif %}">
 										{{ value | escape }}
 										{%- if type != 'label' -%}
 											<span class="tool-tip">{{ value | escape }}</span>

@@ -664,7 +664,7 @@ wpbingo.Variants = (function () {
 		this.singleOptionSelector = options.singleOptionSelector;
 		this.originalSelectorId = options.originalSelectorId;
 		this.enableHistoryState = options.enableHistoryState;
-		this.variantGallery = options.variantGallery;
+		this.variantMedia = options.variantMedia;
 		this.currentVariant = this._getVariantFromOptions();
 		$(this.singleOptionSelector, this.$container).on(
 			'change', this._onSelectChange.bind(this)
@@ -713,10 +713,10 @@ wpbingo.Variants = (function () {
 		 * @param {Object} variant - The variant object for which to retrieve gallery images. 
 		 * @returns {Array} - An array of high-resolution gallery images.
 		 */
-		_getVariantGallery: function (variant) {
-			if (!this.variantGallery || this.variantGallery.length === 0) return [];
-			let found = this.variantGallery.find(item => item.id === variant.id);
-			return found ? found.variantGalleryHiRes : [];
+		_getVariantMedia: function (variant) {
+			if (!this.variantMedia || this.variantMedia.length === 0) return [];
+			let found = this.variantMedia.find(item => item.id === variant.id);
+			return found ? found.variantMediaHiRes : [];
 		},
 		/**
 		 * @typedef {Object} GalleryImage
@@ -731,12 +731,12 @@ wpbingo.Variants = (function () {
 		 */
 		/**
 		 * Updates the product thumbnails Slick carousel with new gallery images.
-		 * @param {Array<GalleryImage>} galleryImages - An array of gallery images to display.
+		 * @param {Array<GalleryImage>} variantMediaArr - An array of gallery images to display.
 		 * @returns {void}
 		 */
-		_updateProductThumbnailsSlick: function (galleryImages) {
-			if (!galleryImages || galleryImages.length === 0) return;
-			let html = galleryImages.map(item => {
+		_updateProductThumbnailsSlick: function (variantMediaArr) {
+			if (!variantMediaArr || variantMediaArr.length === 0) return;
+			let html = variantMediaArr.map(item => {
 				let isVideo = item.mediaType === 'video' || item.mediaType === 'external_video' || item.mediaType === 'model';
 				let player = isVideo ? `
 			<div class="product-single__thumbnail-badge ${item.mediaType}">
@@ -774,13 +774,13 @@ wpbingo.Variants = (function () {
 		},
 		/**
 		 * Updates the main product media Slick carousel with new gallery images.
-		 * @param {Array<GalleryImage>} galleryImages - An array of gallery images to display.
+		 * @param {Array<GalleryImage>} variantMediaArr - An array of gallery images to display.
 		 * @returns {void}
 		 */
-		_updateProductMediaSlick: function (galleryImages) {
-			if (!galleryImages || galleryImages.length === 0) return;
+		_updateProductMediaSlick: function (variantMediaArr) {
+			if (!variantMediaArr || variantMediaArr.length === 0) return;
 
-			let html = galleryImages.map((item, index) => {
+			let html = variantMediaArr.map((item, index) => {
 				return `
 				<div class="js-product-media-item product-single__media-item" data-slick-media-label="${item.alt || ''}">
 					<div
@@ -809,6 +809,7 @@ wpbingo.Variants = (function () {
 
 			$('body').trigger('wpbingo:media:unslick');
 			$('body').trigger('wpbingo:media:html', html);
+			$('body').trigger('wpbingo:noslick:media:html', html);
 			$('body').trigger('wpbingo:media:slick');
 		},
 
@@ -828,9 +829,11 @@ wpbingo.Variants = (function () {
 			if (!variant) return;
 			this._updateMasterSelect(variant);
 			this._updateMedia(variant);
-			var galleryImages = this._getVariantGallery(variant);
-			this._updateProductThumbnailsSlick(galleryImages);
-			this._updateProductMediaSlick(galleryImages);
+			if ($('.use-metafields-media').length > 0) {
+				var variantMediaArr = this._getVariantMedia(variant);
+				this._updateProductThumbnailsSlick(variantMediaArr);
+				this._updateProductMediaSlick(variantMediaArr);
+			}
 			this._updatePrice(variant);
 			this._updateQuantity(variant);
 			this._updateOption(variant);
@@ -1482,8 +1485,8 @@ wpbingo.Product = (function () {
 		this.productSingleObject = JSON.parse(
 			document.getElementById('ProductJson-' + sectionId).innerHTML
 		);
-		this.variantGalleryObject = JSON.parse(
-			document.getElementById('VariantGalleryJson-' + sectionId).innerHTML
+		this.variantMediaObject = JSON.parse(
+			document.getElementById('VariantMediaJson-' + sectionId).innerHTML
 		);
 
 		this.zoomType = $container.data('image-zoom-type');
@@ -1568,18 +1571,28 @@ wpbingo.Product = (function () {
 		initBreakpoints: function () {
 			var self = this;
 			if (!self.isStackedLayout) {
+				console.log('not stacked');
 				self.createMediaCarousel();
 				self.createThumbnailCarousel();
 			} else {
 				if ($(window).width() < 991) {
+					console.log('stacked with width < 991');
 					self.createMediaCarousel();
 					self.createThumbnailCarousel();
 				} else {
+					console.log('enquire register stacked with width >= 991');
+					$('body').on('wpbingo:noslick:media:html', function (event, html) {
+						$(this.selectors.productMediaGroup, this.$container).empty().html(html);
+						self.view_gallery_product();
+						self.gallery_cursor();
+					}.bind(this));
 					enquire.register(wpbingo.variables.mediaMobile, {
 						match: function () {
+							console.log('stacked when match mediaMobile');
 							self.createMediaCarousel();
 						},
 						unmatch: function () {
+							console.log('stacked when unmatch mediaMobile');
 							self.destroyMediaCarousel();
 						}
 					});
@@ -1594,7 +1607,7 @@ wpbingo.Product = (function () {
 				singleOptionSelector: this.selectors.singleOptionSelector,
 				originalSelectorId: this.selectors.originalSelectorId + '--' + this.settings.sectionId,
 				product: this.productSingleObject,
-				variantGallery: this.variantGalleryObject
+				variantMedia: this.variantMediaObject
 			};
 			var count = $(this.selectors.productThumbnails, this.$container).data('columns');
 			this.variants = new wpbingo.Variants(options);
@@ -1899,7 +1912,7 @@ wpbingo.Product = (function () {
 
 			if (!wpbingo.variables.isMobile && this.isStackedLayout) {
 				mediaIndex = $newMedia.closest('.slick-slide').index();
-				if (mediaIndex !== 0 || wpbingo.variables.productPageLoad) {
+				if ($newMedia.length && (mediaIndex !== 0 || wpbingo.variables.productPageLoad)) {
 					if (wpbingo.variables.productPageSticky) {
 						$('html, body').animate(
 							{
@@ -1923,12 +1936,13 @@ wpbingo.Product = (function () {
 				if (_.isUndefined(mediaIndex)) {
 					return;
 				}
-				if (mediaIndex !== 0 || wpbingo.variables.productPageLoad) {
-					$(this.selectors.productMediaGroup, this.$container).slick(
-						'slickGoTo',
-						mediaIndex
-					);
-				}
+				// Prevent slick slider from changing to middle slide on initial page load
+				// if (mediaIndex !== 0 || wpbingo.variables.productPageLoad) {
+				// 	$(this.selectors.productMediaGroup, this.$container).slick(
+				// 		'slickGoTo',
+				// 		mediaIndex
+				// 	);
+				// }
 			}
 			if (!wpbingo.variables.productPageLoad) {
 				wpbingo.variables.productPageLoad = true;
@@ -1943,9 +1957,7 @@ wpbingo.Product = (function () {
 		},
 
 		createMediaCarousel: function () {
-			if ($(this.selectors.productMediaGroupItem).length < 2 || !$(this.selectors.productMediaGroup, this.$container) || this.isCarouselActive) {
-				return;
-			}
+			var isSlickAble = !($(this.selectors.productMediaGroupItem).length < 2 || !$(this.selectors.productMediaGroup, this.$container) || this.isCarouselActive);
 			this.isCarouselActive = true;
 			var dotStyle = {
 				max: 9,
@@ -1974,6 +1986,7 @@ wpbingo.Product = (function () {
 					if (asNavFor) {
 						$config['asNavFor'] = '.js-product-thumbnails' + '-' + sectionId + '-' + (index + 1);
 					}
+					if (!isSlickAble) return;
 					$('.js-product-media-group', $(this)).slick($config);
 				});
 			} else {
@@ -1983,12 +1996,17 @@ wpbingo.Product = (function () {
 						this.translateCarouselDots(slick.slideCount, nextSlide, dotStyle);
 					}.bind(this));
 				}.bind(this));
-				$('body').on('wpbingo:media:html', function (event, html) {
+				$('body').off('wpbingo:noslick:media:html').on('wpbingo:media:html', function (event, html) {
 					$(this.selectors.productMediaGroup, this.$container).empty().html(html);
+					this.view_gallery_product();
+					this.gallery_cursor();
 				}.bind(this));
 				$('body').on('wpbingo:media:unslick', function () {
-					$(this.selectors.productMediaGroup, this.$container).slick('unslick');
+					let productMediaGroup = $(this.selectors.productMediaGroup, this.$container);
+					if (!productMediaGroup.hasClass('slick-initialized')) return;
+					productMediaGroup.slick('unslick');
 				}.bind(this));
+				if (!isSlickAble) return;
 				$('body').trigger('wpbingo:media:slick');
 			}
 		},

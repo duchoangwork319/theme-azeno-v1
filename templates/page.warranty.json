@@ -41,7 +41,7 @@
             "required": true,
             "select_name": "productModelNo",
             "select_label": "Product / Model no",
-            "select_values": "Option 1,Option 2,Option 3",
+            "select_values": "Option 1,Option 2,Option 3,Option 4,Option 6,Option 5",
             "default_value": "",
             "error_message": ""
           }
@@ -146,8 +146,8 @@
             "file_name": "attachmentFile",
             "file_label": "Attachments",
             "accepted_file_types": "",
-            "max_files_size": 3,
-            "max_total_files": 5,
+            "max_files_size": 5,
+            "max_total_files": 3,
             "upload_mode": "multiple",
             "error_message": "Total file size exceeds 5 MB limit and Maximum total file is 3"
           }
@@ -179,7 +179,7 @@
         "form_id": "warrantyForm",
         "form_name": "Please fill in the information and attach your purchase voucher in the bottom of the form.",
         "form_description": "",
-        "form_action": "https://script.google.com/macros/s/AKfycbxBaCnOAdBGGXh7mu4HdHraJlAQQV8oS6UiBTjw52N7uge_9ro4Y6K8nFVWlPjCzT71/exec",
+        "form_action": "https://script.google.com/macros/s/AKfycbyaf-sLzvKLzyZuQdjXX27fQ81gCvwXI6lDgV-CrPQHzeWT-xeqdkObS5hHB6NS9AvVHw/exec",
         "form_method": "POST",
         "button_text": "Submit",
         "form_max_width": 770,

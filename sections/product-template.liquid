@@ -78,6 +78,12 @@
                             <!-- End of Judge.me code -->
                           </div>
                         {%- endif -%}
+                      {%- when '@app' -%}
+                        {% if block.id contains 'doran_product_reviews' %}
+                          <div id={{ block.id }} class="app-container">
+                            {% render block %}
+                          </div>
+                        {% endif %}
                       {%- when 'title' -%}
                         <h1
                           class="product-single__title"
@@ -660,19 +666,17 @@
   <script type="application/json" id="ProductJson-{{ section.id }}">
     {{ product | json }}
   </script>
-  <script type="application/json" id="VariantGalleryJson-{{ section.id }}">
+  <script type="application/json" id="VariantMediaJson-{{ section.id }}">
     [
     	{% for variant in product.variants %}
     		{
     			"id": {{ variant.id }},
-    			"variantGalleryHiRes": [
-             {% for gallery in variant.metafields.custom.variant_gallery_hi_res.value %}
-               {"id": "{{ gallery.id }}", "thumbnailUrl": "{{ gallery | image_url:width:150 }}", "mediaUrl": "{{ gallery | image_url }}", "mediaType": "{{ gallery.media_type }}", "alt": "{{ gallery.alt | escape }}", "width": "{{ gallery.width }}", "height": "{{ gallery.height }}", "sectionId": "{{ section.id }}" }
-               {% unless forloop.last %},{% endunless %}
+    			"variantMediaHiRes": [
+             {% for variant_media in variant.metafields.custom.variant_media_hi_res.value %}
+               {"id": "{{ variant_media.id }}", "thumbnailUrl": "{{ variant_media | image_url:width:150 }}", "mediaUrl": "{{ variant_media | img_url: '1080x1080' }}", "mediaType": "{{ variant_media.media_type }}", "alt": "{{ variant_media.alt | escape }}", "width": "{{ variant_media.width }}", "height": "{{ variant_media.height }}", "sectionId": "{{ section.id }}" }{% unless forloop.last %},{% endunless %}
              {% endfor %}
     			]
-    		}
-    		{% unless forloop.last %},{% endunless %}
+    		}{% unless forloop.last %},{% endunless %}
     	{% endfor %}
     ]
   </script>
@@ -721,6 +725,12 @@
       "type": "header",
       "content": "Media",
       "info": "Learn more about [media types](https://help.shopify.com/manual/products/product-media)"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_metafields_media",
+      "label": "Use metafields media",
+      "default": false
     },
     {
       "type": "select",
