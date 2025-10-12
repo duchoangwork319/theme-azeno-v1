@@ -159,6 +159,7 @@
     background-color: #f9f9f9;
     cursor: pointer;
     transition: border-color 0.2s ease, background-color 0.2s ease;
+    height: auto;
   }
 
   #{{ section.settings.form_id }} .form-group input[type="file"]:hover {
@@ -355,6 +356,9 @@
                 {% endif %}
                 {% if block.settings.upload_mode == 'multiple' %}
                   multiple
+                {% endif %}
+                {% if block.settings.compress_files %}
+                  data-compress-files="true"
                 {% endif %}
                 enctype="multipart/form-data"
                 data-max-files-size="{{ max_files_size }}"
@@ -626,6 +630,12 @@
             { "value": "single", "label": "Single" },
             { "value": "multiple", "label": "Multiple" }
           ]
+        },
+        {
+          "type": "checkbox",
+          "id": "compress_files",
+          "label": "Compress Files When Uploading",
+          "default": false
         },
         {
           "type": "text",
