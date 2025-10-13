@@ -210,7 +210,10 @@
       </h2>
     {% endif %}
     {% if section.settings.form_description != blank %}
-      <p class="form-description">{{ section.settings.form_description }}</p>
+      {% assign form_description_lines = section.settings.form_description | split: '\n' %}
+      {% for line in form_description_lines %}
+        <p class="form-description {% if forloop.last %}mb-4{% else %}mb-2{% endif %}">{{ line | strip }}</p>
+      {% endfor %}
     {% endif %}
   </div>
 
@@ -406,7 +409,7 @@
     {
       "type": "text",
       "id": "form_description",
-      "label": "Form description",
+      "label": "Form description (break lines with '\\n')",
       "default": "Please fill in the form below."
     },
     {
