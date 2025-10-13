@@ -46,13 +46,14 @@ function processFileUploads(formData, fieldKey) {
 function sendMail(data) {
   const scriptProperties = PropertiesService.getScriptProperties();
   const enable = scriptProperties.getProperty('MAIL_ENABLE');
+  if (enable !== 'true') {
+    return;
+  }
+
   const recipient = scriptProperties.getProperty('MAIL_RECIPIENT');
   const subject = scriptProperties.getProperty('MAIL_SUBJECT') || "New Warranty Form Submission";
   let message = scriptProperties.getProperty('MAIL_MESSAGE');
 
-  if (enable !== 'true') {
-    return;
-  }
   if (!recipient || !subject || !message) {
     throw new Error("Mail recipient, subject, or message not set in script properties.");
   }
@@ -77,11 +78,15 @@ function sendMail(data) {
 function doPost(e) {
   try {
     const scriptProperties = PropertiesService.getScriptProperties();
-    const folderId = scriptProperties.getProperty('FOLDER_ID');
-    const spreadsheetId = scriptProperties.getProperty('SPREADSHEET_ID');
 
+    const spreadsheetId = scriptProperties.getProperty('SPREADSHEET_ID');
     if (!spreadsheetId) {
       throw new Error("Spreadsheet ID not set in script properties.");
+    }
+
+    const folderId = scriptProperties.getProperty('FOLDER_ID');
+    if (!folderId) {
+      throw new Error("Folder ID not set in script properties.");
     }
 
     const sheet = SpreadsheetApp.openById(spreadsheetId);
@@ -89,33 +94,31 @@ function doPost(e) {
       throw new Error("Sheet 'Warranty' not found.");
     }
 
-    if (!folderId) {
-      throw new Error("Folder ID not set in script properties.");
-    }
-
     const formData = JSON.parse(e.postData.contents);
+    const orderNo = formData.orderNo;
     const email = formData.email;
     const productModelNo = formData.productModelNo;
-    const size = formData.size;
     const name = formData.name;
     const address = formData.address;
     const zipCity = formData.zipCity;
+    const complaint = formData.complaint;
+    const message = formData.message || '';
     const area = formData.area;
     const phoneCountry = formData.phoneNumber_country;
     const phoneNumber = formData.phoneNumber;
     const fullPhoneNumber = phoneCountry + phoneNumber;
+    const acceptance = formData.acceptance;
+
+    if (!orderNo || orderNo.length > 50) {
+      return createTextOutput("orderNo", false, "Invalid input: 'Order No.' is required and must not exceed 50 characters.");
+    }
 
     if (!email || email.length > 100) {
       return createTextOutput("email", false, "Invalid input: 'Email' is required and must not exceed 100 characters.");
     }
 
-    if (!productModelNo || productModelNo.length > 50) {
-      return createTextOutput("productModelNo", false, "Invalid input: 'Product Model No.' is required and must not exceed 50 characters.");
-    }
-
-    const sizeCollection = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL', '4XL', '5XL'];
-    if (!size || (size && !sizeCollection.includes(size))) {
-      return createTextOutput("size", false, "Invalid input: 'Size' must be one of the predefined options.");
+    if (!productModelNo || productModelNo.length > 100) {
+      return createTextOutput("productModelNo", false, "Invalid input: 'Product Model No.' is required and must not exceed 100 characters.");
     }
 
     if (!name || name.length > 50) {
@@ -130,6 +133,14 @@ function doPost(e) {
       return createTextOutput("zipCity", false, "Invalid input: 'Zip/City' is required and must not exceed 50 characters.");
     }
 
+    if (!complaint || complaint.length > 50) {
+      return createTextOutput("complaint", false, "Invalid input: 'Complaint' is required and must not exceed 50 characters.");
+    }
+
+    if (message.length > 255) {
+      return createTextOutput("message", false, "Invalid input: 'Message' must not exceed 255 characters.");
+    }
+
     if (!area || area.length > 50) {
       return createTextOutput("area", false, "Invalid input: 'Area' is required and must not exceed 50 characters.");
     }
@@ -140,6 +151,10 @@ function doPost(e) {
 
     if (!phoneNumber || phoneNumber.length > 15) {
       return createTextOutput("phoneNumber", false, "Invalid input: 'Phone Number' is required and must not exceed 15 characters.");
+    }
+
+    if (!acceptance) {
+      return createTextOutput("acceptance", false, "Invalid input: 'Acceptance' must be confirmed.");
     }
 
     const folder = DriveApp.getFolderById(folderId);
@@ -179,12 +194,14 @@ function doPost(e) {
     const timestamp = new Date();
     const rowData = [
       timestamp,
+      orderNo,
       email,
       productModelNo,
-      size,
       name,
       address,
       zipCity,
+      complaint,
+      message,
       area,
       fullPhoneNumber,
       warrantyUploadedFiles.map(file => file.fileUrl).join(', '),
