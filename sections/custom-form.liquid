@@ -369,6 +369,9 @@
         {% endcase %}
       {% endfor %}
       <div class="form-group submit-form-group">
+        {% if section.settings.show_fake_data_button %}
+          <button type="button" id="fillFakeDataButton" class="me-2">Fill with fake data</button>
+        {% endif %}
         <button type="submit">{{ section.settings.button_text }}</button>
       </div>
     </div>
@@ -451,6 +454,12 @@
       "id": "form_background",
       "label": "Form background color",
       "default": "#ffffff"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_fake_data_button",
+      "label": "Show 'Fill with fake data' button for testing",
+      "default": false
     }
   ],
   "blocks": [
@@ -606,25 +615,25 @@
         {
           "type": "text",
           "id": "accepted_file_types",
-          "label": "Accepted File Types (comma separated)",
+          "label": "Accepted file types (comma separated)",
           "default": ".jpg,.png,.pdf"
         },
         {
           "type": "number",
           "id": "max_files_size",
-          "label": "Max Files Size (MB)",
+          "label": "Max files size (MB)",
           "default": 5
         },
         {
           "type": "number",
           "id": "max_total_files",
-          "label": "Max Total File",
+          "label": "Max total files",
           "default": 5
         },
         {
           "type": "select",
           "id": "upload_mode",
-          "label": "File Upload Mode",
+          "label": "File upload mode",
           "default": "single",
           "options": [
             { "value": "single", "label": "Single" },
@@ -634,7 +643,7 @@
         {
           "type": "checkbox",
           "id": "compress_files",
-          "label": "Compress Files When Uploading",
+          "label": "Compress files when uploading (for images only)",
           "default": false
         },
         {
@@ -651,13 +660,13 @@
         {
           "type": "text",
           "id": "title",
-          "label": "Success Title",
+          "label": "Success title",
           "default": "Thank you!"
         },
         {
           "type": "textarea",
           "id": "message",
-          "label": "Success Message",
+          "label": "Success message",
           "default": "Your form has been submitted successfully."
         }
       ]

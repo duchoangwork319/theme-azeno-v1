@@ -88,6 +88,18 @@ function initAllCustomForm() {
     });
 }
 
+/**
+ * Fills the form with fake data
+ * @param {jQuery<HTMLElement>} form - jQuery object of the form to be filled
+ */
+function fillFormWithFakeData(form) {
+    form.find('#fillFakeDataButton').on('click', function () {
+        if (window.FK && typeof window.FK.fakeForm === 'function') {
+            window.FK.fakeForm(form);
+        }
+    });
+}
+
 $(document).ready(function () {
     const customForm = $('form.custom-form-element');
     if (customForm.length) {
@@ -97,5 +109,6 @@ $(document).ready(function () {
         validation.initialize(customForm);
         file.initFileUploadListener(customForm);
         initAllCustomForm();
+        fillFormWithFakeData(customForm);
     }
 });
