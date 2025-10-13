@@ -55,6 +55,7 @@
     margin-left: 0.25rem;
   }
 
+  #{{ section.settings.form_id }} .form-group .form-control,
   #{{ section.settings.form_id }} .form-group input,
   #{{ section.settings.form_id }} .form-group select,
   #{{ section.settings.form_id }} .form-group textarea {
@@ -66,6 +67,7 @@
     font-family: inherit;
     background-color: #fff;
     font-family: var(--font-family-base);
+    color: #333;
   }
 
   #{{ section.settings.form_id }} .form-group input:focus,
@@ -157,6 +159,7 @@
     background-color: #f9f9f9;
     cursor: pointer;
     transition: border-color 0.2s ease, background-color 0.2s ease;
+    height: auto;
   }
 
   #{{ section.settings.form_id }} .form-group input[type="file"]:hover {
@@ -248,6 +251,7 @@
                   name="{{ block.settings.input_name }}"
                   id="{{ block.settings.input_name }}"
                   autocomplete="on"
+                  class="form-control"
                   {% if block.settings.required %}
                     required
                   {% endif %}
@@ -276,7 +280,14 @@
                   <span class="required">*</span>
                 {%- endif %}
               </label>
-              <select name="{{ block.settings.select_name }}" id="{{ block.settings.select_name }}">
+              <select
+                name="{{ block.settings.select_name }}"
+                id="{{ block.settings.select_name }}"
+                class="form-control"
+                {% if block.settings.required %}
+                  required
+                {% endif %}
+              >
                 {% assign options = block.settings.select_values | split: ',' %}
                 {% for opt in options %}
                   {% assign opt_value = opt | strip %}
@@ -303,6 +314,7 @@
               <textarea
                 name="{{ block.settings.textarea_name }}"
                 id="{{ block.settings.textarea_name }}"
+                class="form-control"
                 {% if block.settings.required %}
                   required
                 {% endif %}
@@ -335,6 +347,7 @@
                 type="file"
                 name="{{ block.settings.file_name }}{% if block.settings.upload_mode == 'multiple' %}[]{% endif %}"
                 id="{{ block.settings.file_name }}"
+                class="form-control"
                 {% if block.settings.required %}
                   required
                 {% endif %}
@@ -343,6 +356,9 @@
                 {% endif %}
                 {% if block.settings.upload_mode == 'multiple' %}
                   multiple
+                {% endif %}
+                {% if block.settings.compress_files %}
+                  data-compress-files="true"
                 {% endif %}
                 enctype="multipart/form-data"
                 data-max-files-size="{{ max_files_size }}"
@@ -614,6 +630,12 @@
             { "value": "single", "label": "Single" },
             { "value": "multiple", "label": "Multiple" }
           ]
+        },
+        {
+          "type": "checkbox",
+          "id": "compress_files",
+          "label": "Compress Files When Uploading",
+          "default": false
         },
         {
           "type": "text",

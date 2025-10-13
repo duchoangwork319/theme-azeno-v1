@@ -43,6 +43,37 @@ function processFileUploads(formData, fieldKey) {
   };
 }
 
+function sendMail(data) {
+  const scriptProperties = PropertiesService.getScriptProperties();
+  const enable = scriptProperties.getProperty('MAIL_ENABLE');
+  const recipient = scriptProperties.getProperty('MAIL_RECIPIENT');
+  const subject = scriptProperties.getProperty('MAIL_SUBJECT') || "New Warranty Form Submission";
+  let message = scriptProperties.getProperty('MAIL_MESSAGE');
+
+  if (enable !== 'true') {
+    return;
+  }
+  if (!recipient || !subject || !message) {
+    throw new Error("Mail recipient, subject, or message not set in script properties.");
+  }
+
+  Object.keys(data).forEach(key => {
+    const placeholder = `{{${key}}}`;
+    message = message.replace(new RegExp(placeholder, 'g'), data[key]);
+  });
+
+  MailApp.sendEmail(
+    recipient,
+    subject,
+    '', // Plain text body (empty since we're using HTML body)
+    {
+      name: 'Form Notifications',
+      noReply: true,
+      htmlBody: message
+    }
+  );
+}
+
 function doPost(e) {
   try {
     const scriptProperties = PropertiesService.getScriptProperties();
@@ -161,6 +192,27 @@ function doPost(e) {
     ];
 
     sheet.appendRow(rowData);
+
+    let addOnMessage = '';
+    if (warrantyUploadedFiles.length > 0) {
+      addOnMessage += `<br><br><strong>Product Files:</strong><br>`;
+      warrantyUploadedFiles.forEach(file => {
+        addOnMessage += `<a href="${file.fileUrl}" target="_blank">${file.filename}</a><br>`;
+      });
+    }
+    if (attachmentUploadedFiles.length > 0) {
+      addOnMessage += `<br><br><strong>Attachment Files:</strong><br>`;
+      attachmentUploadedFiles.forEach(file => {
+        addOnMessage += `<a href="${file.fileUrl}" target="_blank">${file.filename}</a><br>`;
+      });
+    }
+
+    sendMail({
+      name: name,
+      email: email,
+      phoneNumber: fullPhoneNumber,
+      addOnMessage: addOnMessage
+    });
 
     return ContentService.createTextOutput(JSON.stringify({
       success: true,
