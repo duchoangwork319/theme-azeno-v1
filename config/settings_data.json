@@ -4914,26 +4914,14 @@
       "40d1275f-8a55-47d5-a20a-051653bab77c"
     ],
     "blocks": {
-      "13768625480086291342": {
-        "type": "shopify://apps/forms/blocks/forms/8744a304-fcb1-4347-b211-bb6b4759a76a",
-        "disabled": false,
-        "settings": {}
-      },
-      "13766566558402285670": {
-        "type": "shopify://apps/doran-product-reviews/blocks/app-embed/ca90c3ee-bc39-4c25-90cd-fdf0519c6d11",
-        "disabled": false,
-        "settings": {
-          "isJSONLD": true,
-          "isPopup": false,
-          "isPop": false,
-          "customCSS": "",
-          "is_use_shopify_font": false,
-          "pop_shopify_font": "sans_serif_n4"
-        }
-      },
       "14060646107696862457": {
         "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
         "disabled": false,
+        "settings": {}
+      },
+      "13768625480086291342": {
+        "type": "shopify://apps/forms/blocks/forms/8744a304-fcb1-4347-b211-bb6b4759a76a",
+        "disabled": true,
         "settings": {}
       }
     }
