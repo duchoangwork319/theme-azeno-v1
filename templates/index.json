@@ -9,6 +9,82 @@
  */
 {
   "sections": {
+    "1760165026640f09c4": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_8f0f9b8_LPUR4Q": {
+          "type": "ai_gen_block_8f0f9b8",
+          "settings": {
+            "section_padding": 60,
+            "content_spacing": 40,
+            "grid_spacing": 30,
+            "border_radius": 8,
+            "background_color": "#ffffff",
+            "text_color": "#222222",
+            "accent_color": "#ff3535",
+            "category_color": "#ff3535",
+            "card_background": "#ffffff",
+            "card_border_color": "#f0f0f0",
+            "hero_category": "Featured",
+            "hero_title": "The Future of Fashion: Sustainable Style Trends",
+            "hero_excerpt": "Discover how sustainable fashion is reshaping the industry with innovative materials and ethical practices that don't compromise on style.",
+            "hero_author": "",
+            "hero_date": "",
+            "hero_read_time": "5",
+            "hero_link": "",
+            "hero_text_color": "#ffffff",
+            "overlay_direction": "to top",
+            "overlay_opacity": 0.6,
+            "hero_title_size": 42,
+            "hero_text_size": 16,
+            "card_title_size": 20,
+            "card_text_size": 14,
+            "article_1_category": "Style",
+            "article_1_title": "Minimalist Wardrobe Essentials",
+            "article_1_excerpt": "Build a timeless wardrobe with these essential pieces that work for any occasion.",
+            "article_1_author": "Emma Davis",
+            "article_1_date": "March 12, 2024",
+            "article_1_link": "",
+            "article_2_category": "Trends",
+            "article_2_title": "Spring Color Palette Guide",
+            "article_2_excerpt": "Explore the season's most vibrant colors and how to incorporate them into your style.",
+            "article_2_author": "Michael Chen",
+            "article_2_date": "March 10, 2024",
+            "article_2_link": "",
+            "article_3_category": "Lifestyle",
+            "article_3_title": "Sustainable Fashion Brands to Watch",
+            "article_3_excerpt": "Discover emerging brands that are making a positive impact on the fashion industry.",
+            "article_3_author": "Lisa Rodriguez",
+            "article_3_date": "March 8, 2024",
+            "article_3_link": "",
+            "article_4_category": "Beauty",
+            "article_4_title": "Natural Beauty Routine",
+            "article_4_excerpt": "Simple steps to achieve a natural, glowing look with minimal products.",
+            "article_4_author": "Anna Kim",
+            "article_4_date": "March 5, 2024",
+            "article_4_link": "",
+            "article_5_category": "Fashion",
+            "article_5_title": "Vintage Shopping Guide",
+            "article_5_excerpt": "Tips for finding unique vintage pieces that complement your modern wardrobe.",
+            "article_5_author": "James Wilson",
+            "article_5_date": "March 3, 2024",
+            "article_5_link": "",
+            "article_6_category": "Accessories",
+            "article_6_title": "Statement Jewelry Trends",
+            "article_6_excerpt": "Bold jewelry pieces that can transform any outfit from simple to stunning.",
+            "article_6_author": "Sophie Taylor",
+            "article_6_date": "March 1, 2024",
+            "article_6_link": ""
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_8f0f9b8_LPUR4Q"
+      ],
+      "disabled": true,
+      "settings": {}
+    },
     "slideshow": {
       "type": "slideshow",
       "blocks": {
@@ -485,6 +561,7 @@
       "block_order": [
         "css_RXePg4"
       ],
+      "disabled": true,
       "settings": {
         "max_width": "1770px",
         "fullwidth": false,
@@ -496,6 +573,76 @@
         "desc2": "CATALOGUE 2021",
         "content_position-2": "absolute",
         "effect": "grow"
+      }
+    },
+    "featured_banner_GDYm6a": {
+      "type": "featured-banner",
+      "blocks": {
+        "image_8zbGPk": {
+          "type": "image",
+          "settings": {
+            "title": "",
+            "url": "",
+            "border_radius_img": "0px 0px 0px 0px",
+            "content_position": "absolute",
+            "vertical_position": "middle",
+            "horizontal_position": "center",
+            "text_align": "center",
+            "background_content": "#ffffff",
+            "border_radius_content": "0px 0px 0px 0px",
+            "padding_content": "0 15px",
+            "padding_image": "0 15px",
+            "width_image": "33.33%"
+          }
+        },
+        "image_eHn8ez": {
+          "type": "image",
+          "settings": {
+            "title": "",
+            "url": "",
+            "border_radius_img": "0px 0px 0px 0px",
+            "content_position": "absolute",
+            "vertical_position": "middle",
+            "horizontal_position": "center",
+            "text_align": "center",
+            "background_content": "#ffffff",
+            "border_radius_content": "0px 0px 0px 0px",
+            "padding_content": "0 15px",
+            "padding_image": "0 15px",
+            "width_image": "33.33%"
+          }
+        },
+        "image_KHzE4A": {
+          "type": "image",
+          "settings": {
+            "title": "",
+            "url": "",
+            "border_radius_img": "0px 0px 0px 0px",
+            "content_position": "absolute",
+            "vertical_position": "middle",
+            "horizontal_position": "center",
+            "text_align": "center",
+            "background_content": "#ffffff",
+            "border_radius_content": "0px 0px 0px 0px",
+            "padding_content": "0 15px",
+            "padding_image": "0 15px",
+            "width_image": "33.33%"
+          }
+        }
+      },
+      "block_order": [
+        "image_8zbGPk",
+        "image_eHn8ez",
+        "image_KHzE4A"
+      ],
+      "disabled": true,
+      "name": "Banner",
+      "settings": {
+        "max_width": "",
+        "fullwidth": false,
+        "padding": "",
+        "margin": "",
+        "effect": "none"
       }
     },
     "1d8521d1-9f80-43f1-b0be-3558408ef3f1": {
@@ -1056,8 +1203,10 @@
     }
   },
   "order": [
+    "1760165026640f09c4",
     "slideshow",
     "featured_two_banner_CWwVA6",
+    "featured_banner_GDYm6a",
     "1d8521d1-9f80-43f1-b0be-3558408ef3f1",
     "featured_product_tabs_HiHtCb",
     "featured_two_banner_2_PQn4Dx",
