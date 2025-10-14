@@ -1,0 +1,209 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "breadcrumb": {
+      "type": "page-breadcrumb",
+      "settings": {
+        "enable": true,
+        "bgimage": false,
+        "show_pagetitle": true,
+        "show_breadcrumb": true,
+        "color_breadcrumb": "#222222",
+        "align_breadcrumb": "center"
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "custom_css": [],
+      "settings": {
+        "enable": true,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "custom_form_ngYq6w": {
+      "type": "custom-form",
+      "blocks": {
+        "input_YGCQm8": {
+          "type": "input",
+          "settings": {
+            "required": true,
+            "input_type": "email",
+            "input_name": "email",
+            "input_label": "Your FUSION Club email",
+            "max_length": 100,
+            "default_value": "",
+            "error_message": "'Email' is required, must not exceed 100 characters, and must be a valid email address."
+          }
+        },
+        "select_aXFML4": {
+          "type": "select",
+          "settings": {
+            "required": true,
+            "select_name": "productModelNo",
+            "select_label": "Product / Model no",
+            "select_values": ",Technical Merino Neck Gaiter,Technical Merino Beanie,Shelter Pants,Womens Urban Pants,Womens Technical Merino 150 LS,Mens Technical Merino 150 LS,Womens Technical Merino 150 T-Shirt,Mens Technical Merino 150 T-Shirt,Womens Nova T-Shirt 1.0,Mens Nova T-Shirt 1.0,Mens Urban Pants,Womens Short Gym Tights,TEMPO! Calf Sleeves,TEMPO! Sleeves,Mens SLi Bib Shorts,TEMPO! Run Singlet,Cycling Beanie,Womens Gym Tights,TEMPO! RR Aero Sock,Womens Thermal Cycling Jersey,C3 Shorts,C3 Short Tights,Womens C3 Short Training Tights,Calf sleeves,Cycling Training Arm Warmer,Tempo! ONE Jersey,Cycling Training Jersey,Womens Merino 220 LS,Mens Recharge Vest,Hot LS Cycling Jersey,Recharge Sock,SLi High Speed Suit,Womens C3 Run Shorts,WOMENS C3 HOODIE LS,Mens Merino 220 LS,Mens C3 Bib Shorts,Calf sleeves,MEN's HOT X-LONG Recharge Pants,Womens Hot X-Long Tights,Womens c3 training tights,Womens Hot Recharge Pants,Womens Recharge Tights,C3 X-Long Tights,142,Womens Recharge Pants,SLi POCKET,SLi RUN TIGHTS POCKET,SLi RUN TIGHTS POCKET,MENS POLO T-SHIRT,SLi Speed Suit,TEMPO! Bib Shorts,Womens C3 T-Shirt,Mens C3 T-Shirt,Mens Recharge Polo,Recharge Sweatshirt,Mens Short tights,Womens SLi Singlet,Womens Recharge Pants,Mens Hot X-Long Recharge Pants,Mens SLI Bibs,Womens Recharge Pants,Mens Hot Recharge Pants,Commuter Cycling Jacket,Womens Merino 150 LS,MENS MERINO 150 LS,WMS C3 Sweatshirt,MENS SWEATSHIRT,RUN SOCK,Mens Recharge Full Zip,Gift Box,Hot Long Tights,Mens SLi Run Shorts,Sli Cycling Jersey,Mens C3 LS Shirt,C3 Boxershorts,Womens Zip Neck,Womens X-Long Nova T-Shirt,Womens SLi Run Shorts,Womens Tempo! Bib Shorts,Womens Recharge pants,Womens Recharge Merino 220 T-Shirt,Womens Shelter Jacket,Womens Recharge Full Zip,Womens Pure Yoga Top,Womens Nova T-Shirt,Womens Nova Singlet,WOMENS NOVA LS SHIRT - X-LONG,Womens Nova LS Shirt,Womens Gym Top,Womens HP Bib Shorts Pocket,Womens Hot Recharge Tights,Womens Cycling Jersey,Womens C3 Bib Shorts,Tempo! TWO Suit,Recharge Sweatshirt,Recharge Beanie,Pure Yoga Tights,Nova Torso,Merino 220 Neck Gaiter,Merino 150 Torso,Mens Zip Neck,Mens X-Long Nova T-Shirt,Mens SLi Singlet,TEMPO! LS T-Shirt,Mens Recharge Merino 220 T-Shirt,Mens Shelter Jacket,3/4 tights 0050,Mens Nova T-Shirt,Mens Nova Singlet,MENS NOVA LS SHIRT - X-LONG,Mens Nova LS Shirt,Mens Merino 220 Henley,Mens HP Bib Shorts Pocket,Mens Cycling Jersey,Mens Cargo Short Tights,Mens Cargo Long Tights,C3 Multisport Tights,Mens C3 Singlet,MENS C3 MERINO SHIRT - 0184,Merino 150 Neck Gaiter,C3 NECK GAITER LOGO,NECK GAITER,Cool Wings,Cycling Sock Merino,RACE SOCK - 2 PACK,CAP SNAPBACK,Headband,Womens Merino 150 T-Shirt,Mens Merino 150 T-Shirt,SLi Shield Torso,C3 Torso,Womens Merino 150 LS,Mens Merino 150 LS,SLi Tri Top Short Sleeve,Mens SLi Tri Top,Mens SLi Tri Suit,SPEED SUIT,Multisport Suit,C3 3/4 Multisport Tights,C3+ Running Shorts,SLi TRI TIGHTS,TEMPO! Tri Tights,SLi Cycling Jersey,Mens Thermal Cycling Jersey,SLi Bike Skin Suit,S1 Cycling Vest,SLi Cycling Vest,S1 Cycling Jacket,SLi Cycling Jacket,S3 Cycling Jacket,Mens C3 Bib Shorts,Long Bib Tights,S3 Long Bib Tights,Knee Warmer,Arm Warmer,Leg Warmer,Mens C3 T-Shirt,JUNIOR T-SHIRT,Mens TEMPO! T-shirt,Womens Recharge Hoodie,MENS C3 HOODIE LS,Mens C3 Zip Neck,Mens C3 Midlayer,MENS HOT ZIP RUN SHIRT,Mens S2 Run Vest,Mens S1 Run Vest,Mens S2 Run Jacket,C3 3/4 Tights,Mens Short Tights,TEMPO! Run Tights,JUNIOR C3 SHORT TIGHTS,C3 Shorts Pocket,JUNIOR C3 LONG TIGHTS,S3 Long Tights,C3 Long Tights,Hot X-Long Tights,Hot Long Tights,MENS HEADBAND,Beanie,SLi POCKET,Womens Recharge T-Shirt,Mens Recharge T-Shirt,Womens C3 Singlet,Womens Training Top,Womens Recharge Hoodie,Mens Recharge Hoodie,Womens C3 LS Shirt,Womens C3 3/4 Training Tights,Womens Recharge Shorts,Mens Recharge Shorts,Womens C3 Short Training Tights,Womens X-Long Recharge Pants,Mens X-Long Recharge Pants,Womens Recharge Pants,Mens Recharge Pants,Womens C3 X-Long Training Tights,Womens C3 Training Tights,Bottle 600 ML,Neck Gaiter Hi-Vis,Cycling Sock,Run Sock,VISOR,Womens SLi Tri Top,Speed Top LS,Tempo! ONE Suit,ATHLETIC SUIT,ATHLETIC SUIT - NO SLEEVES,SLi Speed Suit - National,WOMENS SLi TRI SUIT - NATIONAL,MENS SLi TRI SUIT - NATIONAL,SLi Speed Suit,Womens SLi Tri Suit,PWR Tri Tights,Tempo! TWO Jersey,WOMENS C3 PLUS CYCLING JERSEY,MENS C3 PLUS CYCLING JERSEY,C3 Cycling Jersey,MENS POLO T-SHIRT,Light LS Cycling Jersey,SLi Road Race Suit,SLi CYCLING SHORT SLEEVE JACKET,Mens HP Bib Shorts,TEMPO! Bib Shorts,Womens HP Bib Shorts,Womens C3 T-Shirt,Womens SLi T-Shirt,MENS C3 PLUS T-SHIRT,WOMENS C3 PLUS T-SHIRT,WOMENS ATHLETIC TOP,Womens Singlet National,Mens Singlet National,Womens Top,WOMENS C3 PLUS SINGLET,MENS C3 PLUS SINGLET,MENS C30 PLUS LS SHIRT,Womens C3 Zip Neck,Womens C3 Midlayer,WOMENS HOT ZIP RUN SHIRT,MENS C3 PLUS LS SHIRT,WOMENS C3 PLUS LS SHIRT,Womens S2 Run Vest,Womens S1 Run Vest,Womens S2 Run Jacket,Womens S1 Run Jacket,Mens S1 Run Jacket,WOMENS ATHLETIC SHORT TIGHTS,Mens C3 Run Shorts,Mens Short Tights,Womens Hot Long Tights,WOMENS HEADBAND",
+            "default_value": "",
+            "error_message": "'Product / Model no' is required"
+          }
+        },
+        "select_Kiwkhe": {
+          "type": "select",
+          "settings": {
+            "required": true,
+            "select_name": "size",
+            "select_label": "Size",
+            "select_values": ",XS,S,M,L,XL,XXL,XXXL",
+            "default_value": "",
+            "error_message": ""
+          }
+        },
+        "input_Vfc4iR": {
+          "type": "input",
+          "settings": {
+            "required": true,
+            "input_type": "text",
+            "input_name": "name",
+            "input_label": "Name",
+            "max_length": 50,
+            "default_value": "",
+            "error_message": "'Name' is required and must not exceed 50 characters."
+          }
+        },
+        "input_JqFC7K": {
+          "type": "input",
+          "settings": {
+            "required": true,
+            "input_type": "text",
+            "input_name": "address",
+            "input_label": "Address",
+            "max_length": 100,
+            "default_value": "",
+            "error_message": "'Address' is required and must not exceed 100 characters."
+          }
+        },
+        "input_HiynMD": {
+          "type": "input",
+          "settings": {
+            "required": true,
+            "input_type": "text",
+            "input_name": "zipCity",
+            "input_label": "Zip & City",
+            "max_length": 50,
+            "default_value": "",
+            "error_message": "'Zip & City' is required and must not exceed 50 characters."
+          }
+        },
+        "select_VNBtPf": {
+          "type": "select",
+          "settings": {
+            "required": false,
+            "select_name": "area",
+            "select_label": "Area",
+            "select_values": ",Scandinavia,Benelux,Germany,Others",
+            "default_value": "",
+            "error_message": ""
+          }
+        },
+        "input_cJ34G4": {
+          "type": "input",
+          "settings": {
+            "required": true,
+            "input_type": "phone",
+            "input_name": "phoneNumber",
+            "input_label": "Phone",
+            "max_length": 50,
+            "default_value": "+852",
+            "error_message": "'Phone' is required and must not exceed 50 characters."
+          }
+        },
+        "textarea_idXWYz": {
+          "type": "textarea",
+          "settings": {
+            "required": false,
+            "textarea_name": "message",
+            "textarea_label": "Crash message",
+            "max_length": 255,
+            "error_message": "'Message' is required and must not exceed 255 characters."
+          }
+        },
+        "file_upload_CA4Nrh": {
+          "type": "file_upload",
+          "settings": {
+            "required": false,
+            "file_name": "warrantyFile",
+            "file_label": "Image of the product",
+            "accepted_file_types": ".jpg,.png,.gif",
+            "max_files_size": 5,
+            "max_total_files": 3,
+            "upload_mode": "multiple",
+            "compress_files": true,
+            "error_message": "Please ensure you upload no more than 3 files and that their total combined size does not exceed 5 MB."
+          }
+        },
+        "file_upload_peDaJm": {
+          "type": "file_upload",
+          "settings": {
+            "required": false,
+            "file_name": "attachmentFile",
+            "file_label": "Attachments",
+            "accepted_file_types": "",
+            "max_files_size": 5,
+            "max_total_files": 3,
+            "upload_mode": "multiple",
+            "compress_files": false,
+            "error_message": "Please ensure you upload no more than 3 files and that their total combined size does not exceed 5 MB."
+          }
+        },
+        "success_bAkkFf": {
+          "type": "success",
+          "settings": {
+            "title": "Thank you!",
+            "message": "Your form has been submitted successfully."
+          }
+        }
+      },
+      "block_order": [
+        "input_YGCQm8",
+        "select_aXFML4",
+        "select_Kiwkhe",
+        "input_Vfc4iR",
+        "input_JqFC7K",
+        "input_HiynMD",
+        "select_VNBtPf",
+        "input_cJ34G4",
+        "textarea_idXWYz",
+        "file_upload_CA4Nrh",
+        "file_upload_peDaJm",
+        "success_bAkkFf"
+      ],
+      "name": "Custom Form",
+      "settings": {
+        "form_id": "warrantyForm",
+        "form_name": "FUSION DAMAGE & CRASH SERVICE",
+        "form_description": "",
+        "form_action": "",
+        "form_method": "POST",
+        "button_text": "Submit",
+        "form_max_width": 770,
+        "form_margin": "3rem auto 50px auto",
+        "form_padding": "20px 120px",
+        "form_background": "#f6f6f6",
+        "show_fake_data_button": true
+      }
+    }
+  },
+  "order": [
+    "breadcrumb",
+    "main",
+    "custom_form_ngYq6w"
+  ]
+}
