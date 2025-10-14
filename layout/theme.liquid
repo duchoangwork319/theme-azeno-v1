@@ -33,8 +33,8 @@
 				{% render 'json-ld-product' %}
 			{% elsif template contains 'collection' %}
 				{% render 'json-ld-collection' %}
-			{% elsif template contains 'article' or template contains 'blog' %}
-				{% render 'json-ld-article' %}
+			{% elsif template contains 'page' %}
+				{% render 'json-ld-page' %}
 			{% else %}
 				{% render 'json-ld-homepage' %}
 			{% endif %}

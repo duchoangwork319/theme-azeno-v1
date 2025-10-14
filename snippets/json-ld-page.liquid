@@ -1,0 +1,28 @@
+{% comment %}
+  Universal JSON-LD fallback for informational pages
+{% endcomment %}
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": {{ page_title | json }},
+    "url": "{{ shop.url }}{{ request.path }}",
+    "description": {{ page_description | default: shop.description | json }},
+    "publisher": {
+      "@type": "Organization",
+      "name": {{ shop.name | json }},
+      "url": {{ shop.url | json }},
+      "logo": {
+        "@type": "ImageObject",
+        "url": "{{ settings.favicon | image_url | json }}"
+      }
+    },
+    "inLanguage": "{{ request.locale.iso_code | default: 'en' }}",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": {{ shop.name | json }},
+      "url": {{ shop.url | json }}
+    }
+  }
+</script>

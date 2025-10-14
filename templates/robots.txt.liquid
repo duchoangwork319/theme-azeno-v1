@@ -20,19 +20,7 @@
     {{- rule -}}
   {% endfor %}
 
-  {% comment %} {%- if group.sitemap != blank -%}
+  {%- if group.sitemap != blank -%}
     {{ group.sitemap }}
-  {%- endif -%} {% endcomment %}
-{% endfor %}
-
-{% for group in robots.custom_groups %}
-  {{- group.user_agent -}}
-
-  {% for rule in group.rules %}
-    {{- rule -}}
-  {% endfor %}
-
-  {% comment %} {%- if group.sitemap != blank -%}
-    {{ group.sitemap }}
-  {%- endif -%} {% endcomment %}
+  {%- endif -%}
 {% endfor %}
