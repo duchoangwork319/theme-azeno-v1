@@ -37,13 +37,13 @@
       "defaultMessage": "Invalid input: 'Zip/City' is required and must not exceed 50 characters."
     },
     "area": {
-      "required": true,
+      "required": false,
       "maxlength": 50,
       "pattern": null,
       "defaultMessage": "Invalid input: 'Area' is required and must not exceed 50 characters."
     },
     "phoneNumber_country": {
-      "required": false,
+      "required": true,
       "maxlength": null,
       "pattern": "^\\+\\d+$",
       "defaultMessage": "Invalid input: 'Phone Country' must start with '+' followed by numbers."
@@ -65,12 +65,14 @@
     "dmgCrashProdFile": {
       "maxFiles": 3,
       "maxSizeMB": 5,
-      "defaultMessage": "Invalid input: Too many files uploaded or file size exceeds the limit."
+      "defaultMessage": "Invalid input: Too many files uploaded or file size exceeds the limit.",
+      "filenamePrefix": "Product_"
     },
     "dmgCrashAttachmentFile": {
       "maxFiles": 3,
       "maxSizeMB": 5,
-      "defaultMessage": "Invalid input: Too many files uploaded or file size exceeds the limit."
+      "defaultMessage": "Invalid input: Too many files uploaded or file size exceeds the limit.",
+      "filenamePrefix": "Attachment_"
     }
   }
 }
