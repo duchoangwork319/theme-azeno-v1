@@ -62,12 +62,12 @@
     }
   },
   "fileUploads": {
-    "crashDamageProductFile": {
+    "dmgCrashProdFile": {
       "maxFiles": 3,
       "maxSizeMB": 5,
       "defaultMessage": "Invalid input: Too many files uploaded or file size exceeds the limit."
     },
-    "crashDamageAttachmentFile": {
+    "dmgCrashAttachmentFile": {
       "maxFiles": 3,
       "maxSizeMB": 5,
       "defaultMessage": "Invalid input: Too many files uploaded or file size exceeds the limit."
