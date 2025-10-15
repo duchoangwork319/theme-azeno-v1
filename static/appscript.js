@@ -252,12 +252,12 @@ function handleWarrantyFormSubmission(formData, config) {
 }
 
 /**
- * Handles the submission of the crash damage form.
+ * Handles the submission of the damage crash form.
  * @param {Object} formData - The form data submitted by the user.
- * @param {Object} config - The configuration for the crash damage form.
+ * @param {Object} config - The configuration for the damage crash form.
  * @returns {ContentService.TextOutput} - The JSON response.
  */
-function handleCrashDamageFormSubmission(formData, config) {
+function handleDmgCrashFormSubmission(formData, config) {
   const scriptProperties = PropertiesService.getScriptProperties();
   const spreadsheetId = scriptProperties.getProperty('CRASH_DAMAGE_SPREADSHEET_ID');
   if (!spreadsheetId) {
@@ -276,29 +276,29 @@ function handleCrashDamageFormSubmission(formData, config) {
     throw new Error("Folder not found.");
   }
 
-  const crashDmgProdFiles = [];
-  const crashDmgProdBlobs = processFileUploads(formData, 'crashDamageProductFile', config.fileUploads.crashDamageProductFile);
-  if (!crashDmgProdBlobs.success) {
-    return crashDmgProdBlobs.textOutput;
+  const dmgCrashProdFiles = [];
+  const dmgCrashProdBlobs = processFileUploads(formData, 'dmgCrashProdFile', config.fileUploads.dmgCrashProdFile);
+  if (!dmgCrashProdBlobs.success) {
+    return dmgCrashProdBlobs.textOutput;
   }
 
-  const crashDmgAttachmentFiles = [];
-  const crashDmgAttachmentBlobs = processFileUploads(formData, 'crashDamageAttachmentFile', config.fileUploads.crashDamageAttachmentFile);
-  if (!crashDmgAttachmentBlobs.success) {
-    return crashDmgAttachmentBlobs.textOutput;
+  const dmgCrashAttachmentFiles = [];
+  const dmgCrashAttachmentBlobs = processFileUploads(formData, 'dmgCrashAttachmentFile', config.fileUploads.dmgCrashAttachmentFile);
+  if (!dmgCrashAttachmentBlobs.success) {
+    return dmgCrashAttachmentBlobs.textOutput;
   }
 
-  crashDmgProdBlobs.blobs.forEach(blob => {
+  dmgCrashProdBlobs.blobs.forEach(blob => {
     const newFile = folder.createFile(blob);
-    crashDmgProdFiles.push({
+    dmgCrashProdFiles.push({
       filename: blob.getName(),
       fileUrl: newFile.getUrl()
     });
   });
 
-  crashDmgAttachmentBlobs.blobs.forEach(blob => {
+  dmgCrashAttachmentBlobs.blobs.forEach(blob => {
     const newFile = folder.createFile(blob);
-    crashDmgAttachmentFiles.push({
+    dmgCrashAttachmentFiles.push({
       filename: blob.getName(),
       fileUrl: newFile.getUrl()
     });
@@ -317,27 +317,27 @@ function handleCrashDamageFormSubmission(formData, config) {
     formData.area,
     fullPhoneNumber,
     formData.message,
-    crashDmgProdFiles.map(file => file.fileUrl).join(', '),
-    crashDmgAttachmentFiles.map(file => file.fileUrl).join(', ')
+    dmgCrashProdFiles.map(file => file.fileUrl).join(', '),
+    dmgCrashAttachmentFiles.map(file => file.fileUrl).join(', ')
   ]);
 
   let addOnMessage = '';
-  if (crashDmgProdFiles.length > 0) {
+  if (dmgCrashProdFiles.length > 0) {
     addOnMessage += `<br><strong>Product Files:</strong><br>`;
-    crashDmgProdFiles.forEach(file => {
+    dmgCrashProdFiles.forEach(file => {
       addOnMessage += `<a href="${file.fileUrl}" target="_blank">${file.filename}</a><br>`;
     });
   }
-  if (crashDmgAttachmentFiles.length > 0) {
+  if (dmgCrashAttachmentFiles.length > 0) {
     addOnMessage += `<br><strong>Attachment Files:</strong><br>`;
-    crashDmgAttachmentFiles.forEach(file => {
+    dmgCrashAttachmentFiles.forEach(file => {
       addOnMessage += `<a href="${file.fileUrl}" target="_blank">${file.filename}</a><br>`;
     });
   }
 
   sendMail({
-    subject: "Notifications: New Crash Damage Form Submission",
-    message: `A new crash damage request has been submitted through your website. Please follow up with the customer as soon as possible.<br/><br/><strong>Request Details:</strong><br/>- Name: {{name}}<br/>- Email: {{email}}<br/>- Phone: {{phoneNumber}}<br/>- Product Model No: {{productModelNo}}<br/>- Size: {{size}}<br/>- Address: {{address}}<br/>- Zip/City: {{zipCity}}<br/>- Area: {{area}}<br/>- Message: {{message}}<br/>{{addOnMessage}}`,
+    subject: "Notifications: New Damage and Crash Replacement Form Submission",
+    message: `A new damage and crash replacement request has been submitted through your website. Please follow up with the customer as soon as possible.<br/><br/><strong>Request Details:</strong><br/>- Name: {{name}}<br/>- Email: {{email}}<br/>- Phone: {{phoneNumber}}<br/>- Product Model No: {{productModelNo}}<br/>- Size: {{size}}<br/>- Address: {{address}}<br/>- Zip/City: {{zipCity}}<br/>- Area: {{area}}<br/>- Message: {{message}}<br/>{{addOnMessage}}`,
     content: {
       name: formData.name,
       email: formData.email,
@@ -359,7 +359,7 @@ function doPost(e) {
   try {
     const formData = JSON.parse(e.postData.contents);
     const formType = formData.formType;
-    const allowedFormTypes = ["contact-us", "warranty", "crash-damage"];
+    const allowedFormTypes = ["contact-us", "warranty", "damage-crash"];
 
     if (!formType || !allowedFormTypes.includes(formType)) {
       return createTextOutput(null, false, "Invalid or missing form type.");
@@ -379,8 +379,8 @@ function doPost(e) {
       return handleWarrantyFormSubmission(formData, config);
     }
 
-    if (formType === "crash-damage") {
-      return handleCrashDamageFormSubmission(formData, config);
+    if (formType === "damage-crash") {
+      return handleDmgCrashFormSubmission(formData, config);
     }
 
     return createTextOutput(null, false, "Unknown form type.");
