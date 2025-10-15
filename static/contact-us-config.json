@@ -1,0 +1,52 @@
+{
+  "fields": {
+    "name": {
+      "required": true,
+      "maxlength": 50,
+      "pattern": null,
+      "defaultMessage": "Invalid input: 'Name' is required and must not exceed 50 characters."
+    },
+    "email": {
+      "required": true,
+      "maxlength": 100,
+      "pattern": "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$",
+      "defaultMessage": "Invalid input: 'Email' is required, must not exceed 100 characters, and must be a valid email address."
+    },
+    "phoneNumber_country": {
+      "required": false,
+      "maxlength": null,
+      "pattern": "^\\+\\d+$",
+      "defaultMessage": "Invalid input: 'Phone Country' must start with '+' followed by numbers."
+    },
+    "phoneNumber": {
+      "required": true,
+      "maxlength": 15,
+      "pattern": null,
+      "defaultMessage": "Invalid input: 'Phone Number' is required and must not exceed 15 characters."
+    },
+    "helpWith": {
+      "required": true,
+      "maxlength": 50,
+      "pattern": null,
+      "defaultMessage": "Invalid input: 'What can we help you with?' is required and must not exceed 50 characters."
+    },
+    "orderNo": {
+      "required": true,
+      "maxlength": 50,
+      "pattern": null,
+      "defaultMessage": "Invalid input: 'Order #' is required and must not exceed 50 characters."
+    },
+    "shippingToCountry": {
+      "required": true,
+      "maxlength": 50,
+      "pattern": null,
+      "defaultMessage": "Invalid input: 'Shipping To Country' is required and must not exceed 50 characters."
+    },
+    "message": {
+      "required": true,
+      "maxlength": 255,
+      "pattern": null,
+      "defaultMessage": "Invalid input: 'Message' is required and must not exceed 255 characters."
+    }
+  }
+}
