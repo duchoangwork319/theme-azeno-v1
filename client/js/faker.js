@@ -10,14 +10,9 @@ window.FK = {
      * @param {jQuery<HTMLElement>} $form - jQuery object of the form to be filled
      */
     fakeForm: function ($form) {
-        $form.find('input, select, textarea').each(function () {
+        $form.find('input:not([type="file"]):not([type="submit"]):not([type="button"]):not([type="hidden"]), select, textarea').each(function () {
             const $el = $(this);
             const nameAttr = ($el.attr('name') || '').toLowerCase();
-            const typeAttr = $el.attr('type') || '';
-
-            if (typeAttr === 'file') {
-                return; // Ignore file inputs
-            }
 
             if ($el.is('select')) {
                 const options = $el.find('option');

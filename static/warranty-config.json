@@ -1,0 +1,83 @@
+{
+  "fields": {
+    "orderNo": {
+      "required": true,
+      "maxlength": 50,
+      "pattern": null,
+      "defaultMessage": "Invalid input: 'Order No.' is required and must not exceed 50 characters."
+    },
+    "email": {
+      "required": true,
+      "maxlength": 100,
+      "pattern": "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$",
+      "defaultMessage": "Invalid input: 'Email' is required, must not exceed 100 characters, and must be a valid email address."
+    },
+    "productModelNo": {
+      "required": true,
+      "maxlength": 100,
+      "pattern": null,
+      "defaultMessage": "Invalid input: 'Product Model No.' is required and must not exceed 100 characters."
+    },
+    "name": {
+      "required": true,
+      "maxlength": 50,
+      "pattern": null,
+      "defaultMessage": "Invalid input: 'Name' is required and must not exceed 50 characters."
+    },
+    "address": {
+      "required": true,
+      "maxlength": 200,
+      "pattern": null,
+      "defaultMessage": "Invalid input: 'Address' is required and must not exceed 200 characters."
+    },
+    "zipCity": {
+      "required": true,
+      "maxlength": 50,
+      "pattern": null,
+      "defaultMessage": "Invalid input: 'Zip/City' is required and must not exceed 50 characters."
+    },
+    "complaint": {
+      "required": true,
+      "maxlength": 50,
+      "pattern": null,
+      "defaultMessage": "Invalid input: 'Complaint' is required and must not exceed 50 characters."
+    },
+    "message": {
+      "required": false,
+      "maxlength": 255,
+      "pattern": null,
+      "defaultMessage": "Invalid input: 'Message' must not exceed 255 characters."
+    },
+    "area": {
+      "required": true,
+      "maxlength": 50,
+      "pattern": null,
+      "defaultMessage": "Invalid input: 'Area' is required and must not exceed 50 characters."
+    },
+    "phoneNumber_country": {
+      "required": false,
+      "maxlength": null,
+      "pattern": "^\\+\\d+$",
+      "defaultMessage": "Invalid input: 'Phone Country' must start with '+' followed by numbers."
+    },
+    "phoneNumber": {
+      "required": true,
+      "maxlength": 15,
+      "pattern": null,
+      "defaultMessage": "Invalid input: 'Phone Number' is required and must not exceed 15 characters."
+    },
+    "acceptance": {
+      "required": true,
+      "maxlength": null,
+      "pattern": null,
+      "defaultMessage": "Invalid input: 'Acceptance' must be confirmed."
+    }
+  },
+  "fileUploads": {
+    "warrantyFile": {
+      "maxFiles": 3,
+      "maxSizeMB": 5,
+      "defaultMessage": "Invalid input: Too many files uploaded or file size exceeds the limit."
+    }
+  }
+}

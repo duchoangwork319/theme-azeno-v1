@@ -21,19 +21,19 @@ function initAllCustomForm() {
     $('form.custom-form-element').on('submit', function (e) {
         e.preventDefault();
 
-        const self = $(this);
-        const button = self.find('button[type="submit"]').get(0);
-        const action = self.attr('action') || '';
-        const formData = new FormData(self[0], button);
-        const formWrapper = self.parents('.form-wrapper');
+        const form = $(this);
+        const button = form.find('button[type="submit"]').get(0);
+        const action = form.attr('action') || '';
+        const method = (form.attr('method') || 'POST').toUpperCase();
+        const formData = new FormData(form[0], button);
+        const formWrapper = form.parents('.form-wrapper');
 
         button.disabled = true;
-        self.find('.invalid-message').css('display', 'none');
+        form.find('.invalid-message').css('display', 'none');
         formWrapper.spinner().start();
 
-        const fileInputs = Array.from($('input[type="file"]', self));
+        const fileInputs = Array.from($('input[type="file"]', form));
 
-        // Append file data to formData
         fileInputs.forEach((fileInput) => {
             const $fileInput = $(fileInput);
             const inputName = $fileInput.attr('name').replace('[]', '');
@@ -51,40 +51,63 @@ function initAllCustomForm() {
         const formDataObj = Object.fromEntries(formData.entries());
         const body = JSON.stringify(formDataObj);
 
-        console.log('Sending form data:', formDataObj);
-        // return;
+        // console.log('Sending form data:', formDataObj);
 
-        fetch(action, {
-            method: 'POST',
-            redirect: "follow",
-            headers: {
-                'Content-Type': 'text/plain;charset=utf-8'
-            },
-            body: body
-        })
-            .then(response => response.json())
-            .then(result => {
-                console.log('Success:', result);
-                if (!result) return;
-                if (result.success) {
-                    formWrapper.find('.form-header').css('display', 'none');
-                    formWrapper.find('.form-inner').css('display', 'none');
-                    formWrapper.find('.form-response-message').css('display', 'block');
-                    scrollTo(formWrapper.find('.form-response-message'));
-                } else {
-                    validation.showError(formWrapper, result.field);
-                    scrollTo(formWrapper.find(`.${result.field}-form-group`));
+        const done = result => {
+            console.log('Success:', result);
+            if (!result) return;
+            if (result.success) {
+                formWrapper.find('.form-header').css('display', 'none');
+                formWrapper.find('.form-inner').css('display', 'none');
+                formWrapper.find('.form-response-message').css('display', 'block');
+                scrollTo(formWrapper.find('.form-response-message'));
+            } else {
+                validation.showError(formWrapper, result.field);
+                scrollTo(formWrapper.find(`.${result.field}-form-group`));
+            }
+        };
+
+        const fail = error => {
+            if (!error) return;
+            console.error('Error:', error);
+            validation.showError(form, error.field);
+            scrollTo(form.find(`.${error.field}-form-group`));
+        };
+
+        const always = () => {
+            button.disabled = false;
+            formWrapper.spinner().stop();
+        };
+
+        // fetch(action, {
+        //     method: method,
+        //     redirect: "follow",
+        //     headers: {
+        //         'Content-Type': 'text/plain;charset=utf-8'
+        //     },
+        //     body: body
+        // })
+        //     .then(response => response.json())
+        //     .then(done)
+        //     .catch(fail)
+        //     .finally(always);
+
+        $.ajax({
+            url: action,
+            method: method,
+            contentType: 'text/plain;charset=utf-8',
+            data: body
+        }).done(done)
+            .fail(error => {
+                console.error('AJAX error:', error);
+                try {
+                    const json = JSON.parse(error.responseText);
+                    fail(json);
+                } catch (error) {
+                    console.error('Error parsing JSON:', error);
                 }
             })
-            .catch(error => {
-                if (!error) return;
-                console.error('Error:', error);
-                validation.showError(self, error.field);
-                scrollTo(self.find(`.${error.field}-form-group`));
-            }).finally(() => {
-                button.disabled = false;
-                formWrapper.spinner().stop();
-            });
+            .always(always);
     });
 }
 
@@ -102,13 +125,15 @@ function fillFormWithFakeData(form) {
 
 $(document).ready(function () {
     const customForm = $('form.custom-form-element');
-    if (customForm.length) {
-        customForm.each(function () {
-            console.log('Initializing custom form:', $(this).attr('id'));
-        });
-        validation.initialize(customForm);
-        file.initFileUploadListener(customForm);
-        initAllCustomForm();
-        fillFormWithFakeData(customForm);
-    }
+
+    if (!customForm.length) return;
+
+    customForm.each(function () {
+        console.log('Initializing custom form:', $(this).attr('id'));
+    });
+
+    validation.initialize(customForm);
+    file.initFileUploadListener(customForm);
+    initAllCustomForm();
+    fillFormWithFakeData(customForm);
 });
