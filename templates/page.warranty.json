@@ -219,7 +219,7 @@
         "form_id": "warrantyForm",
         "form_name": "FUSION RMA SERVICE",
         "form_description": "Please fill in the informations. Only products bought directly at FUSION will be handled. If you have purchased the products at a FUSION dealer, you need to go to the dealer/shop.",
-        "form_action": "https://script.google.com/macros/s/AKfycbyaf-sLzvKLzyZuQdjXX27fQ81gCvwXI6lDgV-CrPQHzeWT-xeqdkObS5hHB6NS9AvVHw/exec",
+        "form_action": "https://script.google.com/macros/s/AKfycbzs58p10pl6IkRGE8S-bnrzJirhDTbT80HVfC-wySgbARuEMoUF2zOC1_A737laJwYZIQ/exec",
         "form_method": "POST",
         "button_text": "Submit",
         "form_max_width": 770,
