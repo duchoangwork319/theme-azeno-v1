@@ -90,6 +90,7 @@ function validateFormData(formData, config) {
 function processFileUploads(formData, fieldKey, specConfig) {
   const maxFiles = parseInt(specConfig.maxFiles, 10);
   const maxSizeMB = parseInt(specConfig.maxSizeMB, 10);
+  const filenamePrefix = specConfig.filenamePrefix || '';
   const maxSizeBytes = maxSizeMB * 1024 * 1024;
   const fileCount = parseInt(formData[`${fieldKey}_count`] || 0, 10);
   const blobs = [];
@@ -105,7 +106,7 @@ function processFileUploads(formData, fieldKey, specConfig) {
     const filename = formData[`${fieldKey}_name_${i}`];
     const filetype = formData[`${fieldKey}_type_${i}`];
     const byteArray = formData[`${fieldKey}_data_${i}`].split(',').map(Number);
-    const fileBlob = Utilities.newBlob(byteArray, filetype, filename);
+    const fileBlob = Utilities.newBlob(byteArray, filetype, filenamePrefix + filename);
     blobs.push(fileBlob);
   }
 
@@ -259,11 +260,11 @@ function handleWarrantyFormSubmission(formData, config) {
  */
 function handleDmgCrashFormSubmission(formData, config) {
   const scriptProperties = PropertiesService.getScriptProperties();
-  const spreadsheetId = scriptProperties.getProperty('CRASH_DAMAGE_SPREADSHEET_ID');
+  const spreadsheetId = scriptProperties.getProperty('DAMAGE_CRASH_SPREADSHEET_ID');
   if (!spreadsheetId) {
     throw new Error("Spreadsheet ID not set in script properties.");
   }
-  const folderId = scriptProperties.getProperty('CRASH_DAMAGE_FOLDER_ID');
+  const folderId = scriptProperties.getProperty('DAMAGE_CRASH_FOLDER_ID');
   if (!folderId) {
     throw new Error("Folder ID not set in script properties.");
   }
