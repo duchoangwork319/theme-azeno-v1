@@ -23,6 +23,17 @@
     "custom_form_ngYq6w": {
       "type": "custom-form",
       "blocks": {
+        "input_48iYEV": {
+          "type": "input",
+          "settings": {
+            "required": false,
+            "input_type": "hidden",
+            "input_name": "formType",
+            "input_label": "",
+            "default_value": "contact-us",
+            "error_message": ""
+          }
+        },
         "input_6bzV4R": {
           "type": "input",
           "settings": {
@@ -112,6 +123,7 @@
         }
       },
       "block_order": [
+        "input_48iYEV",
         "input_6bzV4R",
         "input_fJMn9f",
         "input_byUhKt",
@@ -132,7 +144,8 @@
         "form_max_width": 770,
         "form_margin": "0 auto 50px auto",
         "form_padding": "20px 120px",
-        "form_background": "#f6f6f6"
+        "form_background": "#f6f6f6",
+        "show_fake_data_button": true
       }
     },
     "main": {

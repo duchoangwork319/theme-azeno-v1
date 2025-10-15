@@ -23,6 +23,17 @@
     "custom_form_ngYq6w": {
       "type": "custom-form",
       "blocks": {
+        "input_8BqdER": {
+          "type": "input",
+          "settings": {
+            "required": false,
+            "input_type": "hidden",
+            "input_name": "formType",
+            "input_label": "",
+            "default_value": "warranty",
+            "error_message": ""
+          }
+        },
         "input_4Gcz4K": {
           "type": "input",
           "settings": {
@@ -187,6 +198,7 @@
         }
       },
       "block_order": [
+        "input_8BqdER",
         "input_4Gcz4K",
         "input_YGCQm8",
         "select_aXFML4",

@@ -32,6 +32,17 @@
     "custom_form_ngYq6w": {
       "type": "custom-form",
       "blocks": {
+        "input_T4DVry": {
+          "type": "input",
+          "settings": {
+            "required": false,
+            "input_type": "hidden",
+            "input_name": "formType",
+            "input_label": "",
+            "default_value": "damage-crash",
+            "error_message": ""
+          }
+        },
         "input_YGCQm8": {
           "type": "input",
           "settings": {
@@ -139,7 +150,7 @@
           "type": "file_upload",
           "settings": {
             "required": false,
-            "file_name": "warrantyFile",
+            "file_name": "dmgCrashProdFile",
             "file_label": "Image of the product",
             "accepted_file_types": ".jpg,.png,.gif",
             "max_files_size": 5,
@@ -153,7 +164,7 @@
           "type": "file_upload",
           "settings": {
             "required": false,
-            "file_name": "attachmentFile",
+            "file_name": "dmgCrashAttachmentFile",
             "file_label": "Attachments",
             "accepted_file_types": "",
             "max_files_size": 5,
@@ -172,6 +183,7 @@
         }
       },
       "block_order": [
+        "input_T4DVry",
         "input_YGCQm8",
         "select_aXFML4",
         "select_Kiwkhe",
@@ -187,7 +199,7 @@
       ],
       "name": "Custom Form",
       "settings": {
-        "form_id": "warrantyForm",
+        "form_id": "dmgCrashForm",
         "form_name": "FUSION DAMAGE & CRASH SERVICE",
         "form_description": "",
         "form_action": "",

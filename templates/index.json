@@ -975,11 +975,11 @@
         "image_RE9x6c": {
           "type": "image",
           "settings": {
-            "width_icon": 80,
-            "title": "READY FOR YOU!",
+            "width_icon": 0,
+            "title": "Free Shipping",
             "size_title": 30,
             "color_title": "#222222",
-            "description": "Need some help finding the right product? Use our contact form or give us a call +31 416 652803",
+            "description": "On orders over $200 USD",
             "size_description": 13,
             "color_description": "#9b9b9b",
             "align": "left",
@@ -991,11 +991,11 @@
         "image_bwxNnx": {
           "type": "image",
           "settings": {
-            "width_icon": 80,
-            "title": "DELIVERY WITH DHL",
+            "width_icon": 0,
+            "title": "Free Returns",
             "size_title": 30,
             "color_title": "#222222",
-            "description": "We want you to have your order as soon as possible so you don't have to waste your time",
+            "description": "On full priced items only.*",
             "size_description": 13,
             "color_description": "#9b9b9b",
             "align": "left",
@@ -1007,11 +1007,11 @@
         "image_TnaQ4A": {
           "type": "image",
           "settings": {
-            "width_icon": 80,
-            "title": "MAKE YOUR DECISION",
+            "width_icon": 0,
+            "title": "Crash Replacement",
             "size_title": 30,
             "color_title": "#222222",
-            "description": "At sportshop.com we have enough to choose from so you will always find the right product.",
+            "description": "50% off your new kit.*",
             "size_description": 13,
             "color_description": "#9b9b9b",
             "align": "left",
@@ -1035,110 +1035,6 @@
         "padding": "",
         "margin": "0 0 97px | | | 0 0 50px",
         "effects": "wobble-horizontal"
-      }
-    },
-    "7d3142cc-8652-46c2-94b8-ef5f7c3bcf12": {
-      "type": "featured-title",
-      "blocks": {
-        "template--19479281074455__7d3142cc-8652-46c2-94b8-ef5f7c3bcf12-title-1": {
-          "type": "title",
-          "settings": {
-            "title": "SHOP BY BRAND<span>.</span>",
-            "font": "",
-            "color": "#222222",
-            "font_size": 60,
-            "line_height": 60,
-            "letter_spacing": 0,
-            "font_weight": "400",
-            "margin": "0px 0px 0px 0px",
-            "align": "left",
-            "width": 100,
-            "color_mobi": "#000000",
-            "font_size_mobi": 25,
-            "line_height_mobi": 30,
-            "letter_spacing_mobi": 0,
-            "margin_mobi": "0px 0px 0px 0px",
-            "align_mobi": "center",
-            "width_mobi": 100
-          }
-        }
-      },
-      "block_order": [
-        "template--19479281074455__7d3142cc-8652-46c2-94b8-ef5f7c3bcf12-title-1"
-      ],
-      "settings": {
-        "max_width": "",
-        "fullwidth": false,
-        "padding": "",
-        "margin": "0 0 50px | | |  0 0 40px",
-        "color_bg": "",
-        "width_bg": "container",
-        "padding_bg": ""
-      }
-    },
-    "featured_brands_mtPLKh": {
-      "type": "featured-brands",
-      "blocks": {
-        "brand_XiP93q": {
-          "type": "brand",
-          "settings": {
-            "name": "Brand",
-            "url": "shopify://collections/all"
-          }
-        },
-        "brand_erdJgA": {
-          "type": "brand",
-          "settings": {
-            "name": "Brand",
-            "url": "shopify://collections/all"
-          }
-        },
-        "brand_4bzXUN": {
-          "type": "brand",
-          "settings": {
-            "name": "Brand",
-            "url": "shopify://collections/all"
-          }
-        },
-        "brand_tHyM98": {
-          "type": "brand",
-          "settings": {
-            "name": "Brand",
-            "url": "shopify://collections/all"
-          }
-        },
-        "brand_zfYKdG": {
-          "type": "brand",
-          "settings": {
-            "name": "Brand",
-            "url": "shopify://collections/all"
-          }
-        }
-      },
-      "block_order": [
-        "brand_XiP93q",
-        "brand_erdJgA",
-        "brand_4bzXUN",
-        "brand_tHyM98",
-        "brand_zfYKdG"
-      ],
-      "settings": {
-        "max_width": "",
-        "fullwidth": false,
-        "padding": "",
-        "margin": "0 0 100px | | | 0 0 50px",
-        "title": "",
-        "navigation": true,
-        "infinite": true,
-        "autoplay": false,
-        "autoplay_speed": "10000",
-        "columns": 5,
-        "column1440": 4,
-        "column1": 4,
-        "column2": 3,
-        "column3": 2,
-        "column4": 2,
-        "effect": "grow"
       }
     },
     "featured_newsletter_gTTMFE": {
@@ -1212,8 +1108,6 @@
     "featured_two_banner_2_PQn4Dx",
     "featured_image_with_text_XMDTF9",
     "featured_policy_kzC86k",
-    "7d3142cc-8652-46c2-94b8-ef5f7c3bcf12",
-    "featured_brands_mtPLKh",
     "featured_newsletter_gTTMFE"
   ]
 }
