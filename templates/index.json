@@ -582,6 +582,7 @@
           "type": "image",
           "settings": {
             "title": "",
+            "image": "shopify://shop_images/Tempo-PRO-Tri-Suit_1253_Red_4_v2_09083390-4c00-4edf-90f0-430202ee58ce.jpg",
             "url": "",
             "border_radius_img": "0px 0px 0px 0px",
             "content_position": "absolute",
@@ -599,6 +600,7 @@
           "type": "image",
           "settings": {
             "title": "",
+            "image": "shopify://shop_images/Womens-Tempo-Bib-shorts_1045_black_91_v2_e4c8929d-036c-45d7-98c0-de90f0572675.jpg",
             "url": "",
             "border_radius_img": "0px 0px 0px 0px",
             "content_position": "absolute",
@@ -616,6 +618,7 @@
           "type": "image",
           "settings": {
             "title": "",
+            "image": "shopify://shop_images/Tempo-ONE-Jersey_1126_Green_1_v2.jpg",
             "url": "",
             "border_radius_img": "0px 0px 0px 0px",
             "content_position": "absolute",
@@ -635,7 +638,6 @@
         "image_eHn8ez",
         "image_KHzE4A"
       ],
-      "disabled": true,
       "name": "Banner",
       "settings": {
         "max_width": "",
@@ -738,8 +740,8 @@
           "type": "tab",
           "settings": {
             "title": "ALL",
-            "collection": "womens",
-            "limit": 10
+            "collection": "men",
+            "limit": 5
           }
         },
         "tab_wYqWKG": {
@@ -762,7 +764,7 @@
           "type": "tab",
           "settings": {
             "title": "CYCLING",
-            "collection": "womens",
+            "collection": "cycling",
             "limit": 10
           }
         },
@@ -809,7 +811,7 @@
         "infinite": true,
         "autoplay": false,
         "autoplay_speed": "10000",
-        "row": 2,
+        "row": 1,
         "columns": 5,
         "column1440": 4,
         "column1": 4,
@@ -888,15 +890,18 @@
       "block_order": [
         "css_fBn4fF"
       ],
+      "custom_css": [],
       "settings": {
         "max_width": "",
         "fullwidth": true,
         "padding": "",
         "margin": "0 0 100px | | | 0 0 50px",
+        "image1": "shopify://shop_images/tempo-gallery-2.webp",
         "title1": "",
         "content_position-1": "absolute",
-        "title2": "RUNNING",
-        "desc2": "WHEREVER YOU TAKE RUNNING",
+        "image2": "shopify://shop_images/Tempo-PRO-Tri-Suit_1253_Carbon_1_v1_b7fc9b45-5bbb-4186-b894-7aca3786da5f.jpg",
+        "title2": "TEMPo!",
+        "desc2": "",
         "button": "SHOP COLLECTION",
         "icon_title": "icon-right-arrow",
         "button_link": "",
@@ -966,7 +971,8 @@
         "desc": "WHEREVER YOU TAKE RUNNING",
         "button": "SHOP COLLECTION",
         "icon_title": "icon-right-arrow",
-        "button_link": "shopify://collections/all"
+        "button_link": "shopify://collections/all",
+        "image": "shopify://shop_images/Tempo-Run-Singlet_1127_Blue_4_v1_0007ce79-3f8b-445a-9059-fb52e59f99f3.jpg"
       }
     },
     "featured_policy_kzC86k": {

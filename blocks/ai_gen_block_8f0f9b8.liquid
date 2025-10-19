@@ -1,0 +1,882 @@
+{% doc %}
+  @prompt
+    A magazine-style editorial layout
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-editorial-layout-{{ ai_gen_id }} {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: {{ block.settings.section_padding }}px 20px;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-editorial-container-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: {{ block.settings.content_spacing }}px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .ai-editorial-hero-{{ ai_gen_id }} {
+    position: relative;
+    overflow: hidden;
+    border-radius: {{ block.settings.border_radius }}px;
+    aspect-ratio: 16/9;
+    background-color: #f5f5f5;
+  }
+
+  .ai-editorial-hero-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .ai-editorial-hero-{{ ai_gen_id }}:hover .ai-editorial-hero-image-{{ ai_gen_id }} {
+    transform: scale(1.05);
+  }
+
+  .ai-editorial-hero-overlay-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      {{ block.settings.overlay_direction }},
+      rgba(0, 0, 0, {{ block.settings.overlay_opacity }}) 0%,
+      transparent 70%
+    );
+    display: flex;
+    align-items: flex-end;
+    padding: 40px;
+  }
+
+  .ai-editorial-hero-content-{{ ai_gen_id }} {
+    color: {{ block.settings.hero_text_color }};
+    max-width: 600px;
+  }
+
+  .ai-editorial-hero-category-{{ ai_gen_id }} {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: {{ block.settings.category_color }};
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .ai-editorial-hero-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.hero_title_size }}px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0 0 12px;
+    font-family: {{ settings.font-family-second }}, serif;
+  }
+
+  .ai-editorial-hero-excerpt-{{ ai_gen_id }} {
+    font-size: {{ block.settings.hero_text_size }}px;
+    line-height: 1.5;
+    margin: 0 0 20px;
+    opacity: 0.9;
+  }
+
+  .ai-editorial-hero-meta-{{ ai_gen_id }} {
+    font-size: 12px;
+    opacity: 0.8;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+  }
+
+  .ai-editorial-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: {{ block.settings.grid_spacing }}px;
+    margin-top: {{ block.settings.content_spacing }}px;
+  }
+
+  .ai-editorial-card-{{ ai_gen_id }} {
+    background-color: {{ block.settings.card_background }};
+    border-radius: {{ block.settings.border_radius }}px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid {{ block.settings.card_border_color }};
+  }
+
+  .ai-editorial-card-{{ ai_gen_id }}:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .ai-editorial-card-image-{{ ai_gen_id }} {
+    position: relative;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    background-color: #f5f5f5;
+  }
+
+  .ai-editorial-card-image-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .ai-editorial-card-{{ ai_gen_id }}:hover .ai-editorial-card-image-{{ ai_gen_id }} img {
+    transform: scale(1.05);
+  }
+
+  .ai-editorial-card-content-{{ ai_gen_id }} {
+    padding: 24px;
+  }
+
+  .ai-editorial-card-category-{{ ai_gen_id }} {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: {{ block.settings.category_color }};
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .ai-editorial-card-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.card_title_size }}px;
+    font-weight: 600;
+    line-height: 1.3;
+    margin: 0 0 12px;
+    color: {{ block.settings.text_color }};
+    font-family: {{ settings.font-family-second }}, serif;
+  }
+
+  .ai-editorial-card-excerpt-{{ ai_gen_id }} {
+    font-size: {{ block.settings.card_text_size }}px;
+    line-height: 1.5;
+    color: {{ block.settings.text_color }};
+    opacity: 0.8;
+    margin: 0 0 16px;
+  }
+
+  .ai-editorial-card-meta-{{ ai_gen_id }} {
+    font-size: 11px;
+    color: {{ block.settings.text_color }};
+    opacity: 0.6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .ai-editorial-read-more-{{ ai_gen_id }} {
+    color: {{ block.settings.accent_color }};
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: opacity 0.3s ease;
+  }
+
+  .ai-editorial-read-more-{{ ai_gen_id }}:hover {
+    opacity: 0.7;
+  }
+
+  .ai-editorial-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .ai-editorial-placeholder-{{ ai_gen_id }} svg {
+    width: 60px;
+    height: 60px;
+    opacity: 0.3;
+  }
+
+  .ai-editorial-empty-state-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    color: #666;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  @media screen and (max-width: 768px) {
+    .ai-editorial-layout-{{ ai_gen_id }} {
+      padding: {{ block.settings.section_padding | times: 0.7 }}px 15px;
+    }
+
+    .ai-editorial-hero-overlay-{{ ai_gen_id }} {
+      padding: 20px;
+    }
+
+    .ai-editorial-hero-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.hero_title_size | times: 0.8 }}px;
+    }
+
+    .ai-editorial-grid-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: {{ block.settings.grid_spacing | times: 0.7 }}px;
+    }
+
+    .ai-editorial-card-content-{{ ai_gen_id }} {
+      padding: 20px;
+    }
+
+    .ai-editorial-card-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.card_title_size | times: 0.9 }}px;
+    }
+  }
+
+  @media screen and (min-width: 769px) and (max-width: 1024px) {
+    .ai-editorial-grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media screen and (min-width: 1025px) {
+    .ai-editorial-grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+{% endstyle %}
+
+<div class="ai-editorial-layout-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-editorial-container-{{ ai_gen_id }}">
+    
+    {% comment %} Hero Article {% endcomment %}
+    <article class="ai-editorial-hero-{{ ai_gen_id }}">
+      {% if block.settings.hero_image %}
+        <img
+          src="{{ block.settings.hero_image | image_url: width: 1200 }}"
+          alt="{{ block.settings.hero_image.alt | escape }}"
+          class="ai-editorial-hero-image-{{ ai_gen_id }}"
+          loading="lazy"
+          width="{{ block.settings.hero_image.width }}"
+          height="{{ block.settings.hero_image.height }}"
+        >
+      {% else %}
+        <div class="ai-editorial-placeholder-{{ ai_gen_id }}">
+          {{ 'hero-apparel-1' | placeholder_svg_tag }}
+          <div class="ai-editorial-empty-state-{{ ai_gen_id }}">
+            Add a hero image
+          </div>
+        </div>
+      {% endif %}
+      
+      <div class="ai-editorial-hero-overlay-{{ ai_gen_id }}">
+        <div class="ai-editorial-hero-content-{{ ai_gen_id }}">
+          {% if block.settings.hero_category != blank %}
+            <span class="ai-editorial-hero-category-{{ ai_gen_id }}">{{ block.settings.hero_category }}</span>
+          {% endif %}
+          
+          {% if block.settings.hero_title != blank %}
+            <h1 class="ai-editorial-hero-title-{{ ai_gen_id }}">{{ block.settings.hero_title }}</h1>
+          {% endif %}
+          
+          {% if block.settings.hero_excerpt != blank %}
+            <p class="ai-editorial-hero-excerpt-{{ ai_gen_id }}">{{ block.settings.hero_excerpt }}</p>
+          {% endif %}
+          
+          <div class="ai-editorial-hero-meta-{{ ai_gen_id }}">
+            {% if block.settings.hero_author != blank %}
+              <span>By {{ block.settings.hero_author }}</span>
+            {% endif %}
+            {% if block.settings.hero_date != blank %}
+              <span>{{ block.settings.hero_date }}</span>
+            {% endif %}
+            {% if block.settings.hero_read_time != blank %}
+              <span>{{ block.settings.hero_read_time }} min read</span>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      
+      {% if block.settings.hero_link != blank %}
+        <a href="{{ block.settings.hero_link }}" aria-label="Read {{ block.settings.hero_title | escape }}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></a>
+      {% endif %}
+    </article>
+
+    {% comment %} Article Grid {% endcomment %}
+    <div class="ai-editorial-grid-{{ ai_gen_id }}">
+      {% for i in (1..6) %}
+        {% liquid
+          assign article_image_key = 'article_' | append: i | append: '_image'
+          assign article_category_key = 'article_' | append: i | append: '_category'
+          assign article_title_key = 'article_' | append: i | append: '_title'
+          assign article_excerpt_key = 'article_' | append: i | append: '_excerpt'
+          assign article_author_key = 'article_' | append: i | append: '_author'
+          assign article_date_key = 'article_' | append: i | append: '_date'
+          assign article_link_key = 'article_' | append: i | append: '_link'
+
+          assign article_image = block.settings[article_image_key]
+          assign article_category = block.settings[article_category_key]
+          assign article_title = block.settings[article_title_key]
+          assign article_excerpt = block.settings[article_excerpt_key]
+          assign article_author = block.settings[article_author_key]
+          assign article_date = block.settings[article_date_key]
+          assign article_link = block.settings[article_link_key]
+        %}
+
+        {% if article_title != blank or article_image != blank %}
+          <article class="ai-editorial-card-{{ ai_gen_id }}">
+            <div class="ai-editorial-card-image-{{ ai_gen_id }}">
+              {% if article_image %}
+                <img
+                  src="{{ article_image | image_url: width: 400 }}"
+                  alt="{{ article_image.alt | escape }}"
+                  loading="lazy"
+                  width="{{ article_image.width }}"
+                  height="{{ article_image.height }}"
+                >
+              {% else %}
+                <div class="ai-editorial-placeholder-{{ ai_gen_id }}">
+                  {{ 'image' | placeholder_svg_tag }}
+                </div>
+              {% endif %}
+            </div>
+            
+            <div class="ai-editorial-card-content-{{ ai_gen_id }}">
+              {% if article_category != blank %}
+                <span class="ai-editorial-card-category-{{ ai_gen_id }}">{{ article_category }}</span>
+              {% endif %}
+              
+              {% if article_title != blank %}
+                <h3 class="ai-editorial-card-title-{{ ai_gen_id }}">{{ article_title }}</h3>
+              {% endif %}
+              
+              {% if article_excerpt != blank %}
+                <p class="ai-editorial-card-excerpt-{{ ai_gen_id }}">{{ article_excerpt }}</p>
+              {% endif %}
+              
+              <div class="ai-editorial-card-meta-{{ ai_gen_id }}">
+                <div>
+                  {% if article_author != blank %}
+                    <span>{{ article_author }}</span>
+                  {% endif %}
+                  {% if article_date != blank %}
+                    {% if article_author != blank %} • {% endif %}
+                    <span>{{ article_date }}</span>
+                  {% endif %}
+                </div>
+                {% if article_link != blank %}
+                  <a href="{{ article_link }}" class="ai-editorial-read-more-{{ ai_gen_id }}">Read More</a>
+                {% endif %}
+              </div>
+            </div>
+            
+            {% if article_link != blank %}
+              <a href="{{ article_link }}" aria-label="Read {{ article_title | escape }}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></a>
+            {% endif %}
+          </article>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Magazine editorial layout",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "min": 20,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "label": "Section padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "content_spacing",
+      "min": 20,
+      "max": 80,
+      "step": 10,
+      "unit": "px",
+      "label": "Content spacing",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "grid_spacing",
+      "min": 15,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Grid spacing",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#222222"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#ff3535"
+    },
+    {
+      "type": "color",
+      "id": "category_color",
+      "label": "Category color",
+      "default": "#ff3535"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card border color",
+      "default": "#f0f0f0"
+    },
+    {
+      "type": "header",
+      "content": "Hero article"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero image"
+    },
+    {
+      "type": "text",
+      "id": "hero_category",
+      "label": "Category",
+      "default": "Featured"
+    },
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Title",
+      "default": "The Future of Fashion: Sustainable Style Trends"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_excerpt",
+      "label": "Excerpt",
+      "default": "Discover how sustainable fashion is reshaping the industry with innovative materials and ethical practices that don't compromise on style."
+    },
+    {
+      "type": "text",
+      "id": "hero_author",
+      "label": "Author",
+      "default": "Sarah Johnson"
+    },
+    {
+      "type": "text",
+      "id": "hero_date",
+      "label": "Date",
+      "default": "March 15, 2024"
+    },
+    {
+      "type": "text",
+      "id": "hero_read_time",
+      "label": "Read time",
+      "default": "5"
+    },
+    {
+      "type": "url",
+      "id": "hero_link",
+      "label": "Article link"
+    },
+    {
+      "type": "color",
+      "id": "hero_text_color",
+      "label": "Hero text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "select",
+      "id": "overlay_direction",
+      "label": "Overlay direction",
+      "options": [
+        {
+          "value": "to top",
+          "label": "Bottom to top"
+        },
+        {
+          "value": "to bottom",
+          "label": "Top to bottom"
+        },
+        {
+          "value": "to left",
+          "label": "Right to left"
+        },
+        {
+          "value": "to right",
+          "label": "Left to right"
+        }
+      ],
+      "default": "to top"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "label": "Overlay opacity",
+      "default": 0.6
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "hero_title_size",
+      "min": 24,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Hero title size",
+      "default": 42
+    },
+    {
+      "type": "range",
+      "id": "hero_text_size",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Hero text size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "card_title_size",
+      "min": 16,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Card title size",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "card_text_size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Card text size",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Article 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "article_1_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "article_1_category",
+      "label": "Category",
+      "default": "Style"
+    },
+    {
+      "type": "text",
+      "id": "article_1_title",
+      "label": "Title",
+      "default": "Minimalist Wardrobe Essentials"
+    },
+    {
+      "type": "textarea",
+      "id": "article_1_excerpt",
+      "label": "Excerpt",
+      "default": "Build a timeless wardrobe with these essential pieces that work for any occasion."
+    },
+    {
+      "type": "text",
+      "id": "article_1_author",
+      "label": "Author",
+      "default": "Emma Davis"
+    },
+    {
+      "type": "text",
+      "id": "article_1_date",
+      "label": "Date",
+      "default": "March 12, 2024"
+    },
+    {
+      "type": "url",
+      "id": "article_1_link",
+      "label": "Article link"
+    },
+    {
+      "type": "header",
+      "content": "Article 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "article_2_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "article_2_category",
+      "label": "Category",
+      "default": "Trends"
+    },
+    {
+      "type": "text",
+      "id": "article_2_title",
+      "label": "Title",
+      "default": "Spring Color Palette Guide"
+    },
+    {
+      "type": "textarea",
+      "id": "article_2_excerpt",
+      "label": "Excerpt",
+      "default": "Explore the season's most vibrant colors and how to incorporate them into your style."
+    },
+    {
+      "type": "text",
+      "id": "article_2_author",
+      "label": "Author",
+      "default": "Michael Chen"
+    },
+    {
+      "type": "text",
+      "id": "article_2_date",
+      "label": "Date",
+      "default": "March 10, 2024"
+    },
+    {
+      "type": "url",
+      "id": "article_2_link",
+      "label": "Article link"
+    },
+    {
+      "type": "header",
+      "content": "Article 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "article_3_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "article_3_category",
+      "label": "Category",
+      "default": "Lifestyle"
+    },
+    {
+      "type": "text",
+      "id": "article_3_title",
+      "label": "Title",
+      "default": "Sustainable Fashion Brands to Watch"
+    },
+    {
+      "type": "textarea",
+      "id": "article_3_excerpt",
+      "label": "Excerpt",
+      "default": "Discover emerging brands that are making a positive impact on the fashion industry."
+    },
+    {
+      "type": "text",
+      "id": "article_3_author",
+      "label": "Author",
+      "default": "Lisa Rodriguez"
+    },
+    {
+      "type": "text",
+      "id": "article_3_date",
+      "label": "Date",
+      "default": "March 8, 2024"
+    },
+    {
+      "type": "url",
+      "id": "article_3_link",
+      "label": "Article link"
+    },
+    {
+      "type": "header",
+      "content": "Article 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "article_4_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "article_4_category",
+      "label": "Category",
+      "default": "Beauty"
+    },
+    {
+      "type": "text",
+      "id": "article_4_title",
+      "label": "Title",
+      "default": "Natural Beauty Routine"
+    },
+    {
+      "type": "textarea",
+      "id": "article_4_excerpt",
+      "label": "Excerpt",
+      "default": "Simple steps to achieve a natural, glowing look with minimal products."
+    },
+    {
+      "type": "text",
+      "id": "article_4_author",
+      "label": "Author",
+      "default": "Anna Kim"
+    },
+    {
+      "type": "text",
+      "id": "article_4_date",
+      "label": "Date",
+      "default": "March 5, 2024"
+    },
+    {
+      "type": "url",
+      "id": "article_4_link",
+      "label": "Article link"
+    },
+    {
+      "type": "header",
+      "content": "Article 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "article_5_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "article_5_category",
+      "label": "Category",
+      "default": "Fashion"
+    },
+    {
+      "type": "text",
+      "id": "article_5_title",
+      "label": "Title",
+      "default": "Vintage Shopping Guide"
+    },
+    {
+      "type": "textarea",
+      "id": "article_5_excerpt",
+      "label": "Excerpt",
+      "default": "Tips for finding unique vintage pieces that complement your modern wardrobe."
+    },
+    {
+      "type": "text",
+      "id": "article_5_author",
+      "label": "Author",
+      "default": "James Wilson"
+    },
+    {
+      "type": "text",
+      "id": "article_5_date",
+      "label": "Date",
+      "default": "March 3, 2024"
+    },
+    {
+      "type": "url",
+      "id": "article_5_link",
+      "label": "Article link"
+    },
+    {
+      "type": "header",
+      "content": "Article 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "article_6_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "article_6_category",
+      "label": "Category",
+      "default": "Accessories"
+    },
+    {
+      "type": "text",
+      "id": "article_6_title",
+      "label": "Title",
+      "default": "Statement Jewelry Trends"
+    },
+    {
+      "type": "textarea",
+      "id": "article_6_excerpt",
+      "label": "Excerpt",
+      "default": "Bold jewelry pieces that can transform any outfit from simple to stunning."
+    },
+    {
+      "type": "text",
+      "id": "article_6_author",
+      "label": "Author",
+      "default": "Sophie Taylor"
+    },
+    {
+      "type": "text",
+      "id": "article_6_date",
+      "label": "Date",
+      "default": "March 1, 2024"
+    },
+    {
+      "type": "url",
+      "id": "article_6_link",
+      "label": "Article link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Magazine editorial layout"
+    }
+  ]
+}
+{% endschema %}
