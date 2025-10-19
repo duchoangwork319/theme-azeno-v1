@@ -1,0 +1,41 @@
+{% case source_type %}
+  {% when 'internal' %}
+    <div
+      class="wpbingo-slideshow__item-video"
+      data-preview-image="{{ video_obj.preview_image.src | escape }}"
+    >
+      <video autoplay muted loop playsinline alt="{{ video_obj.alt | escape }}">
+        {% for source in video_obj.sources %}
+          {% if source.format == 'mp4' %}
+            <source
+              src="{{ source.url }}"
+              type="{{ source.mime_type }}"
+              media="{% if mobile_video_obj.sources != blank %}(min-width: 769px){% endif %}"
+            >
+          {% endif %}
+        {% endfor %}
+        {% if mobile_video_obj.sources != blank %}
+          {% for source in mobile_video_obj.sources %}
+            {% if source.format == 'mp4' %}
+              <source
+                src="{{ source.url }}"
+                type="{{ source.mime_type }}"
+                media="(max-width: 768px)"
+              >
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      </video>
+    </div>
+  {% when 'external' %}
+    <div class="wpbingo-slideshow__item-video" data-preview-image="">
+      <iframe
+        src="{{ video_obj | escape }}"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+      ></iframe>
+    </div>
+  {% else %}
+
+{% endcase %}
