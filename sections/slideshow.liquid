@@ -241,17 +241,30 @@
         >
           {%- for block in section.blocks -%}
             {%- if block.type == 'image' -%}
-              <div class="wpbingo-slideshow__item image-size--{{block.settings.size_img}} image-pos--{{block.settings.pos_img}} image-size-mobi--{{block.settings.size_img_mobi}} image-pos-mobi--{{block.settings.pos_img_mobi}}">
-                {%- if block.settings.image == blank -%}
-                  <img class="lazyload fade-in" src="https://placehold.jp/1920x900.png" width="1920" height="900">
-                {%- else -%}
-                  {%- if block.settings.image_mobi != blank -%}
-                    {% include 'img-global' with image: block.settings.image_mobi, class: "wpbingo-slideshow__item-image mobile", effect: "fade-in" %}
-                    {% include 'img-global' with image: block.settings.image, class: "wpbingo-slideshow__item-image hide_mobile", effect: "fade-in" %}
-                  {%- else -%}
-                    {% include 'img-global' with image: block.settings.image, class: "wpbingo-slideshow__item-image", effect: "fade-in" %}
-                  {%- endif -%}
-                {%- endif -%}
+              <div class="wpbingo-slideshow__item image-size--{{block.settings.size_img}} image-pos--{{block.settings.pos_img}} image-size-mobi--{{block.settings.size_img_mobi}} image-pos-mobi--{{block.settings.pos_img_mobi}} slider-item-{{forloop.index}} slider-{{ block.settings.title | replace: ' ', '-' }} slider-type-{{ block.settings.slide_type }}">
+                {% case block.settings.slide_type %}
+                  {% when 'image' %}
+                    {%- if block.settings.image == blank -%}
+                      <img class="lazyload fade-in" src="https://placehold.jp/1920x900.png" width="1920" height="900">
+                    {%- else -%}
+                      {%- if block.settings.image_mobi != blank -%}
+                        {% include 'img-global' with image: block.settings.image_mobi, class: "wpbingo-slideshow__item-image mobile", effect: "fade-in" %}
+                        {% include 'img-global' with image: block.settings.image, class: "wpbingo-slideshow__item-image hide_mobile", effect: "fade-in" %}
+                      {%- else -%}
+                        {% include 'img-global' with image: block.settings.image, class: "wpbingo-slideshow__item-image", effect: "fade-in" %}
+                      {%- endif -%}
+                    {%- endif -%}
+                  {% when 'video' %}
+                    {% if block.settings.internalvideo == blank and block.settings.mobile_internalvideo == blank %}
+                      <img class="lazyload fade-in" src="https://placehold.jp/1920x900.png" width="1920" height="900">
+                    {% else %}
+                      {% render 'video-global',
+                        source_type: 'internal',
+                        video_obj: block.settings.internalvideo,
+                        mobile_video_obj: block.settings.mobile_internalvideo
+                      %}
+                    {% endif %}
+                {% endcase %}
                 <div class="slideshow-caption slideshow-vertical--{{ block.settings.vertical_align }} slideshow-vertical-mobi--{{ block.settings.vertical_align_mobi }}{% if block.settings.disable_absolute %} disable_absolute{% endif %}">
                   <div class="container{{ block.settings.caption_width }}">
                     <div class="slideshow-caption__inner caption__inner-{{forloop.index}} slideshow-horizontal--{{ block.settings.horizontal_align }} slideshow-horizontal-mobi--{{ block.settings.horizontal_align_mobi }}">
@@ -481,6 +494,26 @@
           "label": "Name slider item"
         },
         {
+          "type": "select",
+          "id": "slide_type",
+          "label": "Slide type",
+          "default": "image",
+          "options": [
+            {
+              "value": "image",
+              "label": "Image"
+            },
+            {
+              "value": "video",
+              "label": "Video"
+            }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "Image settings"
+        },
+        {
           "type": "image_picker",
           "id": "image",
           "label": "Image"
@@ -554,6 +587,20 @@
               "label": "Right Bottom"
             }
           ]
+        },
+        {
+          "type": "header",
+          "content": "Video settings"
+        },
+        {
+          "type": "video",
+          "id": "internalvideo",
+          "label": "Desktop video"
+        },
+        {
+          "type": "video",
+          "id": "mobile_internalvideo",
+          "label": "Mobile video"
         },
         {
           "type": "header",
