@@ -382,7 +382,7 @@
             "settings": {
               "title": ".RED",
               "is_label": false,
-              "select_color_1": "#6b302c",
+              "select_color_1": "#e60015",
               "show_gradient": false,
               "select_color_2": "",
               "show_image": true
@@ -393,7 +393,7 @@
             "settings": {
               "title": ".BLUE",
               "is_label": false,
-              "select_color_1": "#5173a6",
+              "select_color_1": "#002f46",
               "show_gradient": false,
               "select_color_2": "",
               "show_image": false
@@ -415,7 +415,7 @@
             "settings": {
               "title": ".RUST",
               "is_label": false,
-              "select_color_1": "#b7410e",
+              "select_color_1": "#9d331a",
               "show_gradient": false,
               "select_color_2": "",
               "show_image": false
@@ -426,7 +426,7 @@
             "settings": {
               "title": ".WHITE-GREY",
               "is_label": false,
-              "select_color_1": "#a6a6a6",
+              "select_color_1": "#d4d4d4",
               "show_gradient": false,
               "select_color_2": "",
               "show_image": false
@@ -437,7 +437,7 @@
             "settings": {
               "title": ".NIGHT-BLUE",
               "is_label": false,
-              "select_color_1": "#151b54",
+              "select_color_1": "#1f375f",
               "show_gradient": false,
               "select_color_2": "",
               "show_image": false
@@ -459,7 +459,7 @@
             "settings": {
               "title": ".GREEN",
               "is_label": false,
-              "select_color_1": "#008000",
+              "select_color_1": "#616247",
               "show_gradient": false,
               "select_color_2": "",
               "show_image": false
@@ -470,7 +470,7 @@
             "settings": {
               "title": ".DARK-GREY",
               "is_label": false,
-              "select_color_1": "#a9a9a9",
+              "select_color_1": "#505050",
               "show_gradient": false,
               "select_color_2": "",
               "show_image": false
@@ -481,7 +481,7 @@
             "settings": {
               "title": ".FOREST-GREEN",
               "is_label": false,
-              "select_color_1": "#228b22",
+              "select_color_1": "#333524",
               "show_gradient": false,
               "select_color_2": "",
               "show_image": false
@@ -492,7 +492,7 @@
             "settings": {
               "title": ".GREY",
               "is_label": false,
-              "select_color_1": "#808080",
+              "select_color_1": "#7a7b7d",
               "show_gradient": false,
               "select_color_2": "",
               "show_image": false
@@ -503,7 +503,7 @@
             "settings": {
               "title": ".ORANGE",
               "is_label": false,
-              "select_color_1": "#ffa500",
+              "select_color_1": "#ff6d2b",
               "show_gradient": false,
               "select_color_2": "",
               "show_image": false
@@ -514,7 +514,7 @@
             "settings": {
               "title": ".CHOKO",
               "is_label": false,
-              "select_color_1": "#7b3f00",
+              "select_color_1": "#7e1c12",
               "show_gradient": false,
               "select_color_2": "",
               "show_image": false
@@ -525,7 +525,7 @@
             "settings": {
               "title": ".SURF-BLUE",
               "is_label": false,
-              "select_color_1": "#00808b",
+              "select_color_1": "#00aae6",
               "show_gradient": false,
               "select_color_2": "",
               "show_image": false
@@ -536,7 +536,7 @@
             "settings": {
               "title": ".DARK-NIGHT-BLUE",
               "is_label": false,
-              "select_color_1": "#003366",
+              "select_color_1": "#1f375f",
               "show_gradient": false,
               "select_color_2": "",
               "show_image": false
@@ -547,10 +547,11 @@
             "settings": {
               "title": ".SUPERBLACK",
               "is_label": false,
-              "select_color_1": "#000000",
+              "select_color_1": "rgba(0,0,0,0)",
               "show_gradient": false,
               "select_color_2": "",
-              "show_image": false
+              "show_image": true,
+              "color_image": "shopify://shop_images/swatch--superblack.svg"
             }
           },
           "color_gMcLwh": {
@@ -558,7 +559,7 @@
             "settings": {
               "title": ".SAND",
               "is_label": false,
-              "select_color_1": "#c2b280",
+              "select_color_1": "#cab9a3",
               "show_gradient": false,
               "select_color_2": "",
               "show_image": false
@@ -569,7 +570,7 @@
             "settings": {
               "title": ".OCEAN",
               "is_label": false,
-              "select_color_1": "#006994",
+              "select_color_1": "#008acf",
               "show_gradient": false,
               "select_color_2": "",
               "show_image": false
@@ -580,7 +581,7 @@
             "settings": {
               "title": ".CARBON",
               "is_label": false,
-              "select_color_1": "#2e2e2e",
+              "select_color_1": "#323232",
               "show_gradient": false,
               "select_color_2": "",
               "show_image": false
@@ -591,7 +592,7 @@
             "settings": {
               "title": ".YELLOW",
               "is_label": false,
-              "select_color_1": "#ffff00",
+              "select_color_1": "#edff00",
               "show_gradient": false,
               "select_color_2": "",
               "show_image": false
@@ -602,7 +603,7 @@
             "settings": {
               "title": ".BORDEAUX",
               "is_label": false,
-              "select_color_1": "#5a002c",
+              "select_color_1": "#6e1e37",
               "show_gradient": false,
               "select_color_2": "",
               "show_image": false
@@ -613,7 +614,7 @@
             "settings": {
               "title": ".AUBERGINE",
               "is_label": false,
-              "select_color_1": "#614051",
+              "select_color_1": "#462131",
               "show_gradient": false,
               "select_color_2": "",
               "show_image": false
@@ -624,7 +625,7 @@
             "settings": {
               "title": ".MUSTARD",
               "is_label": false,
-              "select_color_1": "#ffdb58",
+              "select_color_1": "#a46e1d",
               "show_gradient": false,
               "select_color_2": "",
               "show_image": false
@@ -646,7 +647,7 @@
             "settings": {
               "title": ".MAGNESIUM",
               "is_label": false,
-              "select_color_1": "#c1c2c3",
+              "select_color_1": "#a6a6a6",
               "show_gradient": false,
               "select_color_2": "",
               "show_image": false
@@ -657,7 +658,7 @@
             "settings": {
               "title": ".PETROL",
               "is_label": false,
-              "select_color_1": "#005f6a",
+              "select_color_1": "#007075",
               "show_gradient": false,
               "select_color_2": "",
               "show_image": false
@@ -668,7 +669,7 @@
             "settings": {
               "title": ".LIME",
               "is_label": false,
-              "select_color_1": "#00ff00",
+              "select_color_1": "#acc435",
               "show_gradient": false,
               "select_color_2": "",
               "show_image": false
@@ -679,7 +680,7 @@
             "settings": {
               "title": ".FULL-MAGNESIUM",
               "is_label": false,
-              "select_color_1": "#c1c2c3",
+              "select_color_1": "#a6a6a6",
               "show_gradient": false,
               "select_color_2": "",
               "show_image": false
@@ -690,10 +691,58 @@
             "settings": {
               "title": ".BRAND",
               "is_label": false,
-              "select_color_1": "#f5f5f5",
+              "select_color_1": "rgba(0,0,0,0)",
+              "show_gradient": false,
+              "select_color_2": "",
+              "show_image": true,
+              "color_image": "shopify://shop_images/brand.svg"
+            }
+          },
+          "color_D8atEE": {
+            "type": "color",
+            "settings": {
+              "title": ".TURQUOISE",
+              "is_label": false,
+              "select_color_1": "#007075",
               "show_gradient": false,
               "select_color_2": "",
               "show_image": false
+            }
+          },
+          "color_E9kUPd": {
+            "type": "color",
+            "settings": {
+              "title": ".WHITE-BLACK",
+              "is_label": false,
+              "select_color_1": "",
+              "show_gradient": false,
+              "select_color_2": "",
+              "show_image": true,
+              "color_image": "shopify://shop_images/swatch--white-black.svg"
+            }
+          },
+          "color_Yjnaj8": {
+            "type": "color",
+            "settings": {
+              "title": ".BLACK-WHITE",
+              "is_label": false,
+              "select_color_1": "",
+              "show_gradient": false,
+              "select_color_2": "",
+              "show_image": true,
+              "color_image": "shopify://shop_images/swatch--black-white.svg"
+            }
+          },
+          "color_exj9MY": {
+            "type": "color",
+            "settings": {
+              "title": ".UNO-X",
+              "is_label": false,
+              "select_color_1": "",
+              "show_gradient": false,
+              "select_color_2": "",
+              "show_image": true,
+              "color_image": "shopify://shop_images/swatch--uno-x.svg"
             }
           }
         },
@@ -726,7 +775,11 @@
           "color_7HeRMr",
           "color_jwHjti",
           "color_89EDr7",
-          "color_9phCPx"
+          "color_9phCPx",
+          "color_D8atEE",
+          "color_E9kUPd",
+          "color_Yjnaj8",
+          "color_exj9MY"
         ],
         "settings": {}
       },

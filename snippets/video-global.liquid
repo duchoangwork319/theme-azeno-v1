@@ -4,7 +4,7 @@
       class="wpbingo-slideshow__item-video"
       data-preview-image="{{ video_obj.preview_image.src | escape }}"
     >
-      <video autoplay muted loop playsinline alt="{{ video_obj.alt | escape }}">
+      <video class="w-100" autoplay muted loop playsinline alt="{{ video_obj.alt | escape }}">
         {% for source in video_obj.sources %}
           {% if source.format == 'mp4' %}
             <source

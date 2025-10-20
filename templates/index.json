@@ -90,8 +90,10 @@
       "blocks": {
         "c42eeb04-9ff8-4a1c-af6c-4ef90a6d25d0": {
           "type": "image",
+          "disabled": true,
           "settings": {
             "title": "slider-1",
+            "slide_type": "image",
             "size_img": "cover",
             "pos_img": "center_center",
             "caption_width": "",
@@ -220,8 +222,11 @@
           "type": "image",
           "settings": {
             "title": "slider-2",
+            "slide_type": "video",
             "size_img": "cover",
             "pos_img": "center_center",
+            "internalvideo": "shopify://files/videos/SportswearTechnicians_4K.mp4",
+            "mobile_internalvideo": "shopify://files/videos/2da685b3bb2443cfb2c417292b801545.HD-1080p-3.3Mbps-26402125.mp4",
             "caption_width": "",
             "vertical_align": "middle",
             "horizontal_align": "left",
@@ -346,8 +351,10 @@
         },
         "42219513-ea1a-4dee-b58f-56a4903800cf": {
           "type": "image",
+          "disabled": true,
           "settings": {
             "title": "slider-3",
+            "slide_type": "image",
             "size_img": "cover",
             "pos_img": "center_center",
             "caption_width": "",
