@@ -48,7 +48,7 @@
 	{%- endfor -%}
 {% endcapture %}
 {% assign image_360 = array_360 | split: ' ' %}
-{% if section.settings.use_metafields_media %}
+{% if section.settings.use_metafields_media and current_variant.metafields.custom.variant_media_hi_res.value != blank %}
   {% assign media_collection = current_variant.metafields.custom.variant_media_hi_res.value %}
   {% assign media_collection_count = media_collection.count %}
 {% else %}
