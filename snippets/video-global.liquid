@@ -4,11 +4,36 @@
       class="wpbingo-slideshow__item-video"
       data-preview-image="{{ video_obj.preview_image.src | escape }}"
     >
-      <video class="w-100" autoplay muted loop playsinline alt="{{ video_obj.alt | escape }}">
+      <picture class="preview-image">
+        {% if mobile_video_obj != blank %}
+          <source
+            srcset="{{ mobile_video_obj.preview_image.src | image_url }}"
+            media="(max-width: 768px)"
+          >
+        {% endif %}
+        {% if video_obj != blank %}
+          <img
+            width="100%"
+            height="auto"
+            src="{{ video_obj.preview_image.src | image_url }}"
+            alt="preview-{{ video_obj.alt | escape }}"
+          >
+        {% endif %}
+      </picture>
+
+      <video
+        class="w-100 d-none"
+        autoplay
+        muted
+        loop
+        playsinline
+        alt="{{ video_obj.alt | escape }}"
+        poster="{{ video_obj.preview_image.src | image_url }}"
+      >
         {% for source in video_obj.sources %}
           {% if source.format == 'mp4' %}
             <source
-              src="{{ source.url }}"
+              data-src="{{ source.url }}"
               type="{{ source.mime_type }}"
               media="{% if mobile_video_obj.sources != blank %}(min-width: 769px){% endif %}"
             >
@@ -18,7 +43,7 @@
           {% for source in mobile_video_obj.sources %}
             {% if source.format == 'mp4' %}
               <source
-                src="{{ source.url }}"
+                data-src="{{ source.url }}"
                 type="{{ source.mime_type }}"
                 media="(max-width: 768px)"
               >

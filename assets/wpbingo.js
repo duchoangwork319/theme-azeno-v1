@@ -3682,7 +3682,7 @@ var ajaxCart = (function (module, $) {
 		validateQty;
 
 	/*============================================================================
-	  Initialise the plugin and define global options
+		Initialise the plugin and define global options
 	==============================================================================*/
 	init = function (options) {
 		// Default settings
@@ -4550,12 +4550,13 @@ wpbingo.cookieConsent = function () {
 };
 
 wpbingo.slideshow = function () {
-	var slideshow = '.js-wpbingo-slideshow',
-		fade = $(slideshow).data('fade'),
-		autoplay = $(slideshow).data('autoplay'),
-		autoplayInterval = $(slideshow).data('autoplayinterval'),
-		autoplayNavigation = $(slideshow).data('navigation'),
-		autoplayPagination = $(slideshow).data('pagination');
+	var slideshow = '.js-wpbingo-slideshow';
+	var slideshowEl = $(slideshow);
+	var fade = slideshowEl.data('fade'),
+		autoplay = slideshowEl.data('autoplay'),
+		autoplayInterval = slideshowEl.data('autoplayinterval'),
+		autoplayNavigation = slideshowEl.data('navigation'),
+		autoplayPagination = slideshowEl.data('pagination');
 	var config = {
 		fade: true,
 		rows: 0,
@@ -4567,7 +4568,50 @@ wpbingo.slideshow = function () {
 	(fade === undefined || fade == null) ? true : config.fade = fade;
 	(autoplayInterval === undefined || autoplayInterval == null) ? true : config.autoplaySpeed = autoplayInterval;
 	(autoplayPagination === undefined || autoplayPagination == null || autoplayPagination != true) ? config.dots = false : config.dots = true;
-	$(slideshow).slick(config);
+
+	/**
+	 * Play the video element if it exists
+	 * @param {JQuery<HTMLVideoElement>} videoEl - The video element to play
+	 */
+	var playVideo = (videoEl) => {
+		if (videoEl && videoEl.length) {
+			if (!videoEl.hasClass('loaded')) {
+				videoEl.find('source').each(function () {
+					var videoSrc = $(this);
+					videoSrc.attr('src', videoSrc.attr('data-src'));
+				});
+				videoEl.addClass('loaded').removeClass('d-none');
+				videoEl.get(0).load();
+			}
+			try {
+				videoEl.get(0).play()
+					.then(function () {
+						videoEl.parent().find('.preview-image').addClass('d-none');
+					})
+					.catch(function () { })
+					.finally(function () {
+						console.log('Played video: ', videoEl.attr('alt'));
+					});
+			} catch (err) { }
+		}
+	};
+
+	// Bind events to control video playback within slides
+	slideshowEl
+		.on('init', function (e, slick) {
+			var videoEl = $(slick.$slides[slick.currentSlide]).find('video');
+			playVideo(videoEl);
+		})
+		.on('afterChange', function (e, slick, currentSlide) {
+			var $slide = $(slick.$slides[currentSlide]);
+			if ($slide.data('played')) return;
+			var videoEl = $slide.find('video');
+			if (videoEl && videoEl.length) {
+				$slide.data('played', true);
+				playVideo(videoEl);
+			}
+		})
+		.slick(config)
 };
 wpbingo.rtl_slick = function () {
 	if ($('body').hasClass("rtl")) {
