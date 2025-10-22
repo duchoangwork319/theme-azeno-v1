@@ -29,7 +29,7 @@
             "required": false,
             "input_type": "hidden",
             "input_name": "formType",
-            "input_label": "",
+            "title": "Form Type",
             "default_value": "contact-us",
             "error_message": ""
           }
@@ -40,7 +40,7 @@
             "required": true,
             "input_type": "text",
             "input_name": "name",
-            "input_label": "Name",
+            "title": "Name",
             "max_length": 50,
             "default_value": "",
             "error_message": "'Name' is required and must not exceed 50 characters."
@@ -52,7 +52,7 @@
             "required": true,
             "input_type": "email",
             "input_name": "email",
-            "input_label": "Email",
+            "title": "Email",
             "max_length": 100,
             "default_value": "",
             "error_message": "'email' is required, must not exceed 100 characters, and must be a valid email address."
@@ -64,7 +64,7 @@
             "required": true,
             "input_type": "phone",
             "input_name": "phoneNumber",
-            "input_label": "Phone Number",
+            "title": "Phone Number",
             "max_length": 15,
             "default_value": "",
             "error_message": "'Phone Number' is required and must not exceed 15 characters."
@@ -75,7 +75,7 @@
           "settings": {
             "required": true,
             "select_name": "helpWith",
-            "select_label": "What can we help you with?",
+            "title": "What can we help you with?",
             "select_values": "Order Status/Changes,Returns,Product Inquiries,Other,Partnership",
             "default_value": "",
             "error_message": "'What can we help you with?' is required and must not exceed 50 characters."
@@ -87,7 +87,7 @@
             "required": true,
             "input_type": "text",
             "input_name": "orderNo",
-            "input_label": "Order #",
+            "title": "Order #",
             "max_length": 50,
             "default_value": "",
             "error_message": "'Order #' is required and must not exceed 50 characters."
@@ -98,7 +98,7 @@
           "settings": {
             "required": true,
             "select_name": "shippingToCountry",
-            "select_label": "Shipping to Country",
+            "title": "Shipping to Country",
             "select_values": "Singapore,Hong Kong,Viet Nam",
             "default_value": "",
             "error_message": "'Shipping to Country' is required and must not exceed 50 characters."
@@ -109,7 +109,7 @@
           "settings": {
             "required": true,
             "textarea_name": "message",
-            "textarea_label": "Message",
+            "title": "Message",
             "max_length": 255,
             "error_message": "'Message' is required and must not exceed 255 characters."
           }

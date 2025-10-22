@@ -135,6 +135,7 @@
     "newsletter_popup_subtitle": "Sign up for our newsletter and receive updates you’re looking for: interior inspiration, the latest trends and discounts",
     "newsletter_popup_mailchimp": false,
     "verify_popup_enable": false,
+    "enable_fakerjs": true,
     "checkout_logo_image": "shopify://shop_images/logo_6c2c83c7-d9df-4e56-bdfb-2f8cda3894ce.png",
     "checkout_logo_size": "small",
     "login_bg": "shopify://shop_images/Group_3_1d3a78dd-ee93-477c-bba0-25d5ba5387ba.jpg",
