@@ -1916,5 +1916,20 @@
         "default": "Please come back when you're over 18"
       }
     ]
+  },
+  {
+    "name": "Scripts",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Add custom scripts"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_fakerjs",
+        "label": "Enable FakerJS",
+        "default": false
+      }
+    ]
   }
 ]
