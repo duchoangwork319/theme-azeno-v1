@@ -198,7 +198,7 @@
         "settings": {
           "categories_enable": true,
           "categories_title": "Collections",
-          "categories_menu": "categories",
+          "categories_menu": "",
           "show_count": true,
           "enable_filtering": true
         }
@@ -793,7 +793,7 @@
       "collection-sidebarbottom": {
         "type": "collection-sidebarbottom",
         "settings": {
-          "products_enbale": true,
+          "products_enbale": false,
           "products_title": "Feature Product",
           "collection_handle": "frontpage",
           "products_limit": "3",
@@ -806,7 +806,7 @@
         "settings": {
           "categories_enable": true,
           "categories_title": "Collection",
-          "categories_menu": "categories",
+          "categories_menu": "",
           "show_count": true,
           "layput_shop": "simple",
           "page_item": 9,
@@ -972,7 +972,6 @@
           "dc31ad9a-8d90-44df-9372-16d11c9780c5": {
             "type": "image",
             "settings": {
-              "image": "shopify://shop_images/banner-header-1.jpg",
               "height_image": "220px",
               "position_image": "center",
               "size_image": "cover",
@@ -995,7 +994,6 @@
           "4fcd3fec-8c42-4bdc-9dda-082294ad4ba9": {
             "type": "image",
             "settings": {
-              "image": "shopify://shop_images/banner-header-2.jpg",
               "height_image": "220px",
               "position_image": "center",
               "size_image": "cover",
@@ -1041,13 +1039,12 @@
           "enable": true,
           "bgimage": false,
           "background_fixed": true,
-          "image": "shopify://shop_images/bg-shop-header.webp",
           "show_pagetitle": true,
           "show_breadcrumb": true,
           "color_breadcrumb": "#222222",
           "align_breadcrumb": "center",
           "enable_collection": true,
-          "categories_menu": "categories",
+          "categories_menu": "",
           "style_collection": "style_2",
           "navigation": true,
           "infinite": true,
