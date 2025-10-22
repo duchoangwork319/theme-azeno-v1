@@ -234,7 +234,7 @@
             <div class="form-group input-form-group {{ block.settings.input_name | replace: '.', '' }}-form-group">
               {% if block.settings.input_type != 'hidden' %}
                 <label for="{{ block.settings.input_name }}">
-                  {{ block.settings.input_label }}
+                  {{ block.settings.title }}
                   {% if block.settings.required -%}
                     <span class="required">*</span>
                   {%- endif %}
@@ -282,7 +282,7 @@
           {% when 'select' %}
             <div class="form-group select-form-group {{ block.settings.select_name | replace: '.', '' }}-form-group">
               <label for="{{ block.settings.select_name }}">
-                {{ block.settings.select_label }}
+                {{ block.settings.title }}
                 {% if block.settings.required -%}
                   <span class="required">*</span>
                 {%- endif %}
@@ -313,7 +313,7 @@
           {% when 'textarea' %}
             <div class="form-group textarea-form-group {{ block.settings.textarea_name | replace: '.', '' }}-form-group">
               <label for="{{ block.settings.textarea_name }}">
-                {{ block.settings.textarea_label }}
+                {{ block.settings.title }}
                 {% if block.settings.required -%}
                   <span class="required">*</span>
                 {%- endif %}
@@ -339,7 +339,7 @@
             {% assign max_total_files = block.settings.max_total_files | default: 5 %}
             <div class="form-group file-form-group {{ block.settings.file_name | replace: '.', '' }}-form-group">
               <label for="{{ block.settings.file_name }}">
-                {{ block.settings.file_label }}
+                {{ block.settings.title }}
                 {% if block.settings.required -%}
                   <span class="required">*</span>
                 {%- endif %}
@@ -376,7 +376,7 @@
         {% endcase %}
       {% endfor %}
       <div class="form-group submit-form-group">
-        {% if section.settings.show_fake_data_button %}
+        {% if section.settings.show_fake_data_button and settings.enable_fakerjs %}
           <button type="button" id="fillFakeDataButton" class="me-2">Fill with fake data</button>
         {% endif %}
         <button type="submit">{{ section.settings.button_text }}</button>
@@ -499,7 +499,7 @@
         },
         {
           "type": "text",
-          "id": "input_label",
+          "id": "title",
           "label": "Label"
         },
         {
@@ -541,7 +541,7 @@
         },
         {
           "type": "text",
-          "id": "select_label",
+          "id": "title",
           "label": "Label"
         },
         {
@@ -579,7 +579,7 @@
         },
         {
           "type": "text",
-          "id": "textarea_label",
+          "id": "title",
           "label": "Label"
         },
         {
@@ -616,7 +616,7 @@
         },
         {
           "type": "text",
-          "id": "file_label",
+          "id": "title",
           "label": "Label"
         },
         {

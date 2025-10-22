@@ -1,4 +1,6 @@
-<script src="{{ 'faker.js' | asset_url }}" defer></script>
+{% if settings.enable_fakerjs %}
+  <script src="{{ 'faker.js' | asset_url }}" defer></script>
+{% endif %}
 <script src="/services/javascripts/countries.js" defer="defer"></script>
 <script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer="defer"></script>
 <script src="{{ 'lazysizes.min.js' | asset_url }}" async="async"></script>
