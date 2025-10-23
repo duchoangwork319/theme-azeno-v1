@@ -522,6 +522,18 @@
         "border_color_dots_hover": "#ffffff"
       }
     },
+    "featured_line_UAQwbk": {
+      "type": "featured-line",
+      "name": "Line",
+      "settings": {
+        "max_width": "",
+        "fullwidth": true,
+        "padding": "2.5rem",
+        "margin": "",
+        "height": 0,
+        "background": "rgba(0,0,0,0)"
+      }
+    },
     "featured_two_banner_CWwVA6": {
       "type": "featured-two-banner",
       "blocks": {
@@ -988,6 +1000,7 @@
         "image_RE9x6c": {
           "type": "image",
           "settings": {
+            "bg_image": "shopify://shop_images/1x1.png",
             "width_icon": 0,
             "title": "Free Shipping",
             "size_title": 30,
@@ -1004,6 +1017,7 @@
         "image_bwxNnx": {
           "type": "image",
           "settings": {
+            "bg_image": "shopify://shop_images/1x1.png",
             "width_icon": 0,
             "title": "Free Returns",
             "size_title": 30,
@@ -1020,6 +1034,7 @@
         "image_TnaQ4A": {
           "type": "image",
           "settings": {
+            "bg_image": "shopify://shop_images/1x1.png",
             "width_icon": 0,
             "title": "Crash Replacement",
             "size_title": 30,
@@ -1114,6 +1129,7 @@
   "order": [
     "1760165026640f09c4",
     "slideshow",
+    "featured_line_UAQwbk",
     "featured_two_banner_CWwVA6",
     "featured_banner_GDYm6a",
     "1d8521d1-9f80-43f1-b0be-3558408ef3f1",

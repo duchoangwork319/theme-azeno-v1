@@ -112,11 +112,11 @@
     "hover_currency": true,
     "show_come_back": true,
     "show_you_leave": true,
-    "img_you_leave": "shopify://shop_images/leave.jpg",
+    "img_you_leave": "shopify://shop_images/Mens-Tempo-T-shirt_0120_Brand_6_v1_1.jpg",
     "title_you_leave": "BEFORE YOU<br> LEAVE...",
     "desc_you_leave": "Take <span>15% off</span> your first order",
     "url_you_leave": "shopify://collections/all",
-    "collection_you_leave": "footwear",
+    "collection_you_leave": "cycling",
     "limit_you_leave": 3,
     "social_facebook_link": "#",
     "social_twitter_link": "#",
@@ -130,7 +130,7 @@
     "cookie_agree_button": "Agree",
     "cookie_consent_button": "Not agree",
     "newsletter_popup_enable": true,
-    "newsletter_popup_image": "shopify://shop_images/newlester_jpg.webp",
+    "newsletter_popup_image": "shopify://shop_images/Tempo-Run-Singlet_1127_Grey-white_5_v1_88ee73ee-6eea-436e-b209-71ebedeee0d3.jpg",
     "newsletter_popup_title": "Join the our family",
     "newsletter_popup_subtitle": "Sign up for our newsletter and receive updates you’re looking for: interior inspiration, the latest trends and discounts",
     "newsletter_popup_mailchimp": false,
@@ -199,7 +199,7 @@
         "settings": {
           "categories_enable": true,
           "categories_title": "Collections",
-          "categories_menu": "",
+          "categories_menu": "main-menu",
           "show_count": true,
           "enable_filtering": true
         }
