@@ -125,6 +125,39 @@ function processFileUploads(formData, fieldKey, specConfig) {
 }
 
 /**
+ * Uploads files to the specified folder.
+ * @param {Folder} folder - The Google Drive folder to upload files to.
+ * @param {Array<Blob>} blobs - The array of file blobs to upload.
+ * @returns {Array<Object>} - An array of uploaded file information.
+ */
+function uploadFiles(folder, blobs) {
+  return blobs.map(blob => {
+    const newFile = folder.createFile(blob);
+    return {
+      filename: blob.getName(),
+      fileUrl: newFile.getUrl()
+    };
+  });
+}
+
+/**
+ * Creates an additional message section for uploaded files.
+ * @param {string} title - The title for the section.
+ * @param {Array<Object>} files - The array of uploaded file information.
+ * @returns {string} - The HTML string for the additional message section.
+ */
+function createAddOnMessageSection(title, files) {
+  let addOnMessage = "";
+  if (files.length > 0) {
+    addOnMessage += `<br><br><strong>${title}:</strong><br>`;
+    files.forEach(file => {
+      addOnMessage += `<a href="${file.fileUrl}" target="_blank">${file.filename}</a><br>`;
+    });
+  }
+  return addOnMessage;
+}
+
+/**
  * Handles the submission of the contact form.
  * @param {Object} formData - The form data submitted by the user.
  * @returns {ContentService.TextOutput} - The JSON response.
@@ -192,20 +225,11 @@ function handleWarrantyFormSubmission(formData, config) {
     throw new Error("Folder not found.");
   }
 
-  const warrantyUploadedFiles = [];
   const warrantyBlobs = processFileUploads(formData, 'warrantyFile', config.fileUploads.warrantyFile);
-  if (!warrantyBlobs.success) {
-    return warrantyBlobs.textOutput;
-  }
 
-  warrantyBlobs.blobs.forEach(blob => {
-    const newFile = folder.createFile(blob);
-    warrantyUploadedFiles.push({
-      filename: blob.getName(),
-      fileUrl: newFile.getUrl()
-    });
-  });
+  if (!warrantyBlobs.success) return warrantyBlobs.textOutput;
 
+  const warrantyUploadedFiles = uploadFiles(folder, warrantyBlobs.blobs);
   const timestamp = new Date();
   const fullPhoneNumber = formData.phoneNumber_country + formData.phoneNumber;
   sheet.appendRow([
@@ -223,13 +247,7 @@ function handleWarrantyFormSubmission(formData, config) {
     warrantyUploadedFiles.map(file => file.fileUrl).join(', ')
   ]);
 
-  let addOnMessage = '';
-  if (warrantyUploadedFiles.length > 0) {
-    addOnMessage += `<br><br><strong>Product Files:</strong><br>`;
-    warrantyUploadedFiles.forEach(file => {
-      addOnMessage += `<a href="${file.fileUrl}" target="_blank">${file.filename}</a><br>`;
-    });
-  }
+  let addOnMessage = createAddOnMessageSection("Product Files", warrantyUploadedFiles);
 
   sendMail({
     subject: "Notifications: New Warranty Form Submission",
@@ -277,33 +295,16 @@ function handleDmgCrashFormSubmission(formData, config) {
     throw new Error("Folder not found.");
   }
 
-  const dmgCrashProdFiles = [];
   const dmgCrashProdBlobs = processFileUploads(formData, 'dmgCrashProdFile', config.fileUploads.dmgCrashProdFile);
-  if (!dmgCrashProdBlobs.success) {
-    return dmgCrashProdBlobs.textOutput;
-  }
 
-  const dmgCrashAttachmentFiles = [];
+  if (!dmgCrashProdBlobs.success) return dmgCrashProdBlobs.textOutput;
+
   const dmgCrashAttachmentBlobs = processFileUploads(formData, 'dmgCrashAttachmentFile', config.fileUploads.dmgCrashAttachmentFile);
-  if (!dmgCrashAttachmentBlobs.success) {
-    return dmgCrashAttachmentBlobs.textOutput;
-  }
 
-  dmgCrashProdBlobs.blobs.forEach(blob => {
-    const newFile = folder.createFile(blob);
-    dmgCrashProdFiles.push({
-      filename: blob.getName(),
-      fileUrl: newFile.getUrl()
-    });
-  });
+  if (!dmgCrashAttachmentBlobs.success) return dmgCrashAttachmentBlobs.textOutput;
 
-  dmgCrashAttachmentBlobs.blobs.forEach(blob => {
-    const newFile = folder.createFile(blob);
-    dmgCrashAttachmentFiles.push({
-      filename: blob.getName(),
-      fileUrl: newFile.getUrl()
-    });
-  });
+  const dmgCrashProdFiles = uploadFiles(folder, dmgCrashProdBlobs.blobs);
+  const dmgCrashAttachmentFiles = uploadFiles(folder, dmgCrashAttachmentBlobs.blobs);
 
   const timestamp = new Date();
   const fullPhoneNumber = formData.phoneNumber_country + formData.phoneNumber;
@@ -322,19 +323,9 @@ function handleDmgCrashFormSubmission(formData, config) {
     dmgCrashAttachmentFiles.map(file => file.fileUrl).join(', ')
   ]);
 
-  let addOnMessage = '';
-  if (dmgCrashProdFiles.length > 0) {
-    addOnMessage += `<br><strong>Product Files:</strong><br>`;
-    dmgCrashProdFiles.forEach(file => {
-      addOnMessage += `<a href="${file.fileUrl}" target="_blank">${file.filename}</a><br>`;
-    });
-  }
-  if (dmgCrashAttachmentFiles.length > 0) {
-    addOnMessage += `<br><strong>Attachment Files:</strong><br>`;
-    dmgCrashAttachmentFiles.forEach(file => {
-      addOnMessage += `<a href="${file.fileUrl}" target="_blank">${file.filename}</a><br>`;
-    });
-  }
+  const addOnMessage1 = createAddOnMessageSection("Product Files", dmgCrashProdFiles);
+  const addOnMessage2 = createAddOnMessageSection("Attachment Files", dmgCrashAttachmentFiles);
+  const addOnMessage = addOnMessage1 + addOnMessage2;
 
   sendMail({
     subject: "Notifications: New Damage and Crash Replacement Form Submission",
