@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "build": "npx webpack --config webpack.config.js",
-    "pull:production": "shopify theme pull -s \"d51qk1-qd.myshopify.com\" --nodelete --only \"templates/*\" \"blocks/*\" \"config/*\"",
-    "push:production": "shopify theme push -s \"d51qk1-qd.myshopify.com\" --nodelete"
+    "prd:pull": "shopify theme pull -s \"d51qk1-qd.myshopify.com\" --nodelete --only \"templates/*\" \"blocks/*\" \"config/*\"",
+    "prd:push": "shopify theme push -s \"d51qk1-qd.myshopify.com\" --nodelete"
   },
   "author": "DucHoang",
   "license": "ISC",
