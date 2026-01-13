@@ -243,6 +243,7 @@
         },
         "sub_title_wtDLDt": {
           "type": "sub_title",
+          "disabled": true,
           "settings": {
             "slide_name": "slider-2",
             "title": "COLLECTION",
@@ -263,6 +264,7 @@
         },
         "19092676-2782-4a58-bf9f-cdd9f733ce8e": {
           "type": "title",
+          "disabled": true,
           "settings": {
             "slide_name": "slider-2",
             "title": "RUNNING",
@@ -287,6 +289,7 @@
         },
         "desc_k8qnUe": {
           "type": "desc",
+          "disabled": true,
           "settings": {
             "slide_name": "slider-2",
             "title": "LEVEL UP IN VITAL RISE",
@@ -307,6 +310,7 @@
         },
         "457f43c2-3160-45a4-92b1-bfae9dcd990b": {
           "type": "button",
+          "disabled": true,
           "settings": {
             "slide_name": "slider-2",
             "title": "SHOP COLLECTION",
@@ -600,7 +604,7 @@
         "image_8zbGPk": {
           "type": "image",
           "settings": {
-            "title": "",
+            "title": "banner-trisuit",
             "image": "shopify://shop_images/Tempo-PRO-Tri-Suit_1253_Red_4_v2_09083390-4c00-4edf-90f0-430202ee58ce.jpg",
             "url": "",
             "border_radius_img": "0px 0px 0px 0px",
@@ -615,10 +619,56 @@
             "width_image": "33.33%"
           }
         },
+        "button_6GFYwM": {
+          "type": "button",
+          "settings": {
+            "banner_name": "banner-trisuit",
+            "title": "Trisuit",
+            "icon_title": "",
+            "font_icon": 14,
+            "pos_icon": 0,
+            "margin_icon": "0px 0px 0px 0px",
+            "button_link": "shopify://collections/men",
+            "border": false,
+            "border_radius": "0px 0px 0px 0px",
+            "border_width": "0px 0px 0px 0px",
+            "color": "#000000",
+            "background": "#ffffff",
+            "border_color": "#ffffff",
+            "color_hover": "#000000",
+            "background_hover": "#ffffff",
+            "border_color_hover": "#ffffff",
+            "font_size": 15,
+            "line_height": 45,
+            "letter_spacing": 0,
+            "font_weight": "400",
+            "padding": "0px 0px 0px 0px",
+            "margin": "0px 0px 0px 0px",
+            "font_size_tablet": 15,
+            "line_height_tablet": 15,
+            "padding_tablet": "0px 0px 0px 0px",
+            "font_size_mobi": 15,
+            "line_height_mobi": 15,
+            "letter_spacing_mobi": 0,
+            "font_icon_mobi": 14,
+            "margin_icon_mobi": 0,
+            "border_mobi": false,
+            "border_radius_mobi": "0px 0px 0px 0px",
+            "border_width_mobi": "0px 0px 0px 0px",
+            "color_mobi": "#000000",
+            "background_mobi": "#ffffff",
+            "border_color_mobi": "#ffffff",
+            "color_hover_mobi": "#000000",
+            "background_hover_mobi": "#ffffff",
+            "border_color_hover_mobi": "#ffffff",
+            "padding_mobi": "0px 0px 0px 0px",
+            "margin_mobi": "0px 0px 0px 0px"
+          }
+        },
         "image_eHn8ez": {
           "type": "image",
           "settings": {
-            "title": "",
+            "title": "banner-bib",
             "image": "shopify://shop_images/Womens-Tempo-Bib-shorts_1045_black_91_v2_e4c8929d-036c-45d7-98c0-de90f0572675.jpg",
             "url": "",
             "border_radius_img": "0px 0px 0px 0px",
@@ -633,10 +683,56 @@
             "width_image": "33.33%"
           }
         },
+        "button_t4Kg7N": {
+          "type": "button",
+          "settings": {
+            "banner_name": "banner-bib",
+            "title": "Bib",
+            "icon_title": "",
+            "font_icon": 14,
+            "pos_icon": 0,
+            "margin_icon": "0px 0px 0px 0px",
+            "button_link": "",
+            "border": false,
+            "border_radius": "0px 0px 0px 0px",
+            "border_width": "0px 0px 0px 0px",
+            "color": "#000000",
+            "background": "#ffffff",
+            "border_color": "#ffffff",
+            "color_hover": "#000000",
+            "background_hover": "#ffffff",
+            "border_color_hover": "#ffffff",
+            "font_size": 15,
+            "line_height": 45,
+            "letter_spacing": 0,
+            "font_weight": "400",
+            "padding": "0px 0px 0px 0px",
+            "margin": "0px 0px 0px 0px",
+            "font_size_tablet": 15,
+            "line_height_tablet": 15,
+            "padding_tablet": "0px 0px 0px 0px",
+            "font_size_mobi": 15,
+            "line_height_mobi": 15,
+            "letter_spacing_mobi": 0,
+            "font_icon_mobi": 14,
+            "margin_icon_mobi": 0,
+            "border_mobi": false,
+            "border_radius_mobi": "0px 0px 0px 0px",
+            "border_width_mobi": "0px 0px 0px 0px",
+            "color_mobi": "#000000",
+            "background_mobi": "#ffffff",
+            "border_color_mobi": "#ffffff",
+            "color_hover_mobi": "#000000",
+            "background_hover_mobi": "#ffffff",
+            "border_color_hover_mobi": "#ffffff",
+            "padding_mobi": "0px 0px 0px 0px",
+            "margin_mobi": "0px 0px 0px 0px"
+          }
+        },
         "image_KHzE4A": {
           "type": "image",
           "settings": {
-            "title": "",
+            "title": "banner-jersey",
             "image": "shopify://shop_images/Tempo-ONE-Jersey_1126_Green_1_v2.jpg",
             "url": "",
             "border_radius_img": "0px 0px 0px 0px",
@@ -650,12 +746,61 @@
             "padding_image": "0 15px",
             "width_image": "33.33%"
           }
+        },
+        "button_KCBKr8": {
+          "type": "button",
+          "settings": {
+            "banner_name": "banner-jersey",
+            "title": "Jersey",
+            "icon_title": "",
+            "font_icon": 14,
+            "pos_icon": 0,
+            "margin_icon": "0px 0px 0px 0px",
+            "button_link": "",
+            "border": false,
+            "border_radius": "0px 0px 0px 0px",
+            "border_width": "0px 0px 0px 0px",
+            "color": "#000000",
+            "background": "#ffffff",
+            "border_color": "#ffffff",
+            "color_hover": "#000000",
+            "background_hover": "#ffffff",
+            "border_color_hover": "#ffffff",
+            "font_size": 15,
+            "line_height": 45,
+            "letter_spacing": 0,
+            "font_weight": "400",
+            "padding": "0px 0px 0px 0px",
+            "margin": "0px 0px 0px 0px",
+            "font_size_tablet": 15,
+            "line_height_tablet": 15,
+            "padding_tablet": "0px 0px 0px 0px",
+            "font_size_mobi": 15,
+            "line_height_mobi": 15,
+            "letter_spacing_mobi": 0,
+            "font_icon_mobi": 14,
+            "margin_icon_mobi": 0,
+            "border_mobi": false,
+            "border_radius_mobi": "0px 0px 0px 0px",
+            "border_width_mobi": "0px 0px 0px 0px",
+            "color_mobi": "#000000",
+            "background_mobi": "#ffffff",
+            "border_color_mobi": "#ffffff",
+            "color_hover_mobi": "#000000",
+            "background_hover_mobi": "#ffffff",
+            "border_color_hover_mobi": "#ffffff",
+            "padding_mobi": "0px 0px 0px 0px",
+            "margin_mobi": "0px 0px 0px 0px"
+          }
         }
       },
       "block_order": [
         "image_8zbGPk",
+        "button_6GFYwM",
         "image_eHn8ez",
-        "image_KHzE4A"
+        "button_t4Kg7N",
+        "image_KHzE4A",
+        "button_KCBKr8"
       ],
       "name": "Banner",
       "settings": {
@@ -765,9 +910,10 @@
         },
         "tab_wYqWKG": {
           "type": "tab",
+          "disabled": true,
           "settings": {
             "title": "TRIATHLON",
-            "collection": "womens",
+            "collection": "triathlon",
             "limit": 10
           }
         },
@@ -775,7 +921,7 @@
           "type": "tab",
           "settings": {
             "title": "RUNNING",
-            "collection": "womens",
+            "collection": "running",
             "limit": 10
           }
         },
@@ -791,7 +937,7 @@
           "type": "tab",
           "settings": {
             "title": "RECHARGES",
-            "collection": "womens",
+            "collection": "recharge",
             "limit": 10
           }
         },

@@ -114,7 +114,8 @@
     "show_you_leave": true,
     "img_you_leave": "shopify://shop_images/Mens-Tempo-T-shirt_0120_Brand_6_v1_1.jpg",
     "title_you_leave": "BEFORE YOU<br> LEAVE...",
-    "desc_you_leave": "Take <span>15% off</span> your first order",
+    "desc_you_leave": "Take <span>10% off</span> your first order",
+    "code_you_leave": "Enter the code: <span>WELCOME10</span>",
     "url_you_leave": "shopify://collections/all",
     "collection_you_leave": "cycling",
     "limit_you_leave": 3,
@@ -1152,7 +1153,7 @@
           "padding": "15px 0",
           "margin": "",
           "bg_background": "#424cc7",
-          "content_campar": "20% OFF EVERYTHING – USE CODE:FLASH20 – ENDS SUNDAY",
+          "content_campar": "GET 10% OFF FOR YOUR FIRST TIME PURCHASE",
           "url_campar": "",
           "color_content": "#ffffff",
           "color_span": "#ff0000",
@@ -1178,7 +1179,7 @@
           "23ef5a9e-a1eb-427c-a447-31f77dbb6477": {
             "type": "language-currency",
             "settings": {
-              "text_icon_content2": "<i class=\"icon-email\"></i> <a href=\"#\">sayhello@azeno.com</a>",
+              "text_icon_content2": "<i class=\"icon-email\"></i> <a href=\"mailto:info@5dla.com\">info@5dla.com</a>",
               "color_text_icon2": "#ffffff",
               "show_mobile_currency": true
             }
@@ -4981,12 +4982,11 @@
   },
   "platform_customizations": {
     "custom_css": [
-      "#doran-product-widget[data-dr=\"product-widget\"] {width: 100%; padding-right: 15px; padding-left: 15px; margin-right: auto; margin-left: auto;}",
-      "@media (min-width: 576px) {#doran-product-widget[data-dr=\"product-widget\"] {max-width: 540px; }}",
-      "@media (min-width: 768px) {#doran-product-widget[data-dr=\"product-widget\"] {max-width: 720px; }}",
-      "@media (min-width: 992px) {#doran-product-widget[data-dr=\"product-widget\"] {max-width: 960px; }}",
-      "@media (min-width: 1200px) {#doran-product-widget[data-dr=\"product-widget\"] {max-width: 1140px; }}",
-      "@media (min-width: 1440px) {#doran-product-widget[data-dr=\"product-widget\"] {max-width: 1440px; }}"
+      ".product-single__reviews .jdgm-widget .jdgm-star {color: #000000;}",
+      "#judgeme_product_reviews .jdgm-star {color: #000000;}",
+      "#judgeme_product_reviews .jdgm-histogram__bar-content {background-color: #000000;}",
+      "#judgeme_product_reviews .jdgm-write-rev-link {background-color: #000000; border-color: #000000;}",
+      "#judgeme_product_reviews .jdgm-write-rev-link:hover {opacity: 0.8;}"
     ]
   }
 }
