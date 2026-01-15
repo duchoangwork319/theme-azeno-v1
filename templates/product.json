@@ -177,6 +177,7 @@
         },
         "67aec254-2684-477e-aa65-3b8ecbd11df1": {
           "type": "trust_barget",
+          "disabled": true,
           "settings": {
             "product_trust_barget_margin": "",
             "trust_barget_bg": "#f3f3f3",
