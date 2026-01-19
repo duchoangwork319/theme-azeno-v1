@@ -1,0 +1,306 @@
+# 🎨 Azeno V1 - Shopify Theme
+
+A modern, feature-rich Shopify theme built with advanced customization, form handling, and seamless theme management capabilities.
+
+## 📋 Table of Contents
+
+- [Overview](#overview)
+- [Features](#features)
+- [Project Structure](#project-structure)
+- [Getting Started](#getting-started)
+- [Build & Development](#build--development)
+- [Theme Management](#theme-management)
+- [Key Components](#key-components)
+- [Technologies](#technologies)
+- [Author](#author)
+
+## 🌟 Overview
+
+**Azeno V1** is a comprehensive Shopify theme solution designed for modern e-commerce stores. It provides extensive customization options, advanced form handling with validation, and streamlined deployment workflows for both development and production environments.
+
+## ✨ Features
+
+- **🎯 Multi-Section Support** - 80+ carefully crafted Liquid sections including:
+  - Product displays (grids, tabs, carousels)
+  - Blog and article layouts
+  - Header and footer variations
+  - Custom forms and contact sections
+  - Newsletter and subscription components
+  - Brand, testimonials, and team showcases
+
+- **📱 Responsive Design** - Mobile-first approach with RTL support included
+
+- **🎭 Multiple Header & Footer Variants** - Choose from 5 header designs and 4 footer layouts
+
+- **📋 Advanced Form System** - Dynamic form validation and file upload capabilities with image compression
+
+- **🏪 E-commerce Features**:
+  - Product compare functionality
+  - Wishlist support
+  - Cart management
+  - Collection browsing with filters
+  - Customer account pages
+
+- **🔧 Customizable Sections**:
+  - Banners, sliders, and carousels
+  - Image galleries and lookbooks
+  - Instagram integration
+  - Video sections
+  - CTA blocks and newsletter signups
+
+- **⚙️ Build Optimization** - Webpack-powered asset bundling with Babel transpilation
+
+- **🌍 Multi-language & Currency** - Built-in locale and currency selector snippets
+
+## 📁 Project Structure
+
+```
+azeno-v1/
+├── assets/               # Compiled and static assets
+│   ├── css-*.css        # Stylesheet files
+│   ├── *.js             # JavaScript bundles
+│   └── vendor.js        # Third-party libraries
+├── blocks/              # Reusable theme blocks
+├── client/              # Source JavaScript files
+│   └── js/
+│       ├── custom-form.js      # Form handling logic
+│       ├── faker.js            # Data generation utilities
+│       └── components/
+│           ├── validation.js   # Form validation
+│           └── file.js         # File upload & compression
+├── config/              # Theme configuration
+│   ├── settings_data.json      # Theme settings values
+│   └── settings_schema.json    # Theme settings schema
+├── layout/              # Theme layouts
+├── locales/             # Translation files
+├── sections/            # Theme sections (80+ Liquid files)
+├── snippets/            # Reusable Liquid snippets (60+ files)
+├── static/              # Static configuration files
+├── templates/           # Page templates
+│   ├── *.json          # JSON template files
+│   ├── *.liquid        # Liquid template files
+│   └── customers/      # Customer account pages
+├── package.json         # Dependencies & scripts
+├── webpack.config.js    # Webpack configuration
+└── README.md           # This file
+```
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js (v14 or higher)
+- npm or yarn
+- Shopify CLI v3.88.1+
+- Valid Shopify store credentials
+
+### Installation
+
+1. **Clone or download the project**
+```bash
+cd azeno-v1
+```
+
+2. **Install dependencies**
+```bash
+npm install
+```
+
+3. **Authenticate with Shopify**
+```bash
+shopify auth login
+```
+
+## 🔨 Build & Development
+
+### Build Assets
+
+Compiles all JavaScript files from `client/js/` directory into individual bundles in `assets/`:
+
+```bash
+npm run build
+```
+
+This uses Webpack to:
+- Transpile ES6+ code with Babel
+- Create separate bundles for each entry file
+- Auto-prefix CSS and optimize assets
+
+### Development Workflow
+
+**Push to Development Store:**
+```bash
+npm run dev:push
+```
+Pushes templates, blocks, assets, and sections to the development store.
+
+**Live Development with Theme Editor Sync:**
+```bash
+npm run dev:watch
+```
+Launches the Shopify theme development server with live reload and editor sync enabled for the development store (`5dla-dev.myshopify.com`).
+
+## 🌐 Theme Management
+
+### Production Deployment
+
+**Pull from Production:**
+```bash
+npm run prd:pull
+```
+Pulls templates, blocks, and config files from production store (`d51qk1-qd.myshopify.com`).
+
+**Push to Production:**
+```bash
+npm run prd:push
+```
+Deploys all theme files to the production store.
+
+### Logout
+
+```bash
+npm run logout
+```
+Removes Shopify CLI authentication.
+
+## 🎯 Key Components
+
+### Custom Form System
+
+The custom form system provides robust handling for form submissions with validation:
+
+- **Location**: [client/js/custom-form.js](client/js/custom-form.js)
+- **Validation**: [client/js/components/validation.js](client/js/components/validation.js)
+- **File Handling**: [client/js/components/file.js](client/js/components/file.js)
+
+**Features:**
+- Real-time form validation
+- File upload with automatic compression
+- Image optimization (converts to JPEG, 60% quality)
+- Error handling and user feedback
+- Integration with custom Liquid section
+
+### Form Validation
+
+Comprehensive validation system supporting:
+- Required field validation
+- Email format verification
+- Phone number validation
+- Custom validation rules
+
+### File Upload & Compression
+
+Automatic image compression using `compressorjs`:
+- Reduces file size without quality loss
+- Converts images to JPEG format
+- Configurable compression quality
+
+## 📚 Technologies
+
+- **Frontend Framework**: Liquid (Shopify template language)
+- **JavaScript**: ES6+ with Babel transpilation
+- **Build Tool**: Webpack 5
+- **CSS Processing**: Autoprefixer
+- **Package Manager**: npm
+- **CLI**: Shopify CLI v3
+- **Bundling**: Babel, Webpack
+- **Utilities**: 
+  - Faker.js - Mock data generation
+  - Compressor.js - Image compression
+  - jQuery - DOM manipulation
+  - Lodash - Utility functions
+
+### Dependencies
+
+```json
+{
+  "@babel/core": "^7.28.0",
+  "@babel/preset-env": "^7.28.0",
+  "@faker-js/faker": "^10.2.0",
+  "autoprefixer": "^10.4.21",
+  "babel-loader": "^10.0.0",
+  "compressorjs": "^1.2.1",
+  "webpack": "^5.100.1",
+  "webpack-cli": "^6.0.1"
+}
+```
+
+## 📦 Asset Organization
+
+### CSS Files (45+ stylesheets)
+- Section-specific styles: `css-section-*.css`
+- Feature styles: `css-blog.css`, `css-cart-page.css`, etc.
+- Component styles: `css-effect.css`, `css-rtl.css`
+- Theme variables: `css-variables.css.liquid`
+
+### JavaScript Files
+- Third-party libraries: jQuery, Lodash, Handlebars, Photoswipe
+- Utility scripts: Debounce, Spinner, Countdown, Zoom
+- Image handling: Lazysizes, Image zoom
+- Form utilities: Custom form, facets, predictive search
+
+## 🎨 Sections (80+)
+
+The theme includes comprehensive sections for all major e-commerce needs:
+
+**Product Sections:**
+- `featured-products.liquid` - Product grid display
+- `featured-product-tabs.liquid` - Tabbed product layout
+- `custom-product-card.liquid` - Custom product cards
+- `buy-together.liquid` - Product bundle section
+
+**Blog & Content:**
+- `featured-blog-post.liquid` - Single blog post display
+- `blog-template.liquid` - Blog list template
+- `article-breadcrumb.liquid` - Article navigation
+
+**Layout Components:**
+- Multiple banner options (single, double, triple)
+- Image with text sections
+- Video embedding
+- Newsletter signup
+- Contact forms
+
+**Navigation & Menus:**
+- Multiple header variants
+- Footer options
+- Sidebar navigation
+
+## 📄 Templates
+
+Pre-built templates for common Shopify pages:
+- Product pages (with compare and wishlist options)
+- Collection pages with filters
+- Blog and article pages
+- Customer account pages (login, register, addresses, orders)
+- Cart and checkout
+- 404 error page
+- FAQ and warranty pages
+
+## 👤 Author
+
+**DucHoang**
+
+## 📄 License
+
+ISC
+
+---
+
+## 🤝 Contributing
+
+To contribute to this theme:
+
+1. Make your changes in the `client/js/` directory for JavaScript
+2. Run `npm run build` to compile assets
+3. Use `npm run dev:watch` for live testing
+4. Push changes using appropriate npm scripts
+
+## 📞 Support
+
+For issues or questions regarding this theme, please contact the development team or refer to the Shopify CLI documentation at https://shopify.dev/themes/tools/cli
+
+---
+
+**Version:** 1.0.0  
+**Status:** Active Development
