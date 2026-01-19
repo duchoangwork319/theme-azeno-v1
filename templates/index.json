@@ -910,7 +910,6 @@
         },
         "tab_wYqWKG": {
           "type": "tab",
-          "disabled": true,
           "settings": {
             "title": "TRIATHLON",
             "collection": "triathlon",
@@ -930,6 +929,14 @@
           "settings": {
             "title": "CYCLING",
             "collection": "cycling",
+            "limit": 10
+          }
+        },
+        "tab_LdwYWn": {
+          "type": "tab",
+          "settings": {
+            "title": "GYM",
+            "collection": "gym",
             "limit": 10
           }
         },
@@ -963,6 +970,7 @@
         "tab_wYqWKG",
         "tab_KMEq7m",
         "tab_GXjiWk",
+        "tab_LdwYWn",
         "tab_Em6aTt",
         "css_wmDTjJ"
       ],
@@ -1069,7 +1077,7 @@
         "desc2": "",
         "button": "SHOP COLLECTION",
         "icon_title": "icon-right-arrow",
-        "button_link": "",
+        "button_link": "shopify://collections/tempo",
         "content_position-2": "unset",
         "effect": "none"
       }
@@ -1136,7 +1144,7 @@
         "desc": "WHEREVER YOU TAKE RUNNING",
         "button": "SHOP COLLECTION",
         "icon_title": "icon-right-arrow",
-        "button_link": "shopify://collections/all",
+        "button_link": "shopify://collections/running",
         "image": "shopify://shop_images/Tempo-Run-Singlet_1127_Blue_4_v1_0007ce79-3f8b-445a-9059-fb52e59f99f3.jpg"
       }
     },

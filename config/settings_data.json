@@ -1731,6 +1731,7 @@
           },
           "menu_b9JBU6": {
             "type": "menu",
+            "disabled": true,
             "settings": {
               "color": "#ffffff",
               "color_hover": "#ff3535",
@@ -1745,6 +1746,7 @@
           },
           "social_4XqxJx": {
             "type": "social",
+            "disabled": true,
             "settings": {
               "social": true,
               "color_social": "#ffffff",
@@ -4777,7 +4779,7 @@
           "menu_xntk9c": {
             "type": "menu",
             "settings": {
-              "title": "GET HELP",
+              "title": "SHOP CATEGORIES",
               "font": "Bebas Neue",
               "color": "#ffffff",
               "font_size": 16,
@@ -4785,7 +4787,7 @@
               "letter_spacing": 1,
               "font_weight": "400",
               "margin": "0px 0px 17px 0px",
-              "footer_link_list": "",
+              "footer_link_list": "footer-shop-categories",
               "footer_width": 25,
               "footer_width_ipad": 50,
               "footer_width_mobi": 100
@@ -4794,7 +4796,7 @@
           "menu_K4dWKd": {
             "type": "menu",
             "settings": {
-              "title": "SERVICES",
+              "title": "CUSTOMER SERVICE",
               "font": "Bebas Neue",
               "color": "#ffffff",
               "font_size": 16,
@@ -4802,7 +4804,7 @@
               "letter_spacing": 1,
               "font_weight": "400",
               "margin": "0px 0px 17px 0px",
-              "footer_link_list": "",
+              "footer_link_list": "customer-service",
               "footer_width": 25,
               "footer_width_ipad": 50,
               "footer_width_mobi": 100
@@ -4811,7 +4813,7 @@
           "menu_dDA7pG": {
             "type": "menu",
             "settings": {
-              "title": "CONNECT",
+              "title": "ABOUT US",
               "font": "Bebas Neue",
               "color": "#ffffff",
               "font_size": 16,
@@ -4819,7 +4821,24 @@
               "letter_spacing": 1,
               "font_weight": "400",
               "margin": "0px 0px 17px 0px",
-              "footer_link_list": "",
+              "footer_link_list": "footer-about-us",
+              "footer_width": 25,
+              "footer_width_ipad": 50,
+              "footer_width_mobi": 100
+            }
+          },
+          "menu_aiiefL": {
+            "type": "menu",
+            "settings": {
+              "title": "LEGAL & COMPLIANCE",
+              "font": "Bebas Neue",
+              "color": "#ffffff",
+              "font_size": 16,
+              "line_height": 24,
+              "letter_spacing": 1,
+              "font_weight": "400",
+              "margin": "0px 0px 0px 0px",
+              "footer_link_list": "footer-legal-compliance",
               "footer_width": 25,
               "footer_width_ipad": 50,
               "footer_width_mobi": 100
@@ -4827,6 +4846,7 @@
           },
           "newsletter_D88fD9": {
             "type": "newsletter",
+            "disabled": true,
             "settings": {
               "title": "SUBSCRIBE FOR NEWSLETTER",
               "font": "Bebas Neue",
@@ -4855,6 +4875,7 @@
           "menu_xntk9c",
           "menu_K4dWKd",
           "menu_dDA7pG",
+          "menu_aiiefL",
           "newsletter_D88fD9"
         ],
         "settings": {
