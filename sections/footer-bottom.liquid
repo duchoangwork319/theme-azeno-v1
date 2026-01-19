@@ -1,563 +1,609 @@
-{% assign padding 	= section.settings.padding | split: "|" %}
-{% assign bg 		= section.settings.bg_color %}
+{% assign padding = section.settings.padding | split: '|' %}
+{% assign bg = section.settings.bg_color %}
 {%- style -%}
-	{%- if padding[0] != blank -%}
-		.footer-bottom{
-			padding:{{ padding[0] }};
-			background:{{bg}};
-		}
-	{%- endif -%}
-	{%- if section.blocks.size > 0 -%}
-		{%- for block in section.blocks -%}
-			{%- case block.type -%}
-				{%- when 'menu' -%}
-					.footer-bottom .footer-index-{{forloop.index}}{
-						color:{{ block.settings.color }};
-						margin:{{ block.settings.margin }};
-						max-width:{{ block.settings.footer_width }}%;
-						flex:0 0 {{ block.settings.footer_width }}%;
-					}
-					.footer-bottom .footer-index-{{forloop.index}} a{
-						color:{{ block.settings.color }};
-					}
-					.footer-bottom .footer-index-{{forloop.index}} a:hover{
-						color:{{ block.settings.color_hover }};
-					}
-				{%- when 'copyright' -%}
-					.footer-bottom .footer-index-{{forloop.index}}{
-						color:{{ block.settings.color }};
-						margin:{{ block.settings.margin }};
-						max-width:{{ block.settings.footer_width }}%;
-						flex:0 0 {{ block.settings.footer_width }}%;
-					}
-				{%- when 'paymet' -%}
-					.footer-bottom .footer-index-{{forloop.index}}{
-						margin:{{ block.settings.margin }};
-						max-width:{{ block.settings.footer_width }}%;
-						flex:0 0 {{ block.settings.footer_width }}%;
-					}
-				{%- when 'social' -%}
-					.footer-bottom .footer-index-{{forloop.index}}{
-						margin:{{ block.settings.margin }};
-						max-width:{{ block.settings.footer_width }}%;
-						flex:0 0 {{ block.settings.footer_width }}%;
-					}
-					.footer-bottom .footer-index-{{forloop.index}} .social-icons li a{
-						color:{{ block.settings.color_social }};
-						fill:{{ block.settings.color_social }};
-					}
-			{%- endcase -%}
-		{%- endfor -%}
-		{%- if padding[1] != blank -%}
-			@media (max-width:1199px){
-				.footer-bottom{
-					padding:{{ padding[1] }};
-				}
-			}
-		{%- endif -%}
-		@media (max-width:991px){
-			{%- if padding[2] != blank -%}
-				.footer-bottom{
-					padding:{{ padding[2] }};
-				}
-			{%- endif -%}
-			{%- for block in section.blocks -%}
-				{%- case block.type -%}
-					{%- when 'menu' -%}
-						.footer-bottom .footer-index-{{forloop.index}}{
-							max-width:{{ block.settings.footer_width_ipad }}%;
-							flex:0 0 {{ block.settings.footer_width_ipad }}%;
-						}
-					{%- when 'copyright' -%}
-						.footer-bottom .footer-index-{{forloop.index}}{
-							max-width:{{ block.settings.footer_width_ipad }}%;
-							flex:0 0 {{ block.settings.footer_width_ipad }}%;
-						}
-					{%- when 'paymet' -%}
-						.footer-bottom .footer-index-{{forloop.index}}{
-							max-width:{{ block.settings.footer_width_ipad }}%;
-							flex:0 0 {{ block.settings.footer_width_ipad }}%;
-						}
-					{%- when 'social' -%}
-						.footer-bottom .footer-index-{{forloop.index}}{
-							max-width:{{ block.settings.footer_width_ipad }}%;
-							flex:0 0 {{ block.settings.footer_width_ipad }}%;
-						}
-				{%- endcase -%}
-			{%- endfor -%}
-		}
-		@media (max-width:767px){
-			{%- if padding[3] != blank -%}
-				.footer-bottom{
-					padding:{{ padding[3] }};
-				}
-			{%- endif -%}
-			{%- for block in section.blocks -%}
-				{%- case block.type -%}
-					{%- when 'menu' -%}
-						.footer-bottom .footer-index-{{forloop.index}}{
-							max-width:{{ block.settings.footer_width_mobi }}%;
-							flex:0 0 {{ block.settings.footer_width_mobi }}%;
-						}
-					{%- when 'copyright' -%}
-						.footer-bottom .footer-index-{{forloop.index}}{
-							max-width:{{ block.settings.footer_width_mobi }}%;
-							flex:0 0 {{ block.settings.footer_width_mobi }}%;
-						}
-					{%- when 'paymet' -%}
-						.footer-bottom .footer-index-{{forloop.index}}{
-							max-width:{{ block.settings.footer_width_mobi }}%;
-							flex:0 0 {{ block.settings.footer_width_mobi }}%;
-						}
-					{%- when 'social' -%}
-						.footer-bottom .footer-index-{{forloop.index}}{
-							max-width:{{ block.settings.footer_width_mobi }}%;
-							flex:0 0 {{ block.settings.footer_width_mobi }}%;
-						}
-				{%- endcase -%}
-			{%- endfor -%}
-		}
-	{%- endif -%}
+  {%- if padding[0] != blank -%}
+  	.footer-bottom{
+  		padding:{{ padding[0] }};
+  		background:{{bg}};
+  	}
+  {%- endif -%}
+  {%- if section.blocks.size > 0 -%}
+  	{%- for block in section.blocks -%}
+  		{%- case block.type -%}
+  			{%- when 'menu' -%}
+  				.footer-bottom .footer-index-{{forloop.index}}{
+  					color:{{ block.settings.color }};
+  					margin:{{ block.settings.margin }};
+  					max-width:{{ block.settings.footer_width }}%;
+  					flex:0 0 {{ block.settings.footer_width }}%;
+  				}
+  				.footer-bottom .footer-index-{{forloop.index}} a{
+  					color:{{ block.settings.color }};
+  				}
+  				.footer-bottom .footer-index-{{forloop.index}} a:hover{
+  					color:{{ block.settings.color_hover }};
+  				}
+  			{%- when 'copyright' -%}
+  				.footer-bottom .footer-index-{{forloop.index}}{
+  					color:{{ block.settings.color }};
+  					margin:{{ block.settings.margin }};
+  					max-width:{{ block.settings.footer_width }}%;
+  					flex:0 0 {{ block.settings.footer_width }}%;
+  				}
+  			{%- when 'paymet' -%}
+  				.footer-bottom .footer-index-{{forloop.index}}{
+  					margin:{{ block.settings.margin }};
+  					max-width:{{ block.settings.footer_width }}%;
+  					flex:0 0 {{ block.settings.footer_width }}%;
+  				}
+  			{%- when 'social' -%}
+  				.footer-bottom .footer-index-{{forloop.index}}{
+  					margin:{{ block.settings.margin }};
+  					max-width:{{ block.settings.footer_width }}%;
+  					flex:0 0 {{ block.settings.footer_width }}%;
+  				}
+  				.footer-bottom .footer-index-{{forloop.index}} .social-icons li a{
+  					color:{{ block.settings.color_social }};
+  					fill:{{ block.settings.color_social }};
+  				}
+  		{%- endcase -%}
+  	{%- endfor -%}
+  	{%- if padding[1] != blank -%}
+  		@media (max-width:1199px){
+  			.footer-bottom{
+  				padding:{{ padding[1] }};
+  			}
+  		}
+  	{%- endif -%}
+  	@media (max-width:991px){
+  		{%- if padding[2] != blank -%}
+  			.footer-bottom{
+  				padding:{{ padding[2] }};
+  			}
+  		{%- endif -%}
+  		{%- for block in section.blocks -%}
+  			{%- case block.type -%}
+  				{%- when 'menu' -%}
+  					.footer-bottom .footer-index-{{forloop.index}}{
+  						max-width:{{ block.settings.footer_width_ipad }}%;
+  						flex:0 0 {{ block.settings.footer_width_ipad }}%;
+  					}
+  				{%- when 'copyright' -%}
+  					.footer-bottom .footer-index-{{forloop.index}}{
+  						max-width:{{ block.settings.footer_width_ipad }}%;
+  						flex:0 0 {{ block.settings.footer_width_ipad }}%;
+  					}
+  				{%- when 'paymet' -%}
+  					.footer-bottom .footer-index-{{forloop.index}}{
+  						max-width:{{ block.settings.footer_width_ipad }}%;
+  						flex:0 0 {{ block.settings.footer_width_ipad }}%;
+  					}
+  				{%- when 'social' -%}
+  					.footer-bottom .footer-index-{{forloop.index}}{
+  						max-width:{{ block.settings.footer_width_ipad }}%;
+  						flex:0 0 {{ block.settings.footer_width_ipad }}%;
+  					}
+  			{%- endcase -%}
+  		{%- endfor -%}
+  	}
+  	@media (max-width:767px){
+  		{%- if padding[3] != blank -%}
+  			.footer-bottom{
+  				padding:{{ padding[3] }};
+  			}
+  		{%- endif -%}
+  		{%- for block in section.blocks -%}
+  			{%- case block.type -%}
+  				{%- when 'menu' -%}
+  					.footer-bottom .footer-index-{{forloop.index}}{
+  						max-width:{{ block.settings.footer_width_mobi }}%;
+  						flex:0 0 {{ block.settings.footer_width_mobi }}%;
+  					}
+  				{%- when 'copyright' -%}
+  					.footer-bottom .footer-index-{{forloop.index}}{
+  						max-width:{{ block.settings.footer_width_mobi }}%;
+  						flex:0 0 {{ block.settings.footer_width_mobi }}%;
+  					}
+  				{%- when 'paymet' -%}
+  					.footer-bottom .footer-index-{{forloop.index}}{
+  						max-width:{{ block.settings.footer_width_mobi }}%;
+  						flex:0 0 {{ block.settings.footer_width_mobi }}%;
+  					}
+  				{%- when 'social' -%}
+  					.footer-bottom .footer-index-{{forloop.index}}{
+  						max-width:{{ block.settings.footer_width_mobi }}%;
+  						flex:0 0 {{ block.settings.footer_width_mobi }}%;
+  					}
+  			{%- endcase -%}
+  		{%- endfor -%}
+  	}
+  {%- endif -%}
 {%- endstyle -%}
 <div class="footer-bottom">
-	<div class="container">
-		<div class="footer-bottom__inner row">
-		{%- if section.blocks.size > 0 -%}
-			{%- for block in section.blocks -%}
-				{%- case block.type -%}
-					{%- when 'menu' -%}
-						<div class="footer-index-{{forloop.index}} footer-menu aligin-{{ block.settings.align }} aligin_mobi-{{ block.settings.align_mobi }}">
-							{%- assign footer_menu = block.settings.footer_link_list -%}
-							{% include 'footer-menu' %}
-						</div>
-					{%- when 'copyright' -%}
-						{%- if block.settings.show_copyright -%}
-							 <div class="footer-index-{{forloop.index}} footer-copyright aligin-{{ block.settings.align }} aligin_mobi-{{ block.settings.align_mobi }}">{{ block.settings.copyright }}</div>
-						{%- else -%}
-							<div class="footer-index-{{forloop.index}} footer-copyright aligin-{{ block.settings.align }} aligin_mobi-{{ block.settings.align_mobi }}">&copy; {{ 'now' | date: '%Y' }} {{ shop.name | link_to: routes.root_url }}. {{ powered_by_link }}</div>
-						{%- endif -%}
-					{%- when 'paymet' -%}
-						{%- assign payment_image = block.settings.payment_image -%}
-						<div class="footer-index-{{forloop.index}} payment-image aligin-{{ block.settings.align }} aligin_mobi-{{ block.settings.align_mobi }}">
-							{%- if payment_image -%}
-								<img class="payment-image__img img-fluid" src="{{ payment_image | img_url: 'master' }}" width="{{ payment_image.width }}" height="{{ payment_image.height }}" alt="{{ payment_image.alt | escape }}"/>
-							{%- else -%}
-								<img src="https://placehold.jp/350x30.png" width="350" height="30" />
-							{%- endif -%}
-						</div>
-					{%- when 'social' -%}
-						<div class="footer-index-{{forloop.index}} footer-social aligin-{{ block.settings.align }} aligin_mobi-{{ block.settings.align_mobi }}">
-							{%- if block.settings.social != blank -%}
-								{% include 'social-media' %}
-							{%- endif -%}
-						</div>
-				{%- endcase -%}
-			{%- endfor -%}
-		{%- endif -%}
-		</div>
-	</div>
+  <div class="container">
+    <div class="footer-bottom__inner {% if section.settings.bg_color == 'horizontal' %} row {% endif %}">
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'menu' -%}
+              <div class="footer-index-{{forloop.index}} footer-menu aligin-{{ block.settings.align }} aligin_mobi-{{ block.settings.align_mobi }}">
+                {%- assign footer_menu = block.settings.footer_link_list -%}
+                {% include 'footer-menu' %}
+              </div>
+            {%- when 'copyright' -%}
+              {%- if block.settings.show_copyright -%}
+                <div class="footer-index-{{forloop.index}} footer-copyright aligin-{{ block.settings.align }} aligin_mobi-{{ block.settings.align_mobi }}">
+                  {{ block.settings.copyright }}
+                </div>
+              {%- else -%}
+                <div class="footer-index-{{forloop.index}} footer-copyright aligin-{{ block.settings.align }} aligin_mobi-{{ block.settings.align_mobi }}">
+                  &copy; {{ 'now' | date: '%Y' }}
+                  {{ shop.name | link_to: routes.root_url }}. {{ powered_by_link }}
+                </div>
+              {%- endif -%}
+            {%- when 'paymet' -%}
+              {%- assign payment_image = block.settings.payment_image -%}
+              <div class="footer-index-{{forloop.index}} payment-image aligin-{{ block.settings.align }} aligin_mobi-{{ block.settings.align_mobi }}">
+                {%- if payment_image -%}
+                  <img
+                    class="payment-image__img img-fluid"
+                    src="{{ payment_image | img_url: 'master' }}"
+                    width="{{ payment_image.width }}"
+                    height="{{ payment_image.height }}"
+                    alt="{{ payment_image.alt | escape }}"
+                  >
+                {%- else -%}
+                  <img src="https://placehold.jp/350x30.png" width="350" height="30">
+                {%- endif -%}
+              </div>
+            {%- when 'social' -%}
+              <div class="footer-index-{{forloop.index}} footer-social aligin-{{ block.settings.align }} aligin_mobi-{{ block.settings.align_mobi }}">
+                {%- if block.settings.social != blank -%}
+                  {% include 'social-media' %}
+                {%- endif -%}
+              </div>
+            {%- when 'htmlcontent' -%}
+              <div class="footer-index-{{forloop.index}} footer-htmlcontent htmlcontent-{{forloop.index}}">
+                {{ block.settings.html_text }}
+              </div>
+          {%- endcase -%}
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
 </div>
 {% schema %}
 {
-	"name": "Footer bottom",
-	"settings": [
-		{
-			"type": "text",
-			"id": "padding",
-			"label": "Padding",
-			"default": "10px 0 10px",
-			"placeholder": "top right bottom right",
-			"info":"Screen: desktop | 1200px | 991px | 767px"
-		},
-		{
-			"type": "color",
-			"id": "bg_color",
-			"label": "Background color",
-			"default": "#fff"
-		}
-		
-	],
-	"blocks": [
-		{
-            "type": "@app"
+  "name": "Footer bottom",
+  "settings": [
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Padding",
+      "default": "10px 0 10px",
+      "placeholder": "top right bottom right",
+      "info": "Screen: desktop | 1200px | 991px | 767px"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#fff"
+    },
+    {
+      "type": "select",
+      "id": "direction",
+      "label": "Direction",
+      "default": "horizontal",
+      "options": [
+        {
+          "value": "vertical",
+          "label": "Vertical"
         },
-		{
-            "type": "menu",
-            "name": "Menu",
-            "settings": [
-				{
-					"type": "header",
-					"content": "== Content settings"
-				},
-				{
-					"type": "color",
-					"id": "color",
-					"label": "color",
-					"default": "#000"
-				},
-				{
-					"type": "color",
-					"id": "color_hover",
-					"label": "Color hover",
-					"default": "#000"
-				},
-				{
-					"type": "text",
-					"id": "margin",
-					"label": "Margin",
-					"default": "5px 0px 5px 0px",
-					"info": "top right bottom left"
-				},
-				{
-					"type": "link_list",
-					"id": "footer_link_list",
-					"label": "Footer menu"
-				},
-				{
-					"type": "select",
-					"id": "align",
-					"label": "Content alignment",
-					"default": "left",
-					"options": [
-						{
-							"value": "center",
-							"label": "Center"
-						},
-						{
-							"value": "left",
-							"label": "Left"
-						},
-						{
-							"value": "right",
-							"label": "Right"
-						}
-					]
-				},
-				{
-					"type": "header",
-					"content": "== width settings"
-				},
-				{
-					"type": "number",
-					"id": "footer_width",
-					"label": "Container width",
-					"default": 25,
-					"info": "%"
-				},
-				{
-					"type": "number",
-					"id": "footer_width_ipad",
-					"label": "Container width tablet",
-					"default": 50,
-					"info": "%"
-				},
-				{
-					"type": "number",
-					"id": "footer_width_mobi",
-					"label": "Container width mobile",
-					"default": 100,
-					"info": "%"
-				},
-				{
-					"type": "select",
-					"id": "align_mobi",
-					"label": "Content alignment mobile",
-					"default": "left",
-					"options": [
-						{
-							"value": "center",
-							"label": "Center"
-						},
-						{
-							"value": "left",
-							"label": "Left"
-						},
-						{
-							"value": "right",
-							"label": "Right"
-						}
-					]
-				}
-            ]
-        },
-		{
-            "type": "paymet",
-            "name": "Logo paymet",
-            "settings": [
-				{
-					"type": "image_picker",
-					"id": "payment_image",
-					"label": "Payment image"
-				},
-				{
-					"type": "select",
-					"id": "align",
-					"label": "Content alignment",
-					"default": "left",
-					"options": [
-						{
-							"value": "center",
-							"label": "Center"
-						},
-						{
-							"value": "left",
-							"label": "Left"
-						},
-						{
-							"value": "right",
-							"label": "Right"
-						}
-					]
-				},
-				{
-					"type": "text",
-					"id": "margin",
-					"label": "Margin",
-					"default": "5px 0px 5px 0px",
-					"info": "top right bottom left"
-				},
-				{
-					"type": "header",
-					"content": "== width settings"
-				},
-				{
-					"type": "number",
-					"id": "footer_width",
-					"label": "Container width",
-					"default": 25,
-					"info": "%"
-				},
-				{
-					"type": "number",
-					"id": "footer_width_ipad",
-					"label": "Container width tablet",
-					"default": 50,
-					"info": "%"
-				},
-				{
-					"type": "number",
-					"id": "footer_width_mobi",
-					"label": "Container width mobile",
-					"default": 100,
-					"info": "%"
-				},
-				{
-					"type": "select",
-					"id": "align_mobi",
-					"label": "Content alignment mobile",
-					"default": "left",
-					"options": [
-						{
-							"value": "center",
-							"label": "Center"
-						},
-						{
-							"value": "left",
-							"label": "Left"
-						},
-						{
-							"value": "right",
-							"label": "Right"
-						}
-					]
-				}
-            ]
-        },
-		{
-            "type": "copyright",
-            "name": "Copyright",
-            "settings": [
-				{
-					"type": "checkbox",
-					"id": "show_copyright",
-					"label": "Show custom text",
-					"default": true
-				},
-				{
-					"type": "text",
-					"id": "copyright",
-					"label": "Text",
-					"default": "Copyright © 2022. All Right Reserved"
-				},
-				{
-					"type": "color",
-					"id": "color",
-					"label": "color",
-					"default": "#000"
-				},
-				{
-					"type": "text",
-					"id": "margin",
-					"label": "Margin",
-					"default": "5px 0px 5px 0px",
-					"info": "top right bottom left"
-				},
-				{
-					"type": "select",
-					"id": "align",
-					"label": "Content alignment",
-					"default": "left",
-					"options": [
-						{
-							"value": "center",
-							"label": "Center"
-						},
-						{
-							"value": "left",
-							"label": "Left"
-						},
-						{
-							"value": "right",
-							"label": "Right"
-						}
-					]
-				},
-				{
-					"type": "header",
-					"content": "== width settings"
-				},
-				{
-					"type": "number",
-					"id": "footer_width",
-					"label": "Container width",
-					"default": 25,
-					"info": "%"
-				},
-				{
-					"type": "number",
-					"id": "footer_width_ipad",
-					"label": "Container width tablet",
-					"default": 50,
-					"info": "%"
-				},
-				{
-					"type": "number",
-					"id": "footer_width_mobi",
-					"label": "Container width mobile",
-					"default": 100,
-					"info": "%"
-				},
-				{
-					"type": "select",
-					"id": "align_mobi",
-					"label": "Content alignment mobile",
-					"default": "left",
-					"options": [
-						{
-							"value": "center",
-							"label": "Center"
-						},
-						{
-							"value": "left",
-							"label": "Left"
-						},
-						{
-							"value": "right",
-							"label": "Right"
-						}
-					]
-				}
-            ]
-        },
-		{
-            "type": "social",
-            "name": "Social",
-            "settings": [
-				{
-					"type": "header",
-					"content": "== Content settings"
-				},
-				{
-					"type": "checkbox",
-					"id": "social",
-					"label": "Show social"
-				},
-				{
-					"type": "color",
-					"id": "color_social",
-					"label": "color social",
-					"default": "#000"
-				},
-				{
-					"type": "color",
-					"id": "color_social_hover",
-					"label": "color social hover",
-					"default": "#000"
-				},
-				{
-					"type": "text",
-					"id": "margin",
-					"label": "Margin",
-					"default": "5px 0px 5px 0px",
-					"info": "top right bottom left"
-				},
-				{
-					"type": "select",
-					"id": "align",
-					"label": "Content alignment",
-					"default": "left",
-					"options": [
-						{
-							"value": "center",
-							"label": "Center"
-						},
-						{
-							"value": "left",
-							"label": "Left"
-						},
-						{
-							"value": "right",
-							"label": "Right"
-						}
-					]
-				},
-				{
-					"type": "header",
-					"content": "== width settings"
-				},
-				{
-					"type": "number",
-					"id": "footer_width",
-					"label": "Container width",
-					"default": 25,
-					"info": "%"
-				},
-				{
-					"type": "number",
-					"id": "footer_width_ipad",
-					"label": "Container width tablet",
-					"default": 50,
-					"info": "%"
-				},
-				{
-					"type": "number",
-					"id": "footer_width_mobi",
-					"label": "Container width mobile",
-					"default": 100,
-					"info": "%"
-				},
-				{
-					"type": "select",
-					"id": "align_mobi",
-					"label": "Content alignment mobile",
-					"default": "left",
-					"options": [
-						{
-							"value": "center",
-							"label": "Center"
-						},
-						{
-							"value": "left",
-							"label": "Left"
-						},
-						{
-							"value": "right",
-							"label": "Right"
-						}
-					]
-				}
-            ]
+        {
+          "value": "horizontal",
+          "label": "Horizontal"
         }
-	]
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "menu",
+      "name": "Menu",
+      "settings": [
+        {
+          "type": "header",
+          "content": "== Content settings"
+        },
+        {
+          "type": "color",
+          "id": "color",
+          "label": "color",
+          "default": "#000"
+        },
+        {
+          "type": "color",
+          "id": "color_hover",
+          "label": "Color hover",
+          "default": "#000"
+        },
+        {
+          "type": "text",
+          "id": "margin",
+          "label": "Margin",
+          "default": "5px 0px 5px 0px",
+          "info": "top right bottom left"
+        },
+        {
+          "type": "link_list",
+          "id": "footer_link_list",
+          "label": "Footer menu"
+        },
+        {
+          "type": "select",
+          "id": "align",
+          "label": "Content alignment",
+          "default": "left",
+          "options": [
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "== width settings"
+        },
+        {
+          "type": "number",
+          "id": "footer_width",
+          "label": "Container width",
+          "default": 25,
+          "info": "%"
+        },
+        {
+          "type": "number",
+          "id": "footer_width_ipad",
+          "label": "Container width tablet",
+          "default": 50,
+          "info": "%"
+        },
+        {
+          "type": "number",
+          "id": "footer_width_mobi",
+          "label": "Container width mobile",
+          "default": 100,
+          "info": "%"
+        },
+        {
+          "type": "select",
+          "id": "align_mobi",
+          "label": "Content alignment mobile",
+          "default": "left",
+          "options": [
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "paymet",
+      "name": "Logo paymet",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "payment_image",
+          "label": "Payment image"
+        },
+        {
+          "type": "select",
+          "id": "align",
+          "label": "Content alignment",
+          "default": "left",
+          "options": [
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "margin",
+          "label": "Margin",
+          "default": "5px 0px 5px 0px",
+          "info": "top right bottom left"
+        },
+        {
+          "type": "header",
+          "content": "== width settings"
+        },
+        {
+          "type": "number",
+          "id": "footer_width",
+          "label": "Container width",
+          "default": 25,
+          "info": "%"
+        },
+        {
+          "type": "number",
+          "id": "footer_width_ipad",
+          "label": "Container width tablet",
+          "default": 50,
+          "info": "%"
+        },
+        {
+          "type": "number",
+          "id": "footer_width_mobi",
+          "label": "Container width mobile",
+          "default": 100,
+          "info": "%"
+        },
+        {
+          "type": "select",
+          "id": "align_mobi",
+          "label": "Content alignment mobile",
+          "default": "left",
+          "options": [
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "copyright",
+      "name": "Copyright",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_copyright",
+          "label": "Show custom text",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "copyright",
+          "label": "Text",
+          "default": "Copyright © 2022. All Right Reserved"
+        },
+        {
+          "type": "color",
+          "id": "color",
+          "label": "color",
+          "default": "#000"
+        },
+        {
+          "type": "text",
+          "id": "margin",
+          "label": "Margin",
+          "default": "5px 0px 5px 0px",
+          "info": "top right bottom left"
+        },
+        {
+          "type": "select",
+          "id": "align",
+          "label": "Content alignment",
+          "default": "left",
+          "options": [
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "== width settings"
+        },
+        {
+          "type": "number",
+          "id": "footer_width",
+          "label": "Container width",
+          "default": 25,
+          "info": "%"
+        },
+        {
+          "type": "number",
+          "id": "footer_width_ipad",
+          "label": "Container width tablet",
+          "default": 50,
+          "info": "%"
+        },
+        {
+          "type": "number",
+          "id": "footer_width_mobi",
+          "label": "Container width mobile",
+          "default": 100,
+          "info": "%"
+        },
+        {
+          "type": "select",
+          "id": "align_mobi",
+          "label": "Content alignment mobile",
+          "default": "left",
+          "options": [
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "social",
+      "name": "Social",
+      "settings": [
+        {
+          "type": "header",
+          "content": "== Content settings"
+        },
+        {
+          "type": "checkbox",
+          "id": "social",
+          "label": "Show social"
+        },
+        {
+          "type": "color",
+          "id": "color_social",
+          "label": "color social",
+          "default": "#000"
+        },
+        {
+          "type": "color",
+          "id": "color_social_hover",
+          "label": "color social hover",
+          "default": "#000"
+        },
+        {
+          "type": "text",
+          "id": "margin",
+          "label": "Margin",
+          "default": "5px 0px 5px 0px",
+          "info": "top right bottom left"
+        },
+        {
+          "type": "select",
+          "id": "align",
+          "label": "Content alignment",
+          "default": "left",
+          "options": [
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "== width settings"
+        },
+        {
+          "type": "number",
+          "id": "footer_width",
+          "label": "Container width",
+          "default": 25,
+          "info": "%"
+        },
+        {
+          "type": "number",
+          "id": "footer_width_ipad",
+          "label": "Container width tablet",
+          "default": 50,
+          "info": "%"
+        },
+        {
+          "type": "number",
+          "id": "footer_width_mobi",
+          "label": "Container width mobile",
+          "default": 100,
+          "info": "%"
+        },
+        {
+          "type": "select",
+          "id": "align_mobi",
+          "label": "Content alignment mobile",
+          "default": "left",
+          "options": [
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "htmlcontent",
+      "name": "HTML Content",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "html",
+          "id": "html_text",
+          "label": "HTML"
+        }
+      ]
+    }
+  ]
 }
 {% endschema %}
