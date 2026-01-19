@@ -1715,6 +1715,19 @@
       "footer-bottom": {
         "type": "footer-bottom",
         "blocks": {
+          "htmlcontent_mdGb8L": {
+            "type": "htmlcontent",
+            "settings": {
+              "title": "SHIPPING COUNTRY SELECTOR",
+              "html_text": "<style>\n  .footer-locale-selector {\n    margin-bottom: 23px;\n  }\n\n  .footer-locale-selector .header-selector__toggle {\n    font-size: 13px;\n  }\n\n  .footer-locale-selector .fls-title {\n    font-size: 16px;\n    line-height: 24px;\n    font-weight: 400;\n    letter-spacing: 1px;\n    margin: 0;\n    color: #ffffff;\n    font-family: Bebas Neue;\n  }\n\n  .bwp-footer .footer-bottom .footer-bottom__inner>div.footer-locale-selector {\n    padding: 0;\n  }\n\n  .footer-locale-selector .header-selector__dropdown.show {\n    transform: translate3d(0, 25px, 0px) !important;\n  }\n</style>"
+            }
+          },
+          "localeselector_jhH9Xi": {
+            "type": "localeselector",
+            "settings": {
+              "title": "SHIPPING COUNTRY"
+            }
+          },
           "htmlcontent_cfPwp9": {
             "type": "htmlcontent",
             "settings": {
@@ -1769,6 +1782,8 @@
           }
         },
         "block_order": [
+          "htmlcontent_mdGb8L",
+          "localeselector_jhH9Xi",
           "htmlcontent_cfPwp9",
           "214f660f-6620-4db4-8aeb-9a7c54791b1c",
           "menu_b9JBU6",
