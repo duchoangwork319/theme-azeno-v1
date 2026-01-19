@@ -1715,8 +1715,16 @@
       "footer-bottom": {
         "type": "footer-bottom",
         "blocks": {
+          "htmlcontent_cfPwp9": {
+            "type": "htmlcontent",
+            "settings": {
+              "title": "COPYRIGHT NOTICE",
+              "html_text": "<style>\n  .fb-html-content {\n    padding: 0;\n  }\n\n  .fb-html-content .fb-title {\n    font-size: 16px;\n    line-height: 24px;\n    font-weight: 400;\n    letter-spacing: 1px;\n    margin: 0;\n    color: #ffffff;\n    font-family: Bebas Neue;\n  }\n\n  .bwp-footer .footer-bottom .footer-bottom__inner>div.footer-htmlcontent {\n    padding: 0;\n  }\n</style>\n\n<div class=\"fb-html-content\">\n  <p class=\"fb-title\">JOIN OUR COMMUNITY</p>\n  <p class=\"fb-content\">Sign up to receive 10% off your first order</p>\n  <br>\n  <p class=\"fb-title\">COPYRIGHT NOTICE</p>\n  <p class=\"fb-content\">© 2026 5dla.com. All Rights Reserved.</p>\n</div>"
+            }
+          },
           "214f660f-6620-4db4-8aeb-9a7c54791b1c": {
             "type": "copyright",
+            "disabled": true,
             "settings": {
               "show_copyright": true,
               "copyright": "© 2025 5dla.com",
@@ -1761,13 +1769,15 @@
           }
         },
         "block_order": [
+          "htmlcontent_cfPwp9",
           "214f660f-6620-4db4-8aeb-9a7c54791b1c",
           "menu_b9JBU6",
           "social_4XqxJx"
         ],
         "settings": {
           "padding": "15px 0 15px",
-          "bg_color": "#222222"
+          "bg_color": "#222222",
+          "direction": "vertical"
         }
       },
       "1663474605a10521ba": {
@@ -4837,7 +4847,7 @@
               "line_height": 24,
               "letter_spacing": 1,
               "font_weight": "400",
-              "margin": "0px 0px 0px 0px",
+              "margin": "0px 0px 17px 0px",
               "footer_link_list": "footer-legal-compliance",
               "footer_width": 25,
               "footer_width_ipad": 50,
