@@ -119,7 +119,7 @@
   	}
   {%- endif -%}
 {%- endstyle -%}
-<div class="footer-bottom">
+<div class="footer-bottom" data-section-type="footer-bottom">
   <div class="container">
     <div class="footer-bottom__inner {% if section.settings.bg_color == 'horizontal' %} row {% endif %}">
       {%- if section.blocks.size > 0 -%}
@@ -166,6 +166,15 @@
               <div class="footer-index-{{forloop.index}} footer-htmlcontent htmlcontent-{{forloop.index}}">
                 {{ block.settings.html_text }}
               </div>
+            {%- when 'localeselector' -%}
+              {%- if settings.show_locale_selector -%}
+                <div class="footer-index-{{forloop.index}} footer-locale-selector">
+                  {% if block.settings.title != blank %}
+                    <p class="fls-title">{{ block.settings.title }}</p>
+                  {% endif %}
+                  {% render 'locale-selector' %}
+                </div>
+              {%- endif -%}
           {%- endcase -%}
         {%- endfor -%}
       {%- endif -%}
@@ -601,6 +610,17 @@
           "type": "html",
           "id": "html_text",
           "label": "HTML"
+        }
+      ]
+    },
+    {
+      "type": "localeselector",
+      "name": "Locale Selector",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
         }
       ]
     }

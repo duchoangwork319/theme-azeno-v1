@@ -2724,6 +2724,40 @@ wpbingo.HeaderSection = (function () {
 	return Header;
 })();
 
+wpbingo.FooterSection = (function () {
+	var selectors = {
+		disclosureLocale: '[data-disclosure-locale]'
+	};
+
+	function Footer(container) {
+		this.$container = $(container);
+		this.cache = {};
+		this.cacheSelectors();
+
+		if (this.cache.$localeDisclosure.length) {
+			this.localeDisclosure = new wpbingo.Disclosure(
+				this.cache.$localeDisclosure
+			);
+		}
+	}
+
+	Footer.prototype = _.assignIn({}, Footer.prototype, {
+		cacheSelectors: function () {
+			this.cache = {
+				$localeDisclosure: this.$container.find(selectors.disclosureLocale)
+			};
+		},
+
+		onUnload: function () {
+			if (this.cache.$localeDisclosure.length) {
+				this.localeDisclosure.unload();
+			}
+		}
+	});
+
+	return Footer;
+}());
+
 wpbingo.LoginRegister = (function () {
 	var selectors = {
 		loginForm: '.js-login-form',
@@ -8354,6 +8388,7 @@ $(document).ready(function () {
 	sections.register('product-recommendations', wpbingo.ProductRecommendations);
 	sections.register('login-register', wpbingo.LoginRegister);
 	sections.register('search', wpbingo.Search);
+	sections.register('footer-bottom', wpbingo.FooterSection);
 	if ($('body').hasClass('template-product')) {
 		sections.register('product-template', Shopify.Products.showRecentlyViewed());
 		sections.register('product-template', Shopify.Products.recordRecentlyViewed());
