@@ -2726,7 +2726,8 @@ wpbingo.HeaderSection = (function () {
 
 wpbingo.FooterSection = (function () {
 	var selectors = {
-		disclosureLocale: '[data-disclosure-locale]'
+		disclosureLocale: '[data-disclosure-locale]',
+		disclosureCurrency: '[data-disclosure-currency]',
 	};
 
 	function Footer(container) {
@@ -2739,18 +2740,29 @@ wpbingo.FooterSection = (function () {
 				this.cache.$localeDisclosure
 			);
 		}
+
+		if (this.cache.$currencyDisclosure.length) {
+			this.currencyDisclosure = new wpbingo.Disclosure(
+				this.cache.$currencyDisclosure
+			);
+		}
 	}
 
 	Footer.prototype = _.assignIn({}, Footer.prototype, {
 		cacheSelectors: function () {
 			this.cache = {
-				$localeDisclosure: this.$container.find(selectors.disclosureLocale)
+				$localeDisclosure: this.$container.find(selectors.disclosureLocale),
+				$currencyDisclosure: this.$container.find(selectors.disclosureCurrency)
 			};
 		},
 
 		onUnload: function () {
 			if (this.cache.$localeDisclosure.length) {
 				this.localeDisclosure.unload();
+			}
+
+			if (this.cache.$currencyDisclosure.length) {
+				this.currencyDisclosure.unload();
 			}
 		}
 	});
