@@ -168,11 +168,20 @@
               </div>
             {%- when 'localeselector' -%}
               {%- if settings.show_locale_selector -%}
-                <div class="footer-index-{{forloop.index}} footer-locale-selector">
+                <div class="footer-index-{{forloop.index}} footer-selector footer-locale-selector">
                   {% if block.settings.title != blank %}
-                    <p class="fls-title">{{ block.settings.title }}</p>
+                    <p class="fts-title">{{ block.settings.title }}</p>
                   {% endif %}
                   {% render 'locale-selector' %}
+                </div>
+              {%- endif -%}
+            {%- when 'currencyselector' -%}
+              {%- if settings.show_currency_selector -%}
+                <div class="footer-index-{{forloop.index}} footer-selector footer-currency-selector">
+                  {% if block.settings.title != blank %}
+                    <p class="fts-title">{{ block.settings.title }}</p>
+                  {% endif %}
+                  {% render 'currency-selector' %}
                 </div>
               {%- endif -%}
           {%- endcase -%}
@@ -623,6 +632,17 @@
     {
       "type": "localeselector",
       "name": "Locale Selector",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        }
+      ]
+    },
+    {
+      "type": "currencyselector",
+      "name": "Currency Selector",
       "settings": [
         {
           "type": "text",
