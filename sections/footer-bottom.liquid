@@ -121,7 +121,7 @@
 {%- endstyle -%}
 <div class="footer-bottom" data-section-type="footer-bottom">
   <div class="container">
-    <div class="footer-bottom__inner {% if section.settings.bg_color == 'horizontal' %} row {% endif %}">
+    <div class="footer-bottom__inner {% if section.settings.direction == 'horizontal' %} row {% endif %}">
       {%- if section.blocks.size > 0 -%}
         {%- for block in section.blocks -%}
           {%- case block.type -%}
@@ -163,7 +163,7 @@
                 {%- endif -%}
               </div>
             {%- when 'htmlcontent' -%}
-              <div class="footer-index-{{forloop.index}} footer-htmlcontent htmlcontent-{{forloop.index}}">
+              <div class="footer-index-{{forloop.index}} footer-htmlcontent htmlcontent-{{forloop.index}} {% if block.settings.hidden %}d-none{% endif %}">
                 {{ block.settings.html_text }}
               </div>
             {%- when 'localeselector' -%}
@@ -610,6 +610,13 @@
           "type": "html",
           "id": "html_text",
           "label": "HTML"
+        },
+        {
+          "type": "checkbox",
+          "id": "hidden",
+          "label": "Hidden",
+          "default": false,
+          "info": "Display none block"
         }
       ]
     },
