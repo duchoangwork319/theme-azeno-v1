@@ -4623,27 +4623,59 @@ wpbingo.slideshow = function () {
 	 * Play the video element if it exists
 	 * @param {JQuery<HTMLVideoElement>} videoEl - The video element to play
 	 */
-	var playVideo = (videoEl) => {
-		if (videoEl && videoEl.length) {
-			if (!videoEl.hasClass('loaded')) {
-				videoEl.find('source').each(function () {
-					var videoSrc = $(this);
-					videoSrc.attr('src', videoSrc.attr('data-src'));
-				});
-				videoEl.addClass('loaded').removeClass('d-none');
-				videoEl.get(0).load();
+	var playVideo = (videoWrapper) => {
+		if (!videoWrapper || !videoWrapper.length) return;
+
+		const videoEl = videoWrapper.get(0);
+		const previewImg = videoWrapper.parent().find('.preview-image');
+
+		// 1. Force iOS-compatible attributes
+		// Without these, play() will almost always fail on iPhone/iPad
+		videoEl.muted = true;
+		videoEl.setAttribute('muted', '');
+		videoEl.setAttribute('playsinline', '');
+		videoEl.setAttribute('webkit-playsinline', ''); // Legacy iOS support
+
+		// 1. Create a function that handles the loading logic
+		const ensureLoaded = () => {
+			if (videoWrapper.hasClass('loaded')) {
+				return Promise.resolve(); // Already loaded, proceed immediately
 			}
-			try {
-				videoEl.get(0).play()
-					.then(function () {
-						videoEl.parent().find('.preview-image').addClass('d-none');
-					})
-					.catch(function () { })
-					.finally(function () {
-						console.log('Played video: ', videoEl.attr('alt'));
-					});
-			} catch (err) { }
-		}
+
+			return new Promise((resolve, reject) => {
+				videoWrapper.find('source').each(function () {
+					const $source = $(this);
+					$source.attr('src', $source.attr('data-src'));
+				});
+
+				// Listen for the first frame/readiness
+				videoWrapper.one('canplay', () => {
+					videoWrapper.addClass('loaded');
+					resolve();
+				});
+
+				// Handle file loading errors
+				videoWrapper.one('error', () => reject('Video source failed to load'));
+
+				videoEl.load();
+			});
+		};
+
+		// 2. Execute the chain
+		ensureLoaded()
+			.then(() => {
+				videoEl.muted = true;
+				return videoEl.play();
+			})
+			.then(() => {
+				videoWrapper.removeClass('d-none');
+				previewImg.addClass('d-none');
+				console.log('Played video: ', videoWrapper.attr('alt'));
+			})
+			.catch((err) => {
+				console.warn('Video failed to play or load:', err);
+			})
+			.finally(() => { });
 	};
 
 	// Bind events to control video playback within slides
