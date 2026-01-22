@@ -4599,6 +4599,10 @@ wpbingo.cookieConsent = function () {
 	});
 };
 
+function isIOS() {
+	return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
+
 wpbingo.slideshow = function () {
 	var slideshow = '.js-wpbingo-slideshow';
 	var slideshowEl = $(slideshow);
@@ -4623,57 +4627,66 @@ wpbingo.slideshow = function () {
 	 * Play the video element if it exists
 	 * @param {JQuery<HTMLVideoElement>} videoEl - The video element to play
 	 */
-	var playVideo = (videoWrapper) => {
-		if (!videoWrapper || !videoWrapper.length) return;
+	var playVideo = (videojEl) => {
+		if (!videojEl || !videojEl.length) return;
 
-		const videoEl = videoWrapper.get(0);
-		const previewImg = videoWrapper.parent().find('.preview-image');
+		const videoHtml = videojEl.get(0);
+		const previewImg = videojEl.parent().find('.preview-image');
 
-		// 1. Force iOS-compatible attributes
-		// Without these, play() will almost always fail on iPhone/iPad
-		videoEl.muted = true;
-		videoEl.setAttribute('muted', '');
-		videoEl.setAttribute('playsinline', '');
-		videoEl.setAttribute('webkit-playsinline', ''); // Legacy iOS support
+		videojEl.find('source').each(function () {
+			const srcEl = $(this);
+			srcEl.attr('src', srcEl.attr('data-src'));
+		});
+
+		/**
+		 * Initialize iOS specific behavior
+		 * 1. iOS requires user interaction to start video playback.
+		 * 2. iOS can not play videos when being displayed:none; so we need to
+		 * show the video element but hide it; until playback starts.
+		 */
+		if (isIOS()) {
+			videojEl.removeClass('d-none').css({ height: '0px' });
+			if (!previewImg.hasClass('on-ios')) {
+				previewImg.addClass('on-ios');
+				previewImg.on('click.playVideo', () => {
+					videoHtml.play().then(() => {
+						videojEl.css({ height: '' });
+						previewImg.addClass('d-none');
+					});
+				});
+			}
+		}
 
 		// 1. Create a function that handles the loading logic
 		const ensureLoaded = () => {
-			if (videoWrapper.hasClass('loaded')) {
-				return Promise.resolve(); // Already loaded, proceed immediately
-			}
+			// Already loaded, proceed immediately
+			if (videojEl.hasClass('loaded')) return Promise.resolve();
 
 			return new Promise((resolve, reject) => {
-				videoWrapper.find('source').each(function () {
-					const $source = $(this);
-					$source.attr('src', $source.attr('data-src'));
-				});
-
 				// Listen for the first frame/readiness
-				videoWrapper.one('canplay', () => {
-					videoWrapper.addClass('loaded');
+				videojEl.one('canplay', () => {
+					videojEl.addClass('loaded');
 					resolve();
 				});
 
 				// Handle file loading errors
-				videoWrapper.one('error', () => reject('Video source failed to load'));
+				videojEl.one('error', () => reject('Video source failed to load'));
 
-				videoEl.load();
+				videoHtml.load();
 			});
 		};
 
 		// 2. Execute the chain
 		ensureLoaded()
 			.then(() => {
-				videoEl.muted = true;
-				return videoEl.play();
+				return videoHtml.play();
 			})
 			.then(() => {
-				videoWrapper.removeClass('d-none');
+				videojEl.removeClass('d-none');
 				previewImg.addClass('d-none');
-				console.log('Played video: ', videoWrapper.attr('alt'));
 			})
 			.catch((err) => {
-				console.warn('Video failed to play or load:', err);
+				console.warn('Video failed to play or load:', err.message);
 			})
 			.finally(() => { });
 	};
@@ -4695,6 +4708,7 @@ wpbingo.slideshow = function () {
 		})
 		.slick(config)
 };
+
 wpbingo.rtl_slick = function () {
 	if ($('body').hasClass("rtl")) {
 		return true;
@@ -4702,6 +4716,7 @@ wpbingo.rtl_slick = function () {
 		return false;
 	}
 }
+
 wpbingo.slickCarousel = function () {
 	var bwpCarousel = '.js-carousel';
 	$(bwpCarousel).each(function () {
