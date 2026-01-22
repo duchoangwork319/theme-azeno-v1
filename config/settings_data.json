@@ -1719,12 +1719,12 @@
             "type": "htmlcontent",
             "settings": {
               "title": "STYLES",
-              "html_text": "<style>\n  .footer-bottom {\n    padding: 50px 0;\n  }\n\n  .footer-locale-selector {\n    margin-bottom: 7px;\n  }\n\n  .footer-locale-selector .header-selector__toggle {\n    font-size: 13px;\n  }\n\n  .footer-locale-selector .header-selector__dropdown.show {\n    transform: translate3d(0, 25px, 0px) !important;\n  }\n\n  .footer-locale-selector .fls-title,\n  .ftb-html .ftb-title {\n    font-size: 16px;\n    line-height: 24px;\n    font-weight: 400;\n    letter-spacing: 1px;\n    margin: 0;\n    color: #ffffff;\n    font-family: Bebas Neue;\n  }\n\n  .ftb-html {\n    padding: 0;\n  }\n\n  p.ftb-content {\n    margin-bottom: 0;\n  }\n\n  .footer-bottom__inner:not(.row) {\n    margin: 0 -15px;\n  }\n\n  .footer-bottom__inner>div.footer-locale-selector,\n  .footer-bottom__inner>div.footer-htmlcontent {\n    margin-bottom: 50px;\n  }\n\n  .footer-bottom__inner.row>.footer-locale-selector,\n  .footer-bottom__inner.row>.footer-htmlcontent {\n    flex: 0 0 25%;\n    max-width: 25%;\n    padding: 0 15px;\n  }\n\n  @media (max-width:991px) {\n\n    .footer-bottom__inner.row>.footer-locale-selector,\n    .footer-bottom__inner.row>.footer-htmlcontent {\n      flex: 0 0 50%;\n      max-width: 50%;\n    }\n  }\n\n  @media (max-width:767px) {\n\n    .footer-bottom__inner>div.footer-locale-selector,\n    .footer-bottom__inner>div.footer-htmlcontent {\n      margin-bottom: 30px;\n    }\n\n    .footer-bottom__inner.row>.footer-locale-selector,\n    .footer-bottom__inner.row>.footer-htmlcontent {\n      flex: 0 0 100%;\n      max-width: 100%;\n    }\n  }\n</style>",
+              "html_text": "<style>\n  .footer-bottom {\n    padding: 50px 0;\n  }\n\n  .footer-selector {\n    margin-bottom: 7px;\n  }\n\n  .footer-selector .header-selector__toggle {\n    font-size: 13px;\n  }\n\n  .footer-selector .header-selector__dropdown.show {\n    transform: translate3d(0, 25px, 0px) !important;\n  }\n\n  .footer-selector .fts-title,\n  .ftb-html .ftb-title {\n    font-size: 16px;\n    line-height: 24px;\n    font-weight: 400;\n    letter-spacing: 1px;\n    margin: 0;\n    color: #ffffff;\n    font-family: Bebas Neue;\n  }\n\n  .ftb-html {\n    padding: 0;\n  }\n\n  p.ftb-content {\n    margin-bottom: 0;\n  }\n\n  .footer-bottom__inner:not(.row) {\n    margin: 0 -15px;\n  }\n\n  .footer-bottom__inner>div.footer-selector,\n  .footer-bottom__inner>div.footer-htmlcontent {\n    margin-bottom: 50px;\n  }\n\n  .footer-bottom__inner.row>.footer-selector,\n  .footer-bottom__inner.row>.footer-htmlcontent {\n    flex: 0 0 25%;\n    max-width: 25%;\n    padding: 0 15px;\n  }\n\n  .footer-currency-selector .dropdown-menu.show {\n    max-height: 150px;\n    overflow-y: scroll;\n  }\n\n  .footer-currency-selector .dropdown-menu::-webkit-scrollbar {\n    width: 5px;\n    height: 5px;\n  }\n\n  .footer-currency-selector .dropdown-menu::-webkit-scrollbar-thumb {\n    background: #333;\n  }\n\n  .footer-currency-selector .dropdown-menu::-webkit-scrollbar-track {\n    background: #999;\n  }\n\n  @media (max-width:991px) {\n\n    .footer-bottom__inner.row>.footer-selector,\n    .footer-bottom__inner.row>.footer-htmlcontent {\n      flex: 0 0 50%;\n      max-width: 50%;\n    }\n  }\n\n  @media (max-width:767px) {\n\n    .footer-bottom__inner>div.footer-selector,\n    .footer-bottom__inner>div.footer-htmlcontent {\n      margin-bottom: 30px;\n    }\n\n    .footer-bottom__inner.row>.footer-selector,\n    .footer-bottom__inner.row>.footer-htmlcontent {\n      flex: 0 0 100%;\n      max-width: 100%;\n    }\n  }\n</style>",
               "hidden": true
             }
           },
-          "localeselector_jhH9Xi": {
-            "type": "localeselector",
+          "currencyselector_agCz9A": {
+            "type": "currencyselector",
             "settings": {
               "title": "SHIPPING COUNTRY"
             }
@@ -1793,7 +1793,7 @@
         },
         "block_order": [
           "htmlcontent_mdGb8L",
-          "localeselector_jhH9Xi",
+          "currencyselector_agCz9A",
           "htmlcontent_cfPwp9",
           "htmlcontent_cwNUJc",
           "214f660f-6620-4db4-8aeb-9a7c54791b1c",
