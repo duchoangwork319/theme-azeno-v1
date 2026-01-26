@@ -128,6 +128,8 @@
     "social_tiktok_link": "#",
     "share_facebook": true,
     "favicon": "shopify://shop_images/5DLA_favicon_32x32_white_bg_f639592e-8238-4042-88ee-34c3f7744ae3.png",
+    "cookie_consent_enable": false,
+    "cookie_consent_message": "This website uses cookies to ensure you get the best experience on our website. <a href=\"/policies/privacy-policy\">Privacy Policy</a>",
     "cookie_agree_button": "Agree",
     "cookie_consent_button": "Not agree",
     "newsletter_popup_enable": true,
@@ -5034,6 +5036,11 @@
       "13768625480086291342": {
         "type": "shopify://apps/forms/blocks/forms/8744a304-fcb1-4347-b211-bb6b4759a76a",
         "disabled": true,
+        "settings": {}
+      },
+      "back-in-stock-restock-alerts-4bb73be2-b7c2-4870-949f-c528145452a3": {
+        "type": "shopify://apps/back-in-stock-restock-alerts/blocks/main/4bb73be2-b7c2-4870-949f-c528145452a3",
+        "disabled": false,
         "settings": {}
       }
     }

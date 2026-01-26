@@ -58,6 +58,7 @@
         },
         "2dc0c0a9-9b28-436c-b3c3-d2a50fcb2269": {
           "type": "product_real_time",
+          "disabled": true,
           "settings": {
             "product_real_time_margin": "0 0 15px",
             "product_real_time_count": "30-40",
@@ -117,7 +118,7 @@
             "enable_payment_button": true,
             "payment_button_color": "#31373d",
             "payment_text_color": "#ffffff",
-            "show_back_in_stock": true,
+            "show_back_in_stock": false,
             "back_in_stock_title": "Notify me when available",
             "back_in_stock_title_form": "Back in stock alert",
             "back_in_stock_content": "We will send you a notification as soon as this product is available again.",
