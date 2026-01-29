@@ -43,7 +43,6 @@
         },
         "7909a512-72ea-4c42-aed7-62d1fe355160": {
           "type": "vendor",
-          "disabled": true,
           "settings": {
             "product_vendor_margin": ""
           }

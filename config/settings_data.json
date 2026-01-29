@@ -5051,8 +5051,7 @@
       "#judgeme_product_reviews .jdgm-star {color: #000000;}",
       "#judgeme_product_reviews .jdgm-histogram__bar-content {background-color: #000000;}",
       "#judgeme_product_reviews .jdgm-write-rev-link {background-color: #000000; border-color: #000000;}",
-      "#judgeme_product_reviews .jdgm-write-rev-link:hover {opacity: 0.8;}",
-      ".quickview__content .product-quickview .product__vendor {display: none !important;}"
+      "#judgeme_product_reviews .jdgm-write-rev-link:hover {opacity: 0.8;}"
     ]
   }
 }
