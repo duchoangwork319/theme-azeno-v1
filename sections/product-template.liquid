@@ -666,20 +666,7 @@
   <script type="application/json" id="ProductJson-{{ section.id }}">
     {{ product | json }}
   </script>
-  <script type="application/json" id="VariantMediaJson-{{ section.id }}">
-    [
-    	{% for variant in product.variants %}
-    		{
-    			"id": {{ variant.id }},
-    			"variantMediaHiRes": [
-             {% for variant_media in variant.metafields.custom.variant_media_hi_res.value %}
-               {"id": "{{ variant_media.id }}", "thumbnailUrl": "{{ variant_media | image_url:width:150 }}", "mediaUrl": "{{ variant_media | img_url: '1080x1080' }}", "mediaType": "{{ variant_media.media_type }}", "alt": "{{ variant_media.alt | escape }}", "width": "{{ variant_media.width }}", "height": "{{ variant_media.height }}", "sectionId": "{{ section.id }}" }{% unless forloop.last %},{% endunless %}
-             {% endfor %}
-    			]
-    		}{% unless forloop.last %},{% endunless %}
-    	{% endfor %}
-    ]
-  </script>
+  {% render "variant-json" %}
   <script type="application/json" id="ModelJson-{{ section.id }}">
     {{ product.media | where: 'media_type', 'model' | json }}
   </script>
@@ -728,9 +715,10 @@
     },
     {
       "type": "checkbox",
-      "id": "use_metafields_media",
-      "label": "Use metafields media",
-      "default": false
+      "id": "render_variant_media",
+      "label": "Render variant media",
+      "default": false,
+      "info": "Render media based on the current variant on PDP"
     },
     {
       "type": "select",

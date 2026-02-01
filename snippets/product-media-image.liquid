@@ -3,6 +3,15 @@
 	{%- assign height = 770 -%}
 	{%- assign first_3d_model = product.media | where: 'media_type', 'model' | first -%}
 	{%- for media in media_collection -%}
+
+		{% if section.settings.render_variant_media %}
+			{% capture media_src %}{{ media | image_url: width: 150 }}{% endcapture %}
+			{% assign media_src = media_src | downcase | strip %}
+			{% unless media_src contains color_match %}
+				{% continue %}
+			{% endunless %}
+		{% endif %}
+
 		{%- assign featured = false -%}
 		{%- if media == featured_media -%}
 			{%- assign featured = true -%}

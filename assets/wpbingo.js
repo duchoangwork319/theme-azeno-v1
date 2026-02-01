@@ -829,10 +829,10 @@ wpbingo.Variants = (function () {
 			if (!variant) return;
 			this._updateMasterSelect(variant);
 			this._updateMedia(variant);
-			if ($('.use-metafields-media').length > 0) {
+			if ($('.render-variant-media').length > 0) {
 				var variantMediaArr = this._getVariantMedia(variant);
 				if (!variantMediaArr || variantMediaArr.length === 0) {
-					console.log('No media found in metafields for this variant.');
+					console.log('No variant media found.');
 				} else {
 					this._updateProductThumbnailsSlick(variantMediaArr);
 					this._updateProductMediaSlick(variantMediaArr);
