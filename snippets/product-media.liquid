@@ -50,7 +50,7 @@
 {% assign image_360 = array_360 | split: ' ' %}
 
 {% if section.settings.render_variant_media %}
-  {% assign color_token = current_variant.option1 | downcase | replace: ' ', '-' %}
+  {% assign color_token = current_variant.option1 | downcase | replace: ' ', '-' | replace: '/', '-' %}
   {% assign color_match = '_' | append: color_token | append: '_' %}
 {% endif %}
 
