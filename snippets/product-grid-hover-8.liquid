@@ -125,12 +125,12 @@
 				<!-- End of Judge.me code -->
 				</div>
 			{%- endif -%}
-			{%- if settings.product_vendor_enable -%}
-				<p class="product-card__vendor">{{ product.vendor }}</p>
-			{%- endif -%}
 			<div class="product-card__name">
 				<a href="{{ product_url }}">{{ product.title }}</a>
 			</div>
+			{%- if settings.product_vendor_enable -%}
+				<p class="product-card__vendor">{{ product.vendor }}</p>
+			{%- endif -%}
 			<div class="product-card__price">
 				<div class="product-group-price" data-handle="{{ product.handle }}">
 					{% if group_product == blank %}
