@@ -55,7 +55,7 @@
     "show_compare": true,
     "sortby_variants": true,
     "number_variants": 2,
-    "product_vendor_enable": false,
+    "product_vendor_enable": true,
     "product_within_collection": true,
     "product_card_review": true,
     "product_atc_mobile": true,
