@@ -230,12 +230,12 @@
 				</div>
 			{%- endif -%}
 		</div>
-		{%- if settings.product_vendor_enable -%}
-			<div class="product-card__vendor"><a href="/collections/vendors?q={{ product.vendor }}">{{ product.vendor }}</a></div>
-		{%- endif -%}
 		<div class="product-card__name">
 			<a href="{{ product_url }}">{{ product.title }}</a>
 		</div>
+		{%- if settings.product_vendor_enable -%}
+			<div class="product-card__vendor"><a href="/collections/vendors?q={{ product.vendor }}">{{ product.vendor }}</a></div>
+		{%- endif -%}
 		<div class="product-card__price">
 			<div class="product-group-price" data-handle="{{ product.handle }}">
 				{% if group_product == blank %}
