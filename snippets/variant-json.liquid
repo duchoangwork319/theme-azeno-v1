@@ -1,7 +1,7 @@
 <script type="application/json" id="VariantMediaJson-{{ section.id }}">
   [
     {% for variant in product.variants %}
-      {% assign color_token = variant.option1 | downcase | replace: ' ', '-' %}
+      {% assign color_token = variant.option1 | downcase | replace: ' ', '-' | replace: '/', '-' %}
       {% assign color_match = '_' | append: color_token | append: '_' %}
       {
         "id": {{ variant.id }},

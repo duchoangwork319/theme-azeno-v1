@@ -1,3 +1,15 @@
+/**
+ * @typedef {Object} VariantMedia
+ * @property {string} id - The unique identifier for the gallery item.
+ * @property {string} thumbnailUrl - The URL of the thumbnail image for the gallery item.
+ * @property {string} mediaUrl - The URL of the high-resolution image for the gallery item.
+ * @property {string} mediaType - The type of media (e.g., "image").
+ * @property {string} alt - The alternative text for the image.
+ * @property {string} width - The width of the image in pixels.
+ * @property {string} height - The height of the image in pixels.
+ * @property {string} sectionId - The section ID associated with the gallery item.
+ */
+
 window.wpbingo = window.wpbingo || {};
 
 wpbingo.Sections = function Sections() {
@@ -669,6 +681,7 @@ wpbingo.Variants = (function () {
 		$(this.singleOptionSelector, this.$container).on(
 			'change', this._onSelectChange.bind(this)
 		);
+		this._setVariantState(this.currentVariant);
 	}
 
 	Variants.prototype = _.assignIn({}, Variants.prototype, {
@@ -719,19 +732,58 @@ wpbingo.Variants = (function () {
 			return found ? found.variantMediaHiRes : [];
 		},
 		/**
-		 * @typedef {Object} GalleryImage
-		 * @property {string} id - The unique identifier for the gallery item.
-		 * @property {string} thumbnailUrl - The URL of the thumbnail image for the gallery item.
-		 * @property {string} mediaUrl - The URL of the high-resolution image for the gallery item.
-		 * @property {string} mediaType - The type of media (e.g., "image").
-		 * @property {string} alt - The alternative text for the image.
-		 * @property {string} width - The width of the image in pixels.
-		 * @property {string} height - The height of the image in pixels.
-		 * @property {string} sectionId - The section ID associated with the gallery item.
+		 * Replicates the Liquid logic for building variantMediaHiRes
+		 * for a single variant.
+		 *
+		 * @param {Object} variant - The variant object
+		 * @param {Object} product - Product object containing variants and media
+		 * @returns {Array<VariantMedia>}
 		 */
+		_getVariantMediaFromProduct: function (variant, product) {
+			if (!variant) return [];
+
+			const normalizeColorToken = (value) => {
+				if (!value) return '';
+				return value.toLowerCase().replace(/\s+/g, '-').replace(/\//g, '-');
+			};
+
+			const buildImageUrl = (src, width, height) => {
+				if (!src) return '';
+				const url = new URL(src, window.location.origin);
+				url.searchParams.set('width', String(width));
+				if (height) url.searchParams.set('height', String(height));
+				return url.toString();
+			}
+
+			const colorToken = normalizeColorToken(variant.option1);
+			const colorMatch = `_${colorToken}_`;
+			const result = [];
+
+			product.media.forEach((media) => {
+				if (media.media_type !== 'image') return;
+
+				const src = (media.src || '');
+				const lowerSrc = src.toLowerCase().trim();
+
+				if (!lowerSrc || !lowerSrc.includes(colorMatch)) return;
+
+				result.push({
+					id: media.id,
+					thumbnailUrl: buildImageUrl(src, 150),
+					mediaUrl: buildImageUrl(src, 1080, 1080),
+					mediaType: media.media_type,
+					alt: media.alt || '',
+					width: media.width,
+					height: media.height,
+					sectionId: this.$container.data('enable-history-state')
+				});
+			});
+
+			return result;
+		},
 		/**
 		 * Updates the product thumbnails Slick carousel with new gallery images.
-		 * @param {Array<GalleryImage>} variantMediaArr - An array of gallery images to display.
+		 * @param {Array<VariantMedia>} variantMediaArr - An array of gallery images to display.
 		 * @returns {void}
 		 */
 		_updateProductThumbnailsSlick: function (variantMediaArr) {
@@ -774,7 +826,7 @@ wpbingo.Variants = (function () {
 		},
 		/**
 		 * Updates the main product media Slick carousel with new gallery images.
-		 * @param {Array<GalleryImage>} variantMediaArr - An array of gallery images to display.
+		 * @param {Array<VariantMedia>} variantMediaArr - An array of gallery images to display.
 		 * @returns {void}
 		 */
 		_updateProductMediaSlick: function (variantMediaArr) {
@@ -812,6 +864,49 @@ wpbingo.Variants = (function () {
 			$('body').trigger('wpbingo:noslick:media:html', html);
 			$('body').trigger('wpbingo:media:slick');
 		},
+		/**
+		 * Determines whether the variant media should be updated.
+		 * @param {Object} variant - The variant object to check.
+		 * @returns {boolean} - Returns true if the variant media should be updated, otherwise false.
+		 */
+		_shouldUpdateVariantMedia: function (variant) {
+			let currSta = this._getVariantState();
+			let newSta = this._parseVariantState(variant);
+			if (currSta && newSta) return currSta.option1 !== newSta.option1;
+			return true;
+		},
+		/**
+		 * Parses the variant state to extract relevant option values.
+		 * @param {Object} variant - The variant object to parse.
+		 * @returns {Object|null} - Returns an object with option values or null if no variant is provided.
+		 */
+		_parseVariantState: function (variant) {
+			if (!variant) return null;
+			return {
+				option1: variant.option1,
+				option2: variant.option2,
+			};
+		},
+		/**
+		 * Sets the variant state in the container's data attributes.
+		 * @param {Object} variant - The variant object to set the state for.
+		 */
+		_setVariantState: function (variant) {
+			let state = JSON.stringify(this._parseVariantState(variant));
+			this.$container.data('state', state).attr('state', state);
+		},
+		/**
+		 * Retrieves the variant state from the container's data attributes.
+		 * @returns {Object|null} - Returns the parsed variant state object or null if not found or parsing fails.
+		 */
+		_getVariantState: function () {
+			try {
+				return JSON.parse(this.$container.data('state'));
+			} catch (error) {
+				console.log('_getVariantState failed:', error.message);
+			}
+			return null;
+		},
 
 		_onSelectChange: function () {
 			var variant = this._getVariantFromOptions();
@@ -829,8 +924,10 @@ wpbingo.Variants = (function () {
 			if (!variant) return;
 			this._updateMasterSelect(variant);
 			this._updateMedia(variant);
-			if ($('.render-variant-media').length > 0) {
+
+			if ($('.render-variant-media').length > 0 && this._shouldUpdateVariantMedia(variant)) {
 				var variantMediaArr = this._getVariantMedia(variant);
+				// var variantMediaArr = this._getVariantMediaFromProduct(variant, this.product);
 				if (!variantMediaArr || variantMediaArr.length === 0) {
 					console.log('No variant media found.');
 				} else {
@@ -838,6 +935,7 @@ wpbingo.Variants = (function () {
 					this._updateProductMediaSlick(variantMediaArr);
 				}
 			}
+
 			this._updatePrice(variant);
 			this._updateQuantity(variant);
 			this._updateOption(variant);
@@ -851,6 +949,7 @@ wpbingo.Variants = (function () {
 			if (this.enableHistoryState) {
 				this._updateHistoryState(variant);
 			}
+			this._setVariantState(variant);
 		},
 
 		_updateVariantsButtonDisabed: function () {
