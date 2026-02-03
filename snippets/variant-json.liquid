@@ -5,7 +5,7 @@
       {% assign color_match = '_' | append: color_token | append: '_' %}
       {
         "id": {{ variant.id }},
-        "variantMediaHiRes": [
+        "media": [
           {% assign first_match = true %}
           {% for variant_media in product.media %}
             {% if variant_media.media_type == 'image' %}
@@ -16,7 +16,7 @@
                 {
                   "id": "{{ variant_media.id }}",
                   "thumbnailUrl": "{{ variant_media | image_url: width: 150 }}",
-                  "mediaUrl": "{{ variant_media | image_url: width: 1080, height: 1080 }}",
+                  "mediaUrl": "{{ variant_media | image_url:  width: 1080 }}",
                   "mediaType": "{{ variant_media.media_type }}",
                   "alt": "{{ variant_media.alt | escape }}",
                   "width": "{{ variant_media.width }}",

@@ -694,7 +694,7 @@ function buildImageUrl(src, width, height) {
 };
 
 /**
- * Replicates the Liquid logic for building variantMediaHiRes
+ * Replicates the Liquid logic for building media group by variant
  * for a single variant.
  * @param {Object} variant - The variant object
  * @param {Object} product - Product object containing variants and media
@@ -805,7 +805,7 @@ wpbingo.Variants = (function () {
 		_getVariantMedia: function (variant) {
 			if (!this.variantMedia || this.variantMedia.length === 0) return [];
 			let found = this.variantMedia.find(item => item.id === variant.id);
-			return found ? found.variantMediaHiRes : [];
+			return found && Array.isArray(found.media) ? found.media : [];
 		},
 		/**
 		 * Updates the product thumbnails Slick carousel with new gallery images.
@@ -859,6 +859,8 @@ wpbingo.Variants = (function () {
 			if (!variantMediaArr || variantMediaArr.length === 0) return;
 
 			let html = variantMediaArr.map((item, index) => {
+				let mediaUrl = wpbingo.variables.isMobile ?
+					buildImageUrl(item.mediaUrl, 640) : item.mediaUrl;
 				return `
 				<div class="js-product-media-item product-single__media-item" data-slick-media-label="${item.alt || ''}">
 					<div
@@ -869,7 +871,7 @@ wpbingo.Variants = (function () {
 						<div class="product-media__wrapper product-media__wrapper--image">
 							<img
 								class="mfp-image lazyload fade-in"
-								src="${item.mediaUrl}"
+								src="${mediaUrl}"
 								data-sizes="auto"
 								data-image="true"
 								data-number="${index}"
