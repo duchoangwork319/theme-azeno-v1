@@ -113,7 +113,7 @@ export function initFileInput(formElement) {
  */
 export function appendToFormData(formData, fileElement) {
   if (!fileElement || fileElement.length === 0) return formData;
-  fileElement.each(() => {
+  fileElement.each(function () {
     const $fileInput = $(this);
     const inputName = $fileInput.attr('name').replace('[]', '');
     const uploadedFiles = $fileInput.data('uploaded-files') || [];
