@@ -24,28 +24,37 @@ export function loadRecaptcha() {
  * @returns {void}
  */
 export function renderRecaptcha(formEl) {
-  if (typeof grecaptcha === 'undefined') {
-    throw new Error('reCAPTCHA is not loaded.');
-  }
-  const widgetEl = formEl.find('.g-recaptcha');
-  const checkbox = formEl.find('#gRecaptchaCheckbox');
+  if (typeof grecaptcha !== 'undefined') {
+    const widgetEl = formEl.find('.g-recaptcha');
+    const checkbox = formEl.find('#gRecaptchaCheckbox');
 
-  grecaptcha.ready(() => {
-    grecaptcha.render(widgetEl.get(0), {
-      sitekey: widgetEl.data('sitekey'),
-      size: 'normal',
-      callback: () => {
-        checkbox.prop('checked', true);
-        console.log('reCAPTCHA completed successfully.');
-      },
-      'expired-callback': () => {
-        checkbox.prop('checked', false);
-        console.log('reCAPTCHA expired. Please complete it again.');
-      },
-      'error-callback': () => {
-        checkbox.prop('checked', false);
-        console.log('An error occurred with reCAPTCHA. Please try again.');
-      }
+    grecaptcha.ready(() => {
+      grecaptcha.render(widgetEl.get(0), {
+        sitekey: widgetEl.data('sitekey'),
+        size: 'normal',
+        callback: () => {
+          checkbox.prop('checked', true);
+          console.log('reCAPTCHA completed successfully.');
+        },
+        'expired-callback': () => {
+          checkbox.prop('checked', false);
+          console.log('reCAPTCHA expired. Please complete it again.');
+        },
+        'error-callback': () => {
+          checkbox.prop('checked', false);
+          console.log('An error occurred with reCAPTCHA. Please try again.');
+        }
+      });
     });
-  })
+  }
+}
+
+/**
+ * Resets the reCAPTCHA widget
+ * @returns {void}
+ */
+export function resetRecaptcha() {
+  if (typeof grecaptcha !== 'undefined') {
+    grecaptcha.reset();
+  }
 }
