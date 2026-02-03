@@ -375,6 +375,24 @@
             </div>
         {% endcase %}
       {% endfor %}
+      {% if section.settings.enable_recaptcha %}
+        <div class="form-group gRecaptchaCheckbox-form-group">
+          <div id="gRecaptcha" class="g-recaptcha" data-sitekey="{{ section.settings.recaptcha_sitekey }}"></div>
+          <input
+            type="checkbox"
+            name="gRecaptchaCheckbox"
+            id="gRecaptchaCheckbox"
+            class="form-control faker-skip d-none"
+            required
+          >
+          <div
+            data-default-error="{{ section.settings.recaptcha_default_error_message }}"
+            class="invalid-message"
+          >
+            {{ section.settings.recaptcha_default_error_message }}
+          </div>
+        </div>
+      {% endif %}
       <div class="form-group submit-form-group">
         {% if section.settings.show_fake_data_button and settings.enable_fakerjs %}
           <button type="button" id="fillFakeDataButton" class="me-2">Fill with fake data</button>
@@ -467,6 +485,23 @@
       "id": "show_fake_data_button",
       "label": "Show 'Fill with fake data' button for testing",
       "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_recaptcha",
+      "label": "Enable Google reCAPTCHA",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "recaptcha_sitekey",
+      "label": "Google reCAPTCHA sitekey"
+    },
+    {
+      "type": "text",
+      "id": "recaptcha_default_error_message",
+      "label": "Google reCAPTCHA default error message",
+      "default": "Please verify that you are not a robot."
     }
   ],
   "blocks": [

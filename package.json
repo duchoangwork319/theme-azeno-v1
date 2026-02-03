@@ -17,7 +17,11 @@
     "@babel/core": "^7.29.0",
     "@babel/preset-env": "^7.29.0",
     "@faker-js/faker": "^10.2.0",
-    "compressorjs": "^1.2.1"
+    "autoprefixer": "^10.4.23",
+    "babel-loader": "^10.0.0",
+    "compressorjs": "^1.2.1",
+    "webpack": "^5.104.1",
+    "webpack-cli": "^6.0.1"
   },
   "devDependencies": {
     "@shopify/cli": "^3.90.0",
