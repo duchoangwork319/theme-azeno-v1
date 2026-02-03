@@ -7,15 +7,19 @@
 <script src="{{ 'handlebars.min.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'jquery-3.5.1.min.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'vendor.js' | asset_url }}" defer="defer"></script>
-<script src="{{ 'debounce.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'enquire.min.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'jquery.countdown.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'slick.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'lodash.min.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'velocity.min.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'image.zoom.js' | asset_url }}" defer="defer"></script>
+
+{% comment %} <script src="{{ 'debounce.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'wpbingo.js' | asset_url }}" defer="defer"></script>
-<script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'facets.js' | asset_url }}" defer="defer"></script> {% endcomment %}
+
+<script src="{{ 'dist/main.js' | asset_url }}" defer="defer"></script>
+
 <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
 {%- if page_type contains 'product' -%}
   <script src="{{ 'recent-product.min.js' | asset_url }}" defer="defer"></script>

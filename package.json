@@ -14,12 +14,14 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@babel/core": "^7.29.0",
     "@babel/preset-env": "^7.29.0",
     "@faker-js/faker": "^10.2.0",
+    "babel-plugin-transform-remove-strict-mode": "^0.0.2",
     "compressorjs": "^1.2.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.28.6",
+    "@babel/core": "^7.29.0",
     "@shopify/cli": "^3.90.0",
     "esbuild": "0.27.2"
   }

@@ -2344,11 +2344,11 @@ wpbingo.Product = (function () {
 					$("span.count", ".product-count-sale").html(cookieValue);
 					$("span.time", ".product-count-sale").html(cookieTime);
 				} else {
-					var rand = Math.round(Math.random() * (max - min)) + min;
+					var _rand = Math.round(Math.random() * (max - min)) + min;
 					var time = Math.round(Math.random() * (time_max - time_min)) + time_min;
-					wpbingo.setCookie("product_" + id_product, rand, { expires: 24 * 60 * 60 * 1000 });
+					wpbingo.setCookie("product_" + id_product, _rand, { expires: 24 * 60 * 60 * 1000 });
 					wpbingo.setCookie("time_" + id_product, time, { expires: 24 * 60 * 60 * 1000 });
-					$("span.count", ".product-count-sale").html(rand);
+					$("span.count", ".product-count-sale").html(_rand);
 					$("span.time", ".product-count-sale").html(time);
 				}
 			}
@@ -3019,7 +3019,7 @@ wpbingo.QuickView = (function () {
 		quickViewClose: '[data-quickview-close]',
 		quickViewImages: '[data-quickview-images]',
 		quickViewReview: '[data-quickview-review]',
-		quickViewReview: '[data-quickview-review]',
+		// quickViewReview: '[data-quickview-review]',
 		quickviewVariant: '.js-quickview-option-selector',
 		originalSelectorId: '[data-quickview-variant]',
 		quickViewProductPrice: '.js-qv-product-price',
@@ -8012,7 +8012,7 @@ wpbingo.init = function () {
 const confetti = document.getElementById('fire_work');
 const confettiCtx = confetti.getContext('2d');
 let container, confettiElements = [], clickPosition;
-rand = (min, max) => Math.random() * (max - min) + min;
+let rand = (min, max) => Math.random() * (max - min) + min;
 const confettiParams = {
 	number: 200,
 	size: { x: [5, 10], y: [10, 10] },
@@ -8563,6 +8563,9 @@ const compareContains = (handle) => {
 const resetCompare = () => {
 	return setCompare([]);
 };
+
+wpbingo.initButtons = initButtons;
+wpbingo.initButtonsCompare = initButtonsCompare;
 
 $(document).ready(function () {
 	wpbingo.init();
