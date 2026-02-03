@@ -805,7 +805,7 @@ wpbingo.Variants = (function () {
 		_getVariantMedia: function (variant) {
 			if (!this.variantMedia || this.variantMedia.length === 0) return [];
 			let found = this.variantMedia.find(item => item.id === variant.id);
-			return found && found.media ? found.media : [];
+			return found && Array.isArray(found.media) ? found.media : [];
 		},
 		/**
 		 * Updates the product thumbnails Slick carousel with new gallery images.
