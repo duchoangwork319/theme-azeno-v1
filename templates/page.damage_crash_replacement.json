@@ -209,7 +209,10 @@
         "form_margin": "3rem auto 50px auto",
         "form_padding": "20px 120px",
         "form_background": "#f6f6f6",
-        "show_fake_data_button": true
+        "show_fake_data_button": true,
+        "enable_recaptcha": true,
+        "recaptcha_sitekey": "6LeJNl8sAAAAADrzAAbMdpzYLZiER5S-quC7peYP",
+        "recaptcha_default_error_message": "Please verify that you are not a robot."
       }
     }
   },

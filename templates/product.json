@@ -312,6 +312,7 @@
         "product_button_wishlist": true,
         "product_button_compare": true,
         "show_sticky_cart": true,
+        "render_variant_media": true,
         "media_layout": "gird-mordern",
         "position_thumbnails": "left",
         "thumbnail_count": 5,
