@@ -3,6 +3,7 @@
 import { initValidation, showError } from './components/validation.js';
 import { appendToFormData, initFileInput } from './components/file.js';
 import { safeJsonParse, scrollTo } from './components/helpers.js';
+import { loadRecaptcha, renderRecaptcha } from './components/grecaptcha.js';
 
 /**
  * Initializes form submission handling for all custom forms
@@ -28,7 +29,7 @@ function initSubmitHandler(formElement) {
     const formDataObj = Object.fromEntries(formData.entries());
     const body = JSON.stringify(formDataObj);
 
-    const done = result => {
+    const done = (result) => {
       console.log('Success:', result);
       if (!result) return;
       if (result.success) {
@@ -69,18 +70,6 @@ function initSubmitHandler(formElement) {
   });
 }
 
-/**
- * Fills the form with fake data
- * @param {jQuery<HTMLElement>} form - jQuery object of the form to be filled
- */
-function fillFormWithFakeData(form) {
-  form.find('#fillFakeDataButton').on('click', function () {
-    if (window.FK && typeof window.FK.fakeForm === 'function') {
-      window.FK.fakeForm(form);
-    }
-  });
-}
-
 $(function () {
   $('form.custom-form-element').each(function () {
     const form = $(this);
@@ -88,6 +77,8 @@ $(function () {
     initValidation(form);
     initFileInput(form);
     initSubmitHandler(form);
-    fillFormWithFakeData(form);
+    loadRecaptcha().then(() => {
+      renderRecaptcha(form);
+    });
   });
 });

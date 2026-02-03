@@ -10,7 +10,7 @@ window.FK = {
    * @param {jQuery<HTMLElement>} $form - jQuery object of the form to be filled
    */
   fakeForm: function ($form) {
-    $form.find('input:not([type="file"]):not([type="submit"]):not([type="button"]):not([type="hidden"]):not([readonly]), select, textarea').each(function () {
+    $form.find('input:not([type="file"]):not([type="submit"]):not([type="button"]):not([type="hidden"]):not([readonly]):not(.faker-skip), select, textarea:not(.g-recaptcha-response)').each(function () {
       const $el = $(this);
       const nameAttr = ($el.attr('name') || '').toLowerCase();
 
@@ -39,3 +39,21 @@ window.FK = {
     });
   }
 };
+
+/**
+ * Fills the form with fake data
+ * @param {jQuery<HTMLElement>} form - jQuery object of the form to be filled
+ */
+function fillFormWithFakeData(form) {
+  form.find('#fillFakeDataButton').on('click.fakeData', function () {
+    if (window.FK && typeof window.FK.fakeForm === 'function') {
+      window.FK.fakeForm(form);
+    }
+  });
+}
+
+$(function () {
+  $('form.custom-form-element').each(function () {
+    fillFormWithFakeData($(this));
+  });
+});

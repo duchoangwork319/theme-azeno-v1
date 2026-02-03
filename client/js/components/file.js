@@ -90,9 +90,7 @@ export function initFileInput(formElement) {
 
     self.data('uploaded-files', []);
 
-    if (!files || !files.length) {
-      return;
-    }
+    if (!files || !files.length) return;
 
     formGroup.spinner().start();
 
@@ -108,10 +106,10 @@ export function initFileInput(formElement) {
 }
 
 /**
- * 
- * @param {FormData} formData 
- * @param {JQuery<HTMLElement>} fileElement 
- * @returns {FormData}
+ * Appends file data from the file input's data attribute to the FormData object
+ * @param {FormData} formData - The FormData object to append to
+ * @param {JQuery<HTMLElement>} fileElement - The file input element
+ * @returns {FormData} - The updated FormData object
  */
 export function appendToFormData(formData, fileElement) {
   if (!fileElement || fileElement.length === 0) return formData;

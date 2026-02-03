@@ -3,14 +3,26 @@
  * @param {string} field - The field that caused the error (if any).
  * @param {boolean} success - Whether the operation was successful.
  * @param {string} message - The message to include in the response.
+ * @param {Object|null} addition - Additional data to include in the response.
  * @returns {ContentService.TextOutput} - The JSON response.
  */
-function createTextOutput(field, success, message) {
+function createTextOutput(field, success, message, addition = null) {
   return ContentService.createTextOutput(JSON.stringify({
     field: field,
     success: success,
-    message: message
+    message: message,
+    addition: addition
   })).setMimeType(ContentService.MimeType.JSON);
+}
+
+/**
+ * Retrieves the script configuration from script properties.
+ * @returns {Object} - The script configuration object.
+ */
+function getScriptConfig() {
+  const scriptProperties = PropertiesService.getScriptProperties();
+  const cfg = scriptProperties.getProperty('SCRIPT_CFG');
+  return JSON.parse(cfg);
 }
 
 /**
@@ -19,15 +31,9 @@ function createTextOutput(field, success, message) {
  * @returns {void}
  */
 function sendMail(data) {
-  const scriptProperties = PropertiesService.getScriptProperties();
-  const enable = scriptProperties.getProperty('MAIL_ENABLE');
-  const recipient = scriptProperties.getProperty('MAIL_RECIPIENT');
+  const recipient = data.recipient;
   const subject = data.subject;
   let message = data.message;
-
-  if (enable !== 'true') {
-    return;
-  }
 
   if (!recipient || !subject || !message) {
     Logger.log("Mail recipient, subject, or message not set in script properties.");
@@ -160,11 +166,11 @@ function createAddOnMessageSection(title, files) {
 /**
  * Handles the submission of the contact form.
  * @param {Object} formData - The form data submitted by the user.
+ * @param {Object} config - The configuration for the warranty form.
  * @returns {ContentService.TextOutput} - The JSON response.
  */
-function handleContactFormSubmission(formData) {
-  const scriptProperties = PropertiesService.getScriptProperties();
-  const spreadsheetId = scriptProperties.getProperty('CONTACT_US_SPREADSHEET_ID');
+function handleContactFormSubmission(formData, config) {
+  const spreadsheetId = config.CONTACT_US_SPREADSHEET_ID;
   if (!spreadsheetId) {
     throw new Error("Contact Us Spreadsheet ID not set in script properties.");
   }
@@ -184,19 +190,22 @@ function handleContactFormSubmission(formData) {
     formData.shippingToCountry,
     formData.message
   ]);
-  sendMail({
-    subject: "Notifications: New Contact Us Form Submission",
-    message: `A new message has been submitted through your website's Contact Us form. Please follow up with the customer as soon as possible.<br/><br/><strong>Request Details:</strong><br/>- Name: {{name}}<br/>- Email: {{email}}<br/>- Phone: {{phoneNumber}}<br/>- Need help with: {{helpWith}}<br/>- Order: {{orderNo}}<br/>- Shipping to country: {{shippingToCountry}}<br/>- Message: {{message}}`,
-    content: {
-      name: formData.name,
-      email: formData.email,
-      phoneNumber: fullPhoneNumber,
-      helpWith: formData.helpWith,
-      orderNo: formData.orderNo,
-      shippingToCountry: formData.shippingToCountry,
-      message: formData.message
-    }
-  });
+  if (config.MAIL_ENABLE) {
+    sendMail({
+      subject: "Notifications: New Contact Us Form Submission",
+      recipient: config.MAIL_RECIPIENT,
+      message: `A new message has been submitted through your website's Contact Us form. Please follow up with the customer as soon as possible.<br/><br/><strong>Request Details:</strong><br/>- Name: {{name}}<br/>- Email: {{email}}<br/>- Phone: {{phoneNumber}}<br/>- Need help with: {{helpWith}}<br/>- Order: {{orderNo}}<br/>- Shipping to country: {{shippingToCountry}}<br/>- Message: {{message}}`,
+      content: {
+        name: formData.name,
+        email: formData.email,
+        phoneNumber: fullPhoneNumber,
+        helpWith: formData.helpWith,
+        orderNo: formData.orderNo,
+        shippingToCountry: formData.shippingToCountry,
+        message: formData.message
+      }
+    });
+  }
   return createTextOutput(null, true, "Contact us form submitted successfully.");
 }
 
@@ -207,12 +216,11 @@ function handleContactFormSubmission(formData) {
  * @returns {ContentService.TextOutput} - The JSON response.
  */
 function handleWarrantyFormSubmission(formData, config) {
-  const scriptProperties = PropertiesService.getScriptProperties();
-  const spreadsheetId = scriptProperties.getProperty('WARRANTY_SPREADSHEET_ID');
+  const spreadsheetId = config.WARRANTY_SPREADSHEET_ID;
   if (!spreadsheetId) {
     throw new Error("Spreadsheet ID not set in script properties.");
   }
-  const folderId = scriptProperties.getProperty('WARRANTY_FOLDER_ID');
+  const folderId = config.WARRANTY_FOLDER_ID;
   if (!folderId) {
     throw new Error("Folder ID not set in script properties.");
   }
@@ -249,23 +257,26 @@ function handleWarrantyFormSubmission(formData, config) {
 
   let addOnMessage = createAddOnMessageSection("Product Files", warrantyUploadedFiles);
 
-  sendMail({
-    subject: "Notifications: New Warranty Form Submission",
-    message: `A new warranty request has been submitted through your website. Please follow up with the customer as soon as possible.<br/><br/><strong>Request Details:</strong><br/>- Name: {{name}}<br/>- Email: {{email}}<br/>- Phone: {{phoneNumber}}<br/>- Order No: {{orderNo}}<br/>- Product Model No: {{productModelNo}}<br/>- Complaint: {{complaint}}<br/>- Message: {{message}}<br/>- Area: {{area}}<br/>- Address: {{address}}<br/>- Zip/City: {{zipCity}}<br/>{{addOnMessage}}`,
-    content: {
-      name: formData.name,
-      email: formData.email,
-      phoneNumber: fullPhoneNumber,
-      orderNo: formData.orderNo,
-      productModelNo: formData.productModelNo,
-      complaint: formData.complaint,
-      message: formData.message,
-      area: formData.area,
-      address: formData.address,
-      zipCity: formData.zipCity,
-      addOnMessage: addOnMessage
-    }
-  });
+  if (config.MAIL_ENABLE) {
+    sendMail({
+      subject: "Notifications: New Warranty Form Submission",
+      recipient: config.MAIL_RECIPIENT,
+      message: `A new warranty request has been submitted through your website. Please follow up with the customer as soon as possible.<br/><br/><strong>Request Details:</strong><br/>- Name: {{name}}<br/>- Email: {{email}}<br/>- Phone: {{phoneNumber}}<br/>- Order No: {{orderNo}}<br/>- Product Model No: {{productModelNo}}<br/>- Complaint: {{complaint}}<br/>- Message: {{message}}<br/>- Area: {{area}}<br/>- Address: {{address}}<br/>- Zip/City: {{zipCity}}<br/>{{addOnMessage}}`,
+      content: {
+        name: formData.name,
+        email: formData.email,
+        phoneNumber: fullPhoneNumber,
+        orderNo: formData.orderNo,
+        productModelNo: formData.productModelNo,
+        complaint: formData.complaint,
+        message: formData.message,
+        area: formData.area,
+        address: formData.address,
+        zipCity: formData.zipCity,
+        addOnMessage: addOnMessage
+      }
+    });
+  }
 
   return createTextOutput(null, true, "Warranty form submitted successfully.");
 }
@@ -277,12 +288,11 @@ function handleWarrantyFormSubmission(formData, config) {
  * @returns {ContentService.TextOutput} - The JSON response.
  */
 function handleDmgCrashFormSubmission(formData, config) {
-  const scriptProperties = PropertiesService.getScriptProperties();
-  const spreadsheetId = scriptProperties.getProperty('DAMAGE_CRASH_SPREADSHEET_ID');
+  const spreadsheetId = config.DAMAGE_CRASH_SPREADSHEET_ID;
   if (!spreadsheetId) {
     throw new Error("Spreadsheet ID not set in script properties.");
   }
-  const folderId = scriptProperties.getProperty('DAMAGE_CRASH_FOLDER_ID');
+  const folderId = config.DAMAGE_CRASH_FOLDER_ID;
   if (!folderId) {
     throw new Error("Folder ID not set in script properties.");
   }
@@ -327,24 +337,73 @@ function handleDmgCrashFormSubmission(formData, config) {
   const addOnMessage2 = createAddOnMessageSection("Attachment Files", dmgCrashAttachmentFiles);
   const addOnMessage = addOnMessage1 + addOnMessage2;
 
-  sendMail({
-    subject: "Notifications: New Damage and Crash Replacement Form Submission",
-    message: `A new damage and crash replacement request has been submitted through your website. Please follow up with the customer as soon as possible.<br/><br/><strong>Request Details:</strong><br/>- Name: {{name}}<br/>- Email: {{email}}<br/>- Phone: {{phoneNumber}}<br/>- Product Model No: {{productModelNo}}<br/>- Size: {{size}}<br/>- Address: {{address}}<br/>- Zip/City: {{zipCity}}<br/>- Area: {{area}}<br/>- Message: {{message}}<br/>{{addOnMessage}}`,
-    content: {
-      name: formData.name,
-      email: formData.email,
-      phoneNumber: fullPhoneNumber,
-      productModelNo: formData.productModelNo,
-      size: formData.size,
-      area: formData.area,
-      address: formData.address,
-      zipCity: formData.zipCity,
-      message: formData.message,
-      addOnMessage: addOnMessage
-    }
-  });
+  if (config.MAIL_ENABLE) {
+    sendMail({
+      subject: "Notifications: New Damage and Crash Replacement Form Submission",
+      recipient: config.MAIL_RECIPIENT,
+      message: `A new damage and crash replacement request has been submitted through your website. Please follow up with the customer as soon as possible.<br/><br/><strong>Request Details:</strong><br/>- Name: {{name}}<br/>- Email: {{email}}<br/>- Phone: {{phoneNumber}}<br/>- Product Model No: {{productModelNo}}<br/>- Size: {{size}}<br/>- Address: {{address}}<br/>- Zip/City: {{zipCity}}<br/>- Area: {{area}}<br/>- Message: {{message}}<br/>{{addOnMessage}}`,
+      content: {
+        name: formData.name,
+        email: formData.email,
+        phoneNumber: fullPhoneNumber,
+        productModelNo: formData.productModelNo,
+        size: formData.size,
+        area: formData.area,
+        address: formData.address,
+        zipCity: formData.zipCity,
+        message: formData.message,
+        addOnMessage: addOnMessage
+      }
+    });
+  }
 
   return createTextOutput(null, true, "Crash damage form submitted successfully.");
+}
+
+/**
+ * Safely parses a JSON string
+ * @param {string} text - The JSON string to parse
+ * @returns {Object|null} The parsed object or null if parsing fails
+ */
+function safeJsonParse(text) {
+  try {
+    const json = JSON.parse(text);
+    return json;
+  } catch (error) {
+    Logger.log("Error during safeJsonParse: " + error.message);
+  }
+  return null;
+}
+
+/**
+ * Verifies the reCAPTCHA token.
+ * @param {string} token - The reCAPTCHA token to verify.
+ * @param {Object} config - The configuration object containing reCAPTCHA settings.
+ * @returns {boolean} - Whether the reCAPTCHA token is valid.
+ */
+function verifyRecaptcha(token, config) {
+  if (!config.RECAPTCHA_ENABLE) return true;
+
+  const secret = config.RECAPTCHA_SECRETKEY;
+  if (!secret) {
+    throw new Error("reCAPTCHA secret key is invalid.");
+  }
+  const url = 'https://www.google.com/recaptcha/api/siteverify';
+  const options = {
+    method: 'post',
+    payload: {
+      secret: secret,
+      response: token
+    }
+  };
+
+  const response = UrlFetchApp.fetch(url, options);
+  const data = safeJsonParse(response.getContentText());
+
+  return {
+    success: data && data.success === true,
+    errorCodes: data && data['error-codes'] ? data['error-codes'] : 'na'
+  };
 }
 
 function doPost(e) {
@@ -357,22 +416,31 @@ function doPost(e) {
       return createTextOutput(null, false, "Invalid or missing form type.");
     }
 
-    const configJson = HtmlService.createHtmlOutputFromFile(formType + "-config.html").getContent();
-    const config = JSON.parse(configJson);
-    const validationError = validateFormData(formData, config);
+    const scriptCfg = getScriptConfig();
 
-    if (validationError) return validationError;
+    const result = verifyRecaptcha(formData['g-recaptcha-response'], scriptCfg);
+    if (!result.success) {
+      return createTextOutput(null, false, "reCAPTCHA verification failed.", { errorCodes: result.errorCodes });
+    }
+
+    const formCfg = JSON.parse(HtmlService.createHtmlOutputFromFile(formType + "-config.html").getContent());
+    const validationError = validateFormData(formData, formCfg);
+    const cfg = Object.assign({}, scriptCfg, formCfg);
+
+    if (validationError) {
+      return validationError;
+    }
 
     if (formType === "contact-us") {
-      return handleContactFormSubmission(formData);
+      return handleContactFormSubmission(formData, cfg);
     }
 
     if (formType === "warranty") {
-      return handleWarrantyFormSubmission(formData, config);
+      return handleWarrantyFormSubmission(formData, cfg);
     }
 
     if (formType === "damage-crash") {
-      return handleDmgCrashFormSubmission(formData, config);
+      return handleDmgCrashFormSubmission(formData, cfg);
     }
 
     return createTextOutput(null, false, "Unknown form type.");
