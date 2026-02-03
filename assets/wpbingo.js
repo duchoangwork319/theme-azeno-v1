@@ -1,3 +1,15 @@
+/**
+ * @typedef {Object} VariantMedia
+ * @property {string} id - The unique identifier for the gallery item.
+ * @property {string} thumbnailUrl - The URL of the thumbnail image for the gallery item.
+ * @property {string} mediaUrl - The URL of the high-resolution image for the gallery item.
+ * @property {string} mediaType - The type of media (e.g., "image").
+ * @property {string} alt - The alternative text for the image.
+ * @property {string} width - The width of the image in pixels.
+ * @property {string} height - The height of the image in pixels.
+ * @property {string} sectionId - The section ID associated with the gallery item.
+ */
+
 window.wpbingo = window.wpbingo || {};
 
 wpbingo.Sections = function Sections() {
@@ -656,6 +668,82 @@ wpbingo.collectionPages = (function () {
 	return init;
 })();
 
+/**
+ * Normalizes a color option value to create a consistent token for matching.
+ * @param {string} value - The color option value to normalize.
+ * @returns {string} - The normalized color token.
+ */
+function normalizeColorToken(value) {
+	if (!value) return '';
+	return value.toLowerCase().replace(/\s+/g, '-').replace(/\//g, '-');
+};
+
+/**
+ * Builds an image URL with specified width and height parameters.
+ * @param {string} src - The source URL of the image.
+ * @param {number|undefined} width - The desired width of the image.
+ * @param {number|undefined} height - The desired height of the image.
+ * @returns {string} - The constructed image URL with width and height parameters.
+ */
+function buildImageUrl(src, width, height) {
+	if (!src) return '';
+	const url = new URL(src, window.location.origin);
+	url.searchParams.set('width', String(width));
+	if (height) url.searchParams.set('height', String(height));
+	return url.toString();
+};
+
+/**
+ * Replicates the Liquid logic for building media group by variant
+ * for a single variant.
+ * @param {Object} variant - The variant object
+ * @param {Object} product - Product object containing variants and media
+ * @param {Object} options - 
+ * @returns {Array<VariantMedia>}
+ */
+function getVariantMediaFromProduct(variant, product, options) {
+	if (!variant) return [];
+
+	// variant.option1 is color
+	const colorToken = normalizeColorToken(variant.option1);
+	const colorMatch = `_${colorToken}_`;
+	const result = [];
+	const productMedia = product.media;
+
+	if (Array.isArray(productMedia)) {
+		for (let i = 0; i < productMedia.length; i++) {
+			const media = productMedia[i];
+
+			if (media.media_type !== 'image') continue;
+
+			const src = (media.src || '');
+			const lowerSrc = src.toLowerCase().trim();
+
+			if (!lowerSrc || !lowerSrc.includes(colorMatch)) continue;
+
+			const variantMedia = {
+				id: media.id,
+				thumbnailUrl: buildImageUrl(src, 150),
+				mediaUrl: buildImageUrl(src, 1080, 1080),
+				mediaType: media.media_type,
+				alt: media.alt || '',
+				width: media.width,
+				height: media.height,
+				sectionId: options.sectionId
+			};
+
+			result.push(variantMedia);
+
+			if (
+				options.first
+				|| (options.limit && result.length >= options.limit)
+			) return result;
+		}
+	}
+
+	return result;
+}
+
 wpbingo.Variants = (function () {
 	function Variants(options) {
 		this.$container = options.$container;
@@ -669,6 +757,7 @@ wpbingo.Variants = (function () {
 		$(this.singleOptionSelector, this.$container).on(
 			'change', this._onSelectChange.bind(this)
 		);
+		this._setVariantState(this.currentVariant);
 	}
 
 	Variants.prototype = _.assignIn({}, Variants.prototype, {
@@ -716,22 +805,11 @@ wpbingo.Variants = (function () {
 		_getVariantMedia: function (variant) {
 			if (!this.variantMedia || this.variantMedia.length === 0) return [];
 			let found = this.variantMedia.find(item => item.id === variant.id);
-			return found ? found.variantMediaHiRes : [];
+			return found && Array.isArray(found.media) ? found.media : [];
 		},
 		/**
-		 * @typedef {Object} GalleryImage
-		 * @property {string} id - The unique identifier for the gallery item.
-		 * @property {string} thumbnailUrl - The URL of the thumbnail image for the gallery item.
-		 * @property {string} mediaUrl - The URL of the high-resolution image for the gallery item.
-		 * @property {string} mediaType - The type of media (e.g., "image").
-		 * @property {string} alt - The alternative text for the image.
-		 * @property {string} width - The width of the image in pixels.
-		 * @property {string} height - The height of the image in pixels.
-		 * @property {string} sectionId - The section ID associated with the gallery item.
-		 */
-		/**
 		 * Updates the product thumbnails Slick carousel with new gallery images.
-		 * @param {Array<GalleryImage>} variantMediaArr - An array of gallery images to display.
+		 * @param {Array<VariantMedia>} variantMediaArr - An array of gallery images to display.
 		 * @returns {void}
 		 */
 		_updateProductThumbnailsSlick: function (variantMediaArr) {
@@ -774,13 +852,15 @@ wpbingo.Variants = (function () {
 		},
 		/**
 		 * Updates the main product media Slick carousel with new gallery images.
-		 * @param {Array<GalleryImage>} variantMediaArr - An array of gallery images to display.
+		 * @param {Array<VariantMedia>} variantMediaArr - An array of gallery images to display.
 		 * @returns {void}
 		 */
 		_updateProductMediaSlick: function (variantMediaArr) {
 			if (!variantMediaArr || variantMediaArr.length === 0) return;
 
 			let html = variantMediaArr.map((item, index) => {
+				let mediaUrl = wpbingo.variables.isMobile ?
+					buildImageUrl(item.mediaUrl, 640) : item.mediaUrl;
 				return `
 				<div class="js-product-media-item product-single__media-item" data-slick-media-label="${item.alt || ''}">
 					<div
@@ -791,7 +871,7 @@ wpbingo.Variants = (function () {
 						<div class="product-media__wrapper product-media__wrapper--image">
 							<img
 								class="mfp-image lazyload fade-in"
-								src="${item.mediaUrl}"
+								src="${mediaUrl}"
 								data-sizes="auto"
 								data-image="true"
 								data-number="${index}"
@@ -812,6 +892,49 @@ wpbingo.Variants = (function () {
 			$('body').trigger('wpbingo:noslick:media:html', html);
 			$('body').trigger('wpbingo:media:slick');
 		},
+		/**
+		 * Determines whether the variant media should be updated.
+		 * @param {Object} variant - The variant object to check.
+		 * @returns {boolean} - Returns true if the variant media should be updated, otherwise false.
+		 */
+		_shouldUpdateVariantMedia: function (variant) {
+			let currSta = this._getVariantState();
+			let newSta = this._parseVariantState(variant);
+			if (currSta && newSta) return currSta.option1 !== newSta.option1;
+			return true;
+		},
+		/**
+		 * Parses the variant state to extract relevant option values.
+		 * @param {Object} variant - The variant object to parse.
+		 * @returns {Object|null} - Returns an object with option values or null if no variant is provided.
+		 */
+		_parseVariantState: function (variant) {
+			if (!variant) return null;
+			return {
+				option1: variant.option1,
+				option2: variant.option2,
+			};
+		},
+		/**
+		 * Sets the variant state in the container's data attributes.
+		 * @param {Object} variant - The variant object to set the state for.
+		 */
+		_setVariantState: function (variant) {
+			let state = JSON.stringify(this._parseVariantState(variant));
+			this.$container.data('state', state).attr('state', state);
+		},
+		/**
+		 * Retrieves the variant state from the container's data attributes.
+		 * @returns {Object|null} - Returns the parsed variant state object or null if not found or parsing fails.
+		 */
+		_getVariantState: function () {
+			try {
+				return JSON.parse(this.$container.data('state'));
+			} catch (error) {
+				console.log('_getVariantState failed:', error.message);
+			}
+			return null;
+		},
 
 		_onSelectChange: function () {
 			var variant = this._getVariantFromOptions();
@@ -829,15 +952,17 @@ wpbingo.Variants = (function () {
 			if (!variant) return;
 			this._updateMasterSelect(variant);
 			this._updateMedia(variant);
-			if ($('.use-metafields-media').length > 0) {
+
+			if ($('.render-variant-media').length > 0 && this._shouldUpdateVariantMedia(variant)) {
 				var variantMediaArr = this._getVariantMedia(variant);
 				if (!variantMediaArr || variantMediaArr.length === 0) {
-					console.log('No media found in metafields for this variant.');
+					console.log('No variant media found.');
 				} else {
 					this._updateProductThumbnailsSlick(variantMediaArr);
 					this._updateProductMediaSlick(variantMediaArr);
 				}
 			}
+
 			this._updatePrice(variant);
 			this._updateQuantity(variant);
 			this._updateOption(variant);
@@ -851,6 +976,7 @@ wpbingo.Variants = (function () {
 			if (this.enableHistoryState) {
 				this._updateHistoryState(variant);
 			}
+			this._setVariantState(variant);
 		},
 
 		_updateVariantsButtonDisabed: function () {
@@ -5026,20 +5152,22 @@ wpbingo.click_atribute_image = function () {
 	$('.wpb-variants-swatch').each(function () {
 		var $element = $(this);
 		$(".swatch-items", $element).on("click", function () {
-			var $this = $(this);
-			if (!$(this).hasClass("active")) {
-				var $parent = $(this).closest(".swatch-content");
+			var $swatchEl = $(this);
+			if (!$swatchEl.hasClass("active")) {
+				var $parent = $swatchEl.closest(".swatch-content");
 				$(".swatch-items", $parent).removeClass("active");
-				$(this).addClass("active");
+				$swatchEl.addClass("active");
 				var variants_value = wpbingo.get_variant_value($element);
 				var productHandle = $element.data('handle');
 				$.getJSON('/products/' + productHandle + '.js', function (product) {
 					if (product.variants) {
 						wpbingo.updateVariantsButton($element, product);
 						$.each(product.variants, function (index, variant) {
-							if (variant.available) {
+							// let avaiable = variant.available; // This is the original logic
+							let avaiable = true;
+							if (avaiable) {
 								if (variant.title == variants_value) {
-									var $current = $this.closest(".product-card");
+									var $current = $swatchEl.closest(".product-card");
 									$(".product-group-price[data-handle=" + productHandle + "] .variant-price", $current).html(wpbingo.Currency.formatMoney(variant.price, moneyFormat));
 									$(".product-card__form[data-handle=" + productHandle + "] input[name='id']", $current).val(variant.id);
 									if ($('.bwp_currency').length > 0) { Currency.Currency_customer(true); }

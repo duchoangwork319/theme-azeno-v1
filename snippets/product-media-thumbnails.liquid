@@ -5,6 +5,15 @@
 	</div>
 {% endif %}
 {% for media in media_collection %}
+
+	{% if section.settings.render_variant_media %}
+		{% capture media_src %}{{ media | image_url: width: 150 }}{% endcapture %}
+		{% assign media_src = media_src | downcase | strip %}
+		{% unless media_src contains color_match %}
+			{% continue %}
+		{% endunless %}
+	{% endif %}
+
 	{% if media_collection_count > 0 %}
 		{%- if varriant_array != blank -%}
 			{%- if media.alt ==  varriant_image -%}
