@@ -3,7 +3,7 @@
 import { initValidation, showError } from './components/validation.js';
 import { appendToFormData, initFileInput } from './components/file.js';
 import { safeJsonParse, scrollTo } from './components/helpers.js';
-import { loadRecaptcha, renderRecaptcha } from './components/grecaptcha.js';
+import { loadRecaptcha, renderRecaptcha, resetRecaptcha } from './components/grecaptcha.js';
 
 /**
  * Initializes form submission handling for all custom forms
@@ -65,6 +65,7 @@ function initSubmitHandler(formElement) {
         console.error('AJAX error:', error);
         const json = safeJsonParse(error.responseText);
         fail(json);
+        resetRecaptcha();
       })
       .always(always);
   });

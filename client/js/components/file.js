@@ -26,6 +26,8 @@ function compress(file) {
     new Compressor(file, {
       quality: 0.6,
       mimeType: 'image/jpeg', // Convert to JPEG
+      maxWidth: 1080,
+      retainExif: false,
       success(result) {
         let compressedFile = result;
         if (compressedFile instanceof Blob) {
