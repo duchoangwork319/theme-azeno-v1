@@ -26,6 +26,17 @@ function getScriptConfig() {
 }
 
 /**
+ * Sanitizes HTML content to prevent XSS attacks.
+ * @param {string} str - The string to sanitize.
+ * @returns {string} - The sanitized string.
+ */
+function sanitizeHTML(str) {
+  return String(str).replace(/[^\w. ]/gi, function (c) {
+    return '&#' + c.charCodeAt(0) + ';';
+  });
+}
+
+/**
  * Sends an email notification.
  * @param {Object} data - The data to include in the email.
  * @returns {void}
@@ -42,7 +53,8 @@ function sendMail(data) {
 
   if (data.content) {
     Object.keys(data.content).forEach(key => {
-      message = message.replace(new RegExp(`{{${key}}}`, 'g'), data.content[key]);
+      let encoded = sanitizeHTML(data.content[key]);
+      message = message.replace(new RegExp(`{{${key}}}`, 'g'), encoded);
     });
   }
 
@@ -446,6 +458,6 @@ function doPost(e) {
     return createTextOutput(null, false, "Unknown form type.");
   } catch (error) {
     Logger.log("Error during doPost: " + error.message);
-    return createTextOutput(null, false, "An error occurred: " + error.message);
+    return createTextOutput(null, false, "An server internal error occurred.");
   }
 }
