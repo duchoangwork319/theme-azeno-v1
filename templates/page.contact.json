@@ -99,8 +99,8 @@
             "required": true,
             "select_name": "shippingToCountry",
             "title": "Shipping to Country",
-            "select_values": "Singapore,Hong Kong,Viet Nam",
-            "default_value": "",
+            "select_values": "China, Hong Kong, Indonesia, Macau, Malaysia, Philippines, Singapore, Taiwan, Thailand, Viet Nam",
+            "default_value": "Hong Kong",
             "error_message": "'Shipping to Country' is required and must not exceed 50 characters."
           }
         },
@@ -145,7 +145,7 @@
         "form_margin": "0 auto 50px auto",
         "form_padding": "20px 120px",
         "form_background": "#f6f6f6",
-        "show_fake_data_button": true,
+        "show_fake_data_button": false,
         "enable_recaptcha": true,
         "recaptcha_sitekey": "6LeJNl8sAAAAADrzAAbMdpzYLZiER5S-quC7peYP",
         "recaptcha_default_error_message": "Please verify that you are not a robot."
