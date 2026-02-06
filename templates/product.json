@@ -68,6 +68,7 @@
         },
         "8968ec05-64b2-407d-972c-fc0e22724280": {
           "type": "product_count_sale",
+          "disabled": true,
           "settings": {
             "product_count_sale_margin": "0 0 20px",
             "product_sale_count": "30-40",
