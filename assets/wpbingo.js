@@ -8156,40 +8156,43 @@ document.addEventListener('shopify-wishlist:updated', (event) => {
 const fetchProductCardHTML = (handle) => {
 	const productTileTemplateUrl = `/products/${handle}?view=wishlist`;
 	return fetch(productTileTemplateUrl)
-		.then((res) => res.text())
+		.then((res) => res.status !== 404 ? res.text() : Promise.resolve())
 		.then((res) => {
+			if (!res) return '';
 			const text = res;
 			const parser = new DOMParser();
 			const htmlDocument = parser.parseFromString(text, 'text/html');
 			const productCard = htmlDocument.documentElement.querySelector(selectors.productCard);
-			return productCard.outerHTML;
+			return productCard ? productCard.outerHTML : '';
 		})
 		.catch((err) => console.error(`[Shopify Content] Failed to load content for handle: ${handle}`, err));
 };
 
-const setupGrid = async (grid) => {
+const setupGrid = (grid) => {
 	const wishlist = getWishlist();
 	const requests = wishlist.map(fetchProductCardHTML);
-	const responses = await Promise.all(requests);
-	const wishlistProductCards = responses.join('');
-	grid.innerHTML = wishlistProductCards;
-	grid.classList.add(GRID_LOADED_CLASS);
-	initButtons();
-	initButtonsCompare();
-	wpbingo.countdown();
-	wpbingo.click_atribute_image();
-	if ($('.bwp_currency').length > 0 && wishlist.length > 0) { Currency.Currency_customer(true); }
-	ajaxCart.init();
-	const event = new CustomEvent('shopify-wishlist:init-product-grid', {
-		detail: { wishlist: wishlist }
+
+	Promise.all(requests).then((responses) => {
+		const wishlistProductCards = responses.join('');
+		grid.innerHTML = wishlistProductCards;
+		grid.classList.add(GRID_LOADED_CLASS);
+		initButtons();
+		initButtonsCompare();
+		wpbingo.countdown();
+		wpbingo.click_atribute_image();
+		if ($('.bwp_currency').length > 0 && wishlist.length > 0) { Currency.Currency_customer(true); }
+		ajaxCart.init();
+		const event = new CustomEvent('shopify-wishlist:init-product-grid', {
+			detail: { wishlist: wishlist }
+		});
+		document.dispatchEvent(event);
+		$('.wishlist__grid').removeClass('loading_wishlist');
+		if (wishlist.length > 0) {
+			$('.wishlist_empty').addClass('hidden');
+		} else {
+			$('.wishlist_empty').removeClass('hidden');
+		}
 	});
-	document.dispatchEvent(event);
-	$('.wishlist__grid').removeClass('loading_wishlist');
-	if (wishlist.length > 0) {
-		$('.wishlist_empty').addClass('hidden');
-	} else {
-		$('.wishlist_empty').removeClass('hidden');
-	}
 };
 
 const setupButtons = (buttons) => {
@@ -8246,7 +8249,7 @@ const initButtons = ($element) => {
 };
 const getWishlist = () => {
 	const wishlist = localStorage.getItem(LOCAL_STORAGE_WISHLIST_KEY) || false;
-	if (wishlist) return wishlist.split(LOCAL_STORAGE_DELIMITER);
+	if (wishlist) return wishlist.split(LOCAL_STORAGE_DELIMITER).map(str => str.trim());
 	return [];
 };
 const setWishlist = (array) => {
@@ -8306,13 +8309,14 @@ document.addEventListener('shopify-compare:updated', (event) => {
 const fetchProductCardHTMLCOMPARE = (handle) => {
 	const productTileTemplateUrl = `/products/${handle}?view=compare`;
 	return fetch(productTileTemplateUrl)
-		.then((res) => res.text())
+		.then((res) => res.status !== 404 ? res.text() : Promise.resolve())
 		.then((res) => {
+			if (!res) return '';
 			const text = res;
 			const parser = new DOMParser();
 			const htmlDocument = parser.parseFromString(text, 'text/html');
 			const productCard = htmlDocument.documentElement.querySelector(selectorscompare.productCard);
-			return productCard.outerHTML;
+			return productCard ? productCard.outerHTML : '';
 		})
 		.catch((err) => console.error(`[Shopify Content] Failed to load content for handle: ${handle}`, err));
 };
