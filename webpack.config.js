@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-const path = require('path');
-const fs = require('fs');
+const path = require("path");
+const fs = require("fs");
 const cwd = process.cwd();
 
 /**
@@ -9,12 +9,12 @@ const cwd = process.cwd();
  * @returns {Object} An object where keys are filenames without extensions and values are full paths.
  */
 const listJSFiles = () => {
-  const folderPath = path.join(cwd, 'client/js');
+  const folderPath = path.join(cwd, "client/js");
   try {
     const files = fs.readdirSync(folderPath, { withFileTypes: true });
     const result = {};
     files
-      .filter(file => file.isFile() && file.name.endsWith('.js'))
+      .filter(file => file.isFile() && file.name.endsWith(".js"))
       .forEach(file => {
         const name = path.basename(file.name, path.extname(file.name));
         result[name] = path.join(folderPath, file.name);
@@ -28,16 +28,16 @@ const listJSFiles = () => {
 
 module.exports = [
   {
-    mode: 'production',
+    mode: "production",
     entry: listJSFiles(),
     output: {
-      path: path.join(cwd, 'assets'),
+      path: path.join(cwd, "assets"),
 
       // use [name] to create a js file for each entry point
-      filename: '[name].js',
+      filename: "[name].js",
 
       // assetModuleFilename for assets like fonts and images
-      assetModuleFilename: '[name][ext]'
+      assetModuleFilename: "[name][ext]"
     },
     ignoreWarnings: [/./],
     module: {
@@ -46,15 +46,15 @@ module.exports = [
           test: /\.m?js$/,
           exclude: /node_modules/,
           use: {
-            loader: 'babel-loader',
+            loader: "babel-loader",
             options: {
-              presets: ['@babel/preset-env'],
+              presets: ["@babel/preset-env"],
               cacheDirectory: true
             }
           }
         }
       ]
     },
-    target: ['web', 'es5']
+    target: ["web", "es5"]
   }
 ];
