@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 /**
  * Scrolls the page to the specified element
@@ -6,7 +6,7 @@
  */
 export function scrollTo(element) {
   if (!element || !element.length) return;
-  $('html, body').animate({
+  $("html, body").animate({
     scrollTop: element.offset().top - 200
   }, 100);
 }
@@ -21,7 +21,7 @@ export function safeJsonParse(text) {
     const json = JSON.parse(text);
     return json;
   } catch (error) {
-    console.error('Error parsing JSON:', error.message);
+    console.error("Error parsing JSON:", error.message);
   }
   return null;
 }

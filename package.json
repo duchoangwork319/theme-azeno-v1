@@ -5,6 +5,8 @@
   "scripts": {
     "build": "npx webpack --config webpack.config.js",
     "logout": "shopify auth logout",
+    "lint": "npx eslint **/*.js",
+    "lint:fix": "npx eslint **/*.js --fix",
     "prd:pull": "shopify theme pull -s \"d51qk1-qd.myshopify.com\" --nodelete --only \"templates/*\" \"blocks/*\" \"config/*\" \"sections/*\"",
     "prd:push": "shopify theme push -s \"d51qk1-qd.myshopify.com\" --nodelete",
     "dev:push": "shopify theme push -s \"5dla-dev.myshopify.com\" --nodelete --only \"templates/*\" \"blocks/*\" \"assets/*\" \"sections/*\" \"snippets/*\"",
@@ -24,7 +26,10 @@
     "webpack-cli": "^6.0.1"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@shopify/cli": "^3.90.0",
-    "esbuild": "0.27.2"
+    "esbuild": "0.27.2",
+    "eslint": "^10.0.0",
+    "globals": "^17.3.0"
   }
 }

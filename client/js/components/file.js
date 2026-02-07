@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-import Compressor from 'compressorjs';
+import Compressor from "compressorjs";
 
 /**
  * Reads a file as an ArrayBuffer
@@ -25,7 +25,7 @@ function compress(file) {
   return new Promise((resolve, reject) => {
     new Compressor(file, {
       quality: 0.6,
-      mimeType: 'image/jpeg', // Convert to JPEG
+      mimeType: "image/jpeg", // Convert to JPEG
       maxWidth: 1080,
       retainExif: false,
       success(result) {
@@ -71,10 +71,10 @@ async function processFiles(fileElement, files) {
         data: Array.from(uint8Array)
       };
       uploadedFiles.push(fileData);
-      fileElement.data('uploaded-files', uploadedFiles);
+      fileElement.data("uploaded-files", uploadedFiles);
     } catch (error) {
       console.error("Error reading file:", error);
-      fileElement.data('uploaded-files', []);
+      fileElement.data("uploaded-files", []);
     }
   }
 }
@@ -84,13 +84,13 @@ async function processFiles(fileElement, files) {
  * @param {JQuery<HTMLElement>} formElement - The form element containing the file input
  */
 export function initFileInput(formElement) {
-  formElement.find('input[type="file"]').on('change', async function (e) {
+  formElement.find("input[type=\"file\"]").on("change", async function (e) {
     const files = e.target.files;
     const self = $(this);
-    const formGroup = self.parents('.form-group');
-    const compressFiles = self.data('compress-files') || false;
+    const formGroup = self.parents(".form-group");
+    const compressFiles = self.data("compress-files") || false;
 
-    self.data('uploaded-files', []);
+    self.data("uploaded-files", []);
 
     if (!files || !files.length) return;
 
@@ -117,8 +117,8 @@ export function appendToFormData(formData, fileElement) {
   if (!fileElement || fileElement.length === 0) return formData;
   fileElement.each(function () {
     const $fileInput = $(this);
-    const inputName = $fileInput.attr('name').replace('[]', '');
-    const uploadedFiles = $fileInput.data('uploaded-files') || [];
+    const inputName = $fileInput.attr("name").replace("[]", "");
+    const uploadedFiles = $fileInput.data("uploaded-files") || [];
 
     uploadedFiles.forEach((file, idx) => {
       formData.append(`${inputName}_name_${idx}`, file.name);
