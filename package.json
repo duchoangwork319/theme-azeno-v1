@@ -7,7 +7,7 @@
     "logout": "shopify auth logout",
     "lint": "npx eslint **/*.js",
     "lint:fix": "npx eslint **/*.js --fix",
-    "prd:pull": "shopify theme pull -s \"d51qk1-qd.myshopify.com\" --nodelete --only \"templates/*\" \"blocks/*\" \"config/*\" \"sections/*\"",
+    "prd:pull": "shopify theme pull -s \"d51qk1-qd.myshopify.com\" --nodelete --ignore package.json",
     "prd:push": "shopify theme push -s \"d51qk1-qd.myshopify.com\" --nodelete",
     "dev:push": "shopify theme push -s \"5dla-dev.myshopify.com\" --nodelete --only \"templates/*\" \"blocks/*\" \"assets/*\" \"sections/*\" \"snippets/*\"",
     "dev:watch": "shopify theme dev -s \"5dla-dev.myshopify.com\" --store-password tialib -t 154612269315 --theme-editor-sync"
