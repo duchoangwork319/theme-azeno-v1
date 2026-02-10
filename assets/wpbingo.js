@@ -4810,6 +4810,7 @@ wpbingo.slideshow = function () {
 			.then(() => {
 				videojEl.removeClass('d-none');
 				previewImg.addClass('d-none');
+				if (isIOS()) videojEl.css({ height: '' });
 			})
 			.catch((err) => {
 				console.warn('Video failed to play or load:', err.message);
@@ -7950,6 +7951,39 @@ wpbingo.search_form = function () {
 		$('.predictive-search-content', $parent).css("display", "none");
 	});
 }
+
+/**
+ * Set all elements in a grid to the same height
+ * @param {JQuery<HTMLElement>} element - The element(s) to equalize heights for
+ */
+function makeHeightEqual(element) {
+	const maxHeight = Math.max(...$.map(element, el => $(el).outerHeight()));
+	const maxInt = parseInt(maxHeight);
+	if (isNaN(maxInt)) return;
+	element.css({ height: `${maxInt}px` });
+}
+
+/**
+ * Ensure color swatch element exists in product card
+ * @param {JQuery<HTMLElement>} productEl - The product card element(s)
+ */
+function ensureColorSwatchExist(productEl) {
+	$.each(productEl, function () {
+		const el = $(this);
+		if (!$('.variants-swatch-color', el).length) {
+			$(document.createElement('div'))
+				.addClass('variants-swatch-color')
+				.insertAfter($('.product-card__price', el));
+		}
+	});
+}
+
+wpbingo.ensureHeightEqual = function () {
+	ensureColorSwatchExist($('.products__col .product-card__content'));
+	makeHeightEqual($('.products__col .product-card__content .product-card__name'));
+	makeHeightEqual($('.products__col .product-card__content .variants-swatch-color'));
+}
+
 wpbingo.init = function () {
 	wpbingo.initializeEvents();
 	wpbingo.setBreakpoints();
@@ -8009,6 +8043,7 @@ wpbingo.init = function () {
 			$('.js-product-media-item model-viewer').css("height", $(".mfp-image").height());
 		}
 	}
+	wpbingo.ensureHeightEqual();
 };
 //firework
 const confetti = document.getElementById('fire_work');
