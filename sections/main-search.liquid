@@ -22,7 +22,7 @@
 				<p role="status">{{ 'general.search.no_results_html' | t: terms: search.terms }}</p>
 			{%- endif -%}
 		</div>
-		<div id="JsCollectionProduct" class="{{ select_columns }}">
+		<div id="JsCollectionProduct" class="{{ select_columns }} {{ settings.select_columns_sm }} {{ settings.select_columns_xs }}">
 			{%- if search.results.size == 0 and search.filters != empty -%}
 				<div class="template-search__results collection collection--empty page-width" id="product-grid" data-id="{{ section.id }}">
 					<div class="loading-overlay gradient"></div>

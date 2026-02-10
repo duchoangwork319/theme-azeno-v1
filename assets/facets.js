@@ -131,6 +131,7 @@ class FacetFiltersForm extends HTMLElement {
 			$('#JsCollectionProduct').addClass($(this).data('view'));
 		}
 	});
+	wpbingo.ensureHeightEqual();
   }
 
   static renderFilters(html, event) {
