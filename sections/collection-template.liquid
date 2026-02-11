@@ -2,6 +2,10 @@
 {%- assign select_columns 	=  settings.select_columns -%}
 {%- assign show_count		= section.settings.show_count -%}
 {%- assign layout_filter 	= settings.layout_filter -%}
+{%- assign show_orderable_products_only = settings.show_orderable_products_only -%}
+{% if collection.metafields.custom.show_orderable_products_only != nil %}
+	{%- assign show_orderable_products_only = collection.metafields.custom.show_orderable_products_only -%}
+{% endif %}
 
 <div id="JsCollectionProduct" class="{{ select_columns }} {{ settings.select_columns_sm }} {{ settings.select_columns_xs }}">
 	{%- if layout_filter != 'on_top' -%}
@@ -33,9 +37,11 @@
 							<div class="products__row row">
 								{%- for product in collection.products -%}
 									{% if product.type != "Gift Cards" %}
-										<div class="products__col">
-										  {% include 'product-grid-item' %}
-										</div>
+										{% if product.available or show_orderable_products_only == false %}
+											<div class="products__col">
+												{% include 'product-grid-item' %}
+											</div>
+										{% endif %}
 									{%- endif -%}
 								{%- else -%}
 									<div class="products__no-matches">{{ 'collections.general.no_matches' | t }}</div>

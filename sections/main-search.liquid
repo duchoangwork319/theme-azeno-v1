@@ -3,6 +3,7 @@
   assign terms = search.terms | escape
   assign search_url = '?q=' | append: terms | append: '&options%5Bprefix%5D=last&sort_by=' | append: sort_by
 -%}
+{%- assign show_orderable_products_only = settings.show_orderable_products_only -%}
 
 {%- assign select_columns 	=  settings.select_columns -%}
 {%- assign sidebar_enable = settings.sidebar_enable -%}
@@ -87,10 +88,12 @@
 									{%- for item in search.results -%}
 										{%- if item.object_type == 'product' -%}
 											{% if item.type != "Gift Cards" %}
-												<div class="grid__item{% if item.object_type == 'product' %} products__col{% endif %}">
-													{%- capture product_settings -%}{%- if section.settings.product_show_vendor -%}vendor,{%- endif -%}title,price{%- endcapture -%}
-													{% render 'product-card', product: item %}
-												</div>
+												{% if item.available or show_orderable_products_only == false %}
+													<div class="grid__item{% if item.object_type == 'product' %} products__col{% endif %}">
+														{%- capture product_settings -%}{%- if section.settings.product_show_vendor -%}vendor,{%- endif -%}title,price{%- endcapture -%}
+														{% render 'product-card', product: item %}
+													</div>
+												{% endif %}
 											{%- endif -%}
 										{%- endif -%}
 									{%- endfor -%}

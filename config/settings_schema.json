@@ -469,6 +469,13 @@
         "label": "Shop Full"
       },
       {
+        "type": "checkbox",
+        "id": "show_orderable_products_only",
+        "default": false,
+        "label": "Show Orderable Products Only",
+        "info": "This also effect on search results and collection list page"
+      },
+      {
         "type": "select",
         "id": "layout_filter",
         "label": "Layout Filter",

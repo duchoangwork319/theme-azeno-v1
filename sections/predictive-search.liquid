@@ -1,8 +1,13 @@
+{%- assign show_orderable_products_only = settings.show_orderable_products_only -%}
 {%- if predictive_search.performed -%}
 	{%- assign limit 			= settings.search_item_count -%}
 	<div id="predictive-search-product">
 		{%- for product in predictive_search.resources.products limit:limit -%}
 			{% if product.type == "Gift Cards" %}
+				{%- assign total_size 			= predictive_search.resources.products.size | minus: 1 -%}
+				{%- assign total_limit 			= limit | plus: 1 -%}
+				{%- break -%}
+			{% elsif product.available == false and show_orderable_products_only == true %}
 				{%- assign total_size 			= predictive_search.resources.products.size | minus: 1 -%}
 				{%- assign total_limit 			= limit | plus: 1 -%}
 				{%- break -%}
@@ -28,6 +33,7 @@
 				{%- for product in predictive_search.resources.products limit:total_limit -%}
 					{% if product.type != "Gift Cards" %}
 						{%- assign group_product 			= product.metafields.bwp_fields.group_product -%}
+						{% if product.available or show_orderable_products_only == false %}
 						<li id="predictive-search-option-{{ forloop.index }}" class="predictive-search__list-item" role="option" aria-selected="false">
 							<a href="{{ product.url }}" class="predictive-search__item predictive-search__item--link link link--text" tabindex="-1">
 								{%- if product.featured_media != blank -%}
@@ -98,6 +104,7 @@
 								</div>
 							</a>
 						</li>
+						{% endif %}
 					{%- endif -%}
 				{%- endfor -%}
 			{%- else -%}
