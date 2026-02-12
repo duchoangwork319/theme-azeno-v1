@@ -1,13 +1,13 @@
 "use strict";
 
 import { SHA256, HmacSHA256, HmacSHA1 } from "crypto-js";
+import { converToQueryString, getQueryStringParams } from "./components/helpers";
 
 /**
  * Initializes the protected form submission handling
- * @param {JQuery<HTMLElement>} form - The protected form element
  */
-function initProtectedForm(form) {
-  form.on("submit", function (e) {
+function initProtectedForm() {
+  $("protected-form form").on("submit.protected", function (e) {
     e.preventDefault();
 
     const hideError = () => $("[data-error-message]", self).removeClass("d-block");
@@ -41,6 +41,22 @@ function initProtectedForm(form) {
   });
 }
 
+/**
+ * Ensures that the token exists in the search parameters for facet filtering
+ */
+function ensureTokenExistOnSearchParams() {
+  $("body").on("facets:extendSearchParams", function (e, memo) {
+    if (!memo || !memo.searchParams) return;
+    const params = getQueryStringParams(memo.searchParams);
+    const hmac1 = Shopify.queryParams && Shopify.queryParams.q;
+    if (hmac1) {
+      params.q = hmac1;
+      memo.searchParams = converToQueryString(params);
+    }
+  });
+}
+
 $(function () {
-  initProtectedForm($("protected-form form"));
+  initProtectedForm();
+  ensureTokenExistOnSearchParams();
 });

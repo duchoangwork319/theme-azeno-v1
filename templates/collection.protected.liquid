@@ -10,7 +10,7 @@
   endif
 %}
 {% if pwd_hashed != null and pwd_hashed != incoming_hashed %}
-  {% section '404-template' %}
+  {% section 'protected' %}
 {% else %}
   {%- assign sidebar_enable = settings.sidebar_enable -%}
   {%- assign layout_filter = settings.layout_filter -%}
@@ -75,3 +75,4 @@
     </div>
   </section>
 {% endif %}
+<script src="{{ 'protected.js' | asset_url }}" defer="defer"></script>
