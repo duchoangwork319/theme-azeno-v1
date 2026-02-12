@@ -24,10 +24,7 @@ function initProtectedForm() {
     const path = $("[name=collection_url]", self).val();
     const hashPassword = SHA256(password).toString();
     const hmac256 = HmacSHA256(handle + ID, hashPassword).toString();
-    const newUrl = new URL(
-      String(Shopify.routes.root + path).replace(/\//g, " ").replace(/\s+/g, "/"),
-      location.origin
-    );
+    const newUrl = new URL(path, location.origin);
 
     // Compare hmac with token
     if (hmac256 === token) {
