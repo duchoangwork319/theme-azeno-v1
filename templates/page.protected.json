@@ -1,0 +1,75 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "breadcrumb": {
+      "type": "page-breadcrumb",
+      "disabled": true,
+      "settings": {
+        "enable": true,
+        "bgimage": false,
+        "show_pagetitle": true,
+        "show_breadcrumb": true,
+        "color_breadcrumb": "#000000",
+        "align_breadcrumb": "left"
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "enable": true,
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "177087611686eee595": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_d629661_EticH7": {
+          "type": "ai_gen_block_d629661",
+          "settings": {
+            "title": "Women",
+            "collection": "women",
+            "form_title": "Protected Access",
+            "description": "Please enter your password to access this content",
+            "password_label": "Password",
+            "password_placeholder": "Enter password",
+            "button_text": "Submit",
+            "error_message": "Incorrect password. Please try again.",
+            "success_message": "Access granted. Redirecting...",
+            "desktop_width_percent": 100,
+            "max_width": 600,
+            "padding_desktop": 40,
+            "padding_mobile": 20,
+            "title_size_desktop": 32,
+            "title_size_mobile": 24,
+            "background_color": "#ffffff",
+            "title_color": "#222222",
+            "input_background": "#ffffff",
+            "button_color": "#ff3535",
+            "button_hover_color": "#31373d",
+            "button_text_color": "#ffffff"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_d629661_EticH7"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "breadcrumb",
+    "main",
+    "177087611686eee595"
+  ]
+}

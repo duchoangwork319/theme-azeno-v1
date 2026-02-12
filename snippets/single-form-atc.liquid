@@ -391,7 +391,7 @@
 				name="add">
 				<span class="btn__text">
 					{% if current_variant.available %}
-						{% if current_variant.inventory_policy == "continue" %}
+						{% if current_variant.inventory_policy == "continue" and current_variant.inventory_quantity <= 0 %}
 							{{ 'products.product.pre_order' | t }}
 						{% else %}
 							{{ 'products.product.add_to_cart' | t }}

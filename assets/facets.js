@@ -57,7 +57,7 @@ class FacetFiltersForm extends HTMLElement {
         FacetFiltersForm.renderSectionFromFetch(url, event);
     });
 
-    if (updateURLHash) FacetFiltersForm.updateURLHash(searchParams);
+    if (updateURLHash) FacetFiltersForm.updateURLHash(FacetFiltersForm.extendSearchParams(searchParams));
   }
 
   static renderSectionFromFetch(url, event) {
@@ -171,6 +171,12 @@ class FacetFiltersForm extends HTMLElement {
       target.querySelector('.facets__selected').outerHTML = source.querySelector('.facets__selected').outerHTML;
     }
   }
+
+	static extendSearchParams(searchParams) {
+		const memo = { searchParams };
+		$("body").trigger("facets:extendSearchParams", memo);
+		return memo.searchParams;
+	}
 
   static updateURLHash(searchParams) {
     history.pushState({ searchParams }, '', `${window.location.pathname}${searchParams && '?'.concat(searchParams)}`);

@@ -1,0 +1,432 @@
+{% doc %}
+  @prompt
+    Please generate a section with the following specifications:
+    
+    - **Form Type**: A protected form.
+    - **Inputs**:
+      - **Type**: A hidden, read-only input field named `type`, which retrieves data from the search query in the URL.
+      - **Target**: A hidden, read-only input field named `target`, which also retrieves data from the search query in the URL.
+      - **Password**: A password input field named `password`, allowing users to enter their password.
+    
+    - Include the following script tag: 
+      ```html
+      <script src="{{ 'protected.js' | asset_url }}" defer="defer"></script>
+      ``` 
+      (Note: Do not generate the `protected.js` file.)
+    
+    - Create the `<form>` element in HTML, but do not include form settings. The form will be processed using JavaScript.
+    
+    **Design Requirements**:
+    - By following the CSS, styles, and UI of the current theme, develop the form to ensure consistency.
+    - The form should be responsive, following a mobile-first design approach.
+    
+    **Setting Requirements**:
+    - Use "text" instead of "inline_richtext" for the input types., Update following:
+    - Remove container shadow and container, input, button border-radius.
+    - Hard-code color of error and success message to avoid noisy settings.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-protected-form-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    max-width: {{ block.settings.max_width }}px;
+    margin: 0 auto;
+    padding: {{ block.settings.padding_mobile }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-protected-form-{{ ai_gen_id }} {
+      padding: {{ block.settings.padding_desktop }}px;
+      width: {{ block.settings.desktop_width_percent }}%;
+    }
+  }
+
+  .ai-protected-form__container-{{ ai_gen_id }} {
+    background-color: {{ block.settings.background_color }};
+    padding: 40px 20px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-protected-form__container-{{ ai_gen_id }} {
+      padding: 60px 40px;
+    }
+  }
+
+  .ai-protected-form__header-{{ ai_gen_id }} {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .ai-protected-form__title-{{ ai_gen_id }} {
+    font-family: {{ settings.font-family-second }}, sans-serif;
+    font-size: {{ block.settings.title_size_mobile }}px;
+    font-weight: {{ settings.font-weight-second-bold }};
+    color: {{ block.settings.title_color }};
+    margin: 0 0 10px;
+    line-height: 1.2;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-protected-form__title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size_desktop }}px;
+    }
+  }
+
+  .ai-protected-form__description-{{ ai_gen_id }} {
+    font-family: {{ settings.font-family-base }}, sans-serif;
+    font-size: {{ settings.font-size-base }}px;
+    color: {{ settings.text-color }};
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .ai-protected-form__form-{{ ai_gen_id }} {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .ai-protected-form__field-{{ ai_gen_id }} {
+    margin-bottom: 20px;
+  }
+
+  .ai-protected-form__label-{{ ai_gen_id }} {
+    display: block;
+    font-family: {{ settings.font-family-base }}, sans-serif;
+    font-size: {{ settings.font-size-base }}px;
+    font-weight: {{ settings.font-weight-base-medium }};
+    color: {{ settings.gray-dark }};
+    margin-bottom: 8px;
+  }
+
+  .ai-protected-form__input-{{ ai_gen_id }} {
+    width: 100%;
+    padding: 12px 16px;
+    font-family: {{ settings.font-family-base }}, sans-serif;
+    font-size: {{ settings.font-size-base }}px;
+    color: {{ settings.text-color }};
+    background-color: {{ block.settings.input_background }};
+    border: 1px solid {{ settings.color_border }};
+    transition: border-color 0.3s ease;
+  }
+
+  .ai-protected-form__input-{{ ai_gen_id }}:focus {
+    outline: none;
+    border-color: {{ settings.theme-color }};
+  }
+
+  .ai-protected-form__input-{{ ai_gen_id }}::placeholder {
+    color: {{ settings.text-color }};
+    opacity: 0.6;
+  }
+
+  .ai-protected-form__button-{{ ai_gen_id }} {
+    width: 100%;
+    padding: 14px 24px;
+    font-family: {{ settings.font-family-base }}, sans-serif;
+    font-size: {{ settings.font-size-base }}px;
+    font-weight: {{ settings.font-weight-base-bold }};
+    color: {{ block.settings.button_text_color }};
+    background-color: {{ block.settings.button_color }};
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .ai-protected-form__button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_color }};
+    transform: translateY(-2px);
+  }
+
+  .ai-protected-form__button-{{ ai_gen_id }}:active {
+    transform: translateY(0);
+  }
+
+  .ai-protected-form__error-{{ ai_gen_id }} {
+    display: none;
+    margin-top: 15px;
+    padding: 12px 16px;
+    font-family: {{ settings.font-family-base }}, sans-serif;
+    font-size: {{ settings.font-size-base }}px;
+    color: #d82c0d;
+    background-color: #ffe5e5;
+    text-align: center;
+  }
+
+  .ai-protected-form__error-{{ ai_gen_id }}.active {
+    display: block;
+  }
+
+  .ai-protected-form__success-{{ ai_gen_id }} {
+    display: none;
+    margin-top: 15px;
+    padding: 12px 16px;
+    font-family: {{ settings.font-family-base }}, sans-serif;
+    font-size: {{ settings.font-size-base }}px;
+    color: #008060;
+    background-color: #e5f5e5;
+    text-align: center;
+  }
+
+  .ai-protected-form__success-{{ ai_gen_id }}.active {
+    display: block;
+  }
+{% endstyle %}
+
+<protected-form id="{{ ai_gen_id }}" class="ai-protected-form-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-protected-form__container-{{ ai_gen_id }}">
+    <div class="ai-protected-form__header-{{ ai_gen_id }}">
+      {% if block.settings.form_title != blank %}
+        <h2 class="ai-protected-form__title-{{ ai_gen_id }}">{{ block.settings.form_title }}</h2>
+      {% endif %}
+      {% if block.settings.description != blank %}
+        <p class="ai-protected-form__description-{{ ai_gen_id }}">{{ block.settings.description }}</p>
+      {% endif %}
+    </div>
+
+    <form class="ai-protected-form__form-{{ ai_gen_id }}" data-protected-form>
+      {% if block.settings.collection != blank %}
+        {% assign collection = block.settings.collection %}
+        {% assign pwd_hashed = collection.metafields.custom.protected_password | sha256 %}
+        {% assign plain = collection.handle | append: collection.id %}
+        <input
+          readonly
+          type="hidden"
+          name="token"
+          value="{{ plain | hmac_sha256: pwd_hashed }}"
+        >
+        <input
+          readonly
+          type="hidden"
+          name="collection_id"
+          value="{{ collection.id }}"
+        >
+        <input
+          readonly
+          type="hidden"
+          name="collection_handle"
+          value="{{ collection.handle }}"
+        >
+        <input
+          readonly
+          type="hidden"
+          name="collection_url"
+          value="{{ collection.url }}"
+        >
+      {% endif %}
+
+      <div class="ai-protected-form__field-{{ ai_gen_id }}">
+        <label for="password-{{ ai_gen_id }}" class="ai-protected-form__label-{{ ai_gen_id }}">
+          {{ block.settings.password_label }}
+        </label>
+        <input
+          type="password"
+          id="password-{{ ai_gen_id }}"
+          name="password"
+          class="ai-protected-form__input-{{ ai_gen_id }}"
+          placeholder="{{ block.settings.password_placeholder }}"
+          required
+          autocomplete="current-password"
+        >
+      </div>
+
+      <button type="submit" class="ai-protected-form__button-{{ ai_gen_id }}">
+        {{ block.settings.button_text }}
+      </button>
+
+      <div class="ai-protected-form__error-{{ ai_gen_id }}" data-error-message role="alert">
+        {{ block.settings.error_message }}
+      </div>
+
+      <div class="ai-protected-form__success-{{ ai_gen_id }}" data-success-message role="status">
+        {{ block.settings.success_message }}
+      </div>
+    </form>
+  </div>
+</protected-form>
+
+<script src="{{ 'protected.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "Protected form",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Target"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Label"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "form_title",
+      "label": "Title",
+      "default": "Protected Access"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "label": "Description",
+      "default": "Please enter your password to access this content"
+    },
+    {
+      "type": "text",
+      "id": "password_label",
+      "label": "Password label",
+      "default": "Password"
+    },
+    {
+      "type": "text",
+      "id": "password_placeholder",
+      "label": "Password placeholder",
+      "default": "Enter password"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Submit"
+    },
+    {
+      "type": "text",
+      "id": "error_message",
+      "label": "Error message",
+      "default": "Incorrect password. Please try again."
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "Access granted. Redirecting..."
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Maximum width",
+      "min": 400,
+      "max": 1200,
+      "step": 50,
+      "unit": "px",
+      "default": 600
+    },
+    {
+      "type": "range",
+      "id": "padding_desktop",
+      "label": "Padding desktop",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_mobile",
+      "label": "Padding mobile",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "title_size_desktop",
+      "label": "Title size desktop",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "title_size_mobile",
+      "label": "Title size mobile",
+      "min": 16,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title",
+      "default": "#222222"
+    },
+    {
+      "type": "color",
+      "id": "input_background",
+      "label": "Input background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button background",
+      "default": "#ff3535"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_color",
+      "label": "Button hover background",
+      "default": "#31373d"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Protected form"
+    }
+  ]
+}
+{% endschema %}
