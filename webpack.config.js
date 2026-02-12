@@ -26,35 +26,39 @@ const listJSFiles = () => {
   }
 };
 
-module.exports = [
-  {
-    mode: "production",
-    entry: listJSFiles(),
-    output: {
-      path: path.join(cwd, "assets"),
+module.exports = (env) => {
+  const mode = env && env.prd ? "production" : "development";
 
-      // use [name] to create a js file for each entry point
-      filename: "[name].js",
+  return [
+    {
+      mode: mode,
+      entry: listJSFiles(),
+      output: {
+        path: path.join(cwd, "assets", "dist"),
 
-      // assetModuleFilename for assets like fonts and images
-      assetModuleFilename: "[name][ext]"
-    },
-    ignoreWarnings: [/./],
-    module: {
-      rules: [
-        {
-          test: /\.m?js$/,
-          exclude: /node_modules/,
-          use: {
-            loader: "babel-loader",
-            options: {
-              presets: ["@babel/preset-env"],
-              cacheDirectory: true
+        // use [name] to create a js file for each entry point
+        filename: "[name].js",
+
+        // assetModuleFilename for assets like fonts and images
+        assetModuleFilename: "[name][ext]"
+      },
+      ignoreWarnings: [/./],
+      module: {
+        rules: [
+          {
+            test: /\.m?js$/,
+            exclude: /node_modules/,
+            use: {
+              loader: "babel-loader",
+              options: {
+                presets: ["@babel/preset-env"],
+                cacheDirectory: true
+              }
             }
           }
-        }
-      ]
-    },
-    target: ["web", "es5"]
-  }
-];
+        ]
+      },
+      target: ["web", "es5"]
+    }
+  ];
+};

@@ -1,5 +1,5 @@
 {% if settings.enable_fakerjs %}
-  <script src="{{ 'faker.js' | asset_url }}" defer></script>
+  <script src="{{ 'dist/faker.js' | asset_url }}" defer></script>
 {% endif %}
 <script src="/services/javascripts/countries.js" defer="defer"></script>
 <script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer="defer"></script>
@@ -28,5 +28,5 @@
 	<script src="{{ '/services/javascripts/currencies.js' }}" defer="defer"></script>
 	<script src="{{ 'currencies.js' | asset_url }}" defer="defer"></script>
 {% endif %}
-<script src="{{ 'spinner.js' | asset_url }}" defer="defer"></script>
-<script src="{{ 'custom-form.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'dist/spinner.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'dist/custom-form.js' | asset_url }}" defer="defer"></script>

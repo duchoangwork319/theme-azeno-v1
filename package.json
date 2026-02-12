@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "npx webpack --config webpack.config.js",
+    "build:prd": "npx webpack --config webpack.config.js --env prd",
+    "build:dev": "npx webpack --config webpack.config.js",
     "logout": "shopify auth logout",
     "lint": "npx eslint **/*.js",
     "lint:fix": "npx eslint **/*.js --fix",
