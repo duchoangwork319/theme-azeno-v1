@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "esbuild:prd": "node esbuild.config.mjs --prd",
     "build:prd": "npx webpack --config webpack.config.js --env prd",
     "build:dev": "npx webpack --config webpack.config.js",
     "logout": "shopify auth logout",
@@ -19,21 +20,23 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@babel/core": "^7.29.0",
-    "@babel/preset-env": "^7.29.0",
     "@faker-js/faker": "^10.2.0",
     "autoprefixer": "^10.4.23",
-    "babel-loader": "^10.0.0",
     "compressorjs": "^1.2.1",
-    "crypto-js": "^4.2.0",
-    "webpack": "^5.104.1",
-    "webpack-cli": "^6.0.1"
+    "crypto-js": "^4.2.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.28.6",
+    "@babel/core": "^7.29.0",
+    "@babel/preset-env": "^7.29.0",
     "@eslint/js": "^10.0.1",
     "@shopify/cli": "^3.90.0",
+    "babel-loader": "^10.0.0",
     "esbuild": "0.27.2",
+    "esbuild-plugin-babel": "^0.2.3",
     "eslint": "^10.0.0",
-    "globals": "^17.3.0"
+    "globals": "^17.3.0",
+    "webpack": "^5.105.2",
+    "webpack-cli": "^6.0.1"
   }
 }
