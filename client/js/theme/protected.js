@@ -1,7 +1,7 @@
 "use strict";
 
 import { SHA256, HmacSHA256, HmacSHA1 } from "crypto-js";
-import { converToQueryString, getQueryStringParams } from "./components/helpers";
+import { converToQueryString, getQueryStringParams } from "../components/helpers";
 
 /**
  * Initializes the protected form submission handling
@@ -10,13 +10,14 @@ function initProtectedForm() {
   $("protected-form form").on("submit.protected", function (e) {
     e.preventDefault();
 
+    const self = $(this);
+
     const hideError = () => $("[data-error-message]", self).removeClass("d-block");
     const showError = () => $("[data-error-message]", self).addClass("d-block");
     const showSuccess = () => $("[data-success-message]", self).addClass("d-block");
 
     hideError();
 
-    const self = $(this);
     const ID = $("[name=collection_id]", self).val();
     const handle = $("[name=collection_handle]", self).val();
     const password = $("[name=password]", self).val();

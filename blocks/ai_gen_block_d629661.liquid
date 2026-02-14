@@ -8,12 +8,6 @@
       - **Target**: A hidden, read-only input field named `target`, which also retrieves data from the search query in the URL.
       - **Password**: A password input field named `password`, allowing users to enter their password.
     
-    - Include the following script tag: 
-      ```html
-      <script src="{{ 'dist/protected.js' | asset_url }}" defer="defer"></script>
-      ``` 
-      (Note: Do not generate the `protected.js` file.)
-    
     - Create the `<form>` element in HTML, but do not include form settings. The form will be processed using JavaScript.
     
     **Design Requirements**:
@@ -247,8 +241,6 @@
     </form>
   </div>
 </protected-form>
-
-<script src="{{ 'dist/protected.js' | asset_url }}" defer="defer"></script>
 
 {% schema %}
 {

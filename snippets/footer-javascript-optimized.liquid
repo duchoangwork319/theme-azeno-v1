@@ -1,0 +1,20 @@
+<script src="/services/javascripts/countries.js" defer="defer"></script>
+
+<script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer="defer"></script>
+
+<script src="{{ 'dist/global.min.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'dist/wpbingo.min.js' | asset_url }}" defer="defer"></script>
+
+{%- if page_type contains 'product' -%}
+  <script src="{{ 'dist/product.min.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{% if settings.show_currency_selector and settings.currency_type == '2' %}
+  <script src="{{ '/services/javascripts/currencies.js' }}" defer="defer"></script>
+  <script src="{{ 'currencies.js' | asset_url }}" defer="defer"></script>
+{% endif %}
+
+{% if settings.enable_fakerjs %}
+  <script src="{{ 'dist/faker.js' | asset_url }}" defer></script>
+{% endif %}
+<script src="{{ 'dist/main.js' | asset_url }}" defer="defer"></script>
