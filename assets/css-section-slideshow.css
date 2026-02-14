@@ -375,3 +375,11 @@
     align-items: end;
   }
 }
+.wpbingo-slideshow .wpbingo-slideshow__item-video .preview-image img {
+  min-height: 56.25vw;
+}
+@media (max-width: 767px) {
+  .wpbingo-slideshow .wpbingo-slideshow__item-video .preview-image img {
+    min-height: 93.872vw;
+  }
+}
