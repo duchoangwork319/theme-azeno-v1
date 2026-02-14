@@ -7,7 +7,7 @@
       <picture class="preview-image">
         {% if mobile_video_obj != blank %}
           <source
-            srcset="{{ mobile_video_obj.preview_image.src | image_url }}"
+            srcset="{{ mobile_video_obj.preview_image.src | image_url: width: 720 }}"
             media="(max-width: 768px)"
           >
         {% endif %}
@@ -15,7 +15,7 @@
           <img
             width="100%"
             height="auto"
-            src="{{ video_obj.preview_image.src | image_url }}"
+            src="{{ video_obj.preview_image.src | image_url: width: 1280 }}"
             alt="preview-{{ video_obj.alt | escape }}"
           >
         {% endif %}
