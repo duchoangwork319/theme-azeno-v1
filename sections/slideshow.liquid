@@ -261,7 +261,8 @@
                       {% render 'video-global',
                         source_type: 'internal',
                         video_obj: block.settings.internalvideo,
-                        mobile_video_obj: block.settings.mobile_internalvideo
+                        mobile_video_obj: block.settings.mobile_internalvideo,
+                        priority: block.settings.priority
                       %}
                     {% endif %}
                 {% endcase %}
@@ -508,6 +509,13 @@
               "label": "Video"
             }
           ]
+        },
+        {
+          "type": "checkbox",
+          "id": "priority",
+          "label": "Priority",
+          "default": false,
+          "info": "Use this when the slide is displayed in the first position."
         },
         {
           "type": "header",

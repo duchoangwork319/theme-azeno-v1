@@ -5560,6 +5560,9 @@ wpbingo.header_campar = function () {
 		$('.bwp-header-campar').removeClass('active');
 		$('.bwp-header-campar').slideDown();
 	}
+	if (header_campar == 1) {
+		$('.bwp-header-campar').slideUp();
+	}
 };
 wpbingo.customNumberInput = function () {
 	var $body = $('body'),

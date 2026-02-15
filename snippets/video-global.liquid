@@ -17,6 +17,7 @@
             height="auto"
             src="{{ video_obj.preview_image.src | image_url: width: 1280 }}"
             alt="preview-{{ video_obj.alt | escape }}"
+            {% if priority == true %} fetchpriority="high" {% endif %}
           >
         {% endif %}
       </picture>

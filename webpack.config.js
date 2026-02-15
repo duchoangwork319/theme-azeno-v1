@@ -1,5 +1,7 @@
 "use strict";
 
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const path = require("path");
 const fs = require("fs");
 const cwd = process.cwd();
@@ -55,10 +57,52 @@ module.exports = (env) => {
                 cacheDirectory: true
               }
             }
+          },
+          {
+            test: /\.(css)$/,
+            use: [
+              {
+                loader: MiniCssExtractPlugin.loader
+              },
+              {
+                loader: "css-loader"
+              },
+              {
+                loader: "postcss-loader",
+                options: {
+                  postcssOptions: {
+                    plugins: function () {
+                      return [
+                        require("autoprefixer")
+                      ];
+                    }
+                  }
+                }
+              },
+            ]
+          },
+          {
+            // https://webpack.js.org/guides/asset-modules/
+            test: /\.woff(2)?(|\?|\?\w+)$/,
+            type: "asset/resource"
+          },
+          {
+            test: /\.(ttf|eot|svg)?(|\?|\?\w+)$/,
+            type: "asset/resource"
           }
         ]
       },
-      target: ["web", "es5"]
+      target: ["web", "es5"],
+      plugins: [
+        new MiniCssExtractPlugin({
+          filename: "[name].css"
+        })
+      ],
+      optimization: {
+        minimizer: [
+          new CssMinimizerPlugin(),
+        ],
+      },
     }
   ];
 };
