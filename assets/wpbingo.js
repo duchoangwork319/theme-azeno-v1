@@ -4819,21 +4819,29 @@ wpbingo.slideshow = function () {
 	};
 
 	// Bind events to control video playback within slides
-	slideshowEl
-		.on('init', function (e, slick) {
-			var videoEl = $(slick.$slides[slick.currentSlide]).find('video');
-			playVideo(videoEl);
-		})
-		.on('afterChange', function (e, slick, currentSlide) {
-			var $slide = $(slick.$slides[currentSlide]);
-			if ($slide.data('played')) return;
-			var videoEl = $slide.find('video');
-			if (videoEl && videoEl.length) {
-				$slide.data('played', true);
+	var initSlick = () => {
+		slideshowEl
+			.on('init', function (e, slick) {
+				var videoEl = $(slick.$slides[slick.currentSlide]).find('video');
 				playVideo(videoEl);
-			}
-		})
-		.slick(config)
+			})
+			.on('afterChange', function (e, slick, currentSlide) {
+				var $slide = $(slick.$slides[currentSlide]);
+				if ($slide.data('played')) return;
+				var videoEl = $slide.find('video');
+				if (videoEl && videoEl.length) {
+					$slide.data('played', true);
+					playVideo(videoEl);
+				}
+			})
+			.slick(config)
+	}
+
+	if (slideshowEl.length > 1) {
+		initSlick();
+	} else {
+		playVideo(slideshowEl.find('video'));
+	}
 };
 
 wpbingo.rtl_slick = function () {
@@ -5551,6 +5559,9 @@ wpbingo.header_campar = function () {
 	if (header_campar != 1) {
 		$('.bwp-header-campar').removeClass('active');
 		$('.bwp-header-campar').slideDown();
+	}
+	if (header_campar == 1) {
+		$('.bwp-header-campar').slideUp();
 	}
 };
 wpbingo.customNumberInput = function () {

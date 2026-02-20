@@ -1,16 +1,16 @@
 "use strict";
 
-import { initValidation, showError } from "./components/validation.js";
-import { appendToFormData, initFileInput } from "./components/file.js";
-import { safeJsonParse, scrollTo } from "./components/helpers.js";
-import { loadRecaptcha, renderRecaptcha, resetRecaptcha } from "./components/grecaptcha.js";
+import { initValidation, showError } from "../components/validation.js";
+import { appendToFormData, initFileInput } from "../components/file.js";
+import { safeJsonParse, scrollTo } from "../components/helpers.js";
+import { loadRecaptcha, renderRecaptcha, resetRecaptcha } from "../components/grecaptcha.js";
 
 /**
  * Initializes form submission handling for all custom forms
  * @param {JQuery<HTMLElement>} formElement - The form element containing the file input
  */
 function initSubmitHandler(formElement) {
-  formElement.on("submit", function (e) {
+  formElement.on("submit.custom", function (e) {
     e.preventDefault();
 
     const form = $(this);

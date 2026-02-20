@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build:prd": "npx webpack --config webpack.config.js --env prd",
-    "build:dev": "npx webpack --config webpack.config.js",
+    "build": "bash build.sh",
+    "webpack:prd": "npx webpack --config webpack.config.js --env prd",
+    "webpack:dev": "npx webpack --config webpack.config.js",
     "logout": "shopify auth logout",
     "lint": "npx eslint **/*.js",
     "lint:fix": "npx eslint **/*.js --fix",
@@ -19,21 +20,29 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@babel/core": "^7.29.0",
-    "@babel/preset-env": "^7.29.0",
     "@faker-js/faker": "^10.2.0",
-    "autoprefixer": "^10.4.23",
-    "babel-loader": "^10.0.0",
     "compressorjs": "^1.2.1",
-    "crypto-js": "^4.2.0",
-    "webpack": "^5.104.1",
-    "webpack-cli": "^6.0.1"
+    "crypto-js": "^4.2.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.28.6",
+    "@babel/core": "^7.29.0",
+    "@babel/preset-env": "^7.29.0",
     "@eslint/js": "^10.0.1",
     "@shopify/cli": "^3.90.0",
+    "autoprefixer": "^10.4.24",
+    "babel-loader": "^10.0.0",
+    "css-loader": "^7.1.3",
+    "css-minimizer-webpack-plugin": "^7.0.4",
+    "cssnano": "^7.1.2",
     "esbuild": "0.27.2",
     "eslint": "^10.0.0",
-    "globals": "^17.3.0"
+    "globals": "^17.3.0",
+    "mini-css-extract-plugin": "^2.10.0",
+    "postcss": "^8.5.6",
+    "postcss-loader": "^8.2.0",
+    "terser": "^5.46.0",
+    "webpack": "^5.105.2",
+    "webpack-cli": "^6.0.1"
   }
 }
