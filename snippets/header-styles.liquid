@@ -1,12 +1,13 @@
-{{ 'icomoon.css' | asset_url | stylesheet_tag }}
-{{ 'feather.css' | asset_url | stylesheet_tag }}
-{{ 'wpbingo.css' | asset_url | stylesheet_tag }}
+{% comment %} {{ 'icomoon.css' | asset_url | stylesheet_tag }} {% endcomment %}
+{% comment %} {{ 'feather.css' | asset_url | stylesheet_tag }} {% endcomment %}
+{% comment %} {{ 'wpbingo.css' | asset_url | stylesheet_tag }} {% endcomment %}
 {%- if settings.enable_christmas -%}
-  {{ 'christmas.css' | asset_url | stylesheet_tag }}
+  {{ 'css-christmas.css' | asset_url | stylesheet_tag }}
 {%- endif -%}
 {{ 'css-variables.css' | asset_url | stylesheet_tag }}
-{{ 'css-effect.css' | asset_url | stylesheet_tag }}
-{{ 'css-section.css' | asset_url | stylesheet_tag }}
+{% comment %} {{ 'css-effect.css' | asset_url | stylesheet_tag }} {% endcomment %}
+{% comment %} {{ 'css-section.css' | asset_url | stylesheet_tag }} {% endcomment %}
+{{ 'dist/style.css' | asset_url | stylesheet_tag: preload: true }}
 {{ 'css-site.css' | asset_url | stylesheet_tag }}
 {%- assign page_type = request.page_type | handle -%}
 {%- if page_type contains 'collection' or page_type contains 'search' -%}
@@ -35,5 +36,5 @@
 	{{ 'css-rtl.css' | asset_url | stylesheet_tag }}
 {%- endif -%}
 {%- if request.design_mode -%}
-{{ 'css-design-mode.css' | asset_url | stylesheet_tag }}
+	{{ 'css-design-mode.css' | asset_url | stylesheet_tag }}
 {%- endif -%}
