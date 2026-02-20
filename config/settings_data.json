@@ -390,7 +390,7 @@
               "select_color_1": "#e60015",
               "show_gradient": false,
               "select_color_2": "",
-              "show_image": true
+              "show_image": false
             }
           },
           "78509c29-fcaf-4368-b49b-1ae3831bb63c": {
