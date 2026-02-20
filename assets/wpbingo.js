@@ -4837,11 +4837,13 @@ wpbingo.slideshow = function () {
 			.slick(config)
 	}
 
-	if (slideshowEl.length > 1) {
-		initSlick();
-	} else {
-		playVideo(slideshowEl.find('video'));
-	}
+	$(window).on("load", function () {
+		if (slideshowEl.length > 1) {
+			initSlick();
+		} else {
+			playVideo(slideshowEl.find('video'));
+		}
+	});
 };
 
 wpbingo.rtl_slick = function () {
@@ -5500,21 +5502,22 @@ wpbingo.newsletter = function () {
 		newsletterPopupSubmit = '.js-newsletter-popup-submit',
 		cNewsletter = '',
 		classNameNewsletterActive = 'newsletter-popup--active';
-	if ($(newsletterPopup).find('.js-newsletter-popup-success').length > 0) {
+	var newsLetterPopupEl = $(newsletterPopup);
+	if (newsLetterPopupEl.find('.js-newsletter-popup-success').length > 0) {
 		wpbingo.setCookie('wpbingo_newsletter_popup', 1, 30);
 	}
 	cNewsletter = wpbingo.getCookie('wpbingo_newsletter_popup');
-	if (cNewsletter == 1) $(newsletterPopup).remove();
+	if (cNewsletter == 1) newsLetterPopupEl.remove();
 	if (cNewsletter != 1 && !($('.shopify-challenge__container').length > 0)) {
-		$(newsletterPopup).addClass('show');
+		setTimeout(() => newsLetterPopupEl.addClass('show'), 10000);
 	}
 	$(newsletterPopupClose).on('click', function () {
-		if ($(newsletterPopup).find('.alert--mailchimp').length > 0) {
+		if (newsLetterPopupEl.find('.alert--mailchimp').length > 0) {
 			wpbingo.setCookie('wpbingo_newsletter_popup', 1, 30);
 		} else {
 			wpbingo.setCookie('wpbingo_newsletter_popup', 1, 1);
 		}
-		$(newsletterPopup).removeClass('show');
+		newsLetterPopupEl.removeClass('show');
 	});
 	$(newsletterPopupSubmit).on('click', function () {
 		wpbingo.setCookie('wpbingo_newsletter_popup', 1, 30);

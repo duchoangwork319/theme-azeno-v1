@@ -1,4 +1,4 @@
-{{ 'css-section-newsletter.css' | asset_url | stylesheet_tag }}
+{% comment %} {{ 'css-section-newsletter.css' | asset_url | stylesheet_tag }} {% endcomment %}
 {%- if section.settings.fullwidth -%}
 	{%- assign container = 'container-full' -%}
 {%- elsif section.settings.max_width != blank -%}

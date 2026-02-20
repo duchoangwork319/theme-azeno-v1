@@ -5,6 +5,7 @@ import "../../assets/wpbingo.css";
 import "../../assets/css-effect.css";
 import "../../assets/css-section.css";
 import "../../assets/bootstrap.min.css";
+import "../../assets/vendor.css";
 
 // Custom
 import "../../assets/css-about-background-image.css";
