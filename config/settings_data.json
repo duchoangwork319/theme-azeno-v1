@@ -16,7 +16,7 @@
     "text-color": "#9b9b9b",
     "color_body_bg": "#ffffff",
     "color_border": "#dedede",
-    "font-family-second-google-link": "<link href=\"https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Forum&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap\" rel=\"stylesheet\">",
+    "font-family-second-google-link": "",
     "font-family-second": "Bebas Neue",
     "font-weight-second-light": "400",
     "font-weight-second-medium": "400",
