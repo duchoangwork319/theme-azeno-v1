@@ -83,11 +83,7 @@ module.exports = (env) => {
           },
           {
             // https://webpack.js.org/guides/asset-modules/
-            test: /\.woff(2)?(|\?|\?\w+)$/,
-            type: "asset/resource"
-          },
-          {
-            test: /\.(ttf|eot|svg)?(|\?|\?\w+)$/,
+            test: /\.(ttf|eot|svg|woff|woff2)?(|\?|\?\w+)$/,
             type: "asset/resource"
           }
         ]
