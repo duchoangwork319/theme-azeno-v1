@@ -94,6 +94,7 @@
           "settings": {
             "title": "slider-1",
             "slide_type": "image",
+            "priority": false,
             "size_img": "cover",
             "pos_img": "center_center",
             "caption_width": "",
@@ -223,6 +224,7 @@
           "settings": {
             "title": "slider-2",
             "slide_type": "video",
+            "priority": true,
             "size_img": "cover",
             "pos_img": "center_center",
             "internalvideo": "shopify://files/videos/SportswearTechnicians_4K.mp4",
@@ -359,6 +361,7 @@
           "settings": {
             "title": "slider-3",
             "slide_type": "image",
+            "priority": false,
             "size_img": "cover",
             "pos_img": "center_center",
             "caption_width": "",
