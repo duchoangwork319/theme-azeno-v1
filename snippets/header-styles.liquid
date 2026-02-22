@@ -4,11 +4,111 @@
 {%- if settings.enable_christmas -%}
   {{ 'css-christmas.css' | asset_url | stylesheet_tag }}
 {%- endif -%}
-{{ 'css-variables.css' | asset_url | stylesheet_tag }}
+{% comment %} {{ 'css-variables.css' | asset_url | stylesheet_tag }} {% endcomment %}
+{% style %}
+  body{
+		--white: #fff;
+		--theme-color:{{ settings.theme-color }};
+		--theme-color-15:{{ settings.theme-color }}26;
+		--theme-color-25:{{ settings.theme-color }}3F;
+		--theme-color-50:{{ settings.theme-color }}7F;
+		--theme-color-75:{{ settings.theme-color }}BF;
+
+		--hover-color:{{ settings.hover-color }};
+		--secondary-color:{{ settings.color_secondary }};
+		--text-color:{{ settings.text-color }};
+		--text-color-50:{{ settings.text-color }}7F;
+		--text-color-75:{{ settings.text-color }}BF;
+
+		--gray-dark-15:{{ settings.gray-dark }}26;
+		--gray-dark-25:{{ settings.gray-dark }}3F;
+		--gray-dark-35:{{ settings.gray-dark }}59;
+		--gray-dark:{{ settings.gray-dark }};
+		--gray-dark-50:{{ settings.gray-dark }}7F;
+		--gray-dark-75:{{ settings.gray-dark }}BF;
+
+		--body-bg-color:{{ settings.color_body_bg }};
+		--border-color:{{ settings.color_border }};
+		--border-color-50:{{ settings.color_border }}7F;
+
+		--header-bg-color: {{ settings.color_header_bg }};
+		--footer-color: {{ settings.color_footer_text }};
+		--footer-color-hover: {{ settings.color_footer_text_hover }};
+		--menu-color: {{ settings.color_menu_text }};
+		--menu-hover-color: {{ settings.color_menu_text_hover }};
+		--menu-dropdown-bg: {{ settings.color_submenu_bg }};
+		--menu-dropdown-color: {{ settings.color_submenu_text }};
+		--menu-dropdown-hover-color: {{ settings.color_submenu_text_hover }};
+
+		--font-family-second: {{ settings.font-family-second }};
+		--heading-font-weight-default: {{ settings.font-weight-second-default }};
+		--heading-font-weight-bold: {{ settings.font-weight-second-bold }};
+		--heading-font-weight-medium: {{ settings.font-weight-second-medium }};
+		--heading-font-weight-light: {{ settings.font-weight-second-light }};
+		--font-size-heading: {{ settings.font-size-heading | append: 'px' }};
+
+		--font-family-base: {{ settings.font-family-base }};
+		--body-font-weight-default: {{ settings.font-weight-base-default }};
+		--body-font-weight-bold: {{ settings.font-weight-base-bold }};
+		--body-font-weight-medium: {{ settings.font-weight-base-medium }};
+		--body-font-weight-light: {{ settings.font-weight-base-light }};
+		--font-size-base: {{ settings.font-size-base | append: 'px' }};
+  }
+
+	{% if settings.image_raito_product != blank %}
+		.product-card__image img{
+			aspect-ratio: {{ settings.image_raito_product }};
+			object-fit: {{ settings.size_image }};
+		}
+		.buy-together-products .item-product-inner .image img{
+			aspect-ratio: {{ settings.image_raito_product }};
+			object-fit: {{ settings.size_image }};
+			background:{{ settings.bg_raito }};
+		}
+		.product-single__main-media img{
+			aspect-ratio: {{ settings.image_raito_product }};
+			object-fit: {{ settings.size_image }};
+			background:{{ settings.bg_raito }};
+		}
+		.product-media__wrapper img{
+			aspect-ratio: {{ settings.image_raito_product }};
+			object-fit: {{ settings.size_image }};
+			background:{{ settings.bg_raito }};
+		}
+	{%- endif -%}
+
+	{% if settings.preview_bar != blank %}
+		iframe#preview-bar-iframe{
+			display: none !important;
+		}
+		html{
+			height:100%;
+		}
+	{% endif %}
+
+	.product-card .product-card__image-wrapper.transform .product-card__image .preloading-img-product:first-child {
+		position: relative;
+		background:{{ settings.bg_raito }};
+	}
+
+	.product-card__image-wrapper.zoom .product-card__image img {
+		background:{{ settings.bg_raito }};
+	}
+
+	.product-card__image-wrapper.fadein .preloading-img-product:first-child {
+		position: relative;
+		background:{{ settings.bg_raito }};
+	}
+
+	.product-card__image .preloading-img-product {
+		background:{{ settings.bg_raito }};
+		position: relative;
+	}
+{% endstyle %}
 {% comment %} {{ 'css-effect.css' | asset_url | stylesheet_tag }} {% endcomment %}
 {% comment %} {{ 'css-section.css' | asset_url | stylesheet_tag }} {% endcomment %}
 {{ 'dist/style.css' | asset_url | stylesheet_tag: preload: true }}
-{{ 'css-site.css' | asset_url | stylesheet_tag }}
+{% comment %} {{ 'css-site.css' | asset_url | stylesheet_tag }} {% endcomment %}
 {%- assign page_type = request.page_type | handle -%}
 {%- if page_type contains 'collection' or page_type contains 'search' -%}
   {{ 'css-collection.css' | asset_url | stylesheet_tag }}

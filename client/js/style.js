@@ -1,3 +1,6 @@
+// Google font
+import "../../assets/google-font.css";
+
 // Libraries
 import "../../assets/icomoon.css";
 import "../../assets/feather.css";
@@ -42,3 +45,6 @@ import "../../assets/css-section-video.css";
 import "../../assets/css-header-campar.css";
 import "../../assets/css-header-topbar.css";
 import "../../assets/css-section-slideshow.css";
+
+// Main site styles
+import "../../assets/css-site-main.css";
