@@ -76,7 +76,7 @@
 		{%- if image_hover == 'fadein' -%}
 			{% render 'image-fadein',product: product %}
 		{%- elsif image_hover == 'transform' -%}
-			{% render 'image-transform',product: product %}
+			{% render 'image-transform',product: product, product_idx: product_idx %}
 		{%- elsif image_hover == 'slider' -%}
 			{% render 'image-slider',product: product' %}
 		{%- elsif image_hover == 'zoom' -%}

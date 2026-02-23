@@ -104,6 +104,16 @@
 				data-sizes="auto"
 				>
 			{%- endif -%}
+        {% elsif nolazy == true %}
+            <img class="lazyloaded {{ class }} {{ effect }}"
+            alt = "{{ image.alt }}"
+            aria-label="{{ image.alt | escape }}"
+            data-alt="{{ image.alt | escape }}"
+            src="{% render 'bgset', image: image %}"
+			srcset="{% render 'bgset', image: image %}"
+            data-sizes="auto"
+            {% if priority == true %} fetchpriority="high" {% endif %}
+            >
 		{% else %}
 			<img class="lazyload  {{ class }} {{ effect }}"
 			alt = "{{ image.alt }}"
