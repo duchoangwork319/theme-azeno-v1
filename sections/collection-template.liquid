@@ -39,6 +39,7 @@
 									{% if product.type != "Gift Cards" %}
 										{% if product.available or show_orderable_products_only == false %}
 											<div class="products__col">
+												{% assign product_idx = forloop.index0 %}
 												{% include 'product-grid-item' %}
 											</div>
 										{% endif %}

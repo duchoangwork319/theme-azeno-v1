@@ -19,7 +19,17 @@
 	{% else %}
 		<div class="product-card__image">
 			{% if  product.images.size > 1 and media_featured.media_type != 'video' %}
-				{% render 'img-global-product' with image: featured_image, image_video: image_video, media: media_featured, class: "product-card__img-visible", effect: "fade-in" %}
+				{% assign nolazy = false %}
+				{% assign priority = false %}
+				{% if product_idx != blank %}
+					{% if product_idx == 0 %}
+						{% assign priority = true %}
+					{% endif %}
+					{% if product_idx < 3 %}
+						{% assign nolazy = true %}
+					{% endif %}
+				{% endif %}
+				{% render 'img-global-product' with image: featured_image, image_video: image_video, media: media_featured, class: "product-card__img-visible", effect: "fade-in", nolazy: nolazy, priority: priority %}
 				{% render 'img-global-product' with image: image, class: "product-card__img-hidden variant", effect: "fade-in"  %}
 			{% else %}
 				{%- if product.variants[0].featured_image.src -%}
