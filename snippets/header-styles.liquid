@@ -113,9 +113,11 @@
 {%- if page_type contains 'collection' or page_type contains 'search' -%}
   {{ 'css-collection.css' | asset_url | stylesheet_tag }}
 {%- elsif page_type contains 'product' -%}
-	{{ 'photoswipe.css' | asset_url | stylesheet_tag }}
-	{{ 'css-product.css' | asset_url | stylesheet_tag }}
+	{% comment %} {{ 'photoswipe.css' | asset_url | stylesheet_tag }} {% endcomment %}
+	{% comment %} {{ 'css-product.css' | asset_url | stylesheet_tag }} {% endcomment %}
+	{{ 'dist/product.css' | asset_url | stylesheet_tag }}
 {%- endif -%}
+{{ 'dist/global.min.js' | asset_url | preload_tag: as: 'script' }}
 {%- if page_type contains 'blog' or page_type contains 'article' or page_type contains 'search' -%}
   {{ 'css-blog.css' | asset_url | stylesheet_tag }}
 {%- endif -%}
