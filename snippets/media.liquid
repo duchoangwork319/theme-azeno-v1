@@ -27,9 +27,9 @@
 		{%- else -%}
 			<div class="product-media__wrapper product-media__wrapper--image">
 				{% assign img_url = media | img_url: '1x1' | replace: '_1x1.', '_{width}x.' %}
-				{% if forloop.first == true %}
+				{% if first_match_idx != blank and first_match_idx == forloop.index0 %}
 					<img class="mfp-image lazyloaded fade-in first"
-						src="{{ media | image_url:  width: 1080 }}"
+						src="{{ media | image_url:  width: 768 }}"
 						data-sizes="auto"
 						data-image="true"
 						data-number= "{{ forloop.index | minus: 1 }}"
@@ -40,7 +40,7 @@
 					>
 				{% else %}
 					<img class="mfp-image lazyload fade-in"
-						src="{{ media | image_url:  width: 1080 }}"
+						src="{{ media | image_url:  width: 768 }}"
 						data-sizes="auto"
 						data-image="true"
 						data-number= "{{ forloop.index | minus: 1 }}"

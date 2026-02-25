@@ -2,6 +2,7 @@
 	{%- assign width = 770 -%}
 	{%- assign height = 770 -%}
 	{%- assign first_3d_model = product.media | where: 'media_type', 'model' | first -%}
+	{%- assign first_match_idx = blank -%}
 	{%- for media in media_collection -%}
 
 		{% if section.settings.render_variant_media %}
@@ -10,6 +11,9 @@
 			{% unless media_src contains color_match %}
 				{% continue %}
 			{% endunless %}
+			{% if first_match_idx == blank %}
+				{% assign first_match_idx = forloop.index0 %}
+			{% endif %}
 		{% endif %}
 
 		{%- assign featured = false -%}
