@@ -1174,7 +1174,7 @@
           "6c61b96d-e6bb-48ca-a054-b41dca76ae11": {
             "type": "text-with-icon",
             "settings": {
-              "text_icon_content1": "<i class=\"icon-undo\"></i> We’ve extended our returns period to 60 days.",
+              "text_icon_content1": "<i class=\"icon-undo\"></i> Free returns within 30 days",
               "color_text_icon1": "#ffffff",
               "show_mobile_text_icon": true
             }

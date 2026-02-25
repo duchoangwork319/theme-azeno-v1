@@ -1,4 +1,5 @@
 /.local
 /node_modules
+/ignore
 /assets/dist
 package-lock.json
