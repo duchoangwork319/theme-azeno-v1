@@ -28,11 +28,11 @@
 		</div>
 	{%- else -%}
 		{% if template contains 'customers' %}
-			<a class="login-account" href="{{ routes.account_url }}">
+			<a class="login-account" href="{{ routes.account_url }}" aria-label="login button" title="login button">
 				<i class="icon-account"></i>
 			</a>
 		{% else %}
-			<a class="login-account" data-login-account href="#">
+			<a class="login-account" data-login-account href="#" aria-label="login button" title="login button">
 				<i class="icon-account"></i>
 			</a>
 			{% include 'login-register' %}

@@ -217,7 +217,7 @@
 	<div class="product-card__content">
 		<div class="content-top">
 			{%- assign collection = product.collections | first -%}
-			<a class="cate" href="{{ collection.url }}" title="{{ collection.title }}" itemprop="item">
+			<a class="cate" href="{{ collection.url }}" title="{{ collection.title }}" itemprop="item" style="font-size: var(--font-size-base)">
 				<span itemprop="name">{{ collection.title }}</span>
 			</a>
 			{%- if settings.product_card_review -%}
@@ -231,7 +231,7 @@
 			{%- endif -%}
 		</div>
 		<div class="product-card__name">
-			<a href="{{ product_url }}">{{ product.title }}</a>
+			<a href="{{ product_url }}" style="font-size: calc(var(--font-size-base) - 2px)">{{ product.title }}</a>
 		</div>
 		{%- if settings.product_vendor_enable -%}
 			<div class="product-card__vendor"><a href="/collections/vendors?q={{ product.vendor }}">{{ product.vendor }}</a></div>
