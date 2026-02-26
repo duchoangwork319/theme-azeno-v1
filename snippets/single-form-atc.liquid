@@ -412,8 +412,8 @@
 			{% comment %} terms and conditions checkbox {% endcomment %}
 				{% if settings.show_terms_conditions %}
 					<p class="ajaxcart_terms_conditions">
-						<input style="float:none; vertical-align: middle;" type="checkbox" class="agree_terms_conditions" />
-						<label style="display:inline; float:none" for="agree">
+						<input style="float:none; vertical-align: middle;" type="checkbox" class="agree_terms_conditions" id="agreeTermsConditions" name="agreeTermsConditions" />
+						<label style="display:inline; float:none" for="agreeTermsConditions">
 							{{ settings.content_terms_conditions }}
 						</label>
 					</p>
