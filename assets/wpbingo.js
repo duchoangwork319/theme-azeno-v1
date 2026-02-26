@@ -5410,6 +5410,27 @@ wpbingo.click_button = function () {
 		}
 	});
 }
+wpbingo.size_chart = function () {
+	if (!$("input#unitSwitch").length) return;
+
+	let switchToCM = (yes) => {
+		if (yes) {
+			$(".content[data-title$='inch']").hide();
+			$(".content[data-title$='cm']").show();
+		} else {
+			$(".content[data-title$='cm']").hide();
+			$(".content[data-title$='inch']").show();
+		}
+	};
+
+	$(".modal.size-charts__modal").on('show.bs.modal', function () {
+		switchToCM(false);
+	});
+
+	$("body").on("change.unitSwitch", "input#unitSwitch", function () {
+		switchToCM($(this).is(":checked"));
+	});
+}
 wpbingo.lookbook = function () {
 	$(window).on("click.Bst", function (event) {
 		var $box = $('.wpbingo-section--lookbook:not(.lookbook-simple) .content-product-card .product-card');
@@ -8011,6 +8032,7 @@ wpbingo.init = function () {
 	wpbingo.sticky_header();
 	wpbingo.lookbook();
 	wpbingo.click_button();
+	wpbingo.size_chart();
 	wpbingo.click_atribute_image();
 	wpbingo.active_form_login();
 	wpbingo.cookieConsent();

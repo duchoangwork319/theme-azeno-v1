@@ -80,7 +80,7 @@
                         {%- endif -%}
                       {%- when '@app' -%}
                         {% if block.id contains 'doran_product_reviews' %}
-                          <div id={{ block.id }} class="app-container">
+                          <div id="{{ block.id }}" class="app-container">
                             {% render block %}
                           </div>
                         {% endif %}
@@ -666,10 +666,20 @@
   <script type="application/json" id="ProductJson-{{ section.id }}">
     {{ product | json }}
   </script>
-  {% render "variant-json" %}
+  {% render 'variant-json' %}
   <script type="application/json" id="ModelJson-{{ section.id }}">
     {{ product.media | where: 'media_type', 'model' | json }}
   </script>
+{% endunless %}
+{% unless product.has_only_default_variant %}
+  {% if settings.show_size_chart %}
+    {% for block in section.blocks %}
+      {%- case block.type %}
+        {%- when 'form_atc' %}
+          {% include 'product-size-chart' %}
+      {% endcase %}
+    {% endfor %}
+  {% endif %}
 {% endunless %}
 
 {% schema %}
@@ -1295,6 +1305,28 @@
           "id": "bis_text_hover_color",
           "label": "Button color hover",
           "default": "#fff"
+        },
+        {
+          "type": "header",
+          "content": "Size chart settings"
+        },
+        {
+          "type": "text",
+          "id": "button_title",
+          "label": "Button title",
+          "default": "Size Guide"
+        },
+        {
+          "type": "text",
+          "id": "modal_title",
+          "label": "Modal Title",
+          "default": "Size help and body measurements"
+        },
+        {
+          "type": "text",
+          "id": "modal_info",
+          "label": "Modal Info",
+          "default": "Use the size chart to formulate your body size"
         }
       ]
     },

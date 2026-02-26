@@ -1,0 +1,169 @@
+{% style %}
+  .size-charts__modal .modal-title {
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: black;
+  }
+
+  .size-charts__modal .info-wrapper {
+    font-size: 14px;
+    color: black;
+  }
+
+  .size-charts__modal .info-wrapper .custom-switch .custom-control-label:before,
+  .size-charts__modal .info-wrapper .unit-switch {
+    cursor: pointer;
+  }
+
+  .size-charts__modal .btn-continue-shopping {
+    background: var(--gray-dark);
+    color: var(--white);
+  }
+
+  .size-charts__modal .btn-continue-shopping:hover {
+    background: var(--theme-color);
+  }
+
+  .size-charts__modal .info-wrapper .inch-label {
+    position: absolute;
+    left: -4.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: black;
+  }
+
+  .size-charts__modal .info-wrapper .custom-control-label,
+  .size-charts__modal .info-wrapper .custom-control-input:checked ~ .inch-label {
+    color: #ddd;
+  }
+
+  .size-charts__modal .info-wrapper .custom-control-input:focus ~ .custom-control-label:before {
+    box-shadow: none;
+  }
+
+  .size-charts__modal .info-wrapper .custom-control-input:focus:not(:checked) ~ .custom-control-label:before {
+    border-color: #adb5bd;
+  }
+
+  .size-charts__modal .info-wrapper .custom-control-input:checked ~ .custom-control-label {
+    color: black;
+  }
+
+  .size-charts__modal .info-wrapper .custom-control-input:checked ~ .custom-control-label:before {
+    background-color: black;
+    border-color: black;
+  }
+
+  .size-charts__content table {
+    border-collapse: collapse;
+    width: 100%;
+    color: black;
+    text-align: center;
+    border: 1px solid transparent;
+    cursor: pointer;
+  }
+
+  .size-charts__content table tr:first-child td {
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .size-charts__content table tr td {
+    border-bottom: 1px solid #ddd;
+    padding: 16px;
+  }
+
+  .size-charts__content table tr td:hover {
+    background-color: black;
+    color: white;
+  }
+{% endstyle %}
+
+{% if size_chart and size_chart.value %}
+  {% assign pages_list = size_chart.value.size_chart %}
+  {% assign vimg_ref = size_chart.value.visual_image %}
+  {%- if pages_list and pages_list.value and pages_list.value.size > 0 -%}
+    <div
+      class="modal fade size-charts__modal"
+      id="model-{{ section.id }}"
+      tabindex="-1"
+      aria-labelledby="model-{{ section.id }}"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header border-0">
+            <div class="modal-title d-flex align-items-center" id="model-{{ section.id }}">
+              <i class="wpb-icon-ruler"></i>
+              <div class="title ml-2">
+                {% comment %} {{ 'products.product.size_guide' | t }} {% endcomment %}
+                {{ block.settings.modal_title }}
+              </div>
+            </div>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close header">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body pt-0">
+            <div class="info-wrapper d-flex align-items-center mb-4">
+              <p class="info mb-0">
+                {{ block.settings.modal_info }}
+              </p>
+              <div class="unit-switch ml-auto">
+                <div class="custom-control custom-switch p-0">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="unitSwitch"
+                    name="unitSwitch"
+                    data-inch-pattern="_inch"
+                    data-cm-pattern="_cm"
+                  >
+                  <span class="inch-label">inch</span>
+                  <label class="custom-control-label cm-label" for="unitSwitch">cm</label>
+                </div>
+              </div>
+            </div>
+            <div class="wrapper row">
+              <div class="col-12 col-lg-4 d-none d-lg-block">
+                <div class="size-charts__vimg">
+                  {% if vimg_ref and vimg_ref.value %}
+                    {% assign vimg = vimg_ref.value %}
+                    <img
+                      src="{{ vimg | image_url }}"
+                      alt="{{ vimg.alt | escape }}"
+                      width="100%"
+                      height="auto"
+                    >
+                  {% endif %}
+                </div>
+              </div>
+              <div class="col-12 col-lg-8">
+                <div class="size-charts__content">
+                  {%- if pages_list and pages_list.value and pages_list.value.size > 0 -%}
+                    {%- for p in pages_list.value -%}
+                      <div class="content" data-title="{{ p.title | downcase }}">
+                        {{ p.content }}
+                      </div>
+                    {%- endfor -%}
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer border-0 pt-0">
+            <button
+              type="button"
+              class="btn btn-secondary btn-continue-shopping"
+              aria-label="Close footer"
+              data-dismiss="modal"
+            >
+              CONTINUE SHOPPING
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+{% endif %}
