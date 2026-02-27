@@ -316,23 +316,29 @@
 	</select>
 	{% unless product.has_only_default_variant %}
 		{%- if settings.show_size_chart -%}
-		<div class="size-guide">
-			<i class="wpb-icon-ruler"></i><div class="title-size-guide">{{ 'products.product.size_guide' | t }}</div>
-			<div class="img-size-guide">
-				<div class="img-size-content">
-					<div class="title-size-guide"></div>
-					{%- if size_chart -%}
-						<img class="size_image" src="{{ size_chart | image_url:width:size_chart.width,height:size_chart.height }}" alt="{{ size_chart.alt | escape }}" width="{{ size_chart.width }}" height="{{ size_chart.height }}" />
-					{%- else -%}
-						{%- if settings.type_sizechart == "image" -%}
-							<img class="size_image" src="{{ settings.img_size_chart | image_url:width:settings.img_size_chart.width,height:settings.img_size_chart.height }}" alt="{{ settings.img_size_chart.alt | escape }}" width="{{ settings.img_size_chart.width }}" height="{{ settings.img_size_chart.height }}" />
-						{%- else -%}
-							{{ settings.html_size_chart.content }}
-						{%- endif -%}
+			<div class="size-guide">
+				{% if size_chart and size_chart.value %}
+					{% assign pages_list = size_chart.value.size_chart %}
+					{%- if pages_list and pages_list.value and pages_list.value.size > 0 -%}
+						<a
+							type="button"
+							href="#" role="button"
+							class="btn-size-chart"
+							data-toggle="modal"
+							data-target="#model-{{ section.id }}"
+							aria-label="size chart button"
+							title="size chart button"
+						>
+							<div class="d-flex align-items-center">
+								<i class="wpb-icon-ruler"></i>
+								<div class="title ml-2">
+									{{ block.settings.button_title }}
+								</div>
+							</div>
+						</a>
 					{%- endif -%}
-				</div>
+				{% endif %}
 			</div>
-		</div>
 		{%- endif -%}
 	{% endunless %}
 	{%- if block.settings.product_available_enable -%}
