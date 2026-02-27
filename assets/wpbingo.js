@@ -5415,11 +5415,11 @@ wpbingo.size_chart = function () {
 
 	let switchToCM = (yes) => {
 		if (yes) {
-			$(".content[data-title$='inch']").hide();
-			$(".content[data-title$='cm']").show();
+			$(".content[data-title^='sizechart_inch_']").hide();
+			$(".content[data-title^='sizechart_cm_']").show();
 		} else {
-			$(".content[data-title$='cm']").hide();
-			$(".content[data-title$='inch']").show();
+			$(".content[data-title^='sizechart_inch_']").show();
+			$(".content[data-title^='sizechart_cm_']").hide();
 		}
 	};
 
