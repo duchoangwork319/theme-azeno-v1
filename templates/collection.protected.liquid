@@ -2,9 +2,9 @@
   assign url_split = canonical_url | split: '?q='
   assign incoming_hashed = url_split[1]
   capture pwd_hashed
-		render 'url-hash', item: collection
-	endcapture
-	assign pwd_hashed = pwd_hashed | strip
+    render 'url-hash', item: collection
+  endcapture
+  assign pwd_hashed = pwd_hashed | strip
 %}
 {% if pwd_hashed != null and pwd_hashed != incoming_hashed %}
   {% section 'protected' %}
