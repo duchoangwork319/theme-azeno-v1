@@ -1,3 +1,8 @@
+{% doc %}
+  This snippet is used to add meta tags and scripts for password-protected products, following:
+  1. Check if the product is password-protected by hashing the collection password and comparing it to the URL hash.
+  2. Check if the product is searchable by rendering the 'product-searchable' snippet and checking its output.
+{% enddoc %}
 {% if template contains 'product' %}
   {% liquid
     assign p_collection = collection
@@ -8,7 +13,15 @@
       render 'url-hash', item: p_collection
     endcapture
     assign pwd_hashed = pwd_hashed | strip
+
+    capture searchable_output
+      render 'product-searchable', item: product
+    endcapture
+    assign searchable = searchable_output | strip
   %}
+  {% if searchable != 'true' %}
+    <meta name="robots" content="noindex, nofollow" />
+  {% endif %}
   {% if pwd_hashed != null and pwd_hashed != blank and pwd_hashed != '' %}
     <meta name="protected-hash" content="{{ pwd_hashed }}">
     <meta name="root-url" content="{{ routes.root_url }}">
