@@ -1,0 +1,17 @@
+{% if template contains 'product' %}
+  {% liquid
+    assign p_collection = collection
+    if p_collection == blank or p_collection == null
+      assign p_collection = product.collections | first
+    endif
+    capture pwd_hashed
+      render 'url-hash', item: p_collection
+    endcapture
+    assign pwd_hashed = pwd_hashed | strip
+  %}
+  {% if pwd_hashed != null and pwd_hashed != blank and pwd_hashed != '' %}
+    <meta name="protected-hash" content="{{ pwd_hashed }}">
+    <meta name="root-url" content="{{ routes.root_url }}">
+    <script src="{{ 'dist/head.js' | asset_url }}"></script>
+  {% endif %}
+{% endif %}

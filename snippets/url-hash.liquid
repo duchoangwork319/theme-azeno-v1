@@ -1,0 +1,28 @@
+{% doc %}
+  This snippet generates a hash for a collection if it is password protected. The hash is generated using the collection's handle and ID, combined with a password stored in the collection's metafields. The resulting hash can be appended to a URL to allow access to the protected collection.
+
+  @param {collection} item - The product item from search.results
+  @param {string} [url] - The URL to append the hash to if the collection is password protected
+{% enddoc %}
+{% liquid
+  assign pwd_hashed = null
+  assign url_with_hash = url
+  assign pwd = item.metafields.custom.protected_password
+  if pwd != null and pwd != blank and pwd != ''
+    assign pwd = item.metafields.custom.protected_password | strip | sha256
+    assign plain = item.handle | append: item.id
+    assign pwd_hashed = plain | hmac_sha1: pwd
+    if url_with_hash != blank and url_with_hash != null
+      if url_with_hash contains '?'
+        assign url_with_hash = url_with_hash | append: '&hash=' | append: pwd_hashed
+      else
+        assign url_with_hash = url_with_hash | append: '?hash=' | append: pwd_hashed
+      endif
+    endif
+  endif
+%}
+{% if url_with_hash -%}
+  {{ url_with_hash }}
+{% elsif pwd_hashed -%}
+  {{ pwd_hashed }}
+{% endif -%}
