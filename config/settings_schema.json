@@ -452,6 +452,12 @@
         "id": "search_item_count",
         "label": "Search Count",
         "default": 6
+      },
+      {
+        "type": "text",
+        "id": "exclude_product_tags",
+        "label": "Exclude Product By Tags",
+        "info": "Separate your tags with a comma. eg: tag1, tag2,..."
       }
     ]
   },

@@ -29,9 +29,17 @@
 					data-column3="{{ column3 }}"
 					data-column4="{{ column4 }}">
 					{%- for product in recommendations.products -%}
-					<div class="slick-carousel__item">
-						{% include 'product-grid-item' %}
-					</div>
+            {% liquid
+              capture searchable_output
+                render 'product-searchable', item: product
+              endcapture
+              assign searchable = searchable_output | strip
+            %}
+            {% if searchable == 'true' %}
+              <div class="slick-carousel__item">
+                {% include 'product-grid-item' %}
+              </div>
+            {% endif %}
 					{%- endfor -%}
 				</div>
 			</div>

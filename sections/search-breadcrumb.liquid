@@ -1,3 +1,9 @@
+{% liquid
+  capture results_count
+    render 'search-count'
+  endcapture
+  assign results_count = results_count | strip
+%}
 {%- if section.settings.enable -%}
 	{%- assign is_bg_image = section.settings.bgimage -%}
 	{%- if is_bg_image -%}
@@ -20,7 +26,8 @@
 			style="background-image: url('{{ bg_image | img_url: '' }}');background-size:cover; background-position:center center"{%- endif -%}>
 			<div class="container">
 				<div class="wpbingo-breadcrumbs__inner">
-					<h2 class="wpbingo-breadcrumbs__title">{{ 'templates.search.results_with_count_and_term' | t: terms: search.terms, count: search.results_count }}</h2>
+					{% comment %} <h2 class="wpbingo-breadcrumbs__title">{{ 'templates.search.results_with_count_and_term' | t: terms: search.terms, count: search.results_count }}</h2> {% endcomment %}
+					<h2 class="wpbingo-breadcrumbs__title">{{ 'templates.search.results_with_count_and_term' | t: terms: search.terms, count: results_count }}</h2>
 				</div>
 			</div>
 		</div>

@@ -1,13 +1,10 @@
 {% liquid
   assign url_split = canonical_url | split: '?q='
   assign incoming_hashed = url_split[1]
-  if collection.metafields.custom.protected_password != null
-    assign pwd = collection.metafields.custom.protected_password | strip | sha256
-    assign plain = collection.handle | append: collection.id
-    assign pwd_hashed = plain | hmac_sha1: pwd
-  else
-    assign pwd_hashed = null
-  endif
+  capture pwd_hashed
+    render 'url-hash', item: collection
+  endcapture
+  assign pwd_hashed = pwd_hashed | strip
 %}
 {% if pwd_hashed != null and pwd_hashed != incoming_hashed %}
   {% section 'protected' %}

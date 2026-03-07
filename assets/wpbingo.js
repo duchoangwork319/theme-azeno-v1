@@ -8640,6 +8640,29 @@ const compareContains = (handle) => {
 const resetCompare = () => {
 	return setCompare([]);
 };
+function retryIfFail(callback, ms, circuit) {
+	const retry = () => {
+		let to;
+		let fail = 1;
+		to = setInterval(() => {
+			try {
+				if (typeof callback === "function") callback();
+				clearInterval(to);
+			} catch (error) {
+				console.warn(error.message);
+				fail++;
+				if (fail === circuit) clearInterval(to);
+			}
+		}, ms);
+	};
+
+	try {
+		if (typeof callback === "function") callback();
+	} catch (error) {
+		console.warn(error.message);
+		retry();
+	}
+}
 
 $(document).ready(function () {
 	wpbingo.init();
@@ -8652,8 +8675,12 @@ $(document).ready(function () {
 	sections.register('search', wpbingo.Search);
 	sections.register('footer-bottom', wpbingo.FooterSection);
 	if ($('body').hasClass('template-product')) {
-		sections.register('product-template', Shopify.Products.showRecentlyViewed());
-		sections.register('product-template', Shopify.Products.recordRecentlyViewed());
+		retryIfFail(() => {
+			sections.register('product-template', Shopify.Products.showRecentlyViewed());
+		}, 150, 10);
+		retryIfFail(() => {
+			sections.register('product-template', Shopify.Products.recordRecentlyViewed());
+		}, 150, 10);
 		var $element = $(".product-single");
 		var _data = $element.data();
 		if (_data.layout_thumb == "slider") {
