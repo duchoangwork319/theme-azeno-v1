@@ -90,7 +90,7 @@
 											{% if item.type != "Gift Cards" %}
 												{% liquid
 													capture searchable_output
-														render 'product-searchable', item: product
+														render 'product-searchable', item: item
 													endcapture
 													assign searchable = searchable_output | strip
 												%}

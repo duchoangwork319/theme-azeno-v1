@@ -1,0 +1,23 @@
+{% doc %}
+  This snippet counts the number of products in the search results, and assigns it to the `results_count` variable. It only counts products that are available for purchase, and that are not gift cards. If the `show_orderable_products_only` setting is enabled, it will only count products that are available for purchase.
+{% enddoc %}
+{% liquid
+  assign show_orderable_products_only = settings.show_orderable_products_only
+  assign results_count = 0
+  for item in search.results
+    if item.object_type == 'product'
+      if item.type != 'Gift Cards'
+        capture searchable_output
+          render 'product-searchable', item: item
+        endcapture
+        assign searchable = searchable_output | strip
+        if searchable == 'true'
+          if item.available or show_orderable_products_only == false
+            assign results_count = results_count | plus: 1
+          endif
+        endif
+      endif
+    endif
+  endfor
+%}
+{{ results_count }}
