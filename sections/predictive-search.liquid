@@ -2,30 +2,29 @@
 {%- if predictive_search.performed -%}
 	{%- assign limit 			= settings.search_item_count -%}
 	<div id="predictive-search-product">
-		{%- for product in predictive_search.resources.products limit:limit -%}
-			{% liquid
+		{% liquid
+			assign total_size = predictive_search.resources.products.size
+			assign total_limit = limit
+			for product in predictive_search.resources.products limit: limit
 				capture searchable_output
 					render 'product-searchable', item: product
 				endcapture
 				assign searchable = searchable_output | strip
-			%}
-			{% if product.type == "Gift Cards" %}
-				{%- assign total_size 			= predictive_search.resources.products.size | minus: 1 -%}
-				{%- assign total_limit 			= limit | plus: 1 -%}
-				{%- break -%}
-			{% elsif searchable == 'false' %}
-				{%- assign total_size 			= predictive_search.resources.products.size | minus: 1 -%}
-				{%- assign total_limit 			= limit | plus: 1 -%}
-				{%- break -%}
-			{% elsif product.available == false and show_orderable_products_only == true %}
-				{%- assign total_size 			= predictive_search.resources.products.size | minus: 1 -%}
-				{%- assign total_limit 			= limit | plus: 1 -%}
-				{%- break -%}
-			{%- else -%}
-				{%- assign total_size 			= predictive_search.resources.products.size -%}
-				{%- assign total_limit 			= limit -%}
-			{%- endif -%}
-		{%- endfor -%}
+				if product.type == "Gift Cards"
+					assign total_size = total_size | minus: 1
+					assign total_limit = limit | plus: 1
+				elsif searchable == 'false'
+					assign total_size = total_size | minus: 1
+					assign total_limit = limit | plus: 1
+				elsif product.available == false and show_orderable_products_only == true
+					assign total_size = total_size | minus: 1
+					assign total_limit = limit | plus: 1
+				else
+					assign total_size = total_size
+					assign total_limit = limit
+				endif
+			endfor
+		%}
 		<div class="search-top">
 			{% if total_size > 0 %}
 				<div class="count-search">{{ 'templates.search.results_with_count' | t :count: total_size }}</div>
