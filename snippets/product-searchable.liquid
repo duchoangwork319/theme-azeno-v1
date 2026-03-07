@@ -1,0 +1,25 @@
+{% doc %}
+  Determines if a search result product should be searchable based on excluded tags.
+  @param {product} item - The product item from search.results
+{% enddoc %}
+
+{% liquid
+  assign searchable = true
+  assign tags = item.tags | join
+  assign exclude_tags = settings.exclude_product_tags | split: ','
+
+  if exclude_tags
+    for tag in exclude_tags
+      assign s_tag = tag | strip
+      if tags contains s_tag
+        assign searchable = false
+        break
+      endif
+    endfor
+  endif
+%}
+{%- if searchable -%}
+  true
+{%- else -%}
+  false
+{%- endif -%}

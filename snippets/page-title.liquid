@@ -1,0 +1,31 @@
+<title>
+  {% if template contains 'search' %}
+    {% liquid
+      assign show_orderable_products_only = settings.show_orderable_products_only
+      assign results_count = 0
+      for item in search.results
+        if item.object_type == 'product'
+          if item.type != 'Gift Cards'
+            capture searchable_output
+              render 'product-searchable', item: item
+            endcapture
+            assign searchable = searchable_output | strip
+            if searchable == 'true'
+              if item.available or show_orderable_products_only == false
+                assign results_count = results_count | plus: 1
+              endif
+            endif
+          endif
+        endif
+      endfor
+    %}
+    {{ 'templates.search.results_with_count_and_term' | t: terms: search.terms, count: results_count }}
+  {% else %}
+    {{ page_title }}
+  {% endif %}
+  {% if current_tags -%}
+    {%- assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags -}}
+  {%- endif %}
+  {% if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}
+  {% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+</title>
