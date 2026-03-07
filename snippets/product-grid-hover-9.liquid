@@ -66,12 +66,19 @@
 		{%- break -%}
 	{% endif %}
 {%- endfor -%}
+{% liquid
+	capture searchable_output
+		render 'product-searchable', item: product
+	endcapture
+	assign searchable = searchable_output | strip
+%}
 <div class="product-card wpb-variants-swatch {{ hover_style }}" data-short_description="{{ short_description }}"
 											data-group_product="{{ group }}"
 											data-is_group_product="{%- if group_product != blank -%}true{%- else -%}false{%- endif -%}"
 											data-countdowns="{{ countdowns }}"
 											data-external="{{ external }}"
-											data-handle="{{ product.handle }}">
+											data-handle="{{ product.handle }}"
+											data-searchable="{{ searchable }}">
 	<div class="product-card__image-wrapper {{ image_hover }}">
 		{%- if image_hover == 'fadein' -%}
 			{% render 'image-fadein',product: product %}
