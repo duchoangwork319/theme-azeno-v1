@@ -13,13 +13,7 @@
 {%- if product.variants.size > 1 -%}
 	{%- assign image_video = true -%}
 {%- endif -%}
-{% liquid
-	capture url_with_hash
-		render 'url-hash', item: collection, url: product_url
-	endcapture
-	assign product_url_with_hash = url_with_hash | strip
-%}
-<a class="product-card__image-link" href="{{ product_url_with_hash }}">
+<a class="product-card__image-link" href="{{ product_url }}">
 	{% if featured_image.src == blank %}
 		<img class="product-card__image lazyload fade-in" src="https://placehold.jp/450x540.png"  width="450" height="540" alt="{{ featured_image.alt | escape }}">
 	{% else %}
