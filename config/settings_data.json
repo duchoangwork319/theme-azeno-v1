@@ -43,6 +43,7 @@
     "preview_bar": true,
     "show_search_blog": true,
     "search_item_count": 8,
+    "exclude_product_tags": "Preorder",
     "shop_full": false,
     "layout_filter": "sidebar_3",
     "sidebar_enable": true,
