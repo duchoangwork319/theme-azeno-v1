@@ -238,13 +238,7 @@
 			{%- endif -%}
 		</div>
 		<div class="product-card__name">
-			{% liquid
-				capture url_with_hash
-					render 'url-hash', item: collection, url: product_url
-				endcapture
-				assign product_url_with_hash = url_with_hash | strip
-			%}
-			<a href="{{ product_url_with_hash }}" style="font-size: calc(var(--font-size-base) - 2px)">{{ product.title }}</a>
+			<a href="{{ product_url }}" style="font-size: calc(var(--font-size-base) - 2px)">{{ product.title }}</a>
 		</div>
 		{%- if settings.product_vendor_enable -%}
 			<div class="product-card__vendor"><a href="/collections/vendors?q={{ product.vendor }}">{{ product.vendor }}</a></div>

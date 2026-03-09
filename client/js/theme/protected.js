@@ -54,7 +54,34 @@ function ensureTokenExistOnSearchParams() {
   });
 }
 
+/**
+ * Handles the inclusion of the protected hash in the URL when clicking on target elements
+ * @param {string[]} targetSelectors - Array of CSS selectors for target elements
+ */
+function handleIncludeProtectedHash(targetSelectors) {
+  $("body").on("click.addHash", targetSelectors.join(", "), function (e) {
+    const self = $(this);
+    const meta = $("meta[name=\"protected-hash\"]");
+
+    if (self.is("a") && meta.length) {
+      e.preventDefault();
+      const href = self.attr("href");
+      const protectedHash = meta.attr("content");
+      const url = new URL(href, location.origin);
+      if (protectedHash) {
+        url.searchParams.set("hash", protectedHash);
+        url.searchParams.set("from", "click");
+      }
+      window.location.href = url.toString();
+    }
+  });
+}
+
 $(function () {
   initProtectedForm();
   ensureTokenExistOnSearchParams();
+  handleIncludeProtectedHash([
+    "a.product-card__image-link",
+    ".product-card__name a"
+  ]);
 });
