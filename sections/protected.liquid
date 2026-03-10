@@ -187,6 +187,12 @@
         name="collection_url"
         value="{{ collection.url }}"
       >
+      <input
+        readonly
+        type="hidden"
+        name="maintain_session"
+        value="{{ section.settings.maintain_session | strip }}"
+      >
 
       <div class="ai-protected-form__field-{{ section_id }}">
         <label for="password-{{ section_id }}" class="ai-protected-form__label-{{ section_id }}">
@@ -375,6 +381,17 @@
       "id": "button_text_color",
       "label": "Button text",
       "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Security"
+    },
+    {
+      "type": "checkbox",
+      "id": "maintain_session",
+      "label": "Maintain Session",
+      "default": false,
+      "info": "Login once until the session expires. If disabled, users will need to re-enter the password each time they visit the page, even within the same session."
     }
   ],
   "presets": [

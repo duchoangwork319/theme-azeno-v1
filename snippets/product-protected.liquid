@@ -11,7 +11,15 @@
       render 'url-hash', item: p_collection
     endcapture
     assign pwd_hashed = pwd_hashed | strip
+  %}
+  {% if pwd_hashed != null and pwd_hashed != blank and pwd_hashed != '' %}
+    <meta name="protected-handle" content="{{ p_collection.handle }}">
+    <meta name="protected-id" content="{{ p_collection.id }}">
+    <meta name="root-url" content="{{ routes.root_url }}">
+    <script src="{{ 'dist/head-product.js' | asset_url }}"></script>
+  {% endif %}
 
+  {% liquid
     capture searchable_output
       render 'product-searchable', item: product
     endcapture
@@ -19,22 +27,5 @@
   %}
   {% if searchable != 'true' %}
     <meta name="robots" content="noindex, nofollow">
-  {% endif %}
-  {% if pwd_hashed != null and pwd_hashed != blank and pwd_hashed != '' %}
-    <meta name="protected-hash" content="{{ pwd_hashed }}">
-    <meta name="root-url" content="{{ routes.root_url }}">
-    <script src="{{ 'dist/head.js' | asset_url }}"></script>
-  {% endif %}
-{% endif %}
-
-{% if template contains 'collection' %}
-  {% liquid
-    capture pwd_hashed
-      render 'url-hash', item: collection
-    endcapture
-    assign pwd_hashed = pwd_hashed | strip
-  %}
-  {% if pwd_hashed != null and pwd_hashed != blank and pwd_hashed != '' %}
-    <meta name="protected-hash" content="{{ pwd_hashed }}">
   {% endif %}
 {% endif %}
