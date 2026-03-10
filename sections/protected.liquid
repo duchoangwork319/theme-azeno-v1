@@ -193,6 +193,12 @@
         name="maintain_session"
         value="{{ section.settings.maintain_session | strip }}"
       >
+      <input
+        readonly
+        type="hidden"
+        name="session_duration"
+        value="{{ section.settings.session_duration }}"
+      >
 
       <div class="ai-protected-form__field-{{ section_id }}">
         <label for="password-{{ section_id }}" class="ai-protected-form__label-{{ section_id }}">
@@ -392,6 +398,12 @@
       "label": "Maintain Session",
       "default": false,
       "info": "Login once until the session expires. If disabled, users will need to re-enter the password each time they visit the page, even within the same session."
+    },
+    {
+      "type": "number",
+      "id": "session_duration",
+      "label": "Session Duration (minutes)",
+      "default": 30
     }
   ],
   "presets": [

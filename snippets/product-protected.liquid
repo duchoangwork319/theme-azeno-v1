@@ -15,7 +15,7 @@
   {% if pwd_hashed != null and pwd_hashed != blank and pwd_hashed != '' %}
     <meta name="protected-handle" content="{{ p_collection.handle }}">
     <meta name="protected-id" content="{{ p_collection.id }}">
-    <meta name="root-url" content="{{ routes.root_url }}">
+    <meta name="root-url" content="{{ p_collection.url }}">
     <script src="{{ 'dist/head-product.js' | asset_url }}"></script>
   {% endif %}
 
