@@ -161,45 +161,6 @@
     </div>
 
     <form class="ai-protected-form__form-{{ section_id }}">
-      {% assign pwd_hashed = collection.metafields.custom.protected_password | sha256 %}
-      {% assign plain = collection.handle | append: collection.id %}
-      <input
-        readonly
-        type="hidden"
-        name="token"
-        value="{{ plain | hmac_sha256: pwd_hashed }}"
-      >
-      <input
-        readonly
-        type="hidden"
-        name="collection_id"
-        value="{{ collection.id }}"
-      >
-      <input
-        readonly
-        type="hidden"
-        name="collection_handle"
-        value="{{ collection.handle }}"
-      >
-      <input
-        readonly
-        type="hidden"
-        name="collection_url"
-        value="{{ collection.url }}"
-      >
-      <input
-        readonly
-        type="hidden"
-        name="maintain_session"
-        value="{{ section.settings.maintain_session | strip }}"
-      >
-      <input
-        readonly
-        type="hidden"
-        name="session_duration"
-        value="{{ section.settings.session_duration }}"
-      >
-
       <div class="ai-protected-form__field-{{ section_id }}">
         <label for="password-{{ section_id }}" class="ai-protected-form__label-{{ section_id }}">
           {{ section.settings.password_label }}
@@ -387,23 +348,6 @@
       "id": "button_text_color",
       "label": "Button text",
       "default": "#ffffff"
-    },
-    {
-      "type": "header",
-      "content": "Security"
-    },
-    {
-      "type": "checkbox",
-      "id": "maintain_session",
-      "label": "Maintain Session",
-      "default": false,
-      "info": "Login once until the session expires. If disabled, users will need to re-enter the password each time they visit the page, even within the same session."
-    },
-    {
-      "type": "number",
-      "id": "session_duration",
-      "label": "Session Duration (minutes)",
-      "default": 30
     }
   ],
   "presets": [

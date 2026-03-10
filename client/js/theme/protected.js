@@ -1,12 +1,24 @@
 "use strict";
 
-import { SHA256, HmacSHA256, HmacSHA1 } from "crypto-js";
-import { converToQueryString, getQueryStringParams } from "../components/helpers";
+import {
+  SHA256,
+  HmacSHA256,
+  HmacSHA1
+} from "crypto-js";
+import {
+  converToQueryString,
+  getQueryStringParams
+} from "../components/helpers";
 import {
   setProtectedSession,
-  getProtectedSession,
-  clearProtectedSession,
+  clearProtectedSession
 } from "../services/session";
+import {
+  getRootUrl,
+  getProtectedIdentity,
+  getProtectedToken,
+  getSessionDurationMs,
+} from "../components/head-protected";
 
 /**
  * Validates the protected form submission
@@ -23,20 +35,19 @@ function validate(form, hashPassword) {
 
   hideError();
 
-  const ID = $("[name=collection_id]", form).val();
-  const handle = $("[name=collection_handle]", form).val();
-  const token = $("[name=token]", form).val();
-  const path = $("[name=collection_url]", form).val();
-  const duration = Number($("[name=session_duration]", form).val());
+  const { handle, ID } = getProtectedIdentity();
+  const token = getProtectedToken();
+  const path = getRootUrl();
+  const durationMs = getSessionDurationMs();
   const hmac256 = HmacSHA256(handle + ID, hashPassword).toString();
-  const newUrl = new URL(path, location.origin);
 
   // Compare hmac with token
   if (hmac256 === token) {
     showSuccess();
     setTimeout(() => {
       const hmac1 = HmacSHA1(handle + ID, hashPassword).toString();
-      setProtectedSession(hmac1, hashPassword, duration ? duration * 60 * 1000 : undefined);
+      const newUrl = new URL(path, location.origin);
+      setProtectedSession(hmac1, hashPassword, durationMs);
       newUrl.searchParams.append("q", hmac1);
       window.location.href = newUrl.toString();
     });
@@ -45,28 +56,6 @@ function validate(form, hashPassword) {
     showError();
     clearProtectedSession();
     return false;
-  }
-}
-
-/**
- * Checks if there's an existing session and redirects accordingly
- */
-function checkSessionAndRedirect() {
-  const form = $("protected-form form");
-  if (!form.length) return;
-
-  const maintainSession = $("[name=maintain_session]", form).val().trim() === "true";
-  if (!maintainSession) return;
-
-  const { sha256 } = getProtectedSession();
-  if (!sha256) {
-    clearProtectedSession();
-    return;
-  }
-
-  const valid = validate(form, sha256);
-  if (!valid) {
-    clearProtectedSession();
   }
 }
 
@@ -101,7 +90,6 @@ function ensureTokenExistOnSearchParams() {
 }
 
 $(function () {
-  checkSessionAndRedirect();
   initProtectedForm();
   ensureTokenExistOnSearchParams();
 });
