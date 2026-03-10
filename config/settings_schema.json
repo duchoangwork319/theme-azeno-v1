@@ -662,6 +662,23 @@
           }
         ],
         "default": "pagination"
+      },
+      {
+        "type": "header",
+        "content": "Security for protected collection"
+      },
+        {
+        "type": "checkbox",
+        "id": "protected_ss_maintain",
+        "label": "Maintain Session",
+        "default": false,
+        "info": "Login once until the session expires. If disabled, users will need to re-enter the password each time they visit the page, even within the same session."
+      },
+      {
+        "type": "number",
+        "id": "protected_ss_duration",
+        "label": "Session Duration (minutes)",
+        "default": 30
       }
     ]
   },

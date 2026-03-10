@@ -27,26 +27,32 @@ function readSession() {
 
 /**
  * Retrieves the protected session data, checks for expiration, and returns the relevant information
- * @returns {Object} An object containing hmac1, sha256, and expired status
+ * @returns {Object} An object containing hmac1, sha256, ttlMs, and expired status
  */
 function getProtectedSession() {
   const data = readSession();
-  if (!data) return { hmac1: null, sha256: null, expired: true };
+  const sessionObj = { hmac1: null, sha256: null, ttlMs: null, expired: true };
+  if (!data) return sessionObj;
 
   const expiresAt = Number(data.expiresAt);
   if (!expiresAt || Number.isNaN(expiresAt) || Date.now() > expiresAt) {
     clearProtectedSession();
-    return { hmac1: null, sha256: null, expired: true };
+    return sessionObj;
   }
 
   const hmac1 = data.hmac1 || null;
   const sha256 = data.sha256 || null;
   if (!hmac1 || !sha256) {
     clearProtectedSession();
-    return { hmac1: null, sha256: null, expired: false };
+    return sessionObj;
   }
 
-  return { hmac1, sha256, expired: false, ttlMs: Number(data.ttlMs) || DEFAULT_TTL_MS };
+  sessionObj.hmac1 = hmac1;
+  sessionObj.sha256 = sha256;
+  sessionObj.expired = false;
+  sessionObj.ttlMs = Number(data.ttlMs) || DEFAULT_TTL_MS;
+
+  return sessionObj;
 }
 
 /**
@@ -69,4 +75,19 @@ function setProtectedSession(hmac1, sha256, ttlMs = DEFAULT_TTL_MS) {
   localStorage.setItem(KEY_SESSION, JSON.stringify(payload));
 }
 
-export { setProtectedSession, getProtectedSession, clearProtectedSession };
+/**
+ * Refreshes the protected session by updating the expiration time while keeping the same hmac1 and sha256 values
+ * @returns {void}
+ */
+function refreshSession() {
+  const session = getProtectedSession();
+  if (session.expired) return;
+  setProtectedSession(session.hmac1, session.sha256, session.ttlMs);
+}
+
+export {
+  setProtectedSession,
+  getProtectedSession,
+  clearProtectedSession,
+  refreshSession
+};

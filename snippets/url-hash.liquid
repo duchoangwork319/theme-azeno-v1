@@ -3,26 +3,33 @@
 
   @param {collection} item - The product item from search.results
   @param {string} [url] - The URL to append the hash to if the collection is password protected
+  @param {string} [hmac] - The hashing algorithm to use (default is sha1, but sha256 is also supported)
 {% enddoc %}
 {% liquid
-  assign pwd_hashed = null
+  assign plain_hashed = null
   assign url_with_hash = url
   assign pwd = item.metafields.custom.protected_password
   if pwd != null and pwd != blank and pwd != ''
-    assign pwd = item.metafields.custom.protected_password | strip | sha256
+    assign pwd_hashed = item.metafields.custom.protected_password | strip | sha256
     assign plain = item.handle | append: item.id
-    assign pwd_hashed = plain | hmac_sha1: pwd
+    assign plain_hashed = plain
+    if hmac == "sha1" or hmac == null or hmac == blank
+      assign plain_hashed = plain | hmac_sha1: pwd_hashed
+    endif
+    if hmac == "sha256"
+      assign plain_hashed = plain | hmac_sha256: pwd_hashed
+    endif
     if url_with_hash != blank and url_with_hash != null
       if url_with_hash contains '?'
-        assign url_with_hash = url_with_hash | append: '&hash=' | append: pwd_hashed
+        assign url_with_hash = url_with_hash | append: '&hash=' | append: plain_hashed
       else
-        assign url_with_hash = url_with_hash | append: '?hash=' | append: pwd_hashed
+        assign url_with_hash = url_with_hash | append: '?hash=' | append: plain_hashed
       endif
     endif
   endif
 %}
 {% if url_with_hash -%}
   {{ url_with_hash }}
-{% elsif pwd_hashed -%}
-  {{ pwd_hashed }}
+{% elsif plain_hashed -%}
+  {{ plain_hashed }}
 {% endif -%}
