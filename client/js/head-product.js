@@ -1,26 +1,26 @@
 "use strict";
 
 import { HmacSHA1 } from "crypto-js";
+import {
+  setProtectedSession,
+  getProtectedSession,
+  clearProtectedSession
+} from "./services/session";
 
 (function () {
   const getMetaContent = (tagName) => {
-    const meta = document.querySelector(`meta[name=\"${tagName}\"]`);
+    const meta = document.querySelector(`meta[name="${tagName}"]`);
     return meta ? meta.getAttribute("content") : null;
-  };
-  const clearSession = () => {
-    sessionStorage.removeItem("ss_p_hmac1");
-    sessionStorage.removeItem("ss_p_sha256");
   };
   const redirectToRoot = () => {
     const rootUrl = getMetaContent("root-url");
     window.location.href = rootUrl || "/";
   };
 
-  const ssHmac1 = sessionStorage.getItem("ss_p_hmac1");
-  const hashPassword = sessionStorage.getItem("ss_p_sha256");
+  const { hmac1: ssHmac1, sha256: hashPassword, ttlMs } = getProtectedSession();
 
   if (!ssHmac1 || !hashPassword) {
-    clearSession();
+    clearProtectedSession();
     redirectToRoot();
     return;
   }
@@ -30,9 +30,13 @@ import { HmacSHA1 } from "crypto-js";
   const protectedHash = HmacSHA1(handle + ID, hashPassword).toString().trim();
 
   // Compare hashes
-  if (protectedHash && ssHmac1 !== protectedHash) {
-    clearSession();
+  if (ssHmac1 === protectedHash) {
+    // Refresh session
+    setProtectedSession(ssHmac1, hashPassword, ttlMs);
+  } else {
+    // Invalid session, clear and redirect
+    clearProtectedSession();
     redirectToRoot();
-    return;
   }
+  return;
 })();

@@ -2,24 +2,11 @@
 
 import { SHA256, HmacSHA256, HmacSHA1 } from "crypto-js";
 import { converToQueryString, getQueryStringParams } from "../components/helpers";
-
-/**
- * Sets the session storage with the provided HMAC and SHA256 values
- * @param {string} hmac1 - The HMAC value to be stored in session storage
- * @param {string} sha256 - The SHA256 value to be stored in session storage
- */
-function setSession(hmac1, sha256) {
-  sessionStorage.setItem("ss_p_hmac1", hmac1);
-  sessionStorage.setItem("ss_p_sha256", sha256);
-}
-
-/**
- * Clears the session storage of the protected form values
- */
-function clearSession() {
-  sessionStorage.removeItem("ss_p_hmac1");
-  sessionStorage.removeItem("ss_p_sha256");
-}
+import {
+  setProtectedSession,
+  getProtectedSession,
+  clearProtectedSession,
+} from "../services/session";
 
 /**
  * Validates the protected form submission
@@ -40,6 +27,7 @@ function validate(form, hashPassword) {
   const handle = $("[name=collection_handle]", form).val();
   const token = $("[name=token]", form).val();
   const path = $("[name=collection_url]", form).val();
+  const duration = Number($("[name=session_duration]", form).val());
   const hmac256 = HmacSHA256(handle + ID, hashPassword).toString();
   const newUrl = new URL(path, location.origin);
 
@@ -48,14 +36,14 @@ function validate(form, hashPassword) {
     showSuccess();
     setTimeout(() => {
       const hmac1 = HmacSHA1(handle + ID, hashPassword).toString();
-      setSession(hmac1, hashPassword);
+      setProtectedSession(hmac1, hashPassword, duration ? duration * 60 * 1000 : undefined);
       newUrl.searchParams.append("q", hmac1);
       window.location.href = newUrl.toString();
     });
     return true;
   } else {
     showError();
-    clearSession();
+    clearProtectedSession();
     return false;
   }
 }
@@ -70,10 +58,15 @@ function checkSessionAndRedirect() {
   const maintainSession = $("[name=maintain_session]", form).val().trim() === "true";
   if (!maintainSession) return;
 
-  const hashPassword = sessionStorage.getItem("ss_p_sha256");
-  const valid = validate(form, hashPassword);
+  const { sha256 } = getProtectedSession();
+  if (!sha256) {
+    clearProtectedSession();
+    return;
+  }
+
+  const valid = validate(form, sha256);
   if (!valid) {
-    clearSession();
+    clearProtectedSession();
   }
 }
 
