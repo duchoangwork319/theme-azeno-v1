@@ -5012,6 +5012,31 @@
           "border_color": "#ededed",
           "accordion": true
         }
+      },
+      "protected": {
+        "type": "protected",
+        "settings": {
+          "form_title": "Protected Access",
+          "description": "Please enter your password to access this content",
+          "password_label": "Password",
+          "password_placeholder": "Enter password",
+          "button_text": "Submit",
+          "error_message": "Incorrect password. Please try again.",
+          "success_message": "Access granted. Redirecting...",
+          "desktop_width_percent": 100,
+          "max_width": 600,
+          "padding_desktop": 40,
+          "padding_mobile": 20,
+          "title_size_desktop": 32,
+          "title_size_mobile": 24,
+          "background_color": "#ffffff",
+          "title_color": "#222222",
+          "input_background": "#ffffff",
+          "button_color": "#ff3535",
+          "button_hover_color": "#31373d",
+          "button_text_color": "#ffffff",
+          "maintain_session": true
+        }
       }
     },
     "content_for_index": [
