@@ -6,7 +6,7 @@
   endcapture
   assign pwd_hashed = pwd_hashed | strip
 %}
-{% if request.design_mode == false and pwd_hashed != null and pwd_hashed != incoming_hashed %}
+{% if request.design_mode == false and pwd_hashed != null and pwd_hashed != blank and pwd_hashed != '' and pwd_hashed != incoming_hashed %}
   {% section 'protected' %}
 {% else %}
   {% if request.design_mode == true %}
