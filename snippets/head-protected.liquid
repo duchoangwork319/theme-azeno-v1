@@ -43,6 +43,9 @@
     endcapture
     assign sha256_hash = sha256_hash | strip
   %}
+  {% if template contains 'protected' %}
+    <meta name="robots" content="noindex, nofollow">
+  {% endif %}
   {% if sha1_hash != null and sha1_hash != blank and sha1_hash != '' %}
     <meta name="protected-handle" content="{{ collection.handle }}">
     <meta name="protected-id" content="{{ collection.id }}">
@@ -50,7 +53,6 @@
     <meta name="protected-session-maintain" content="{{ settings.protected_ss_maintain }}">
     <meta name="protected-session-duration" content="{{ settings.protected_ss_duration }}">
     <meta name="root-url" content="{{ collection.url }}">
-    <meta name="robots" content="noindex, nofollow">
     {% if sha1_hash != incoming_hashed %}
       <meta name="protected-state" content="protected">
     {% else %}
