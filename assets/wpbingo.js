@@ -3054,8 +3054,9 @@ wpbingo.QuickView = (function () {
 			$(selectors.body).on('click', selectors.quickViewBtn, function (e) {
 				e.preventDefault();
 				var productHandle = $(this).data('handle');
+				var root = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) ? window.Shopify.routes.root : '/';
 				$(this).addClass('load-quickview');
-				$.getJSON('/products/' + productHandle + '.js', function (product) {
+				$.getJSON(root + 'products/' + productHandle + '.js', function (product) {
 					if (product.available) {
 						$this.firstAvailableVariant(product.variants, $this);
 					} else {
@@ -3252,8 +3253,9 @@ wpbingo.QuickView = (function () {
 					html += '<form method="post" id="group_table_product" action="/cart/add"  enctype="multipart/form-data" novalidate="novalidate"><input type="hidden" name="form_type" value="product"><div class="group_table"></div><div class="product-group__add-to-cart product-single__buttons"><button type="submit" class="add-group-to-cart"><span>' + wpbingo.strings.add_to_cart + '</span></button></div></form>';
 					$(".group-quickview").html(html);
 					var group = '';
+					var root = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) ? window.Shopify.routes.root : '/';
 					for (const handle of group_handle) {
-						$.getJSON('/products/' + handle + '.js', function (product) {
+						$.getJSON(root + 'products/' + handle + '.js', function (product) {
 							group += '<div data-product_id="' + product.id + '" class="item-product-group">';
 							group += '<div class="product-content">';
 							group += '<div class="product-thumb">';
@@ -5170,7 +5172,8 @@ wpbingo.click_atribute_image = function () {
 				$swatchEl.addClass("active");
 				var variants_value = wpbingo.get_variant_value($element);
 				var productHandle = $element.data('handle');
-				$.getJSON('/products/' + productHandle + '.js', function (product) {
+				var root = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) ? window.Shopify.routes.root : '/';
+				$.getJSON(root + 'products/' + productHandle + '.js', function (product) {
 					if (product.variants) {
 						wpbingo.updateVariantsButton($element, product);
 						$.each(product.variants, function (index, variant) {
@@ -5778,9 +5781,10 @@ wpbingo.sale_nofication_start = function () {
 		} else {
 			var array = array2[0];
 		}
-		$.getJSON('/products/' + array + '.js', function (product) {
+		var root = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) ? window.Shopify.routes.root : '/';
+		$.getJSON(root + 'products/' + array + '.js', function (product) {
 			$("#image", $element).attr("src", product.featured_image);
-			$("a", $element).attr("href", "/products/" + product.handle);
+			$("a", $element).attr("href", root + "products/" + product.handle);
 			$('.product-title a', $element).text(product.title);
 			$('.notification-purchased .name', $element).text(purchased[item]);
 			$('.time-suggest', $element).text(time[item]);
@@ -6154,8 +6158,9 @@ wpbingo.gift_wrap = (function () {
 			$(selectors.body).on('click', selectors.giftWrapBtn, function (e) {
 				e.preventDefault();
 				var productHandle = $(this).data('gift_card');
+				var root = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) ? window.Shopify.routes.root : '/';
 				$(this).addClass('load-giftcard');
-				$.getJSON('/products/' + productHandle + '.js', function (product) {
+				$.getJSON(root + 'products/' + productHandle + '.js', function (product) {
 					if (product.available) {
 						$this.firstAvailableVariant(product.variants, $this);
 					} else {
@@ -6595,6 +6600,7 @@ wpbingo.update_variant_cartpage = (function () {
 			$(selectors.body).on('click', selectors.EditVariantBtn, function (e) {
 				e.preventDefault();
 				var productHandle = $(this).data('handle');
+				var root = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) ? window.Shopify.routes.root : '/';
 				var qty = $(this).data('value');
 				var line = $(this).data('line');
 				var id_variant = $(this).data('id_variant');
@@ -6602,7 +6608,7 @@ wpbingo.update_variant_cartpage = (function () {
 				$(this).addClass('load-edit_variant');
 				$('.image-popup', $parent).addClass('imagepopup_active');
 				$('body').addClass('editv_overlay-layer');
-				$.getJSON('/products/' + productHandle + '.js', function (product) {
+				$.getJSON(root + 'products/' + productHandle + '.js', function (product) {
 					if (product.available) {
 						$this.firstAvailableVariant(product.variants, $this);
 					} else {
@@ -8225,7 +8231,8 @@ document.addEventListener('shopify-wishlist:updated', (event) => {
 });
 
 const fetchProductCardHTML = (handle) => {
-	const productTileTemplateUrl = `/products/${handle}?view=wishlist`;
+	const root = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) ? window.Shopify.routes.root : '/';
+	const productTileTemplateUrl = `${root}products/${handle}?view=wishlist`;
 	return fetch(productTileTemplateUrl)
 		.then((res) => res.status !== 404 ? res.text() : Promise.resolve())
 		.then((res) => {
