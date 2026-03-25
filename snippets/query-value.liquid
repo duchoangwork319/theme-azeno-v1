@@ -1,0 +1,34 @@
+{% doc %}
+  Extracts the value of the `q` query parameter from the current page canonical URL.
+
+  Splits `canonical_url` on `?` to get the query string, then splits on `&` and `=`
+  to find the `q` parameter.
+
+  The found value is assigned to `query_value` within this snippet's scope and
+  also output, so you can use the rendered output directly.
+  @param {string} url - The URL to parse, typically `canonical_url`
+  @returns {string} The value of the `q` query parameter, or an empty string if not found
+{% enddoc %}
+
+{% liquid
+  assign url_parts = url | split: '?'
+
+  if url_parts.size > 1
+    assign query_string = url_parts.last
+    assign query_pairs = query_string | split: '&'
+
+    assign query_value = ''
+
+    for pair in query_pairs
+      assign key_value = pair | split: '='
+      assign param_key = key_value | first
+      assign param_value = key_value | last
+
+      if param_key == 'q'
+        assign query_value = param_value | url_decode
+      endif
+    endfor
+  endif
+%}
+
+{{ query_value }}

@@ -32,8 +32,10 @@
 
 {% if template contains 'collection' %}
   {% liquid
-    assign url_split = canonical_url | split: '?q='
-    assign incoming_hashed = url_split[1]
+    capture incoming_hashed
+      render 'query-value', url: canonical_url
+    endcapture
+    assign incoming_hashed = incoming_hashed | strip
     capture sha1_hash
       render 'url-hash', item: collection
     endcapture

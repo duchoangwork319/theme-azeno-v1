@@ -1,6 +1,8 @@
 {% liquid
-  assign url_split = canonical_url | split: '?q='
-  assign incoming_hashed = url_split[1]
+  capture incoming_hashed
+    render 'query-value', url: canonical_url
+  endcapture
+  assign incoming_hashed = incoming_hashed | strip
   capture pwd_hashed
     render 'url-hash', item: collection
   endcapture
