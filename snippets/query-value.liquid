@@ -25,7 +25,8 @@
       assign param_value = key_value | last
 
       if param_key == 'q'
-        assign query_value = param_value | url_decode
+        assign query_value = param_value
+        break
       endif
     endfor
   endif
