@@ -1,1 +1,372 @@
-{"sections":{"breadcrumb":{"type":"page-breadcrumb","settings":{}},"main":{"type":"main-page","settings":{"padding_top":28,"padding_bottom":28}}},"order":["breadcrumb","main"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "breadcrumb": {
+      "type": "page-breadcrumb",
+      "settings": {
+        "enable": true,
+        "bgimage": false,
+        "show_pagetitle": true,
+        "show_breadcrumb": false,
+        "color_breadcrumb": "#000000",
+        "align_breadcrumb": "left"
+      }
+    },
+    "17754004728c780037": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_26d1f95_HhHtME": {
+          "type": "ai_gen_block_26d1f95",
+          "settings": {
+            "heading": "WHO WE ARE",
+            "heading_color": "#222222",
+            "heading_size": 48,
+            "heading_weight": "700",
+            "heading_spacing": 20,
+            "paragraph_text": "<p>We are triathlon athletes based in Asia.We train before work. We race on weekends. We understand what it takes to prepare for the start line and what matters when it gets hard.<br/><br/>5DLA was built from that experience.<br/><br/>We saw a gap. Many of the best endurance products in the world were not easily accessible in Asia, or were available without proper support, sizing, or context.<br/>So we decided to build something ourselves.<br/><br/>A platform that brings high-quality performance apparel and equipment from around the world into Asia-Pacific.<br/>A place where athletes can find what they actually need to improve.<br/><br/>Not more noise. Not more trends.<br/>Just better tools for better performance.<br/></p>",
+            "desktop_width_percent": 100,
+            "padding": 40,
+            "background_color": "#f5f5f5",
+            "text_color": "#1f2021",
+            "border_radius": 10,
+            "font_size": 24,
+            "line_height": 1.6,
+            "paragraph_spacing": 15
+          },
+          "blocks": {}
+        },
+        "ai_gen_block_26d1f95_qRNhck": {
+          "type": "ai_gen_block_26d1f95",
+          "settings": {
+            "heading": "Why we are called 5DLA",
+            "heading_color": "#222222",
+            "heading_size": 48,
+            "heading_weight": "700",
+            "heading_spacing": 20,
+            "paragraph_text": "<p>5DLA comes from the Cantonese phrase:<br/><br/><strong>「快啲啦」</strong><br/><br/>It means \"quicker.\"<br/>But for us, it has a deeper meaning.<br/>It is not about being quicker than others.<br/>It is about being quicker than who you were yesterday.<br/><br/>Making decisions faster.<br/>Taking action sooner.<br/>Improving, day by day.<br/><br/>Endurance sport is built on consistency.<br/>Small gains, repeated over time.<br/><br/>5DLA is a reminder of that mindset.</p>",
+            "desktop_width_percent": 100,
+            "padding": 40,
+            "background_color": "#f5f5f5",
+            "text_color": "#1f2021",
+            "border_radius": 10,
+            "font_size": 24,
+            "line_height": 1.6,
+            "paragraph_spacing": 15
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_26d1f95_HhHtME",
+        "ai_gen_block_26d1f95_qRNhck"
+      ],
+      "settings": {}
+    },
+    "featured_title_6AhyAf": {
+      "type": "featured-title",
+      "blocks": {
+        "title_HPKc7T": {
+          "type": "title",
+          "settings": {
+            "title": "If you are serious about improving, you are in the right place.",
+            "font": "",
+            "color": "#1a4c64",
+            "font_size": 50,
+            "line_height": 52,
+            "letter_spacing": 0,
+            "font_weight": "600",
+            "margin": "0px 0px 0px 0px",
+            "align": "center",
+            "width": 100,
+            "color_mobi": "#000000",
+            "font_size_mobi": 20,
+            "line_height_mobi": 20,
+            "letter_spacing_mobi": 0,
+            "margin_mobi": "0px 0px 0px 0px",
+            "align_mobi": "left",
+            "width_mobi": 100
+          }
+        }
+      },
+      "block_order": [
+        "title_HPKc7T"
+      ],
+      "name": "Title",
+      "settings": {
+        "max_width": "",
+        "fullwidth": false,
+        "padding": "40px 0px 40px 0px",
+        "margin": "",
+        "color_bg": "",
+        "width_bg": "container",
+        "padding_bg": "36px 0px 36px 0px"
+      }
+    },
+    "blocks_P3CY39": {
+      "type": "_blocks",
+      "name": "Centered paragraph box",
+      "settings": {}
+    },
+    "17753912921b3f745c": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_daf9efe_MecDhm": {
+          "type": "ai_gen_block_daf9efe",
+          "settings": {
+            "heading": "We believe performance is built on fundamentals.",
+            "text": "At the core of 5DLA is the idea of \"5D\" — the qualities that matter most for an athlete.",
+            "heading_size": 60,
+            "heading_color": "#222222",
+            "heading_weight": "400",
+            "text_size": 24,
+            "text_color": "#222222",
+            "spacing": 16,
+            "background_color": "#ffffff",
+            "border_radius": 0,
+            "padding_vertical": 40,
+            "padding_horizontal": 40,
+            "desktop_width_percent": 100
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_daf9efe_MecDhm"
+      ],
+      "settings": {}
+    },
+    "177539864948ca8a1b": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_f34fcba_JwmBRg": {
+          "type": "ai_gen_block_f34fcba",
+          "settings": {
+            "desktop_width_percent": 100,
+            "section_padding": 40,
+            "grid_gap": 20,
+            "box_1_title": "Discipline",
+            "box_1_text": "Consistency when it matters most",
+            "box_2_title": "Dedication",
+            "box_2_text": "Long-term commitment to improvement",
+            "box_3_title": "Detail",
+            "box_3_text": "Small things that make a real difference",
+            "box_4_title": "Durability",
+            "box_4_text": "Gear that performs under pressure and lasts over time",
+            "box_5_title": "Drive",
+            "box_5_text": "The mindset to keep going when it gets hard",
+            "box_bg_color": "#f8f8f8",
+            "box_hover_bg_color": "#ffffff",
+            "box_padding": 30,
+            "border_width": 1,
+            "border_color": "#dedede",
+            "border_hover_color": "#ff3535",
+            "border_radius": 8,
+            "hover_lift": 4,
+            "text_align": "center",
+            "title_size": 40,
+            "title_color": "#222222",
+            "title_hover_color": "#ff3535",
+            "title_spacing": 12,
+            "text_size": 24,
+            "text_color": "#9b9b9b",
+            "text_hover_color": "#222222"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_f34fcba_JwmBRg"
+      ],
+      "settings": {}
+    },
+    "177540464593edd69d": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_9155234_TxQXWF": {
+          "type": "ai_gen_block_9155234",
+          "settings": {
+            "image": "shopify://shop_images/image_no_text.png",
+            "image_height": 500,
+            "mobile_image_height": 400,
+            "desktop_width_percent": 100,
+            "overlay_opacity": 0.7,
+            "heading": "What We Bring",
+            "subheading": "We curate brands based on one standard: Do they help athletes perform better?",
+            "description": "We do not chase trends.\nWe do not build around discounts.\nWe focus on products that work in real conditions.\nHeat. Humidity. Long distances. \nRace-day pressure.\nEverything we bring in is selected with that in mind.",
+            "content_max_width": 750,
+            "text_alignment": "center",
+            "spacing_between_elements": 15,
+            "heading_size": 52,
+            "heading_color": "#ffffff",
+            "subheading_size": 34,
+            "subheading_color": "#ffffff",
+            "description_size": 24,
+            "description_color": "#ffffff",
+            "button_text": "Shop now",
+            "button_link": "shopify://collections/all",
+            "button_font_size": 16,
+            "button_padding_vertical": 15,
+            "button_padding_horizontal": 30,
+            "button_border_radius": 4,
+            "button_bg_color": "#ff3535",
+            "button_text_color": "#ffffff",
+            "button_hover_bg_color": "#31373d",
+            "button_hover_text_color": "#ffffff"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_9155234_TxQXWF"
+      ],
+      "settings": {}
+    },
+    "17754041558f762064": {
+      "type": "_blocks",
+      "settings": {}
+    },
+    "177539191224cdd770": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_2c88ec6_tJ7PGw": {
+          "type": "ai_gen_block_2c88ec6",
+          "settings": {
+            "title": "The Brands We Carry",
+            "title_size": 50,
+            "title_spacing": 20,
+            "title_color": "#222222",
+            "intro_text": "We partner with brands that share the same performance-first mindset.",
+            "intro_size": 24,
+            "intro_spacing": 40,
+            "brand_name": "FUSION",
+            "brand_name_size": 32,
+            "brand_name_spacing": 10,
+            "brand_name_color": "#222222",
+            "brand_subtitle": "Official Partner in Asia-Pacific",
+            "brand_subtitle_size": 24,
+            "brand_subtitle_spacing": 15,
+            "brand_subtitle_color": "#ff3535",
+            "brand_description": "Premium endurance apparel engineered for reliability, function, and race-day performance.",
+            "brand_desc_size": 20,
+            "brand_desc_spacing": 20,
+            "brand_logo": "shopify://shop_images/Screenshot_2026-04-05_213458.png",
+            "logo_max_width": 300,
+            "logo_spacing": 20,
+            "footer_text": "More brands will be added over time, but the principle remains the same.",
+            "footer_highlight": "Quality first. Always.",
+            "footer_text_size": 20,
+            "footer_spacing": 40,
+            "highlight_color": "#222222",
+            "card_background": "#ffffff",
+            "card_border_width": 1,
+            "card_border_color": "#dedede",
+            "card_border_radius": 8,
+            "card_padding": 40,
+            "card_spacing": 30,
+            "background_color": "#ffffff",
+            "text_color": "#9b9b9b",
+            "section_padding": 60,
+            "max_width": 900,
+            "desktop_width_percent": 100
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_2c88ec6_tJ7PGw"
+      ],
+      "settings": {}
+    },
+    "1775396235fcebc652": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_0b7ddde_KVfD39": {
+          "type": "ai_gen_block_0b7ddde",
+          "settings": {
+            "image": "shopify://shop_images/ironman-70-3-swimming-dark-tone2.png",
+            "desktop_width_percent": 100,
+            "title": "<p>Built With the Community</p>",
+            "body": "<p>5DLA is built with athletes, not around them.</p><p>We work with clubs, support race participation, and share knowledge that helps improve performance.</p><p>No noise. No gimmicks.<br/>Just progress, step by step.</p>",
+            "text_position": "overlay",
+            "text_alignment": "center",
+            "show_overlay": true,
+            "overlay_color": "#000000",
+            "overlay_opacity": 0.4,
+            "title_size": 80,
+            "title_color": "#ffffff",
+            "title_spacing": 40,
+            "body_size": 24,
+            "body_color": "#ffffff",
+            "content_padding": 100,
+            "content_bg_color": "#ffffff"
+          },
+          "blocks": {}
+        },
+        "ai_gen_block_3550917_7PfWqn": {
+          "type": "ai_gen_block_3550917",
+          "settings": {
+            "show_men_button": true,
+            "men_button_text": "Shop Men",
+            "men_link": "shopify://collections/men",
+            "show_women_button": true,
+            "women_button_text": "Shop Women",
+            "women_link": "shopify://collections/women",
+            "alignment": "center",
+            "button_gap": 50,
+            "section_padding": 55,
+            "desktop_width_percent": 100,
+            "button_padding_vertical": 30,
+            "button_padding_horizontal": 60,
+            "button_min_width": 300,
+            "button_font_size": 24,
+            "button_font_weight": "700",
+            "button_text_transform": "uppercase",
+            "button_border_radius": 10,
+            "button_border_width": 3,
+            "button_bg_color": "#ffffff",
+            "button_text_color": "#222222",
+            "button_border_color": "#222222",
+            "button_bg_hover_color": "#ff3535",
+            "button_text_hover_color": "#ffffff",
+            "button_border_hover_color": "#ff3535"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_0b7ddde_KVfD39",
+        "ai_gen_block_3550917_7PfWqn"
+      ],
+      "settings": {}
+    },
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "enable": true,
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    }
+  },
+  "order": [
+    "breadcrumb",
+    "17754004728c780037",
+    "featured_title_6AhyAf",
+    "blocks_P3CY39",
+    "17753912921b3f745c",
+    "177539864948ca8a1b",
+    "177540464593edd69d",
+    "17754041558f762064",
+    "177539191224cdd770",
+    "1775396235fcebc652",
+    "main"
+  ]
+}

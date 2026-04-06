@@ -78,15 +78,6 @@
             "count_sale_color": "#f11e1e"
           }
         },
-        "082a27dc-21c3-4f13-8119-690ae1b6666c": {
-          "type": "inventory",
-          "settings": {
-            "product_inventory_margin": "0 0 20px",
-            "inventory_size": 16,
-            "inventory_color": "#108043",
-            "inventory_outstock_color": "#e52828"
-          }
-        },
         "short_description_k7zGJE": {
           "type": "short_description",
           "settings": {
@@ -109,7 +100,7 @@
         "61dc1536-4060-4a7b-8978-6b15781156e7": {
           "type": "form_atc",
           "settings": {
-            "product_available_enable": true,
+            "product_available_enable": false,
             "product_selector": "radio",
             "total_product_solid": 80,
             "quantity_enabled": true,
@@ -125,7 +116,11 @@
             "bis_color": "#ffffff",
             "bis_text_color": "#000000",
             "bis_hover_color": "#31373d",
-            "bis_text_hover_color": "#ffffff"
+            "bis_text_hover_color": "#ffffff",
+            "button_title": "Size Guide",
+            "modal_title": "Size help and body measurements",
+            "modal_info": "Use the size chart to formulate your body size",
+            "footer_button_title": "Continue Shopping"
           }
         },
         "b46e544a-3024-4b16-a177-ad395195c8cb": {
@@ -288,7 +283,6 @@
         "a064944a-4bd2-4106-95e4-16c1de990486",
         "2dc0c0a9-9b28-436c-b3c3-d2a50fcb2269",
         "8968ec05-64b2-407d-972c-fc0e22724280",
-        "082a27dc-21c3-4f13-8119-690ae1b6666c",
         "short_description_k7zGJE",
         "a0be298e-fc53-45b9-8f68-f924b91f5d58",
         "61dc1536-4060-4a7b-8978-6b15781156e7",
