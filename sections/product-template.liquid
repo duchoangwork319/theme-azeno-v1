@@ -371,6 +371,24 @@
                             </div>
                           </div>
                         {%- endif -%}
+                      {% when 'static_message_by_tags' %}
+                        {% if block.settings.static_message_content != blank %}
+                          {% assign match = false %}
+                          {% if block.settings.product_tags != blank %}
+                            {% for tag in product.tags %}
+                              {% if block.settings.product_tags contains tag %}
+                                {% assign match = true %}
+                              {% endif %}
+                            {% endfor %}
+                          {% else %}
+                            {% assign match = true %}
+                          {% endif %}
+                          {% if match %}
+                            <div class="static-message">
+                              {{ block.settings.static_message_content }}
+                            </div>
+                          {% endif %}
+                        {% endif %}
                       {%- when 'buy_with' -%}
                         {%- if buy_it_with != 0 -%}
                           {% paginate collections.all.products by 1000 %}
@@ -1457,6 +1475,29 @@
           "id": "estimated_delivery_day_preorder",
           "label": "Estimated delivery days for product pre order",
           "default": 10
+        }
+      ]
+    },
+    {
+      "type": "static_message_by_tags",
+      "name": "Static Message",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Label"
+        },
+        {
+          "type": "text",
+          "id": "product_tags",
+          "label": "Show for Product tags",
+          "info": "Separate tags with commas. Example: tag1, tag2, tag3"
+        },
+        {
+          "type": "html",
+          "id": "static_message_content",
+          "label": "Static message content",
+          "default": "<p>This is a static message.</p>"
         }
       ]
     },

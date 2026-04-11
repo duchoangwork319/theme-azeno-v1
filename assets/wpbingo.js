@@ -1173,7 +1173,10 @@ wpbingo.Variants = (function () {
 			}
 		},
 		_updateDelivery: function (variant) {
-			if ($(".product-single .estimated_delivery").length > 0 && $(".product-single .section-estimated_delivery[data-incoming]").length > 0) {
+			if (
+				$(".product-single .estimated_delivery:not(.static)").length > 0
+				&& $(".product-single .section-estimated_delivery[data-incoming]").length > 0
+			) {
 				$('.product-single .section-estimated_delivery').addClass('load-delivery').css("height", $('.product-single .section-estimated_delivery').height() + 'px');
 				setTimeout(function () {
 					$(".product-single .section-estimated_delivery").load(window.location.href + ".product-single .estimated_delivery");
