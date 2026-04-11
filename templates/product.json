@@ -146,6 +146,15 @@
             "estimated_delivery_day_preorder": 10
           }
         },
+        "static_message_by_tags_QUxrG3": {
+          "type": "static_message_by_tags",
+          "disabled": true,
+          "settings": {
+            "title": "PREODER ESTIMATION MESSAGE",
+            "product_tags": "Men",
+            "static_message_content": "<div class=\"section-estimated_delivery static\">\n  <div class=\"estimated_delivery\">\n    <div class=\"icons\"><i class=\"wpb-icon-shipping3\"></i></div>\n    <div class=\"content\">\n      Shipping static message\n  </div>\n</div>\n</div>"
+          }
+        },
         "0edcb572-7ba9-4350-b207-f666123c2642": {
           "type": "buy_more",
           "settings": {
@@ -288,6 +297,7 @@
         "61dc1536-4060-4a7b-8978-6b15781156e7",
         "b46e544a-3024-4b16-a177-ad395195c8cb",
         "20c3a9e0-91de-4ae5-afdb-d78348eb3802",
+        "static_message_by_tags_QUxrG3",
         "0edcb572-7ba9-4350-b207-f666123c2642",
         "38e369aa-e4b4-48f8-b4a2-ec2268e6b30c",
         "a378b890-dfc9-4a91-9a2f-cd6520734e2d",
