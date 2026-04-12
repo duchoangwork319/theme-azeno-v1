@@ -504,6 +504,8 @@
                         </div>
                       {%- when 'buy_together' -%}
                         {%- include 'image-buy-together' -%}
+                      {%- when 'bundle_product' -%}
+                        {%- include 'mini-bundle-product' -%}
                       {%- when 'product_sku' -%}
                         {%- if product.selected_or_first_available_variant.sku != blank -%}
                           <div class="product__organization">
@@ -1608,7 +1610,7 @@
     },
     {
       "type": "buy_together",
-      "name": "Bought Together",
+      "name": "Buy Together Mini",
       "limit": 1,
       "settings": [
         {
@@ -1624,6 +1626,11 @@
           "default": "Frequently Bought Together"
         }
       ]
+    },
+    {
+      "type": "bundle_product",
+      "name": "Bundles",
+      "limit": 1
     },
     {
       "type": "product_sku",
