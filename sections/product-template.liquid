@@ -1630,7 +1630,21 @@
     {
       "type": "bundle_product",
       "name": "Bundles",
-      "limit": 1
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "allow_buy_individual",
+          "label": "Allow buy individual product",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "allow_update_qty",
+          "label": "Allow update quantity",
+          "default": false
+        }
+      ]
     },
     {
       "type": "product_sku",

@@ -16,14 +16,16 @@
       </h3>
       <form
         method="post"
-        id="buy_together_form"
+        id="miniBundleForm-{{ section.id }}"
         action="{{ routes.cart_add_url }}"
         enctype="multipart/form-data"
         novalidate="novalidate"
+        class="mini-bundle-form {% if block.settings.allow_buy_individual == true %}allow-buy-individual{% endif %} {% if block.settings.allow_update_qty == true %}allow-update-qty{% endif %}"
       >
         <input type="hidden" name="form_type" value="product">
         <div class="buy-together-products">
-          {% assign price = product.price %}
+          {% comment %} TODO: Calculate price with discounts {% endcomment %}
+          {% assign price = 0 %}
           {% assign number_item = 0 %}
           <div class="item-products-wrap">
             <div class="content-items">
@@ -60,7 +62,8 @@
           </div>
 
           <div class="item-products-wrap wpb-check">
-            {% assign price = product.selected_or_first_available_variant.price %}
+            {% comment %} TODO: Calculate price with discounts {% endcomment %}
+            {% assign price = 0 %}
             {% for product in bundle_products %}
               {% assign out_stock = '' %}
               {% assign price = price | plus: product.price %}
@@ -80,67 +83,75 @@
                   {% if out_stock != blank %}
                     class="disabled"
                   {% endif %}
+                  class="d-block"
                 >
-                  <input
-                    data-price="{{ product.price }}"
-                    data-product_id="{{ product.id }}"
-                    data-handle="{{ product.handle }}"
-                    type="checkbox"
-                    {% if out_stock == blank %}
-                      checked="checked"
-                    {% endif -%}
-                    {% if out_stock != blank %}
-                      disabled="disabled"
-                    {% endif %}
-                  >
-                  <span class="item-product-title">{{ product.title }}</span>
+                  <div>
+                    <input
+                      data-price="{{ product.price }}"
+                      data-product_id="{{ product.id }}"
+                      data-handle="{{ product.handle }}"
+                      type="checkbox"
+                      {% if out_stock == blank %}
+                        checked="checked"
+                      {% endif -%}
+                      {% if out_stock != blank %}
+                        disabled="disabled"
+                      {% endif %}
+                    >
+                    <span class="item-product-title">{{ product.title }}</span>
+                  </div>
+
                   {% assign number_variant = 0 %}
                   {%- for variant in product.variants -%}
                     {% assign number_variant = number_variant | plus: 1 %}
                   {%- endfor -%}
-                  {%- if number_variant == 1 -%}
-                    {%- for variant in product.variants -%}
-                      <span class="buy-together-price">{{ product.price | money }}</span>
-                      <input
-                        name="items[][id]"
-                        type="hidden"
-                        value="{{ variant.id  }}"
-                        {% if out_stock != blank %}
-                          disabled="disabled"
-                        {%- endif -%}
-                      >
-                    {%- endfor -%}
-                  {%- else -%}
-                    <select
-                      name="items[][id]"
-                      class="js-product-btp--{{ section.id }} product-single__variants"
-                    >
+
+                  <div class="d-flex align-items-center">
+                    {%- if number_variant == 1 -%}
                       {%- for variant in product.variants -%}
-                        {%- if variant.available -%}
-                          {%- if variant.featured_image -%}
-                            {% assign variant_featured_image = variant.featured_image.src | img_url: '' %}
+                        <span class="buy-together-price">{{ product.price | money }}</span>
+                        <input
+                          name="items[][id]"
+                          type="hidden"
+                          value="{{ variant.id  }}"
+                          {% if out_stock != blank %}
+                            disabled="disabled"
                           {%- endif -%}
-                          <option
-                            {% if variant == product.selected_or_first_available_variant %}
-                              selected="selected"
-                            {% endif %}
-                            data-price="{{ variant.price }}"
-                            data-image="{{ variant_featured_image }}"
-                            value="{{ variant.id }}"
-                          >
-                            {{ variant.title }}
-                          </option>
-                        {%- else -%}
-                          <option disabled="disabled">
-                            {{ variant.title }}
-                          </option>
-                        {%- endif -%}
+                        >
                       {%- endfor -%}
-                    </select>
-                    <span class="buy-together-price">
-                      {{- product.selected_or_first_available_variant.price | money -}}
-                    </span>
-                  {%- endif -%}
+                    {%- else -%}
+                      <select
+                        name="items[][id]"
+                        class="js-product-btp--{{ section.id }} product-single__variants"
+                      >
+                        {%- for variant in product.variants -%}
+                          {%- if variant.available -%}
+                            {%- if variant.featured_image -%}
+                              {% assign variant_featured_image = variant.featured_image.src | img_url: '' %}
+                            {%- endif -%}
+                            <option
+                              {% if variant == product.selected_or_first_available_variant %}
+                                selected="selected"
+                              {% endif %}
+                              data-price="{{ variant.price }}"
+                              data-image="{{ variant_featured_image }}"
+                              value="{{ variant.id }}"
+                            >
+                              {{ variant.title }}
+                            </option>
+                          {%- else -%}
+                            <option disabled="disabled">
+                              {{ variant.title }}
+                            </option>
+                          {%- endif -%}
+                        {%- endfor -%}
+                      </select>
+                      <span class="buy-together-price ml-auto">
+                        {{- product.selected_or_first_available_variant.price | money -}}
+                      </span>
+                    {%- endif -%}
+                  </div>
+
                   {%- if out_stock != blank -%}
                     <input
                       name="items[][quantity]"
