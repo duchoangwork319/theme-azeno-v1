@@ -206,7 +206,7 @@
 									  <button type="button" class="ajaxcart__qty-adjust ajaxcart__qty--minus wpbingo-qty__adjust wpbingo-qty__adjust--minus" data-id="{{key}}" data-qty="{{itemMinus}}" data-line="{{line}}" aria-label="{% endraw %}{{ 'cart.general.reduce_quantity' | t }}{% raw %}">
 											<i class="feather-minus" aria-hidden="true"></i>
 									  </button>
-									  <input type="text" name="updates[]" class="ajaxcart__qty-num wpbingo-qty__number" value="{{itemQty}}" min="0" data-id="{{key}}" data-line="{{line}}" aria-label="quantity" pattern="[0-9]*" data-variant_id="{{variant_id}}">
+									  <input type="text" name="updates[]" class="ajaxcart__qty-num wpbingo-qty__number" readonly value="{{itemQty}}" min="0" data-id="{{key}}" data-line="{{line}}" aria-label="quantity" pattern="[0-9]*" data-variant_id="{{variant_id}}">
 									  <button type="button" {{disabled}} class="ajaxcart__qty-adjust ajaxcart__qty--plus wpbingo-qty__adjust wpbingo-qty__adjust--plus" data-id="{{key}}" data-line="{{line}}" data-qty="{{itemAdd}}" aria-label="{% endraw %}{{ 'cart.general.increase_quantity' | t }}{% raw %}">
 											<i class="feather-plus" aria-hidden="true"></i>
 									  </button>

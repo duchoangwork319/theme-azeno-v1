@@ -4,11 +4,21 @@
   {% assign bundle_list = bundler.value %}
 
   {% for bundle_item in bundle_list %}
-    {% assign bundle_products = bundle_item.products.value %}
+    {% liquid
+      assign bundle_products = bundle_item.products.value
+      assign percentage_discount = bundle_item.percentage_discount.value
+      assign percentage_after = 0
+      assign fixed_amount_discount = bundle_item.fixed_amount_discount.value
+      assign fixed_bundle_price = bundle_item.fixed_bundle_price.value
 
-    {% if bundle_products.size == 0 %}
-      {% continue %}
-    {% endif %}
+      if bundle_products.size == 0
+        continue
+      endif
+
+      if percentage_discount != blank and percentage_discount > 0
+        assign percentage_after = 100 | minus: percentage_discount
+      endif
+    %}
 
     <div class="product_buy_together image">
       <h3 class="bundler_title">
@@ -20,7 +30,10 @@
         action="{{ routes.cart_add_url }}"
         enctype="multipart/form-data"
         novalidate="novalidate"
-        class="mini-bundle-form {% if block.settings.allow_buy_individual == true %}allow-buy-individual{% endif %} {% if block.settings.allow_update_qty == true %}allow-update-qty{% endif %}"
+        class="mini-bundle-form {% if percentage_discount != blank and percentage_discount > 0 %}has-percentage-discount{% endif %} {% if fixed_amount_discount != blank and fixed_amount_discount > 0 %}has-fixed-amount-discount{% endif %} {% if fixed_bundle_price != blank and fixed_bundle_price > 0 %}has-fixed-bundle-price{% endif %}"
+        data-percentage-discount="{{ percentage_discount }}"
+        data-fixed-amount-discount="{{ fixed_amount_discount }}"
+        data-fixed-bundle-price="{{ fixed_bundle_price }}"
       >
         <input type="hidden" name="form_type" value="product">
         <div class="buy-together-products">
@@ -65,15 +78,22 @@
             {% comment %} TODO: Calculate price with discounts {% endcomment %}
             {% assign price = 0 %}
             {% for product in bundle_products %}
-              {% assign out_stock = '' %}
-              {% assign price = price | plus: product.price %}
-              {%- for variant in product.variants -%}
-                {% if variant.inventory_management == 'shopify' and variant.inventory_policy != 'continue' %}
-                  {% if variant.inventory_quantity == 0 %}
-                    {% assign out_stock = true %}
-                  {%- endif -%}
-                {%- endif -%}
-              {%- endfor -%}
+              {% liquid
+                assign out_stock = ''
+                assign price = price | plus: product.price
+                assign origin_price = product.price
+                assign sale_price = product.price
+                if percentage_after != blank and percentage_after > 0
+                  assign sale_price = sale_price | times: percentage_after | divided_by: 100
+                endif
+                for variant in product.variants
+                  if variant.inventory_management == 'shopify' and variant.inventory_policy != 'continue'
+                    if variant.inventory_quantity == 0
+                      assign out_stock = true
+                    endif
+                  endif
+                endfor
+              %}
               <div
                 data-product_id="{{ product.id }}"
                 data-handle="{{ product.handle }}"
@@ -87,7 +107,7 @@
                 >
                   <div>
                     <input
-                      data-price="{{ product.price }}"
+                      data-price="{{ sale_price }}"
                       data-product_id="{{ product.id }}"
                       data-handle="{{ product.handle }}"
                       type="checkbox"
@@ -98,58 +118,53 @@
                         disabled="disabled"
                       {% endif %}
                     >
-                    <span class="item-product-title">{{ product.title }}</span>
+                    <span class="item-product-title">
+                      {{ product.title }}
+                    </span>
                   </div>
 
-                  {% assign number_variant = 0 %}
-                  {%- for variant in product.variants -%}
-                    {% assign number_variant = number_variant | plus: 1 %}
-                  {%- endfor -%}
-
                   <div class="d-flex align-items-center">
-                    {%- if number_variant == 1 -%}
+                    <select
+                      name="items[][id]"
+                      class="js-product-btp--{{ section.id }} product-single__variants"
+                    >
                       {%- for variant in product.variants -%}
-                        <span class="buy-together-price">{{ product.price | money }}</span>
-                        <input
-                          name="items[][id]"
-                          type="hidden"
-                          value="{{ variant.id  }}"
-                          {% if out_stock != blank %}
+                        {%- if variant.available -%}
+                          {%- if variant.featured_image -%}
+                            {% assign variant_featured_image = variant.featured_image.src | img_url: '' %}
+                          {%- endif -%}
+                          <option
+                            {% if variant == product.selected_or_first_available_variant %}
+                              selected="selected"
+                            {% endif %}
+                            data-price="{{ variant.price }}"
+                            data-image="{{ variant_featured_image }}"
+                            value="{{ variant.id }}"
+                          >
+                            {{ variant.title }}
+                          </option>
+                        {%- else -%}
+                          <option
                             disabled="disabled"
-                          {%- endif -%}
-                        >
+                            data-price="{{ variant.price }}"
+                            data-image="{{ variant_featured_image }}"
+                            value="{{ variant.id }}"
+                          >
+                            {{ variant.title }}
+                          </option>
+                        {%- endif -%}
                       {%- endfor -%}
-                    {%- else -%}
-                      <select
-                        name="items[][id]"
-                        class="js-product-btp--{{ section.id }} product-single__variants"
-                      >
-                        {%- for variant in product.variants -%}
-                          {%- if variant.available -%}
-                            {%- if variant.featured_image -%}
-                              {% assign variant_featured_image = variant.featured_image.src | img_url: '' %}
-                            {%- endif -%}
-                            <option
-                              {% if variant == product.selected_or_first_available_variant %}
-                                selected="selected"
-                              {% endif %}
-                              data-price="{{ variant.price }}"
-                              data-image="{{ variant_featured_image }}"
-                              value="{{ variant.id }}"
-                            >
-                              {{ variant.title }}
-                            </option>
-                          {%- else -%}
-                            <option disabled="disabled">
-                              {{ variant.title }}
-                            </option>
-                          {%- endif -%}
-                        {%- endfor -%}
-                      </select>
-                      <span class="buy-together-price ml-auto">
-                        {{- product.selected_or_first_available_variant.price | money -}}
-                      </span>
-                    {%- endif -%}
+                    </select>
+                    <span class="buy-together-price ml-auto">
+                      {% if origin_price != sale_price %}
+                        <span class="original-price">{{ origin_price | money }}</span>
+                        <span class="sale-price">{{ sale_price | money }}</span>
+                      {% else %}
+                        <span class="price">
+                          {{ origin_price | money }}
+                        </span>
+                      {% endif %}
+                    </span>
                   </div>
 
                   {%- if out_stock != blank -%}
@@ -169,8 +184,22 @@
           </div>
 
           <div class="item-content-right">
-            <div class="total-price-html">
+            <div class="total-price-html" data-percentage_discount="{{ percentage_discount }}">
               {{ 'products.product.total_price' | t }}
+              {% liquid
+                if percentage_after != blank and percentage_after > 0
+                  assign price = price | times: percentage_after | divided_by: 100
+                endif
+                if fixed_amount_discount != blank and fixed_amount_discount > 0
+                  assign price = price | minus: fixed_amount_discount
+                  if price <= 0
+                    assign price = 0
+                  endif
+                endif
+                if fixed_bundle_price != blank and fixed_bundle_price > 0
+                  assign price = fixed_bundle_price
+                endif
+              %}
               <span>{{ price | money }}</span>
             </div>
             <span class="for-items-text">

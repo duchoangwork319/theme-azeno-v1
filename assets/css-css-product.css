@@ -3274,6 +3274,12 @@
 	color: var(--theme-color);
 }
 
+.product_buy_together .wpb-check .buy-together-price .original-price {
+	color: var(--text-color);
+	font-size: calc(var(--font-size-base) - 3px);
+	text-decoration: line-through;
+}
+
 .product_buy_together .wpb-check .item-product label {
 	cursor: pointer;
 	position: relative;

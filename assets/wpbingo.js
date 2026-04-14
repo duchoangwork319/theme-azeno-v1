@@ -3806,7 +3806,7 @@ ShopifyAPI.getCart = function (callback, added) {
 	});
 };
 
-ShopifyAPI.changeItem = function (line, quantity, callback, modal) {
+ShopifyAPI.changeItem = function (line, quantity, callback, modal, modalCallback) {
 	var params = {
 		type: 'POST',
 		url: '/cart/change.js',
@@ -3817,6 +3817,10 @@ ShopifyAPI.changeItem = function (line, quantity, callback, modal) {
 				callback(cart);
 			}
 			if (modal) {
+				if (typeof modalCallback === 'function') {
+					modalCallback(cart);
+					return;
+				}
 				var moneyFormat = '${{amount}}';
 				if (wpbingo.strings.moneyFormat !== undefined) {
 					moneyFormat = wpbingo.strings.moneyFormat;
@@ -3854,6 +3858,8 @@ ShopifyAPI.changeItem = function (line, quantity, callback, modal) {
 
 var ajaxCart = (function (module, $) {
 	'use strict';
+
+	const formModalSelector = '#form-modal-addtocart';
 
 	// Public functions
 	var init, loadCart, cartModalAddedLineItems, createCartModal;
@@ -4054,7 +4060,8 @@ var ajaxCart = (function (module, $) {
 			final_line_price: wpbingo.Currency.formatMoney(lineItem.final_line_price, settings.moneyFormat),
 			final_price: wpbingo.Currency.formatMoney(lineItem.final_price, settings.moneyFormat),
 			quantity: lineItem.quantity,
-			disabled: disabled
+			disabled: disabled,
+			line_key: lineItem.key
 		}
 		$body.append(template(data));
 		if (data.variant != null) {
@@ -4100,7 +4107,7 @@ var ajaxCart = (function (module, $) {
 		$('<div>').addClass('cart-modal__product-wrapper col-12 col-md-6').insertBefore(content);
 		var wrapper = source.find('.cart-modal__product-wrapper');
 		source.find('.cart-modal__middle').addClass('row');
-		source.find('form#form-modal-addtocart').addClass('multi-item');
+		source.find('form' + formModalSelector).addClass('multi-item');
 
 		for (var i = 0; i < lineItems.length; i++) {
 			var lineItemTemplate = Handlebars.compile(lineItemSource);
@@ -4129,7 +4136,8 @@ var ajaxCart = (function (module, $) {
 				final_line_price: wpbingo.Currency.formatMoney(lineItem.final_line_price, settings.moneyFormat),
 				final_price: wpbingo.Currency.formatMoney(lineItem.final_price, settings.moneyFormat),
 				quantity: lineItem.quantity,
-				disabled: disabled
+				disabled: disabled,
+				line_key: lineItem.key
 			};
 
 			wrapper.append(lineItemTemplate(data));
@@ -4144,10 +4152,10 @@ var ajaxCart = (function (module, $) {
 				for (var j in data.discount) {
 					$('.js-cart-modal .discount').text(data.discount[j].title);
 				}
-				$('#form-modal-addtocart .modalcart__line_price .price_discount').html(wpbingo.Currency.formatMoney(lineItem.original_line_price, settings.moneyFormat));
+				$(formModalSelector + ' .modalcart__line_price .price_discount').html(wpbingo.Currency.formatMoney(lineItem.original_line_price, settings.moneyFormat));
 			} else {
 				$('.js-cart-modal .discount').empty();
-				$('#form-modal-addtocart .modalcart__line_price .price_discount').empty();
+				$(formModalSelector + ' .modalcart__line_price .price_discount').empty();
 			}
 		}
 
@@ -4174,19 +4182,21 @@ var ajaxCart = (function (module, $) {
 	};
 
 	cartModalupdate = function (cart) {
-		$('#form-modal-addtocart .modalcart__quantity input').change(function () {
-			$('#form-modal-addtocart .cart-modal__middle').addClass('load_modal');
-			var id = $('#form-modal-addtocart input[data-modal-variant]').val();
-			var qty = $('#form-modal-addtocart .modalcart__quantity input').val();
+		let adjustSelector = formModalSelector + ' .modalcart__quantity .ajaxcart__qty-adjust';
+		// Enter quantity manually
+		$(formModalSelector + ' .modalcart__quantity input').change(function () {
+			$(formModalSelector + ' .cart-modal__middle').addClass('load_modal');
+			var id = $(formModalSelector + ' input[data-modal-variant]').val();
+			var qty = $(formModalSelector + ' .modalcart__quantity input').val();
 			var modal = true;
 			var count = $('#count_quantity [data-variant_id="' + id + '"]').data('count_quantity');
 			if (qty >= count) {
 				var qty = count;
-				$('#form-modal-addtocart .modalcart__quantity .ajaxcart__qty-adjust.wpbingo-qty__adjust--plus').prop('disabled', true);
+				$(adjustSelector + '.wpbingo-qty__adjust--plus').prop('disabled', true);
 			} else {
-				$('#form-modal-addtocart .modalcart__quantity .ajaxcart__qty-adjust.wpbingo-qty__adjust--plus').prop('disabled', false);
+				$(adjustSelector + '.wpbingo-qty__adjust--plus').prop('disabled', false);
 			}
-			$('#form-modal-addtocart .modalcart__quantity input').val(qty);
+			$(formModalSelector + ' .modalcart__quantity input').val(qty);
 			for (var j in cart.items) {
 				if (id == cart.items[j].variant_id) {
 					var line = parseInt(j) + 1;
@@ -4194,54 +4204,62 @@ var ajaxCart = (function (module, $) {
 			}
 			ShopifyAPI.changeItem(line, qty, adjustCartCallback, modal);
 		});
-		$('#form-modal-addtocart .modalcart__quantity .ajaxcart__qty-adjust').on('click', function () {
+
+		// Click plus/minus button
+		$('body').off('click.modalAdjust').on('click.modalAdjust', adjustSelector, function () {
 			let self = $(this);
-			let form = self.closest('#form-modal-addtocart');
+			let form = self.closest(formModalSelector);
+			let modalMiddle = form.find('.cart-modal__middle');
+			modalMiddle.addClass('load_modal');
 
-			form.find('.cart-modal__middle').addClass('load_modal');
-
-			var isMulti = form.hasClass('multi-item');
-			var productModalCard = self.closest('.cart-modal__product');
-			var id = !isMulti
+			let isMulti = form.hasClass('multi-item');
+			let productModalCard = self.closest('.cart-modal__product');
+			let id = !isMulti
 				? form.find('input[data-modal-variant]').val()
 				: productModalCard.find('input[data-modal-variant]').val();
-			var modal = true;
+			let lineKey = productModalCard.data('line-key');
+			let modal = true, line;
 
-			for (var j in cart.items) {
-				if (id == cart.items[j].variant_id) {
-					var line = parseInt(j) + 1;
-					var lineItem = cart.items[j];
+			ShopifyAPI.getCart(function (cart) {
+				for (let j in cart.items) {
+					if (lineKey == cart.items[j].key) {
+						line = parseInt(j) + 1;
+						break;
+					}
 				}
-			}
-
-			setTimeout(function () {
-				var qtyInput = !isMulti
+				let qtyInput = !isMulti
 					? form.find('.modalcart__quantity input')
 					: productModalCard.find('.modalcart__quantity input');
-				var qty = qtyInput.val();
-				var count = $('#count_quantity [data-variant_id="' + id + '"]').data('count_quantity');
-				var plusBtnSel = '.modalcart__quantity .ajaxcart__qty-adjust.wpbingo-qty__adjust--plus';
-				var minusBtnSel = '.modalcart__quantity .ajaxcart__qty-adjust.wpbingo-qty__adjust--minus';
-				var plusBtn = !isMulti
+				let qty = qtyInput.val();
+				let count = $('#count_quantity [data-variant_id="' + id + '"]').data('count_quantity');
+				let plusBtnSel = '.modalcart__quantity .ajaxcart__qty-adjust.wpbingo-qty__adjust--plus';
+				let minusBtnSel = '.modalcart__quantity .ajaxcart__qty-adjust.wpbingo-qty__adjust--minus';
+				let plusBtn = !isMulti
 					? form.find(plusBtnSel)
 					: productModalCard.find(plusBtnSel);
-				var minusBtn = !isMulti
+				let minusBtn = !isMulti
 					? form.find(minusBtnSel)
 					: productModalCard.find(minusBtnSel);
 				if (qty >= count) {
-					var qty = count;
+					qty = count;
 					plusBtn.prop('disabled', true);
 				} else {
 					plusBtn.prop('disabled', false);
 				}
 				qtyInput.val(qty);
-				if (qty == 1) {
-					minusBtn.prop('disabled', true);
+				minusBtn.prop('disabled', !!(qty == 1));
+
+				if (isMulti) {
+					ShopifyAPI.changeItem(line, qty, adjustCartCallback, modal, (cart) => {
+						let source = ajaxCart.methods.createCartModal(cart.items);
+						let newWrapper = $('.cart-modal__product-wrapper', source);
+						form.find('.cart-modal__product-wrapper').replaceWith(newWrapper);
+						modalMiddle.removeClass('load_modal');
+					});
 				} else {
-					minusBtn.prop('disabled', false);
+					ShopifyAPI.changeItem(line, qty, adjustCartCallback, modal);
 				}
-				ShopifyAPI.changeItem(line, qty, adjustCartCallback, modal);
-			}, 500);
+			});
 		});
 	};
 
@@ -4505,7 +4523,7 @@ var ajaxCart = (function (module, $) {
 			}
 		});
 
-		$body.on('change', '.ajaxcart__qty-num', function () {
+		$body.on('change.adjustInput', '.ajaxcart__qty-num', function () {
 			var id = $(this).data('variant_id');
 			var count = $('#count_quantity [data-variant_id="' + id + '"]').data('count_quantity');
 			if (isUpdating) {
