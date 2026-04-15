@@ -479,7 +479,6 @@ wpbingo.collectionPages = (function () {
 							type: 'get',
 							url: pageURL,
 							beforeSend: function (xhr) {
-
 								canbeloaded = false;
 							},
 							success: function (data) {
@@ -509,6 +508,7 @@ wpbingo.collectionPages = (function () {
 								wpbingo.christmas_snow();
 								wpbingo.sidebarCollection();
 								wpbingo.product_result_count();
+								qtyInputToReadonly();
 							},
 							error: function (xhr, text) {
 								console.log(text);
@@ -583,6 +583,7 @@ wpbingo.collectionPages = (function () {
 						$('#pre-loading .pre-loading__bar').css({ "width": "0" });
 						$("#pre-loading").removeClass('load-product');
 					}, 500);
+					qtyInputToReadonly();
 				},
 				error: function (xhr, text) {
 					console.log(text);
@@ -667,6 +668,14 @@ wpbingo.collectionPages = (function () {
 	};
 	return init;
 })();
+
+/**
+ * Block all quantity input to prevent manually input value
+ * only allow change value by click plus or minus button
+ */
+function qtyInputToReadonly() {
+	$('.js-qty-number.wpbingo-qty__number').prop('readonly', true);
+}
 
 /**
  * Normalizes a color option value to create a consistent token for matching.
@@ -3856,6 +3865,22 @@ ShopifyAPI.changeItem = function (line, quantity, callback, modal, modalCallback
 	jQuery.ajax(params);
 };
 
+ShopifyAPI.clearCart = function (callback) {
+	$.ajax({
+		type: 'POST',
+		url: '/cart/clear.js',
+		dataType: 'json',
+		success: function (cart) {
+			if (typeof callback === 'function') {
+				callback(cart);
+			}
+		},
+		error: function (XMLHttpRequest) {
+			ShopifyAPI.onError(XMLHttpRequest);
+		}
+	});
+}
+
 var ajaxCart = (function (module, $) {
 	'use strict';
 
@@ -4013,12 +4038,14 @@ var ajaxCart = (function (module, $) {
 	};
 
 	itemAddedCallback = function (lineItem) {
-		$('form .btn--add-to-cart').removeAttr('disabled').find('.spinner-border').remove();
-		$('form .btn--add-to-cart').removeClass('is-adding').addClass('is-added');
-		if (wpbingo.settings.cartType == 'modal') {
-			cartModalAdded(lineItem);
-		}
-		ShopifyAPI.getCart(cartUpdateCallback, true);
+		ShopifyAPI.getCart((cart, added) => {
+			$('form .btn--add-to-cart').removeAttr('disabled').find('.spinner-border').remove();
+			$('form .btn--add-to-cart').removeClass('is-adding').addClass('is-added');
+			cartUpdateCallback(cart, added);
+			if (wpbingo.settings.cartType == 'modal') {
+				cartModalAddedLineItems(cart.items);
+			}
+		}, true);
 		wpbingo.discount_single();
 	};
 
@@ -8904,4 +8931,5 @@ $(document).ready(function () {
 			}
 		});
 	}
+	qtyInputToReadonly();
 });
