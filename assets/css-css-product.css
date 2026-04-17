@@ -3185,7 +3185,13 @@
 	z-index: 1;
 }
 
-.product_buy_together .buy-together-add-all-to-cart:hover {
+.product_buy_together .buy-together-add-all-to-cart:disabled {
+	background: var(--gray-dark);
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.product_buy_together .buy-together-add-all-to-cart:not(:disabled):hover {
 	background: var(--hover-color);
 }
 
@@ -3310,6 +3316,10 @@
 	cursor: not-allowed;
 }
 
+.product_buy_together .wpb-check .item-product label.disabled .original-price {
+	text-decoration: none;
+}
+
 .product_buy_together .wpb-check .item-product label select {
 	height: 30px;
 	border-color: #e6e6e6;
@@ -3319,10 +3329,6 @@
 .product_buy_together .wpb-check .item-product.active label:before {
 	box-shadow: inset 0 0 0 3px #fff;
 	border-color: var(--gray-dark);
-}
-
-.product_buy_together.image {
-	margin-top: 30px;
 }
 
 .product_buy_together.image .bundler_title {
@@ -6451,5 +6457,25 @@ body.template-product .wpbingo-breadcrumbs {
 
 	.sticky-cart-single .product-single__buttons .product-quantity {
 		display: none;
+	}
+}
+
+@media (min-width: 1367px) {
+	.product-single.gird-mordern .row.sticky>div.bwp-single-info.has-bundle {
+		top: -30rem;
+	}
+
+	.product-single.gird-mordern .row.sticky>div.bwp-single-info.has-bundle.has-est-msg {
+		top: -32rem;
+	}
+}
+
+@media (min-width: 1440px) {
+	.product-single.gird-mordern .row.sticky>div.bwp-single-info.has-bundle {
+		top: -24rem;
+	}
+
+	.product-single.gird-mordern .row.sticky>div.bwp-single-info.has-bundle.has-est-msg {
+		top: -26rem;
 	}
 }

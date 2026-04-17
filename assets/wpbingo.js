@@ -1927,26 +1927,33 @@ wpbingo.Product = (function () {
 				var $parent = $this.closest('.item-product');
 				var this_product_id = $parent.attr('data-product_id');
 				var $parent_image = $this.closest('.buy-together-products').find('.item-product-inner[data-product_id="' + this_product_id + '"]');
-				var this_price_selected = $this.find(':selected').data('price');
-				var this_image_selected = $this.find(':selected').data('image');
-				$('.buy-together-price', $parent).html('<span class="money">' + wpbingo.Currency.formatMoney(this_price_selected, moneyFormat) + '</span>');
+				var selected = $this.find(':selected');
+				// var this_price_selected = selected.data('price');
+				var this_image_selected = selected.data('image');
+				var originalPrice = Number(selected.data('origin-price'));
+				var salePrice = Number(selected.data('sale-price'));
+				var thisPriceEl = $('.buy-together-price', $parent);
+				if (originalPrice != salePrice) {
+					thisPriceEl.html(`
+						<span class="original-price">${wpbingo.Currency.formatMoney(originalPrice, moneyFormat)}</span>
+						<span class="sale-price">${wpbingo.Currency.formatMoney(salePrice, moneyFormat)}</span>
+					`);
+				} else {
+					thisPriceEl.html('<span class="price">' + wpbingo.Currency.formatMoney(salePrice, moneyFormat) + '</span>');
+				}
+				// Update images
 				if (this_image_selected) {
 					$(".image img", $parent_image).attr("src", this_image_selected);
 					$(".image img", $parent_image).attr("srcset", this_image_selected);
 				}
+				// Update total price and total items
 				$thisWrap.find('.item-product').each(function () {
 					let item = $(this);
-					if (item.hasClass('active')) {
-						if ($('select', item).length > 0) {
-							var this_price = $('select', item).find(':selected').data('price');
-						} else {
-							var this_price = $('input[type="checkbox"]', item).attr('data-price');
-						}
-						if (!isNaN(this_price)) {
-							total_price = Number(total_price) + Number(this_price);
-						}
-						Number(total_items++);
+					let _salePrice = $('select', item).find(':selected').data('sale-price');
+					if (!isNaN(_salePrice)) {
+						total_price = Number(total_price) + Number(_salePrice);
 					}
+					Number(total_items++);
 				});
 				$thisWpbingoWrap.find('.total-price-html span').html('<span class="money">' + wpbingo.Currency.formatMoney(total_price, moneyFormat) + '</span>');
 				if ($('.bwp_currency').length > 0) { Currency.Currency_customer(true); }

@@ -6,6 +6,7 @@
   {% for bundle_item in bundle_list %}
     {% liquid
       assign bundle_products = bundle_item.products.value
+      assign callout_message = bundle_item.callout_message.value
       assign percentage_discount = bundle_item.percentage_discount.value
       assign percentage_after = 0
       assign fixed_amount_discount = bundle_item.fixed_amount_discount.value
@@ -18,9 +19,19 @@
       if percentage_discount != blank and percentage_discount > 0
         assign percentage_after = 100 | minus: percentage_discount
       endif
+
+      assign has_component_oos = false
+      for innerProd in bundle_products
+        for variant in innerProd.variants
+          if variant.inventory_policy != 'continue' and variant.inventory_quantity == 0
+            assign has_component_oos = true
+            break
+          endif
+        endfor
+      endfor
     %}
 
-    <div class="product_buy_together image">
+    <div class="product_buy_together image {% if has_component_oos %}has-component-oos{% endif %}">
       <h3 class="bundler_title">
         {{ bundle_item.bundle_name.value }}
       </h3>
@@ -40,31 +51,35 @@
           {% comment %} TODO: Calculate price with discounts {% endcomment %}
           {% assign price = 0 %}
           {% assign number_item = 0 %}
+          {% if callout_message != blank %}
+            <div class="callout-message">
+              {{ callout_message }}
+            </div>
+          {% endif %}
           <div class="item-products-wrap">
             <div class="content-items">
-              {% for product in bundle_products %}
-                {%- for variant in product.variants -%}
-                  {% if variant.inventory_management == 'shopify' and variant.inventory_policy != 'continue' %}
-                    {% if variant.inventory_quantity == 0 %}
-                      {% assign out_stock = true %}
-                    {%- endif -%}
-                  {%- endif -%}
-                {%- endfor -%}
-                {% if out_stock == blank %}
-                  {% assign price = price | plus: product.price %}
-                  {% assign number_item = number_item | plus: 1 %}
-                {%- endif -%}
+              {% for innerProd in bundle_products %}
+                {% liquid
+                  assign out_stock = true
+                  for variant in innerProd.variants
+                    if variant.inventory_policy != 'continue' and variant.inventory_quantity > 0
+                      assign out_stock = false
+                    elsif variant.inventory_policy == 'continue'
+                      assign out_stock = false
+                    endif
+                  endfor
+                %}
                 <div
-                  data-product_id="{{ product.id }}"
-                  data-handle="{{ product.handle }}"
+                  data-product_id="{{ innerProd.id }}"
+                  data-handle="{{ innerProd.handle }}"
                   class="item-product-inner {% if out_stock %}buy-together-hidden{%- endif -%}"
                 >
                   <div class="image">
-                    <a href="{{ product.url }}">
-                      {% if product.selected_or_first_available_variant.featured_image != blank %}
-                        {% assign image = product.selected_or_first_available_variant.featured_image %}
+                    <a href="{{ innerProd.url }}">
+                      {% if innerProd.selected_or_first_available_variant.featured_image != blank %}
+                        {% assign image = innerProd.selected_or_first_available_variant.featured_image %}
                       {%- else -%}
-                        {% assign image = product.featured_image %}
+                        {% assign image = innerProd.featured_image %}
                       {%- endif -%}
                       {% include 'img-global' with image: image , class: "featured-banner__img", effect: "fade-in" %}
                     </a>
@@ -77,49 +92,47 @@
           <div class="item-products-wrap wpb-check">
             {% comment %} TODO: Calculate price with discounts {% endcomment %}
             {% assign price = 0 %}
-            {% for product in bundle_products %}
+            {% for innerProd in bundle_products %}
               {% liquid
-                assign out_stock = ''
-                assign price = price | plus: product.price
-                assign origin_price = product.price
-                assign sale_price = product.price
+                assign price = price | plus: innerProd.price
+                assign number_item = number_item | plus: 1
+                assign origin_price = innerProd.price
+                assign sale_price = innerProd.price
                 if percentage_after != blank and percentage_after > 0
                   assign sale_price = sale_price | times: percentage_after | divided_by: 100
                 endif
-                for variant in product.variants
-                  if variant.inventory_management == 'shopify' and variant.inventory_policy != 'continue'
-                    if variant.inventory_quantity == 0
-                      assign out_stock = true
-                    endif
+                assign out_stock = true
+                for variant in innerProd.variants
+                  if variant.inventory_policy != 'continue' and variant.inventory_quantity > 0
+                    assign out_stock = false
+                  elsif variant.inventory_policy == 'continue'
+                    assign out_stock = false
                   endif
                 endfor
               %}
               <div
-                data-product_id="{{ product.id }}"
-                data-handle="{{ product.handle }}"
-                class="item-product{% if out_stock == blank %} active{% endif %}"
+                data-product_id="{{ innerProd.id }}"
+                data-handle="{{ innerProd.handle }}"
+                class="item-product {% if out_stock == false %}active{% endif %}"
               >
                 <label
-                  {% if out_stock != blank %}
-                    class="disabled"
-                  {% endif %}
-                  class="d-block"
+                  class="d-block {% if out_stock != false %}disabled{% endif %}"
                 >
                   <div>
                     <input
                       data-price="{{ sale_price }}"
-                      data-product_id="{{ product.id }}"
-                      data-handle="{{ product.handle }}"
+                      data-product_id="{{ innerProd.id }}"
+                      data-handle="{{ innerProd.handle }}"
                       type="checkbox"
-                      {% if out_stock == blank %}
+                      {% if out_stock == false %}
                         checked="checked"
                       {% endif -%}
-                      {% if out_stock != blank %}
+                      {% if out_stock != false %}
                         disabled="disabled"
                       {% endif %}
                     >
                     <span class="item-product-title">
-                      {{ product.title }}
+                      {{ innerProd.title }}
                     </span>
                   </div>
 
@@ -127,32 +140,32 @@
                     <select
                       name="items[][id]"
                       class="js-product-btp--{{ section.id }} product-single__variants"
+                      {% if out_stock != false %}
+                        disabled="disabled"
+                      {% endif -%}
                     >
-                      {%- for variant in product.variants -%}
-                        {%- if variant.available -%}
-                          {%- if variant.featured_image -%}
-                            {% assign variant_featured_image = variant.featured_image.src | img_url: '' %}
-                          {%- endif -%}
-                          <option
-                            {% if variant == product.selected_or_first_available_variant %}
-                              selected="selected"
-                            {% endif %}
-                            data-price="{{ variant.price }}"
-                            data-image="{{ variant_featured_image }}"
-                            value="{{ variant.id }}"
-                          >
-                            {{ variant.title }}
-                          </option>
-                        {%- else -%}
-                          <option
-                            disabled="disabled"
-                            data-price="{{ variant.price }}"
-                            data-image="{{ variant_featured_image }}"
-                            value="{{ variant.id }}"
-                          >
-                            {{ variant.title }}
-                          </option>
+                      {%- for variant in innerProd.variants -%}
+                        {%- if variant.featured_image -%}
+                          {% assign variant_featured_image = variant.featured_image.src | img_url: '' %}
                         {%- endif -%}
+                        <option
+                          {% if forloop.first %}
+                            selected="selected"
+                          {% endif %}
+                          {% if variant.available == false %}
+                            disabled="disabled"
+                          {% endif %}
+                          data-price="{{ variant.price }}"
+                          data-origin-price="{{ origin_price }}"
+                          data-sale-price="{{ sale_price }}"
+                          data-qty="{{ variant.inventory_quantity }}"
+                          {% if variant_featured_image != blank %}
+                            data-image="{{ variant_featured_image }}"
+                          {% endif %}
+                          value="{{ variant.id }}"
+                        >
+                          {{ variant.title }}
+                        </option>
                       {%- endfor -%}
                     </select>
                     <span class="buy-together-price ml-auto">
@@ -161,13 +174,13 @@
                         <span class="sale-price">{{ sale_price | money }}</span>
                       {% else %}
                         <span class="price">
-                          {{ origin_price | money }}
+                          {{ sale_price | money }}
                         </span>
                       {% endif %}
                     </span>
                   </div>
 
-                  {%- if out_stock != blank -%}
+                  {%- if out_stock != false -%}
                     <input
                       name="items[][quantity]"
                       type="number"
@@ -206,7 +219,13 @@
               For <span>{{ number_item }}</span> item(s)
             </span>
             <div class="buy-together-cart">
-              <button type="submit" class="btn--add-to-cart buy-together-add-all-to-cart">
+              <button
+                type="submit"
+                class="btn--add-to-cart buy-together-add-all-to-cart"
+                {% if has_component_oos == true %}
+                  disabled="disabled"
+                {% endif %}
+              >
                 <span>{{ 'products.product.add_all_to_cart' | t }}</span>
               </button>
             </div>
