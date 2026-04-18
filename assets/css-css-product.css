@@ -3185,14 +3185,33 @@
 	z-index: 1;
 }
 
-.product_buy_together .buy-together-add-all-to-cart:disabled {
-	background: var(--gray-dark);
-	opacity: 0.5;
-	cursor: not-allowed;
-}
-
 .product_buy_together .buy-together-add-all-to-cart:not(:disabled):hover {
 	background: var(--hover-color);
+}
+
+.product_buy_together .buy-together-add-all-to-cart[disabled] {
+	background: #f1f1f1;
+	color: var(--gray-dark);
+	opacity: 1;
+}
+
+.product_buy_together .buy-together-add-all-to-cart[disabled]:hover {
+	cursor: not-allowed;
+	background: #f1f1f1;
+	-webkit-animation-name: none;
+	animation-name: none;
+}
+
+.product_buy_together .buy-together-add-all-to-cart[disabled].is-adding {
+	opacity: 1;
+}
+
+.product_buy_together .buy-together-add-all-to-cart[disabled].is-adding:hover {
+	cursor: wait;
+}
+
+.product_buy_together .buy-together-add-all-to-cart[disabled].is-adding *:not(.spinner-border) {
+	display: none;
 }
 
 .product_buy_together .buy-together-add-all-to-cart.active:before {

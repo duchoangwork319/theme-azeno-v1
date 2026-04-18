@@ -22,12 +22,20 @@
 
       assign has_component_oos = false
       for innerProd in bundle_products
+        assign variant_oos = true
         for variant in innerProd.variants
-          if variant.inventory_policy != 'continue' and variant.inventory_quantity == 0
-            assign has_component_oos = true
+          if variant.inventory_policy != 'continue' and variant.inventory_quantity > 0
+            assign variant_oos = false
+            break
+          elsif variant.inventory_policy == 'continue'
+            assign variant_oos = false
             break
           endif
         endfor
+        if variant_oos == true
+          assign has_component_oos = true
+          break
+        endif
       endfor
     %}
 

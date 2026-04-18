@@ -166,7 +166,11 @@
 					<input type="hidden" data-modal-variant name="id" value="{{variant_id}}">
 				{% endraw %}
 				<div class="cart-modal__middle">
-					<div class="cart-modal__product" {% raw %}data-line-key="{{line_key}}"{% endraw %}>
+					<div class="cart-modal__product"
+						{% raw %}data-line="{{line}}"{% endraw %}
+						{% raw %}data-line-key="{{line_key}}"{% endraw %}
+						{% raw %}data-variant-id="{{variant_id}}"{% endraw %}
+					>
 						<div class="image-product">
 							{% raw %}<img class="img-fluid" alt="{{name}}" src="{{image}}"/>{% endraw %}
 						</div>
@@ -179,7 +183,17 @@
 									<button type="button" class="ajaxcart__qty-adjust ajaxcart__qty--minus wpbingo-qty__adjust wpbingo-qty__adjust--minus" aria-label="{% endraw %}{{ 'cart.general.reduce_quantity' | t }}{% raw %}">
 										<i class="feather-minus" aria-hidden="true"></i>
 									</button>
-									<input type="text" name="quantity" class="ajaxcart__qty-num wpbingo-qty__number" readonly value="{{quantity}}" min="0" aria-label="quantity" pattern="[0-9]*">
+									<input
+										type="text"
+										name="quantity"
+										class="ajaxcart__qty-num wpbingo-qty__number"
+										value="{{quantity}}"
+										min="0" aria-label="quantity" pattern="[0-9]*"
+										data-line="{{line}}"
+										data-line-key="{{line_key}}"
+										data-variant-id="{{variant_id}}"
+										readonly
+									>
 									<button type="button" {{disabled}} class="ajaxcart__qty-adjust ajaxcart__qty--plus wpbingo-qty__adjust wpbingo-qty__adjust--plus" aria-label="{% endraw %}{{ 'cart.general.increase_quantity' | t }}{% raw %}">
 										<i class="feather-plus" aria-hidden="true"></i>
 									</button>
@@ -188,9 +202,9 @@
 								<div class="discount"></div>
 							{{/if}}
 							<div class="modalcart__line_price">
-								<div class="price_discount"></div>
-								<div class="price">{{{final_line_price}}}</div>{% endraw %}
-							</div>
+								<div class="price_discount">{{price_discount}}</div>
+								<div class="price">{{final_line_price}}</div>
+							</div>{% endraw %}
 						</div>
 					</div>
 					<div class="cart-modal__content">
