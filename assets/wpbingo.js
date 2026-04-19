@@ -1865,7 +1865,7 @@ wpbingo.Product = (function () {
 
 			if (bundleForm.length == 0) return;
 
-			$('body').on('change.miniBundleCheck', '.mini-bundle-form .item-product input[type="checkbox"]', function (e) {
+			$('body').on('change.miniBundleVariantCheck', '.mini-bundle-form .item-product input[type="checkbox"]', function (e) {
 				var $this = $(this);
 
 				if (!formState.allowBuyIndividual) {
@@ -1873,7 +1873,6 @@ wpbingo.Product = (function () {
 					$this.prop('checked', !$this.prop('checked'));
 					return;
 				}
-				console.log('checkbox changed');
 				if ($this.closest('.item-product').hasClass('active')) {
 					$this.closest('.item-product').removeClass('active');
 				} else {
@@ -1912,12 +1911,12 @@ wpbingo.Product = (function () {
 						}
 					}
 				});
-				console.log('new total price: ' + total_price);
 				$thisWpbingoWrap.find('.for-items-text span').html(total_items);
 				$thisWpbingoWrap.find('.total-price-html span').html('<span class="money">' + wpbingo.Currency.formatMoney(total_price, moneyFormat) + '</span>');
 				if ($('.bwp_currency').length > 0) { Currency.Currency_customer(true); }
 			});
-			$('body').on('change.miniBundleSelect', '.mini-bundle-form .item-product select', function (e) {
+
+			$('body').on('change.miniBundleVariantSelect', '.mini-bundle-form .item-product select', function (e) {
 				moneyFormat = wpbingo.strings.moneyFormat;
 				var $this = $(this);
 				var $thisWrap = $this.closest('.item-products-wrap');
@@ -1928,7 +1927,6 @@ wpbingo.Product = (function () {
 				var this_product_id = $parent.attr('data-product_id');
 				var $parent_image = $this.closest('.buy-together-products').find('.item-product-inner[data-product_id="' + this_product_id + '"]');
 				var selected = $this.find(':selected');
-				// var this_price_selected = selected.data('price');
 				var this_image_selected = selected.data('image');
 				var originalPrice = Number(selected.data('origin-price'));
 				var salePrice = Number(selected.data('sale-price'));
@@ -1958,7 +1956,8 @@ wpbingo.Product = (function () {
 				$thisWpbingoWrap.find('.total-price-html span').html('<span class="money">' + wpbingo.Currency.formatMoney(total_price, moneyFormat) + '</span>');
 				if ($('.bwp_currency').length > 0) { Currency.Currency_customer(true); }
 			});
-			$('body').on('click.miniBundleAdd', '.mini-bundle-form .buy-together-add-all-to-cart', function (e) {
+
+			$('body').on('click.miniBundleAddToCart', '.mini-bundle-form .buy-together-add-all-to-cart', function (e) {
 				e.preventDefault();
 				let self = $(this);
 				let form = self.parents('.mini-bundle-form');

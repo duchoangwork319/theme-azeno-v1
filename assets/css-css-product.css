@@ -3249,7 +3249,7 @@
 	padding: 0 15px;
 	position: relative;
 	text-align: center;
-	margin-bottom: 35px;
+	margin-bottom: 20px;
 }
 
 .product_buy_together .item-product-inner.buy-together-hidden {
@@ -3357,14 +3357,15 @@
 }
 
 .product_buy_together.image .buy-together-products {
-	padding: 25px 20px 20px;
+	/* padding: 25px 20px 20px; */
+	padding: 20px;
 	border: 2px solid var(--gray-dark);
 }
 
 .product_buy_together.image .item-content-right {
 	width: 100%;
 	flex: 0 0 100%;
-	padding: 25px 0 0;
+	padding: 1rem 0 0;
 	margin: 20px 0 0;
 	border-top: 1px solid #dedede;
 }
@@ -6311,10 +6312,6 @@ body.template-product .wpbingo-breadcrumbs {
 		padding: 0;
 		margin: 0 0 15px 0;
 		transform: unset;
-	}
-
-	.product_buy_together.image .buy-together-products {
-		padding: 30px;
 	}
 
 	.product_buy_together .bundler_title {
