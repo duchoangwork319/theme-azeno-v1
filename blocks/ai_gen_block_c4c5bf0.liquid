@@ -1,0 +1,337 @@
+{% doc %}
+  @prompt
+    5 text boxes horizontally  with headline for each
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-text-boxes-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    padding: {{ block.settings.section_padding }}px 0;
+  }
+
+  .ai-text-boxes-container-{{ ai_gen_id }} {
+    display: flex;
+    gap: {{ block.settings.gap }}px;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .ai-text-box-{{ ai_gen_id }} {
+    flex: 1;
+    text-align: {{ block.settings.text_alignment }};
+    padding: {{ block.settings.box_padding }}px;
+    background-color: {{ block.settings.box_background_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+  }
+
+  .ai-text-box-headline-{{ ai_gen_id }} {
+    font-size: {{ block.settings.headline_size }}px;
+    color: {{ block.settings.headline_color }};
+    margin: 0 0 {{ block.settings.headline_spacing }}px 0;
+    font-weight: {{ block.settings.headline_weight }};
+  }
+
+  .ai-text-box-content-{{ ai_gen_id }} {
+    font-size: {{ block.settings.content_size }}px;
+    color: {{ block.settings.content_color }};
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  @media screen and (max-width: 768px) {
+    .ai-text-boxes-container-{{ ai_gen_id }} {
+      flex-direction: column;
+      gap: {{ block.settings.gap_mobile }}px;
+    }
+
+    .ai-text-box-{{ ai_gen_id }} {
+      width: 100%;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-text-boxes-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-text-boxes-container-{{ ai_gen_id }}">
+    {% for i in (1..5) %}
+      {% liquid
+        assign headline_key = 'headline_' | append: i
+        assign content_key = 'content_' | append: i
+        assign headline = block.settings[headline_key]
+        assign content = block.settings[content_key]
+      %}
+      
+      <div class="ai-text-box-{{ ai_gen_id }}">
+        {% if headline != blank %}
+          <h3 class="ai-text-box-headline-{{ ai_gen_id }}">{{ headline }}</h3>
+        {% endif %}
+        {% if content != blank %}
+          <div class="ai-text-box-content-{{ ai_gen_id }}">{{ content }}</div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Five text boxes",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Box 1"
+    },
+    {
+      "type": "text",
+      "id": "headline_1",
+      "label": "Headline",
+      "default": "Box 1"
+    },
+    {
+      "type": "textarea",
+      "id": "content_1",
+      "label": "Content",
+      "default": "Add your text content here"
+    },
+    {
+      "type": "header",
+      "content": "Box 2"
+    },
+    {
+      "type": "text",
+      "id": "headline_2",
+      "label": "Headline",
+      "default": "Box 2"
+    },
+    {
+      "type": "textarea",
+      "id": "content_2",
+      "label": "Content",
+      "default": "Add your text content here"
+    },
+    {
+      "type": "header",
+      "content": "Box 3"
+    },
+    {
+      "type": "text",
+      "id": "headline_3",
+      "label": "Headline",
+      "default": "Box 3"
+    },
+    {
+      "type": "textarea",
+      "id": "content_3",
+      "label": "Content",
+      "default": "Add your text content here"
+    },
+    {
+      "type": "header",
+      "content": "Box 4"
+    },
+    {
+      "type": "text",
+      "id": "headline_4",
+      "label": "Headline",
+      "default": "Box 4"
+    },
+    {
+      "type": "textarea",
+      "id": "content_4",
+      "label": "Content",
+      "default": "Add your text content here"
+    },
+    {
+      "type": "header",
+      "content": "Box 5"
+    },
+    {
+      "type": "text",
+      "id": "headline_5",
+      "label": "Headline",
+      "default": "Box 5"
+    },
+    {
+      "type": "textarea",
+      "id": "content_5",
+      "label": "Content",
+      "default": "Add your text content here"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Gap between boxes",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "gap_mobile",
+      "label": "Gap on mobile",
+      "min": 0,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "label": "Section padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "box_padding",
+      "label": "Box padding",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "box_background_color",
+      "label": "Box background",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Headline"
+    },
+    {
+      "type": "range",
+      "id": "headline_size",
+      "label": "Size",
+      "min": 14,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "headline_color",
+      "label": "Color",
+      "default": "#222222"
+    },
+    {
+      "type": "select",
+      "id": "headline_weight",
+      "label": "Weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "range",
+      "id": "headline_spacing",
+      "label": "Spacing below",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "range",
+      "id": "content_size",
+      "label": "Size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "content_color",
+      "label": "Color",
+      "default": "#9b9b9b"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Five text boxes"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,359 @@
+{% doc %}
+  @prompt
+    SECTION 7 — COMMUNITY (Lifestyle but Real)
+    
+    Layout:
+    Full-width image (real athletes, not studio) + text overlay or below
+    
+    Content:
+    
+    Title:
+    Built With the Community
+    
+    Body:
+    5DLA is built with athletes, not around them.
+    
+    We work with clubs, support race participation, and share knowledge that helps improve performance.
+    
+    No noise. No gimmicks.
+    Just progress, step by step.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-community-section-{{ ai_gen_id }} {
+    position: relative;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    display: block;
+  }
+
+  .ai-community-container-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .ai-community-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .ai-community-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    min-height: 400px;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .ai-community-image-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 600px;
+    max-height: 400px;
+  }
+
+  .ai-community-empty-state-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 20px;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .ai-community-content-{{ ai_gen_id }} {
+    {% if block.settings.text_position == 'overlay' %}
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 800px;
+      text-align: {{ block.settings.text_alignment }};
+      z-index: 2;
+    {% else %}
+      padding: {{ block.settings.content_padding }}px;
+      text-align: {{ block.settings.text_alignment }};
+      background-color: {{ block.settings.content_bg_color }};
+    {% endif %}
+  }
+
+  {% if block.settings.text_position == 'overlay' and block.settings.show_overlay %}
+    .ai-community-overlay-{{ ai_gen_id }} {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: {{ block.settings.overlay_color }};
+      opacity: {{ block.settings.overlay_opacity }};
+      z-index: 1;
+    }
+  {% endif %}
+
+  .ai-community-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    color: {{ block.settings.title_color }};
+    margin: 0 0 {{ block.settings.title_spacing }}px;
+    line-height: 1.2;
+    font-weight: 700;
+  }
+
+  .ai-community-body-{{ ai_gen_id }} {
+    font-size: {{ block.settings.body_size }}px;
+    color: {{ block.settings.body_color }};
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .ai-community-body-{{ ai_gen_id }} p {
+    margin: 0 0 16px;
+  }
+
+  .ai-community-body-{{ ai_gen_id }} p:last-child {
+    margin-bottom: 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-community-section-{{ ai_gen_id }} {
+      width: 100%;
+    }
+
+    .ai-community-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size | times: 0.7 }}px;
+    }
+
+    .ai-community-body-{{ ai_gen_id }} {
+      font-size: {{ block.settings.body_size | times: 0.9 }}px;
+    }
+
+    .ai-community-content-{{ ai_gen_id }} {
+      {% if block.settings.text_position == 'overlay' %}
+        width: 95%;
+      {% else %}
+        padding: {{ block.settings.content_padding | times: 0.6 }}px;
+      {% endif %}
+    }
+  }
+{% endstyle %}
+
+<div class="ai-community-section-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-community-container-{{ ai_gen_id }}">
+    {% if block.settings.image %}
+      <img
+        src="{{ block.settings.image | image_url: width: 2000 }}"
+        alt="{{ block.settings.image.alt | escape }}"
+        loading="lazy"
+        width="{{ block.settings.image.width }}"
+        height="{{ block.settings.image.height }}"
+        class="ai-community-image-{{ ai_gen_id }}"
+      >
+    {% else %}
+      <div class="ai-community-image-placeholder-{{ ai_gen_id }}">
+        {{ 'lifestyle-1' | placeholder_svg_tag }}
+        <div class="ai-community-empty-state-{{ ai_gen_id }}">
+          Next, add an image of real athletes
+        </div>
+      </div>
+    {% endif %}
+
+    {% if block.settings.text_position == 'overlay' and block.settings.show_overlay %}
+      <div class="ai-community-overlay-{{ ai_gen_id }}"></div>
+    {% endif %}
+
+    <div class="ai-community-content-{{ ai_gen_id }}">
+      {% if block.settings.title != blank %}
+        <h2 class="ai-community-title-{{ ai_gen_id }}">{{ block.settings.title }}</h2>
+      {% endif %}
+
+      {% if block.settings.body != blank %}
+        <div class="ai-community-body-{{ ai_gen_id }}">
+          {{ block.settings.body }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Community section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<p>Built With the Community</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body text",
+      "default": "<p>5DLA is built with athletes, not around them.</p><p>We work with clubs, support race participation, and share knowledge that helps improve performance.</p><p>No noise. No gimmicks.<br>Just progress, step by step.</p>"
+    },
+    {
+      "type": "select",
+      "id": "text_position",
+      "label": "Text position",
+      "options": [
+        {
+          "value": "overlay",
+          "label": "Overlay on image"
+        },
+        {
+          "value": "below",
+          "label": "Below image"
+        }
+      ],
+      "default": "overlay"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Overlay settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_overlay",
+      "label": "Show overlay",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "default": 0.4
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Title size",
+      "min": 20,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "title_spacing",
+      "label": "Title spacing",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "body_size",
+      "label": "Body size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "body_color",
+      "label": "Body color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Content area"
+    },
+    {
+      "type": "range",
+      "id": "content_padding",
+      "label": "Content padding",
+      "min": 20,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "color",
+      "id": "content_bg_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Community section"
+    }
+  ]
+}
+{% endschema %}
