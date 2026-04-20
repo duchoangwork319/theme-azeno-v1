@@ -14,6 +14,7 @@
       assign percentage_discount = bundle_item.percentage_discount.value
       assign fixed_amount_discount = bundle_item.fixed_amount_discount.value
       assign fixed_bundle_price = bundle_item.fixed_bundle_price.value
+      assign footer_content = bundle_item.footer_content.value
       assign has_component_oos = false
 
       for innerProd in bundle_products
@@ -221,13 +222,16 @@
             <div class="buy-together-cart">
               <button
                 type="submit"
-                class="btn--add-to-cart buy-together-add-all-to-cart"
+                class="btn--add-to-cart buy-together-add-all-to-cart mt-3"
                 {% if has_component_oos == true %}
                   disabled="disabled"
                 {% endif %}
               >
                 <span>{{ 'products.product.add_all_to_cart' | t }}</span>
               </button>
+            </div>
+            <div class="footer-wrapper">
+              {{ footer_content }}
             </div>
           </div>
         </div>

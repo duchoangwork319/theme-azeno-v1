@@ -1963,6 +1963,17 @@ wpbingo.Product = (function () {
 				let form = self.parents('.mini-bundle-form');
 				let formData = new FormData(form[0]);
 
+				// Revert IDs to show correct order of items in cart modal
+				let itemsId = formData.getAll('items[][id]');
+				if (Array.isArray(itemsId)) {
+					formData.delete('items[][id]');
+					formData.delete('items[][quantity]');
+					itemsId.reverse().forEach(id => {
+						formData.append('items[][id]', id);
+						formData.append('items[][quantity]', 1);
+					});
+				}
+
 				let disableBtn = (btn) => {
 					btn.attr('disabled', 'disabled')
 						.prepend('<span class="spinner-border spinner-border-sm"></span>')
@@ -2304,6 +2315,14 @@ wpbingo.Product = (function () {
 				unitPriceBaseUnit: '[data-unit-price-base-unit]',
 				SKU: '.js-variant-sku'
 			};
+
+			let shopifyPaymentBtn = $(selectors.shopifyPaymentButton, this.$container);
+			let bwpInfo = $('.bwp-single-info', this.$container);
+
+			if (shopifyPaymentBtn.length > 0 && bwpInfo.length > 0 && !bwpInfo.hasClass('has-shopify-payment-button')) {
+				bwpInfo.addClass('has-shopify-payment-button');
+			}
+			
 			if (variant) {
 				$(selectors.priceContainer, this.$container).removeClass(this.classes.hide);
 				$(selectors.productAvailable, this.$container).removeClass(this.classes.hide);
@@ -2317,7 +2336,7 @@ wpbingo.Product = (function () {
 						.addClass(this.classes.productInventoryInStock)
 						.html(wpbingo.strings.inStock);
 					$(selectors.quantityElements, this.$container).removeClass(this.classes.hide);
-					$(selectors.shopifyPaymentButton, this.$container).removeClass(this.classes.hide);
+					shopifyPaymentBtn.removeClass(this.classes.hide);
 				} else {
 					$(selectors.addToCart, this.$container).addClass('disabled').prop('disabled', true);
 					$(selectors.addToCartText, this.$container).html(translations.soldOut);
@@ -2326,7 +2345,7 @@ wpbingo.Product = (function () {
 						.addClass(this.classes.productInventoryOutStock)
 						.html(wpbingo.strings.outStock);
 					$(selectors.quantityElements, this.$container).addClass(this.classes.hide);
-					$(selectors.shopifyPaymentButton, this.$container).addClass(this.classes.hide);
+					shopifyPaymentBtn.addClass(this.classes.hide);
 				}
 				$(selectors.productPrice, this.$container).html(wpbingo.Currency.formatMoney(variant.price, moneyFormat)).removeClass(this.classes.hide);
 				if (variant.compare_at_price > variant.price) {
@@ -2359,7 +2378,7 @@ wpbingo.Product = (function () {
 				$(selectors.addToCart, this.$container).addClass('disabled').prop('disabled', true);
 				$(selectors.addToCartText, this.$container).html(translations.unavailable);
 				$(selectors.quantityElements, this.$container).addClass(this.classes.hide);
-				$(selectors.shopifyPaymentButton, this.$container).addClass(this.classes.hide);
+				shopifyPaymentBtn.addClass(this.classes.hide);
 				$(selectors.priceContainer, this.$container).addClass(this.classes.hide);
 				$(selectors.productAvailable, this.$container).addClass(this.classes.hide);
 				$(selectors.productPrice, this.$container).attr('aria-hidden', 'true');
