@@ -6491,7 +6491,7 @@ body.template-product .wpbingo-breadcrumbs {
 	}
 
 	.product-single.gird-mordern .row.sticky>div.bwp-single-info.has-bundle.has-est-msg.has-shopify-payment-button {
-		top: calc(var(--pdpinfo-sticky-top-1367) - 6rem);
+		top: calc(var(--pdpinfo-sticky-top-1367) - 12rem);
 	}
 }
 
@@ -6506,6 +6506,6 @@ body.template-product .wpbingo-breadcrumbs {
 	}
 
 	.product-single.gird-mordern .row.sticky>div.bwp-single-info.has-bundle.has-est-msg.has-shopify-payment-button {
-		top: calc(var(--pdpinfo-sticky-top-1440) - 6rem);
+		top: calc(var(--pdpinfo-sticky-top-1440) - 12rem);
 	}
 }

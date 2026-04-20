@@ -1696,6 +1696,7 @@ wpbingo.Product = (function () {
 		this.sticky_sidebar();
 		this.image_360();
 		this.tab_information();
+		this.initShopifyPaymentButton();
 
 		var $element = $(".product-single");
 		var _data = $element.data();
@@ -2317,11 +2318,6 @@ wpbingo.Product = (function () {
 			};
 
 			let shopifyPaymentBtn = $(selectors.shopifyPaymentButton, this.$container);
-			let bwpInfo = $('.bwp-single-info', this.$container);
-
-			if (shopifyPaymentBtn.length > 0 && bwpInfo.length > 0 && !bwpInfo.hasClass('has-shopify-payment-button')) {
-				bwpInfo.addClass('has-shopify-payment-button');
-			}
 			
 			if (variant) {
 				$(selectors.priceContainer, this.$container).removeClass(this.classes.hide);
@@ -2755,6 +2751,14 @@ wpbingo.Product = (function () {
 						}
 					});
 				}
+			}
+		},
+		initShopifyPaymentButton: function () {
+			let shopifyPaymentBtn = $('.shopify-payment-button', this.$container);
+			let bwpInfo = $('.bwp-single-info', this.$container);
+
+			if (shopifyPaymentBtn.length > 0 && bwpInfo.length > 0 && !bwpInfo.hasClass('has-shopify-payment-button')) {
+				bwpInfo.addClass('has-shopify-payment-button');
 			}
 		}
 	});
