@@ -12,8 +12,8 @@
 
       assign callout_message = bundle_item.callout_message.value
       assign percentage_discount = bundle_item.percentage_discount.value
-      assign fixed_amount_discount = bundle_item.fixed_amount_discount.value
-      assign fixed_bundle_price = bundle_item.fixed_bundle_price.value
+      assign fixed_amount_discount = blank
+      assign fixed_bundle_price = blank
       assign footer_content = bundle_item.footer_content.value
       assign has_component_oos = false
 
@@ -47,8 +47,8 @@
         novalidate="novalidate"
         class="mini-bundle-form {% if percentage_discount != blank and percentage_discount > 0 %}has-percentage-discount{% endif %} {% if fixed_amount_discount != blank and fixed_amount_discount > 0 %}has-fixed-amount-discount{% endif %} {% if fixed_bundle_price != blank and fixed_bundle_price > 0 %}has-fixed-bundle-price{% endif %}"
         data-percentage-discount="{{ percentage_discount }}"
-        data-fixed-amount-discount="{{ fixed_amount_discount }}"
-        data-fixed-bundle-price="{{ fixed_bundle_price }}"
+        {% comment %} data-fixed-amount-discount="{{ fixed_amount_discount }}"
+        data-fixed-bundle-price="{{ fixed_bundle_price }}" {% endcomment %}
       >
         <input type="hidden" name="form_type" value="product">
         <div class="buy-together-products">
