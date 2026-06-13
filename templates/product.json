@@ -148,11 +148,10 @@
         },
         "static_message_by_tags_QUxrG3": {
           "type": "static_message_by_tags",
-          "disabled": true,
           "settings": {
             "title": "PREODER ESTIMATION MESSAGE",
-            "product_tags": "Men",
-            "static_message_content": "<div class=\"section-estimated_delivery static\">\n  <div class=\"estimated_delivery\">\n    <div class=\"icons\"><i class=\"wpb-icon-shipping3\"></i></div>\n    <div class=\"content\">\n      Shipping static message\n  </div>\n</div>\n</div>"
+            "product_tags": "Preorder, preorder",
+            "static_message_content": "<style>\n  .section-estimated_delivery:not(.static) {\n    display: none;\n  }\n</style>\n<div class=\"section-estimated_delivery static\">\n  <div class=\"estimated_delivery\">\n    <div class=\"icons\"><i class=\"wpb-icon-shipping3\"></i></div>\n    <div class=\"content\">\n      Pre-order available until\n      <span style=\"color: var(--gray-dark);border-bottom: 1px solid var(--gray-dark);\">\n        Apr 14\n      </span>.\n      Orders will be consolidated and shipped individually to your address by\n      end of April.\n    </div>\n  </div>\n</div>"
           }
         },
         "0edcb572-7ba9-4350-b207-f666123c2642": {
