@@ -278,10 +278,40 @@
             "desktop_width_percent": 100
           },
           "blocks": {}
+        },
+        "ai_gen_block_03faca9_3BjbRY": {
+          "type": "ai_gen_block_03faca9",
+          "settings": {
+            "button_text": "LEARN MORE ABOUT FUSION",
+            "button_link": "shopify://pages/fusion",
+            "show_icon": true,
+            "alignment": "center",
+            "mobile_alignment": "center",
+            "desktop_width_percent": 100,
+            "padding_top": 20,
+            "padding_bottom": 20,
+            "button_background": "#000000",
+            "button_hover_background": "#333333",
+            "button_text_color": "#FFFFFF",
+            "button_hover_text_color": "#FFFFFF",
+            "border_width": 0,
+            "border_color": "#000000",
+            "border_hover_color": "#333333",
+            "border_radius": 4,
+            "button_padding_vertical": 16,
+            "button_padding_horizontal": 32,
+            "font_size": 14,
+            "font_weight": "600",
+            "letter_spacing": 1,
+            "text_transform": "uppercase",
+            "icon_size": 16
+          },
+          "blocks": {}
         }
       },
       "block_order": [
-        "ai_gen_block_2c88ec6_tJ7PGw"
+        "ai_gen_block_2c88ec6_tJ7PGw",
+        "ai_gen_block_03faca9_3BjbRY"
       ],
       "settings": {}
     },
