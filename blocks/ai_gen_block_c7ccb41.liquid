@@ -1,0 +1,314 @@
+{% doc %}
+  @prompt
+    Create a product card badge/sticker system that displays callout labels (like "New Arrival", "Sale", "Best Seller", or custom text) on product thumbnails in collection pages. The badge should be driven by a product metafield (e.g., custom.badge_label) so each product can have its own label. Style it as a small pill or tag overlay in the top-left or top-right corner of the product image, with customizable background color and text color via theme editor settings.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-product-badge-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+  }
+
+  .ai-product-badge-container-{{ ai_gen_id }} {
+    position: absolute;
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  .ai-product-badge-container-{{ ai_gen_id }}--top-left {
+    top: {{ block.settings.vertical_offset }}px;
+    left: {{ block.settings.horizontal_offset }}px;
+  }
+
+  .ai-product-badge-container-{{ ai_gen_id }}--top-right {
+    top: {{ block.settings.vertical_offset }}px;
+    right: {{ block.settings.horizontal_offset }}px;
+  }
+
+  .ai-product-badge-container-{{ ai_gen_id }}--bottom-left {
+    bottom: {{ block.settings.vertical_offset }}px;
+    left: {{ block.settings.horizontal_offset }}px;
+  }
+
+  .ai-product-badge-container-{{ ai_gen_id }}--bottom-right {
+    bottom: {{ block.settings.vertical_offset }}px;
+    right: {{ block.settings.horizontal_offset }}px;
+  }
+
+  .ai-product-badge-label-{{ ai_gen_id }} {
+    display: inline-block;
+    padding: {{ block.settings.padding_vertical }}px {{ block.settings.padding_horizontal }}px;
+    background-color: {{ block.settings.badge_bg_color }};
+    color: {{ block.settings.badge_text_color }};
+    font-size: {{ block.settings.font_size }}px;
+    font-weight: {{ block.settings.font_weight }};
+    text-transform: {{ block.settings.text_transform }};
+    border-radius: {{ block.settings.border_radius }}px;
+    line-height: 1.2;
+    white-space: nowrap;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .ai-product-badge-label-{{ ai_gen_id }}--pill {
+    border-radius: 100px;
+  }
+
+  .ai-product-badge-label-{{ ai_gen_id }}--square {
+    border-radius: 0;
+  }
+
+  .ai-product-badge-label-{{ ai_gen_id }}--rounded {
+    border-radius: {{ block.settings.border_radius }}px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-product-badge-label-{{ ai_gen_id }} {
+      font-size: {{ block.settings.font_size | times: 0.85 }}px;
+      padding: {{ block.settings.padding_vertical | times: 0.85 }}px {{ block.settings.padding_horizontal | times: 0.85 }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-product-badge-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% comment %}
+    This block is designed to be used within product card templates.
+    It reads the badge label from product.metafields.custom.badge_label
+    
+    To use this block:
+    1. Create a product metafield with namespace "custom" and key "badge_label" (type: single line text)
+    2. Add this block to your product card template
+    3. Set the badge text for each product via the product metafield
+  {% endcomment %}
+
+  {% if product.metafields.custom.badge_label != blank %}
+    <div class="ai-product-badge-container-{{ ai_gen_id }} ai-product-badge-container-{{ ai_gen_id }}--{{ block.settings.position }}">
+      <span class="ai-product-badge-label-{{ ai_gen_id }} ai-product-badge-label-{{ ai_gen_id }}--{{ block.settings.badge_style }}">
+        {{ product.metafields.custom.badge_label }}
+      </span>
+    </div>
+  {% elsif block.settings.show_fallback_badge and block.settings.fallback_badge_text != blank %}
+    <div class="ai-product-badge-container-{{ ai_gen_id }} ai-product-badge-container-{{ ai_gen_id }}--{{ block.settings.position }}">
+      <span class="ai-product-badge-label-{{ ai_gen_id }} ai-product-badge-label-{{ ai_gen_id }}--{{ block.settings.badge_style }}">
+        {{ block.settings.fallback_badge_text }}
+      </span>
+    </div>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Product card badge",
+  "tag": null,
+  "class": "product-badge-block",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "This block displays a badge on product cards using the product metafield 'custom.badge_label'. Create this metafield in your product settings to set unique labels like 'New Arrival', 'Sale', or 'Best Seller' for each product."
+    },
+    {
+      "type": "header",
+      "content": "Position"
+    },
+    {
+      "type": "select",
+      "id": "position",
+      "label": "Badge position",
+      "options": [
+        {
+          "value": "top-left",
+          "label": "Top left"
+        },
+        {
+          "value": "top-right",
+          "label": "Top right"
+        },
+        {
+          "value": "bottom-left",
+          "label": "Bottom left"
+        },
+        {
+          "value": "bottom-right",
+          "label": "Bottom right"
+        }
+      ],
+      "default": "top-left"
+    },
+    {
+      "type": "range",
+      "id": "horizontal_offset",
+      "label": "Horizontal offset",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "vertical_offset",
+      "label": "Vertical offset",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "badge_style",
+      "label": "Badge shape",
+      "options": [
+        {
+          "value": "pill",
+          "label": "Pill"
+        },
+        {
+          "value": "rounded",
+          "label": "Rounded"
+        },
+        {
+          "value": "square",
+          "label": "Square"
+        }
+      ],
+      "default": "pill"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 4,
+      "info": "Only applies when badge shape is set to 'Rounded'"
+    },
+    {
+      "type": "color",
+      "id": "badge_bg_color",
+      "label": "Background color",
+      "default": "#ff3535"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Font size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "font_weight",
+      "label": "Font weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "select",
+      "id": "text_transform",
+      "label": "Text transform",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "uppercase",
+          "label": "Uppercase"
+        },
+        {
+          "value": "lowercase",
+          "label": "Lowercase"
+        },
+        {
+          "value": "capitalize",
+          "label": "Capitalize"
+        }
+      ],
+      "default": "uppercase"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_horizontal",
+      "label": "Horizontal padding",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "padding_vertical",
+      "label": "Vertical padding",
+      "min": 2,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Fallback badge"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_fallback_badge",
+      "label": "Show fallback badge",
+      "default": false,
+      "info": "Display this badge when product has no metafield value set"
+    },
+    {
+      "type": "text",
+      "id": "fallback_badge_text",
+      "label": "Fallback text",
+      "default": "New"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product card badge"
+    }
+  ]
+}
+{% endschema %}

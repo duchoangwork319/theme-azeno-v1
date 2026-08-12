@@ -1,22 +1,5 @@
 #!/bin/bash
 
-# # esbuild
-# npx esbuild \
-# client/js/faker.js \
-# client/js/main.js \
-# --bundle \
-# --minify \
-# --outdir=assets/dist \
-# --platform=browser
-
-# # babel
-# npx babel assets/dist/main.js --out-dir assets/dist \
-# --presets=@babel/preset-env
-
-# npx terser assets/dist/main.js \
-# -o assets/dist/main.js -c -m
-# echo "Minified main.js."
-
 npx webpack --config webpack.config.js --env prd
 
 # global

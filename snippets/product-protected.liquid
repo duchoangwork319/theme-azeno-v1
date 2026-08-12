@@ -1,0 +1,61 @@
+{% doc %}
+  This snippet is responsible for adding meta tags and scripts to handle password-protected products and collections. It checks if the current template is a product or collection page, generates a hashed value for the password protection, and includes necessary meta tags and scripts to manage access control. Additionally, it adds a meta tag to prevent search engines from indexing protected products that are not searchable.
+{% enddoc %}
+{% if template contains 'product' %}
+  {% liquid
+    assign p_collection = collection
+    if p_collection == blank or p_collection == null
+      assign p_collection = product.collections | first
+    endif
+    capture sha1_hash
+      render 'url-hash', item: p_collection
+    endcapture
+    assign sha1_hash = sha1_hash | strip
+  %}
+  {% if sha1_hash != null and sha1_hash != blank and sha1_hash != '' %}
+    <meta name="protected-handle" content="{{ p_collection.handle }}">
+    <meta name="protected-id" content="{{ p_collection.id }}">
+    <meta name="root-url" content="{{ p_collection.url }}">
+    <script src="{{ 'dist/head-product.js' | asset_url }}"></script>
+  {% endif %}
+
+  {% liquid
+    capture searchable_output
+      render 'product-searchable', item: product
+    endcapture
+    assign searchable = searchable_output | strip
+  %}
+  {% if searchable != 'true' %}
+    <meta name="robots" content="noindex, nofollow">
+  {% endif %}
+{% endif %}
+
+{% if template contains 'collection' %}
+  {% liquid
+    assign url_split = canonical_url | split: '?q='
+    assign incoming_hashed = url_split[1]
+    capture sha1_hash
+      render 'url-hash', item: collection
+    endcapture
+    assign sha1_hash = sha1_hash | strip
+    capture sha256_hash
+      render 'url-hash', item: collection, hmac: 'sha256'
+    endcapture
+    assign sha256_hash = sha256_hash | strip
+  %}
+  {% if sha1_hash != null and sha1_hash != blank and sha1_hash != '' %}
+    <meta name="protected-handle" content="{{ collection.handle }}">
+    <meta name="protected-id" content="{{ collection.id }}">
+    <meta name="protected-token" content="{{ sha256_hash }}">
+    <meta name="protected-session-maintain" content="{{ settings.protected_ss_maintain }}">
+    <meta name="protected-session-duration" content="{{ settings.protected_ss_duration }}">
+    <meta name="root-url" content="{{ collection.url }}">
+    <meta name="robots" content="noindex, nofollow">
+    {% if sha1_hash != incoming_hashed %}
+      <meta name="protected-state" content="protected">
+    {% else %}
+      <meta name="protected-state" content="authorized">
+    {% endif %}
+    <script src="{{ 'dist/head-collection.js' | asset_url }}"></script>
+  {% endif %}
+{% endif %}
