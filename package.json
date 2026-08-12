@@ -12,7 +12,6 @@
     "prd:pull": "dotenv -e ./.env/.env.prd -- bash -c 'shopify theme pull -s $SHOPIFY_CLI_STORE_DOMAIN --password $SHOPIFY_CLI_THEME_TOKEN --nodelete --ignore package.json'",
     "prd:pulldata": "dotenv -e ./.env/.env.prd -- bash -c 'shopify theme pull -s $SHOPIFY_CLI_STORE_DOMAIN --password $SHOPIFY_CLI_THEME_TOKEN --nodelete --ignore package.json --only \"config/*\" \"templates/*\" \"locales/*\"'",
     "prd:push": "dotenv -e ./.env/.env.prd -- bash -c 'shopify theme push -s $SHOPIFY_CLI_STORE_DOMAIN --password $SHOPIFY_CLI_THEME_TOKEN --nodelete'",
-    "prd:synccommit": "git commit -m \"sync live store settings\"",
     "dev:push": "dotenv -e ./.env/.env.dev -- bash -c 'shopify theme push -s $SHOPIFY_CLI_STORE_DOMAIN --password $SHOPIFY_CLI_THEME_TOKEN --nodelete'",
     "dev:watch": "dotenv -e ./.env/.env.dev -- bash -c 'shopify theme dev -s $SHOPIFY_CLI_STORE_DOMAIN --password $SHOPIFY_CLI_THEME_TOKEN --nodelete --store-password $SHOPIFY_CLI_STOREFRONT_PWD -t 154612269315 --theme-editor-sync'"
   },

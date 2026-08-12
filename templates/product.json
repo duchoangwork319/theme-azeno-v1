@@ -156,6 +156,7 @@
         },
         "0edcb572-7ba9-4350-b207-f666123c2642": {
           "type": "buy_more",
+          "disabled": true,
           "settings": {
             "product_buy_more_margin": "",
             "product_buy_more_color": "#f3f3f3",
@@ -361,7 +362,7 @@
         "81d03f48-fab1-46ad-85e1-22a1c518009a": {
           "type": "tab_review",
           "settings": {
-            "title_review": "Judge Me"
+            "title_review": "Reviews"
           }
         }
       },

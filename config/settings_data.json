@@ -106,10 +106,10 @@
     "layout_blog": "standar",
     "show_locale_selector": true,
     "show_currency_selector": true,
-    "auto_currency": false,
+    "auto_currency": true,
     "currency_type": "1",
     "flag_currency": true,
-    "supported_currencies": "HKD - HKD | MYR - MYR | SGD - SGD | THB - THB | USD - USD",
+    "supported_currencies": "HKD - HKD | MYR - MYR | SGD - SGD $ | THB - THB | USD - USD",
     "currency_format": "money_with_currency_format",
     "round_currency": true,
     "mess_currency": "All charges are billed in <span>[original_currency]</span>. While the content of your cart is currently displayed in [current_currency], the checkout will use <span>[original_currency]</span> at the most current exchange rate.",
@@ -386,6 +386,18 @@
       "customer-variant": {
         "type": "customer-variant",
         "blocks": {
+          "color_PNg4Py": {
+            "type": "color",
+            "settings": {
+              "title": ".7-ELEVEN",
+              "is_label": false,
+              "select_color_1": "#39be3d",
+              "show_gradient": false,
+              "select_color_2": "#000000",
+              "show_image": false,
+              "color_image": "shopify://shop_images/swatch-7-eleven.svg"
+            }
+          },
           "1f5f89cc-8ab2-46f6-ad0e-efea2cdfd6e1": {
             "type": "color",
             "settings": {
@@ -414,6 +426,17 @@
               "title": ".BLACK",
               "is_label": false,
               "select_color_1": "#000000",
+              "show_gradient": false,
+              "select_color_2": "",
+              "show_image": false
+            }
+          },
+          "color_fFTx7R": {
+            "type": "color",
+            "settings": {
+              "title": "",
+              "is_label": false,
+              "select_color_1": "",
               "show_gradient": false,
               "select_color_2": "",
               "show_image": false
@@ -546,6 +569,17 @@
               "title": ".DARK-NIGHT-BLUE",
               "is_label": false,
               "select_color_1": "#1f375f",
+              "show_gradient": false,
+              "select_color_2": "",
+              "show_image": false
+            }
+          },
+          "color_KPKk68": {
+            "type": "color",
+            "settings": {
+              "title": "",
+              "is_label": false,
+              "select_color_1": "",
               "show_gradient": false,
               "select_color_2": "",
               "show_image": false
@@ -756,9 +790,11 @@
           }
         },
         "block_order": [
+          "color_PNg4Py",
           "1f5f89cc-8ab2-46f6-ad0e-efea2cdfd6e1",
           "78509c29-fcaf-4368-b49b-1ae3831bb63c",
           "color_3YQECh",
+          "color_fFTx7R",
           "color_pwkfGw",
           "color_iki49Y",
           "color_UqrgC6",
@@ -771,6 +807,7 @@
           "color_zcNqBK",
           "color_R6AcJ9",
           "color_riDU7E",
+          "color_KPKk68",
           "color_wmrXeU",
           "color_gMcLwh",
           "color_GpU3gH",
@@ -4287,7 +4324,7 @@
           "header_sticky": true,
           "header_absolute": true,
           "color_homepage_text": "#ffffff",
-          "logo": "shopify://shop_images/5DLA_header_FINAL.png",
+          "logo": "shopify://shop_images/5Dla_Logo.png",
           "logo_max_width": 55,
           "show_header_search": true,
           "show_header_wishlist": true,
@@ -5063,6 +5100,11 @@
       },
       "13768625480086291342": {
         "type": "shopify://apps/forms/blocks/forms/8744a304-fcb1-4347-b211-bb6b4759a76a",
+        "disabled": true,
+        "settings": {}
+      },
+      "11349500561483629931": {
+        "type": "shopify://apps/notify-me/blocks/app-embed/b399b727-6c85-44fc-9e21-63114bd72054",
         "disabled": true,
         "settings": {}
       }
