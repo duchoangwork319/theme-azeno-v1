@@ -1,6 +1,6 @@
 #!/bin/bash
 
-npx webpack --config webpack.config.js --env prd
+node scripts/vite-build.mjs --mode production
 
 # global
 npx terser \
@@ -16,7 +16,7 @@ assets/lodash.min.js \
 assets/velocity.min.js \
 assets/image.zoom.js \
 assets/jquery.tmpl.min.js \
--o assets/dist/global.min.js \
+-o assets/bundled.global.min.js \
 -c -m
 echo "Minified global.min.js."
 
@@ -25,7 +25,7 @@ npx terser \
 assets/wpbingo.js \
 assets/facets.js \
 assets/predictive-search.js \
--o assets/dist/wpbingo.min.js \
+-o assets/bundled.wpbingo.min.js \
 -c -m
 echo "Minified wpbingo.min.js."
 
@@ -35,6 +35,6 @@ assets/recent-product.min.js \
 assets/360imagerotate.js \
 assets/photoswipe.min.js \
 assets/photoswipe-ui-default.min.js \
--o assets/dist/product.min.js \
+-o assets/bundled.product.min.js \
 -c -m
 echo "Minified product.min.js."
