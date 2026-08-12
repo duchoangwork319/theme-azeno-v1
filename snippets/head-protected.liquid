@@ -16,7 +16,7 @@
     <meta name="protected-handle" content="{{ p_collection.handle }}">
     <meta name="protected-id" content="{{ p_collection.id }}">
     <meta name="root-url" content="{{ p_collection.url }}">
-    <script src="{{ 'dist/head-product.js' | asset_url }}"></script>
+    <script src="{{ 'bundled.head-product.js' | asset_url }}"></script>
   {% endif %}
 
   {% liquid
@@ -60,6 +60,6 @@
     {% else %}
       <meta name="protected-state" content="authorized">
     {% endif %}
-    <script src="{{ 'dist/head-collection.js' | asset_url }}"></script>
+    <script src="{{ 'bundled.head-collection.js' | asset_url }}"></script>
   {% endif %}
 {% endif %}

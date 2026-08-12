@@ -2,5 +2,5 @@
 /.local
 /node_modules
 /ignore
-/assets/dist
+/assets/bundled.*
 package-lock.json

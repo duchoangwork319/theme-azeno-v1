@@ -107,7 +107,7 @@
 {% endstyle %}
 {% comment %} {{ 'css-effect.css' | asset_url | stylesheet_tag }} {% endcomment %}
 {% comment %} {{ 'css-section.css' | asset_url | stylesheet_tag }} {% endcomment %}
-{{ 'dist/style.css' | asset_url | stylesheet_tag: preload: true }}
+{{ 'bundled.style.css' | asset_url | stylesheet_tag: preload: true }}
 {% comment %} {{ 'css-site.css' | asset_url | stylesheet_tag }} {% endcomment %}
 {%- assign page_type = request.page_type | handle -%}
 {%- if page_type contains 'collection' or page_type contains 'search' -%}
@@ -115,9 +115,9 @@
 {%- elsif page_type contains 'product' -%}
 	{% comment %} {{ 'photoswipe.css' | asset_url | stylesheet_tag }} {% endcomment %}
 	{% comment %} {{ 'css-product.css' | asset_url | stylesheet_tag }} {% endcomment %}
-	{{ 'dist/product.css' | asset_url | stylesheet_tag }}
+	{{ 'bundled.product.css' | asset_url | stylesheet_tag }}
 {%- endif -%}
-{{ 'dist/global.min.js' | asset_url | preload_tag: as: 'script' }}
+{{ 'bundled.global.min.js' | asset_url | preload_tag: as: 'script' }}
 {%- if page_type contains 'blog' or page_type contains 'article' or page_type contains 'search' -%}
   {{ 'css-blog.css' | asset_url | stylesheet_tag }}
 {%- endif -%}
