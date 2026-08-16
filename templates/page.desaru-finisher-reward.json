@@ -1,0 +1,280 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "breadcrumb": {
+      "type": "page-breadcrumb",
+      "settings": {
+        "enable": true,
+        "bgimage": false,
+        "show_pagetitle": true,
+        "show_breadcrumb": true,
+        "color_breadcrumb": "#222222",
+        "align_breadcrumb": "center"
+      }
+    },
+    "blocks_QyBfVF": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_daf9efe_eTYgbe": {
+          "type": "ai_gen_block_daf9efe",
+          "name": "Centered paragraph box",
+          "settings": {
+            "heading": "DESARU FINISHER REWARD{{ closest.page.title }}",
+            "text": "Congratulations, Desaru Finishers. Recover. Train. Race Faster. Congratulations on completing your Desaru race. Submit your details and proof of participation to claim your exclusive 5DLA finisher reward. Your next PR starts now.\\n\\nUse code DESARU20 to receive 20% off eligible products until 9 August 2026 at 11:59 PM Singapore time. Pre-order products and gift cards are excluded. One use per customer. Cannot be combined with another promotion.",
+            "heading_size": 32,
+            "heading_color": "#222222",
+            "heading_weight": "700",
+            "text_size": 16,
+            "text_color": "#9b9b9b",
+            "spacing": 16,
+            "background_color": "#ffffff",
+            "border_radius": 0,
+            "padding_vertical": 40,
+            "padding_horizontal": 40,
+            "desktop_width_percent": 100
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_daf9efe_eTYgbe"
+      ],
+      "name": "Centered paragraph box",
+      "settings": {}
+    },
+    "custom_form_ngYq6w": {
+      "type": "custom-form",
+      "blocks": {
+        "input_8BqdER": {
+          "type": "input",
+          "settings": {
+            "required": false,
+            "input_type": "hidden",
+            "input_name": "formType",
+            "title": "Form Type",
+            "default_value": "desaru_finisher_reward",
+            "error_message": ""
+          }
+        },
+        "input_4Gcz4K": {
+          "type": "input",
+          "settings": {
+            "required": true,
+            "input_type": "text",
+            "input_name": "First Name",
+            "title": "First Name",
+            "max_length": 50,
+            "default_value": "",
+            "error_message": "Please enter your first name"
+          }
+        },
+        "input_7hnPBA": {
+          "type": "input",
+          "settings": {
+            "required": true,
+            "input_type": "text",
+            "input_name": "Last_Name",
+            "title": "LAST NAME",
+            "default_value": "",
+            "error_message": "Please enter your last name"
+          }
+        },
+        "input_YGCQm8": {
+          "type": "input",
+          "settings": {
+            "required": true,
+            "input_type": "email",
+            "input_name": "email",
+            "title": "Email",
+            "max_length": 100,
+            "default_value": "",
+            "error_message": "'Email' is required, must not exceed 100 characters, and must be a valid email address."
+          }
+        },
+        "select_aXFML4": {
+          "type": "select",
+          "settings": {
+            "required": true,
+            "select_name": "Country/Region",
+            "title": "Select your country/region",
+            "select_values": "Singapore,Malaysia,Hong Kong SAR,Macau SAR,Mainland China,Taiwan (China),Japan,South Korea,Indonesia,Thailand,Philippines,Vietnam,Australia,New Zealand,Other",
+            "default_value": "",
+            "error_message": "Please select your country/region."
+          }
+        },
+        "select_AW8L4A": {
+          "type": "select",
+          "settings": {
+            "required": true,
+            "select_name": "Desaru Race Category",
+            "title": "Desaru Race Category",
+            "select_values": "IRONMAN 70.3 Individual,IRONMAN 70.3 Relay,5150 Triathlon Individual,5150 Triathlon Relay,Desaru Coast Sprint Triathlon,",
+            "default_value": "",
+            "error_message": ""
+          }
+        },
+        "input_HiynMD": {
+          "type": "input",
+          "settings": {
+            "required": false,
+            "input_type": "text",
+            "input_name": "Next Race",
+            "title": "Next Race",
+            "max_length": 50,
+            "default_value": "",
+            "error_message": "'Zip & City' is required and must not exceed 50 characters."
+          }
+        },
+        "select_f73maq": {
+          "type": "select",
+          "settings": {
+            "required": false,
+            "select_name": "Gender / Product Preference",
+            "title": "Gender / Product Preference",
+            "select_values": "MEN, WOMEN, UNISEX",
+            "default_value": "",
+            "error_message": ""
+          }
+        },
+        "input_pqGafm": {
+          "type": "input",
+          "settings": {
+            "required": false,
+            "input_type": "text",
+            "input_name": "Club or Coach",
+            "title": "Club or Coach",
+            "default_value": "",
+            "error_message": ""
+          }
+        },
+        "input_cJ34G4": {
+          "type": "input",
+          "settings": {
+            "required": true,
+            "input_type": "phone",
+            "input_name": "phoneNumber",
+            "title": "Phone",
+            "max_length": 50,
+            "default_value": "+852",
+            "error_message": "'Phone' is required and must not exceed 50 characters."
+          }
+        },
+        "file_upload_CA4Nrh": {
+          "type": "file_upload",
+          "settings": {
+            "required": true,
+            "file_name": "Proof of Participation",
+            "title": "Proof of Participation",
+            "accepted_file_types": ".jpg,.png,.gif",
+            "max_files_size": 5,
+            "max_total_files": 3,
+            "upload_mode": "multiple",
+            "compress_files": true,
+            "error_message": "Please ensure you upload no more than 3 files and that their total combined size does not exceed 5 MB."
+          }
+        },
+        "file_upload_peDaJm": {
+          "type": "file_upload",
+          "disabled": true,
+          "settings": {
+            "required": false,
+            "file_name": "attachmentFile",
+            "title": "Attachments",
+            "accepted_file_types": "",
+            "max_files_size": 5,
+            "max_total_files": 3,
+            "upload_mode": "multiple",
+            "compress_files": false,
+            "error_message": "Total file size exceeds 5 MB limit and Maximum total file is 3"
+          }
+        },
+        "select_UG8tWD": {
+          "type": "select",
+          "settings": {
+            "required": true,
+            "select_name": "privacy_acknowledgement",
+            "title": "Privacy acknowledgement",
+            "select_values": "I have read and acknowledge the Privacy Policy",
+            "default_value": "",
+            "error_message": "Please acknowledge the Privacy Policy to continue."
+          }
+        },
+        "select_MCgLV3": {
+          "type": "select",
+          "settings": {
+            "required": true,
+            "select_name": "email_consent",
+            "title": "Email marketing consent (Would you like to receive training advice, race-season content, product updates and promotional offers from 5DLA? You may unsubscribe at any time.)",
+            "select_values": "Email opt-in,No email marketing",
+            "default_value": "",
+            "error_message": "Please select your email marketing preference."
+          }
+        },
+        "success_bAkkFf": {
+          "type": "success",
+          "settings": {
+            "title": "Thank you!",
+            "message": "Your form has been submitted successfully."
+          }
+        }
+      },
+      "block_order": [
+        "input_8BqdER",
+        "input_4Gcz4K",
+        "input_7hnPBA",
+        "input_YGCQm8",
+        "select_aXFML4",
+        "select_AW8L4A",
+        "input_HiynMD",
+        "select_f73maq",
+        "input_pqGafm",
+        "input_cJ34G4",
+        "file_upload_CA4Nrh",
+        "file_upload_peDaJm",
+        "select_UG8tWD",
+        "select_MCgLV3",
+        "success_bAkkFf"
+      ],
+      "name": "Custom Form",
+      "settings": {
+        "form_id": "desaru-finisher-reward",
+        "form_name": "Fill in your information",
+        "form_description": "Proof of ParticipationUpload one clear screenshot or photo showing your name and participation in the selected Desaru race.Accepted proof includes:Official digital finisher certificate—for example, your IRONMAN 70.3 finisher certificateScreenshot of your official race-result page showing your name and resultOfficial participant confirmation showing your name, race category and bib numberClear photo of your race bib together with your finisher medalPlease ensure your name and race category are visible. You may hide unrelated personal information.Accepted formats: JPG, JPEG, PNG, HEIC or PDFMaximum size: 10 MBMaximum files: 1",
+        "form_action": "",
+        "form_method": "POST",
+        "button_text": "CLAIM MY FINISHER REWARD",
+        "form_max_width": 770,
+        "form_margin": "0 auto 50px auto",
+        "form_padding": "20px 120px",
+        "form_background": "#f6f6f6",
+        "show_fake_data_button": true,
+        "enable_recaptcha": true,
+        "recaptcha_sitekey": "6LeJNl8sAAAAADrzAAbMdpzYLZiER5S-quC7peYP",
+        "recaptcha_default_error_message": "Please verify that you are not a robot."
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "custom_css": [],
+      "settings": {
+        "enable": true,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "breadcrumb",
+    "blocks_QyBfVF",
+    "custom_form_ngYq6w",
+    "main"
+  ]
+}

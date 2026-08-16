@@ -3,4 +3,5 @@
 /node_modules
 /ignore
 /assets/bundled.*
+/assets/dist
 package-lock.json
