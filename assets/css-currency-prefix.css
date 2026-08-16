@@ -1,0 +1,38 @@
+/*
+  Shopify's native multi-currency renders both HKD and SGD with a bare "$",
+  which is ambiguous since HK is the default/shop currency. This prefixes
+  the symbol per currency via ::before so it's resolved at first paint
+  (no JS text-rewrite, no layout shift/flash).
+
+  Scope: HKD and SGD only. Selectors below are every price-display class
+  found in templates/ (homepage/PLP grid cards, PDP, cart, minicart,
+  customer order history, gift card balance).
+*/
+
+html[data-currency="HKD"] .product-price::before,
+html[data-currency="HKD"] .product-single__price::before,
+html[data-currency="HKD"] .price-container::before,
+html[data-currency="HKD"] .cart-total__subtotal-price::before,
+html[data-currency="HKD"] .order-discount--cart::before,
+html[data-currency="HKD"] .ajaxcart__price::before,
+html[data-currency="HKD"] .ajaxcart__footer-price::before,
+html[data-currency="HKD"] .cart-modal-totalprice span::before,
+html[data-currency="HKD"] .cart__price::before,
+html[data-currency="HKD"] .order-product__value::before,
+html[data-currency="HKD"] .tooltip__label::before {
+  content: "HK";
+}
+
+html[data-currency="SGD"] .product-price::before,
+html[data-currency="SGD"] .product-single__price::before,
+html[data-currency="SGD"] .price-container::before,
+html[data-currency="SGD"] .cart-total__subtotal-price::before,
+html[data-currency="SGD"] .order-discount--cart::before,
+html[data-currency="SGD"] .ajaxcart__price::before,
+html[data-currency="SGD"] .ajaxcart__footer-price::before,
+html[data-currency="SGD"] .cart-modal-totalprice span::before,
+html[data-currency="SGD"] .cart__price::before,
+html[data-currency="SGD"] .order-product__value::before,
+html[data-currency="SGD"] .tooltip__label::before {
+  content: "S";
+}

@@ -48,3 +48,4 @@ import "../../assets/css-section-slideshow.css";
 
 // Main site styles
 import "../../assets/css-site-main.css";
+import "../../assets/css-currency-prefix.css";
