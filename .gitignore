@@ -4,4 +4,6 @@
 /ignore
 /assets/bundled.*
 /assets/dist
+/appsscript/**/dist/*.js
 package-lock.json
+.claude/settings.local.json

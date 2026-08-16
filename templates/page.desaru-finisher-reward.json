@@ -69,7 +69,7 @@
           "settings": {
             "required": true,
             "input_type": "text",
-            "input_name": "First Name",
+            "input_name": "firstName",
             "title": "First Name",
             "max_length": 50,
             "default_value": "",
@@ -81,7 +81,7 @@
           "settings": {
             "required": true,
             "input_type": "text",
-            "input_name": "Last_Name",
+            "input_name": "lastName",
             "title": "LAST NAME",
             "default_value": "",
             "error_message": "Please enter your last name"
@@ -103,7 +103,7 @@
           "type": "select",
           "settings": {
             "required": true,
-            "select_name": "Country/Region",
+            "select_name": "countryRegion",
             "title": "Select your country/region",
             "select_values": "Singapore,Malaysia,Hong Kong SAR,Macau SAR,Mainland China,Taiwan (China),Japan,South Korea,Indonesia,Thailand,Philippines,Vietnam,Australia,New Zealand,Other",
             "default_value": "",
@@ -114,7 +114,7 @@
           "type": "select",
           "settings": {
             "required": true,
-            "select_name": "Desaru Race Category",
+            "select_name": "desaruRaceCategory",
             "title": "Desaru Race Category",
             "select_values": "IRONMAN 70.3 Individual,IRONMAN 70.3 Relay,5150 Triathlon Individual,5150 Triathlon Relay,Desaru Coast Sprint Triathlon,",
             "default_value": "",
@@ -126,7 +126,7 @@
           "settings": {
             "required": false,
             "input_type": "text",
-            "input_name": "Next Race",
+            "input_name": "nextRace",
             "title": "Next Race",
             "max_length": 50,
             "default_value": "",
@@ -137,7 +137,7 @@
           "type": "select",
           "settings": {
             "required": false,
-            "select_name": "Gender / Product Preference",
+            "select_name": "genderProductPreference",
             "title": "Gender / Product Preference",
             "select_values": "MEN, WOMEN, UNISEX",
             "default_value": "",
@@ -149,7 +149,7 @@
           "settings": {
             "required": false,
             "input_type": "text",
-            "input_name": "Club or Coach",
+            "input_name": "clubOrCoach",
             "title": "Club or Coach",
             "default_value": "",
             "error_message": ""
@@ -171,7 +171,7 @@
           "type": "file_upload",
           "settings": {
             "required": true,
-            "file_name": "Proof of Participation",
+            "file_name": "proofOfParticipation",
             "title": "Proof of Participation",
             "accepted_file_types": ".jpg,.png,.gif",
             "max_files_size": 5,
@@ -200,7 +200,7 @@
           "type": "select",
           "settings": {
             "required": true,
-            "select_name": "privacy_acknowledgement",
+            "select_name": "privacyAcknowledgement",
             "title": "Privacy acknowledgement",
             "select_values": "I have read and acknowledge the Privacy Policy",
             "default_value": "",
@@ -211,7 +211,7 @@
           "type": "select",
           "settings": {
             "required": true,
-            "select_name": "email_consent",
+            "select_name": "emailConsent",
             "title": "Email marketing consent (Would you like to receive training advice, race-season content, product updates and promotional offers from 5DLA? You may unsubscribe at any time.)",
             "select_values": "Email opt-in,No email marketing",
             "default_value": "",

@@ -8,10 +8,11 @@
     "webpack:dev": "npx webpack --config webpack.config.js",
     "vite:prd": "node scripts/vite-build.mjs --mode production",
     "vite:dev": "node scripts/vite-build.mjs --mode development",
+    "gas:build": "node scripts/appsscript/build.mjs",
     "logout": "shopify auth logout",
     "lint": "npx eslint **/*.js",
     "lint:fix": "npx eslint **/*.js --fix",
-    "prd:pull": "dotenv -e ./.env/.env.prd -- bash -c 'shopify theme pull -s $SHOPIFY_CLI_STORE_DOMAIN --password $SHOPIFY_CLI_THEME_TOKEN --nodelete --ignore package.json'",
+    "prd:pull": "dotenv -e ./.env/.env.prd -- bash -c 'shopify theme pull -s $SHOPIFY_CLI_STORE_DOMAIN --password $SHOPIFY_CLI_THEME_TOKEN --nodelete --ignore package.json \"assets/dist/*\"'",
     "prd:pulldata": "dotenv -e ./.env/.env.prd -- bash -c 'shopify theme pull -s $SHOPIFY_CLI_STORE_DOMAIN --password $SHOPIFY_CLI_THEME_TOKEN --nodelete --only \"config/*\" \"templates/*\" \"locales/*\"'",
     "prd:pullblock": "dotenv -e ./.env/.env.prd -- bash -c 'shopify theme pull -s $SHOPIFY_CLI_STORE_DOMAIN --password $SHOPIFY_CLI_THEME_TOKEN --nodelete' && git stash push ./blocks && git checkout -- . && git stash pop",
     "prd:push": "dotenv -e ./.env/.env.prd -- bash -c 'shopify theme push -s $SHOPIFY_CLI_STORE_DOMAIN --password $SHOPIFY_CLI_THEME_TOKEN --nodelete'",
@@ -24,6 +25,7 @@
   "description": "",
   "dependencies": {
     "@faker-js/faker": "^10.5.0",
+    "@google/clasp": "^3.3.0",
     "compressorjs": "^1.3.0",
     "crypto-js": "^4.2.0"
   },
@@ -37,8 +39,8 @@
     "babel-loader": "^10.1.1",
     "cssnano": "^8.0.5",
     "dotenv": "^17.4.2",
-    "esbuild": "^0.28.2",
     "dotenv-cli": "^11.0.0",
+    "esbuild": "^0.28.2",
     "eslint": "^10.8.1",
     "globals": "^17.11.0",
     "postcss": "^8.5.26",
@@ -48,5 +50,9 @@
   "allowScripts": {
     "esbuild@0.28.1": true,
     "esbuild@0.28.2": true
-  }
+  },
+  "workspaces": [
+    "appsscript/dev.5dla",
+    "appsscript/main.5dla"
+  ]
 }

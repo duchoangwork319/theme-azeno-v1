@@ -48,7 +48,7 @@ const run = async () => {
   const entries = listJSFiles();
 
   for (const entry of entries) {
-    await build({
+    const config = {
       root: cwd,
       mode,
       configFile: false,
@@ -86,7 +86,16 @@ const run = async () => {
           },
         },
       },
-    });
+    };
+
+    if (entry.name.includes("faker")) {
+      // faker.js is a dev-only utility, so don't minify it even in production
+      config.build.minify = false;
+      config.build.cssMinify = false;
+      config.build.rollupOptions.output.format = "iife";
+    }
+
+    await build(config);
   }
 };
 
