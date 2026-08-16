@@ -1,0 +1,90 @@
+{
+  "fields": {
+    "firstName": {
+      "required": true,
+      "maxlength": 50,
+      "pattern": null,
+      "defaultMessage": "Invalid input: 'First Name' is required and must not exceed 50 characters."
+    },
+    "lastName": {
+      "required": true,
+      "maxlength": null,
+      "pattern": null,
+      "defaultMessage": "Invalid input: 'Last Name' is required."
+    },
+    "email": {
+      "required": true,
+      "maxlength": 100,
+      "pattern": "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$",
+      "defaultMessage": "Invalid input: 'Email' is required, must not exceed 100 characters, and must be a valid email address."
+    },
+    "countryRegion": {
+      "required": true,
+      "maxlength": null,
+      "pattern": null,
+      "defaultMessage": "Please select your country/region."
+    },
+    "desaruRaceCategory": {
+      "required": true,
+      "maxlength": null,
+      "pattern": null,
+      "defaultMessage": "Please select your Desaru race category."
+    },
+    "nextRace": {
+      "required": false,
+      "maxlength": 50,
+      "pattern": null,
+      "defaultMessage": "Invalid input: 'Next Race' must not exceed 50 characters."
+    },
+    "genderProductPreference": {
+      "required": false,
+      "maxlength": null,
+      "pattern": null,
+      "defaultMessage": "Please select your gender / product preference."
+    },
+    "clubOrCoach": {
+      "required": false,
+      "maxlength": null,
+      "pattern": null,
+      "defaultMessage": "Invalid input: 'Club or Coach' is invalid."
+    },
+    "phoneNumber_country": {
+      "required": true,
+      "maxlength": null,
+      "pattern": "^\\+\\d+$",
+      "defaultMessage": "Invalid input: 'Phone Country' must start with '+' followed by numbers."
+    },
+    "phoneNumber": {
+      "required": true,
+      "maxlength": 50,
+      "pattern": null,
+      "defaultMessage": "Invalid input: 'Phone' is required and must not exceed 50 characters."
+    },
+    "privacyAcknowledgement": {
+      "required": true,
+      "maxlength": null,
+      "pattern": null,
+      "defaultMessage": "Please acknowledge the Privacy Policy to continue."
+    },
+    "emailConsent": {
+      "required": true,
+      "maxlength": null,
+      "pattern": null,
+      "defaultMessage": "Please select your email marketing preference."
+    }
+  },
+  "fileUploads": {
+    "proofOfParticipation": {
+      "maxFiles": 3,
+      "maxSizeMB": 5,
+      "defaultMessage": "Please ensure you upload no more than 3 files and that their total combined size does not exceed 5 MB.",
+      "filenamePrefix": "DesaruFinisherReward_"
+    },
+    "attachmentFile": {
+      "maxFiles": 3,
+      "maxSizeMB": 5,
+      "defaultMessage": "Total file size exceeds 5 MB limit and Maximum total file is 3.",
+      "filenamePrefix": "DesaruFinisherRewardAttachment_"
+    }
+  }
+}
