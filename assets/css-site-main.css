@@ -3960,10 +3960,21 @@ textarea:focus-visible {
 	padding: 0 10px;
 	text-align: center;
 	white-space: nowrap;
-	display: inline-block;
+	display: block;
+	width: max-content;
 	margin-right: 5px;
 	vertical-align: top;
 	font-weight: var(--body-font-weight-bold);
+}
+
+.product-card__label>span:nth-child(2) {
+	margin-top: 4px;
+}
+
+.product-card__label .product-card__label_custom {
+	background: var(--gray-dark);
+	color: var(--white);
+	font-size: calc(var(--font-size-base) - 4px);
 }
 
 .product-card__on-sale {

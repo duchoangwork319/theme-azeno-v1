@@ -1687,6 +1687,10 @@
 	right: 10px;
 }
 
+.product-single .product-single__main-media .product-card__label>span:nth-child(2) {
+	float: right;
+}
+
 .product-single .product-single__main-media .product-media__wrapper:not(.product-media__wrapper--video) {
 	position: relative;
 	cursor: none;
