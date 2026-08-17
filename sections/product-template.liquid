@@ -30,7 +30,16 @@
 {%- if media_layout == 'lagre-gallery' or media_layout == 'slider' -%}
   {%- assign nothum = true -%}
 {%- endif -%}
-
+{% liquid
+  for block in section.blocks
+    case block.type
+      when 'bundle_product'
+        assign has_bundle = true
+      when 'estimated_delivery', 'static_message_by_tags'
+        assign has_est_msg = true
+    endcase
+  endfor
+%}
 <section
   class="wpbingo-section wpbingo-section--{{ section.id }}"
   style="background:{{ section.settings.bg_section }};padding:{{ section.settings.padding_section }};"
@@ -60,7 +69,7 @@
               <div class="bwp-single-image col-lg-7 col-md-12 col-12">
                 {% include 'product-media' %}
               </div>
-              <div class="bwp-single-info col-lg-5 col-md-12 col-12 ">
+              <div class="bwp-single-info col-lg-5 col-md-12 col-12 {% if has_bundle == true %}has-bundle{% endif %} {% if has_est_msg == true %}has-est-msg{% endif %}">
                 <div class="product-single__metas{% if section.settings.product_button_wishlist %} wishlist{% endif %}">
                   {%- for block in section.blocks -%}
                     {%- case block.type -%}
@@ -504,6 +513,8 @@
                         </div>
                       {%- when 'buy_together' -%}
                         {%- include 'image-buy-together' -%}
+                      {%- when 'bundle_product' -%}
+                        {%- include 'mini-bundle-product' -%}
                       {%- when 'product_sku' -%}
                         {%- if product.selected_or_first_available_variant.sku != blank -%}
                           <div class="product__organization">
@@ -1608,7 +1619,7 @@
     },
     {
       "type": "buy_together",
-      "name": "Bought Together",
+      "name": "Buy Together Mini",
       "limit": 1,
       "settings": [
         {
@@ -1624,6 +1635,11 @@
           "default": "Frequently Bought Together"
         }
       ]
+    },
+    {
+      "type": "bundle_product",
+      "name": "Bundles",
+      "limit": 1
     },
     {
       "type": "product_sku",

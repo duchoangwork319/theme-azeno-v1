@@ -1,0 +1,38 @@
+{% doc %}
+  This snippet calculates list and sale prices for a product or product group based on a
+  provided base price and one supported discount type. When multiple discount values are
+  provided, only the highest-priority discount is applied in this order:
+  percentage_discount, fixed_amount_discount, fixed_bundle_price.
+
+  The snippet outputs raw money amounts in cents in this format: list_price;sale_price
+
+  @param {number} price - The original price in cents
+  @param {number} [percentage_discount] - Percentage discount to apply, from 0 to 100
+  @param {number} [fixed_amount_discount] - Fixed discount amount in cents
+  @param {number} [fixed_bundle_price] - Fixed final price in cents
+{% enddoc %}
+
+{%- liquid
+  assign list_price = price | default: 0 | plus: 0
+  assign sale_price = list_price
+  assign normalized_percentage_discount = percentage_discount | default: 0 | plus: 0
+  assign normalized_fixed_amount_discount = fixed_amount_discount | default: 0 | plus: 0
+  assign normalized_fixed_price = fixed_bundle_price | default: 0 | plus: 0
+
+  if normalized_percentage_discount > 0
+    assign percentage_after_discount = 100 | minus: normalized_percentage_discount
+    assign sale_price = sale_price | times: percentage_after_discount | divided_by: 100
+  elsif normalized_fixed_amount_discount > 0
+    assign sale_price = sale_price | minus: normalized_fixed_amount_discount
+  elsif normalized_fixed_price > 0
+    assign sale_price = normalized_fixed_price
+  endif
+
+  if sale_price < 0
+    assign sale_price = 0
+  endif
+
+  assign sale_price = sale_price | plus: 0
+-%}
+
+{{- sale_price -}}
