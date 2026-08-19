@@ -20,8 +20,9 @@
       <span class="product-card__on-sale">- {{ saved_amount }}</span>
     {% endif %}
     {%- if badge_label != blank -%}
-      {% assign badge_key = 'product.badges.' | append: badge_label %}
-      <span class="product-card__label_custom">{{ badge_key | t }}</span>
+      {% comment %} {% assign badge_key = 'product.badges.' | append: badge_label %}
+      <span class="product-card__label_custom">{{ badge_key | t }}</span> {% endcomment %}
+      <span class="product-card__label_custom">{{ badge_label }}</span>
     {%- endif -%}
   </div>
 {%- endif -%}
