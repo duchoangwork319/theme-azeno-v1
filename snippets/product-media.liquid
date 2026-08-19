@@ -63,7 +63,7 @@
       <div class="row mutil_slider-single {{ varriant_image }}{% if active-varriant_image == varriant_image %} active{% endif %}">
         <div class="{%- if img_thumbnail and vertical -%}col-md-10 {% if gird-sticky %} left{% else %} {{ section.settings.position_thumbnails }}{% endif %}{%- else -%}col-md-12{%- endif -%}">
           <div class="product-single__main-media">
-            {% render 'product-card_label', product: product %}
+            {% render 'product-card_badge', product: product %}
             <div class="main_media-content">
               {%- include 'product-media-image' -%}
             </div>
@@ -87,7 +87,7 @@
     <div class="row">
       <div class="{%- if img_thumbnail and vertical -%}col-md-10 {% if gird-sticky %} left{% else %} {{ section.settings.position_thumbnails }}{% endif %}{%- else -%}col-md-12{%- endif -%}">
         <div class="product-single__main-media">
-          {% render 'product-card_label', product: product %}
+          {% render 'product-card_badge', product: product %}
           <div class="main_media-content">
             {%- include 'product-media-image' -%}
           </div>

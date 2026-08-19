@@ -18,6 +18,7 @@
     "prd:push:assets": "dotenv -e ./.env/.env.prd -- bash -c 'shopify theme push -s $SHOPIFY_CLI_STORE_DOMAIN --password $SHOPIFY_CLI_THEME_TOKEN --nodelete --only \"assets/*\"'",
     "dev:push:theme": "dotenv -e ./.env/.env.dev -- bash -c 'shopify theme push -s $SHOPIFY_CLI_STORE_DOMAIN --password $SHOPIFY_CLI_THEME_TOKEN --nodelete -t $SHOPIFY_CLI_THEME_ID'",
     "dev:push:assets": "dotenv -e ./.env/.env.dev -- bash -c 'shopify theme push -s $SHOPIFY_CLI_STORE_DOMAIN --password $SHOPIFY_CLI_THEME_TOKEN --nodelete --only \"assets/*\" -t $SHOPIFY_CLI_THEME_ID'",
+    "dev:push:snippets": "dotenv -e ./.env/.env.dev -- bash -c 'shopify theme push -s $SHOPIFY_CLI_STORE_DOMAIN --password $SHOPIFY_CLI_THEME_TOKEN --nodelete --only \"snippets/*\" -t $SHOPIFY_CLI_THEME_ID'",
     "dev:watch:theme": "dotenv -e ./.env/.env.dev -- bash -c 'shopify theme dev -s $SHOPIFY_CLI_STORE_DOMAIN --password $SHOPIFY_CLI_THEME_TOKEN --nodelete --store-password $SHOPIFY_CLI_STOREFRONT_PWD -t $SHOPIFY_CLI_THEME_ID --theme-editor-sync'",
     "login": "shopify auth login",
     "logout": "shopify auth logout"
