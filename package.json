@@ -9,6 +9,7 @@
     "dev:build:vite": "node scripts/vite-build.mjs --mode development",
     "prd:build:vite": "node scripts/vite-build.mjs --mode production",
     "build:gas": "node scripts/appsscript/build.mjs",
+    "deploy:gas": "node scripts/appsscript/deploy.mjs",
     "lint": "npx eslint **/*.js",
     "lint:fix": "npx eslint **/*.js --fix",
     "prd:pull:theme": "dotenv -e ./.env/.env.prd -- bash -c 'shopify theme pull -s $SHOPIFY_CLI_STORE_DOMAIN --password $SHOPIFY_CLI_THEME_TOKEN --nodelete --ignore package.json \"assets/dist/*\"'",
