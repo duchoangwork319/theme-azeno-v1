@@ -1,9 +1,18 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "general": {
     "404": {
       "heading": "404",
       "title": "Oops! That page can't be found.",
-      "subtext_html": "The page you were looking for does not exist. <a href=\"{{ link }}\" class=\"text-link\">Click here<\/a> to continue shopping."
+      "subtext_html": "The page you were looking for does not exist. <a href=\"{{ link }}\" class=\"text-link\">Click here</a> to continue shopping."
     },
     "accessibility": {
       "refresh_page": "Choosing a selection results in a full page refresh.",
@@ -25,7 +34,7 @@
       "login_form_submit": "Enter",
       "signup_form_email_label": "Email",
       "signup_form_success": "We will send you an email right before we open!",
-      "admin_link_html": "Are you the store owner? <a href=\"\/admin\" class=\"text-link\">Log in here<\/a>",
+      "admin_link_html": "Are you the store owner? <a href=\"/admin\" class=\"text-link\">Log in here</a>",
       "password_link": "Enter using password",
       "powered_by_shopify_html": "This shop will be powered by {{ shopify }}",
       "close": "close (esc)"
@@ -132,17 +141,17 @@
       "quantity": "Quantity: ",
       "product_total": "Total: ",
       "cart_total": "Cart total: ",
-      "cart_modal_count_html": "There are <span class=\"count\">{{ item_count }}<\/span> <span>item(s) <\/span>in your cart",
+      "cart_modal_count_html": "There are <span class=\"count\">{{ item_count }}</span> <span>item(s) </span>in your cart",
       "subtotal": "Subtotal: ",
       "taxes_and_shipping_at_checkout": "Taxes and shipping calculated at checkout",
-      "taxes_and_shipping_policy_at_checkout_html": "Taxes and <a href=\"{{ link }}\">shipping<\/a> calculated at checkout",
+      "taxes_and_shipping_policy_at_checkout_html": "Taxes and <a href=\"{{ link }}\">shipping</a> calculated at checkout",
       "taxes_included_but_shipping_at_checkout": "Tax included and shipping calculated at checkout",
-      "taxes_included_and_shipping_policy_html": "Tax included. <a href=\"{{ link }}\">Shipping<\/a> calculated at checkout.",
+      "taxes_included_and_shipping_policy_html": "Tax included. <a href=\"{{ link }}\">Shipping</a> calculated at checkout.",
       "viewcart": "View Cart",
       "update": "Update Cart",
       "checkout": "Check Out",
       "empty": "Your cart is currently empty.",
-      "continue_browsing_html": "<p>Before proceed to checkout you must add some products to your shopping cart.<br \/> You will find a lot of interesting products on our Website.<\/p> <a class=\"btn btn-primary\" href=\"{{ link }}\">Go to shopping<\/a>",
+      "continue_browsing_html": "<p>Before proceed to checkout you must add some products to your shopping cart.<br /> You will find a lot of interesting products on our Website.</p> <a class=\"btn btn-primary\" href=\"{{ link }}\">Go to shopping</a>",
       "close_cart": "Close Cart",
       "savings_html": "You're saving {{ savings }}",
       "reduce_quantity": "Reduce item quantity by one",
@@ -171,7 +180,7 @@
     "calculator": {
       "country": "Country",
       "province": "Province",
-      "zip": "Zip\/Postal Code",
+      "zip": "Zip/Postal Code",
       "placeholder_zip": "Zip Code"
     }
   },
@@ -251,9 +260,9 @@
       "address1": "Address1",
       "address2": "Address2",
       "city": "City",
-      "country": "Country\/Region",
+      "country": "Country/Region",
       "province": "Province",
-      "zip": "Postal\/Zip Code",
+      "zip": "Postal/Zip Code",
       "phone": "Phone",
       "set_default": "Set as default address",
       "add": "Add Address",
@@ -276,7 +285,7 @@
       "account": "Account",
       "new_customer": "New customer?",
       "new_customer_desc": "Sign up for early Sale access plus tailored new arrivals, trends and promotions. To opt out, click unsubscribe in our emails.",
-      "register_account_html": "<a href=\"{{register}}\">Create your account<\/a>"
+      "register_account_html": "<a href=\"{{register}}\">Create your account</a>"
     },
     "orders": {
       "title": "Order History",
@@ -345,13 +354,13 @@
     "map": {
       "address_error": "Error looking up that address",
       "address_no_results": "No results for that address",
-      "address_query_limit_html": "You have exceeded the Google API usage limit. Consider upgrading to a <a href=\"https:\/\/developers.google.com\/maps\/premium\/usage-limits\">Premium Plan<\/a>.",
+      "address_query_limit_html": "You have exceeded the Google API usage limit. Consider upgrading to a <a href=\"https://developers.google.com/maps/premium/usage-limits\">Premium Plan</a>.",
       "auth_error_html": "There was a problem authenticating your Google Maps account."
     }
   },
   "layout": {
     "header": {
-      "login_html": "Hello <strong>{{ fullname }}<\/strong>",
+      "login_html": "Hello <strong>{{ fullname }}</strong>",
       "login": "Sign in",
       "logout": "Sign out",
       "register": "Sign up",
@@ -369,7 +378,7 @@
     },
     "customer": {
       "account": "Account",
-      "log_out_html": "not <strong>{{ fullname }}<\/strong>",
+      "log_out_html": "not <strong>{{ fullname }}</strong>",
       "log_out": "Log Out",
       "log_in": "Log In",
       "create_account": "Create Account"
@@ -385,7 +394,7 @@
       "sale_price": "Sale price",
       "regular_price": "Regular price",
       "include_taxes": "Tax included.",
-      "shipping_policy_html": "<a href=\"{{ link }}\">Shipping<\/a> calculated at checkout.",
+      "shipping_policy_html": "<a href=\"{{ link }}\">Shipping</a> calculated at checkout.",
       "unit_price": "Unit price"
     },
     "product": {
@@ -395,8 +404,8 @@
       "availability": "Availability",
       "unavailable": "Unavailable",
       "in_stock": "In stock",
-      "left_in_stock_html": "Only <span>{{ current_variant }} item(s)<\/span> left in stock",
-      "time_delivery_html": "Order in the next <span class=\"time_hour\"><\/span> hours <span class=\"time_min\"><\/span> minutes to get it between <span class=\"day_start\"><\/span> and <span class=\"day_stop\"><\/span>",
+      "left_in_stock_html": "Only <span>{{ current_variant }} item(s)</span> left in stock",
+      "time_delivery_html": "Order in the next <span class=\"time_hour\"></span> hours <span class=\"time_min\"></span> minutes to get it between <span class=\"day_start\"></span> and <span class=\"day_stop\"></span>",
       "out_stock": "Out of stock",
       "quantity": "Quantity",
       "add_to_cart": "Add to Cart",
@@ -466,8 +475,8 @@
       "view_store_info": "View store information",
       "check_other_stores": "Check availability at other stores",
       "pick_up_available": "Pickup available",
-      "pick_up_available_at_html": "Pickup available at <span class=\"color-foreground\">{{ location_name }}<\/span>",
-      "pick_up_unavailable_at_html": "Pickup currently unavailable at <span class=\"color-foreground\">{{ location_name }}<\/span>",
+      "pick_up_available_at_html": "Pickup available at <span class=\"color-foreground\">{{ location_name }}</span>",
+      "pick_up_unavailable_at_html": "Pickup currently unavailable at <span class=\"color-foreground\">{{ location_name }}</span>",
       "unavailable": "Couldn't load pickup availability",
       "map": "Check this on google map",
       "refresh": "Refresh"
@@ -489,12 +498,12 @@
   "collection_template": {
     "empty": "No products found",
     "title": "Collection",
-    "use_fewer_filters_html": "Use fewer filters or <a class=\"{{ class }}\" href=\"{{ link }}\">clear all<\/a>"
+    "use_fewer_filters_html": "Use fewer filters or <a class=\"{{ class }}\" href=\"{{ link }}\">clear all</a>"
   },
   "templates": {
     "search": {
-      "no_results1_html": "No results found for <b>“{{ terms }}”<\/b> in products.",
-      "no_results2_html": "No results found for <b>“{{ terms }}”<\/b> in all posts.",
+      "no_results1_html": "No results found for <b>“{{ terms }}”</b> in products.",
+      "no_results2_html": "No results found for <b>“{{ terms }}”</b> in all posts.",
       "page": "Page",
       "products": "Products",
       "journal": "Journal",
@@ -518,12 +527,5 @@
     "availability": "Availability",
     "price": "Price",
     "button": "Button"
-  },
-  "product": {
-    "badges": {
-      "NEW": "New",
-      "UNISEX": "Unisex",
-      "SPECIAL_EDITION": "Special Edition"
-    }
   }
 }
