@@ -1691,8 +1691,8 @@
 	float: right;
 }
 
-.product-single .product-single__main-media .product-card__label .product-card__label_custom {
-	font-size: 15px;
+.product-single .product-single__main-media .product-card__label span {
+	font-size: calc(var(--font-size-base) + 1px);
 	padding: 6px 12px;
 }
 
@@ -6446,5 +6446,10 @@ body.template-product .wpbingo-breadcrumbs {
 
 	.sticky-cart-single .product-single__buttons .product-quantity {
 		display: none;
+	}
+
+	.product-single .product-single__main-media .product-card__label span {
+		font-size: calc(var(--font-size-base) - 2px);
+		padding: 3px 9px;
 	}
 }
