@@ -248,7 +248,7 @@
         "form_id": "desaru-finisher-reward",
         "form_name": "Fill in your information",
         "form_description": "Proof of ParticipationUpload one clear screenshot or photo showing your name and participation in the selected Desaru race.Accepted proof includes:Official digital finisher certificate—for example, your IRONMAN 70.3 finisher certificateScreenshot of your official race-result page showing your name and resultOfficial participant confirmation showing your name, race category and bib numberClear photo of your race bib together with your finisher medalPlease ensure your name and race category are visible. You may hide unrelated personal information.Accepted formats: JPG, JPEG, PNG, HEIC or PDFMaximum size: 10 MBMaximum files: 1",
-        "form_action": "",
+        "form_action": "https://script.google.com/macros/s/AKfycbzs58p10pl6IkRGE8S-bnrzJirhDTbT80HVfC-wySgbARuEMoUF2zOC1_A737laJwYZIQ/exec",
         "form_method": "POST",
         "button_text": "CLAIM MY FINISHER REWARD",
         "form_max_width": 770,
