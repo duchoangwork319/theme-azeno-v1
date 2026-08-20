@@ -9,9 +9,20 @@
 {%- assign badge_label = product.metafields.bwp_fields.badge_label -%}
 {%- if on_sale or sold_out or badge_label != blank -%}
   <div class="product-card__label">
-    {% if sold_out %}
-      <span class="product-card__sold-out">{{ 'products.product.out_stock' | t }}</span>
-    {% elsif group_product == blank and on_sale %}
+    {% comment %}
+      {% if sold_out %}
+         <span class="product-card__sold-out">{{ 'products.product.out_stock' | t }}</span>
+       {% elsif group_product == blank and on_sale %}
+         {%- capture saved_amount -%}
+      	{%- assign price = product.compare_at_price | minus: product.price -%}
+      	{%- assign price_pecent = price | times: 100 -%}
+      	{{ price_pecent | divided_by: product.compare_at_price  }}%
+      {%- endcapture -%}
+         <span class="product-card__on-sale">- {{ saved_amount }}</span>
+       {% endif %}
+    {% endcomment %}
+
+    {% if group_product == blank and on_sale %}
       {%- capture saved_amount -%}
 				{%- assign price = product.compare_at_price | minus: product.price -%}
 				{%- assign price_pecent = price | times: 100 -%}
@@ -19,9 +30,8 @@
 			{%- endcapture -%}
       <span class="product-card__on-sale">- {{ saved_amount }}</span>
     {% endif %}
+
     {%- if badge_label != blank -%}
-      {% comment %} {% assign badge_key = 'product.badges.' | append: badge_label %}
-      <span class="product-card__label_custom">{{ badge_key | t }}</span> {% endcomment %}
       <span class="product-card__label_custom">{{ badge_label }}</span>
     {%- endif -%}
   </div>

@@ -1691,6 +1691,11 @@
 	float: right;
 }
 
+.product-single .product-single__main-media .product-card__label .product-card__label_custom {
+	font-size: 15px;
+	padding: 6px 12px;
+}
+
 .product-single .product-single__main-media .product-media__wrapper:not(.product-media__wrapper--video) {
 	position: relative;
 	cursor: none;
