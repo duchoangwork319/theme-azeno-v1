@@ -17,7 +17,7 @@
     "prd:pull:blocks": "dotenv -e ./.env/.env.prd -- bash -c 'shopify theme pull -s $SHOPIFY_CLI_STORE_DOMAIN --password $SHOPIFY_CLI_THEME_TOKEN --nodelete' && git stash push ./blocks && git checkout -- . && git stash pop",
     "prd:push:theme": "dotenv -e ./.env/.env.prd -- bash -c 'shopify theme push -s $SHOPIFY_CLI_STORE_DOMAIN --password $SHOPIFY_CLI_THEME_TOKEN --nodelete'",
     "prd:push:assets": "dotenv -e ./.env/.env.prd -- bash -c 'shopify theme push -s $SHOPIFY_CLI_STORE_DOMAIN --password $SHOPIFY_CLI_THEME_TOKEN --nodelete --only \"assets/*\"'",
-    "dev:push:theme": "dotenv -e ./.env/.env.dev -- bash -c 'shopify theme push -s $SHOPIFY_CLI_STORE_DOMAIN --password $SHOPIFY_CLI_THEME_TOKEN --nodelete -t $SHOPIFY_CLI_THEME_ID'",
+    "dev:push:theme": "dotenv -e ./.env/.env.dev -- bash -c 'shopify theme push -s $SHOPIFY_CLI_STORE_DOMAIN --password $SHOPIFY_CLI_THEME_TOKEN --nodelete --ignore \"config/*\" -t $SHOPIFY_CLI_THEME_ID'",
     "dev:push:assets": "dotenv -e ./.env/.env.dev -- bash -c 'shopify theme push -s $SHOPIFY_CLI_STORE_DOMAIN --password $SHOPIFY_CLI_THEME_TOKEN --nodelete --only \"assets/*\" -t $SHOPIFY_CLI_THEME_ID'",
     "dev:push:snippets": "dotenv -e ./.env/.env.dev -- bash -c 'shopify theme push -s $SHOPIFY_CLI_STORE_DOMAIN --password $SHOPIFY_CLI_THEME_TOKEN --nodelete --only \"snippets/*\" -t $SHOPIFY_CLI_THEME_ID'",
     "dev:watch:theme": "dotenv -e ./.env/.env.dev -- bash -c 'shopify theme dev -s $SHOPIFY_CLI_STORE_DOMAIN --password $SHOPIFY_CLI_THEME_TOKEN --nodelete --store-password $SHOPIFY_CLI_STOREFRONT_PWD -t $SHOPIFY_CLI_THEME_ID --theme-editor-sync'",
@@ -48,6 +48,7 @@
     "eslint": "^10.8.1",
     "globals": "^17.11.0",
     "postcss": "^8.5.26",
+    "sass": "^1.94.1",
     "terser": "^5.50.0",
     "vite": "^8.2.1"
   },

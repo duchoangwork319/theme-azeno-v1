@@ -1,0 +1,26 @@
+{%- comment -%}
+  Megamenu layout: main link columns + spotlight banner(s).
+  Expects the calling scope (fs-menu.liquid) to provide `parent_menu_link`.
+{%- endcomment -%}
+<div class="megamenu-fs megamenu-fs--menu-spotlights">
+  <div class="megamenu-fs__row">
+    <ul class="megamenu-fs__main-cols">
+      {%- assign megamenu_name = '' -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'megamenu' -%}
+          {%- assign megamenu_name = block.settings.target_collection.handle -%}
+        {%- elsif block.type == 'megamenu-child' and megamenu_name == parent_menu_link.handle and block.settings.widget == 'main' -%}
+          {% render 'fs-megamenu', block: block %}
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+    {%- assign megamenu_name = '' -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'megamenu' -%}
+        {%- assign megamenu_name = block.settings.target_collection.handle -%}
+      {%- elsif block.type == 'megamenu-child' and megamenu_name == parent_menu_link.handle and block.settings.widget == 'spotlight' -%}
+        {% render 'fs-megamenu', block: block, spotlight_width: 25 %}
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</div>
