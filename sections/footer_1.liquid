@@ -233,6 +233,7 @@
 															<div class="alert alert-success">{{ 'general.newsletter_form.newsletter_confirmation' | t }}</div>
 														{%- else -%}
 															<input type="hidden" name="contact[tags]" value="newsletter">
+															<input type="hidden" name="customer[accepts_marketing]" value="true">
 															<div class="newsletter-form__wrap">
 																<input value="{% if customer %}{{ customer.email }}{% endif %}"
 																	placeholder="{{ 'general.newsletter_form.newsletter_placeholder' | t }}"
@@ -272,6 +273,7 @@
 															<div class="alert alert-success">{{ 'general.newsletter_form.newsletter_confirmation' | t }}</div>
 														{%- else -%}
 															<input type="hidden" name="contact[tags]" value="newsletter">
+															<input type="hidden" name="customer[accepts_marketing]" value="true">
 															<div class="newsletter-form__wrap">
 																<input value="{% if customer %}{{ customer.email }}{% endif %}"
 																	placeholder="{{ 'general.newsletter_form.newsletter_placeholder' | t }}"
@@ -505,7 +507,7 @@
 					"type": "textarea",
 					"id": "content",
 					"label": "Content",
-					"default": "<\p>Moreton / Didcot / London Showroom <\/p><p>+44 (0) 2598 321158<\/p>"
+					"default": "<p>Moreton / Didcot / London Showroom <\/p><p>+44 (0) 2598 321158<\/p>"
 				},
 				{
 					"type": "checkbox",

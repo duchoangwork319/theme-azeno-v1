@@ -75,6 +75,7 @@
 									<div class="js-newsletter-popup-success alert alert-success">{{ 'general.newsletter_form.newsletter_confirmation' | t }}</div>
 								{%- else -%}
 									<input type="hidden" name="contact[tags]" value="newsletter">
+									<input type="hidden" name="customer[accepts_marketing]" value="true">
 									<div class="newsletter-form__wrap">
 										<input value="{% if customer %}{{ customer.email }}{% endif %}"
 											placeholder="{{ 'general.newsletter_form.newsletter_placeholder' | t }}..."
