@@ -45,15 +45,15 @@
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
                 style="width:100%;border-collapse:collapse;">
                 <tr>
-                  <td align="left" valign="middle"><a href="https://5dla.com/en-hk"
+                  <td align="left" valign="middle"><a href="https://5dla.com/{{ event.extra.customer_locale|downcase|default:'en-hk' }}"
                       style="color:#080808;font-family:Arial,Helvetica,sans-serif;font-size:24px;font-weight:900;line-height:24px;letter-spacing:-2px;text-decoration:none;">5DLA</a>
                   </td>
                   <td align="right" valign="middle" style="white-space:nowrap;">
-                    <a href="https://5dla.com/en-hk/collections/triathlon"
+                    <a href="https://5dla.com/{{ event.extra.customer_locale|downcase|default:'en-hk' }}/collections/triathlon"
                       style="padding-left:10px;color:#080808;font-family:Arial,Helvetica,sans-serif;font-size:8px;font-weight:700;line-height:14px;letter-spacing:.6px;text-decoration:none;">TRIATHLON</a>
-                    <a href="https://5dla.com/en-hk/collections/cycling"
+                    <a href="https://5dla.com/{{ event.extra.customer_locale|downcase|default:'en-hk' }}/collections/cycling"
                       style="padding-left:10px;color:#080808;font-family:Arial,Helvetica,sans-serif;font-size:8px;font-weight:700;line-height:14px;letter-spacing:.6px;text-decoration:none;">CYCLING</a>
-                    <a href="https://5dla.com/en-hk/collections/running"
+                    <a href="https://5dla.com/{{ event.extra.customer_locale|downcase|default:'en-hk' }}/collections/running"
                       style="padding-left:10px;color:#080808;font-family:Arial,Helvetica,sans-serif;font-size:8px;font-weight:700;line-height:14px;letter-spacing:.6px;text-decoration:none;">RUNNING</a>
                   </td>
                 </tr>
@@ -88,7 +88,7 @@
                       style="border-collapse:collapse;">
                       <tr>
                         <td align="center" style="background-color:#ffffff;"><a
-                            href="{{ event.extra.line_items.0.product.review_rating_url }}"
+                            href="https://5dla.com/{{ event.extra.customer_locale|downcase|default:'en-hk' }}/products/{{ event.extra.line_items.0.product.handle }}?variant={{ event.extra.line_items.0.product.variant.id }}#reviews"
                             style="display:inline-block;padding:15px 22px;color:#080808;font-family:Arial,Helvetica,sans-serif;font-size:10px;font-weight:800;line-height:14px;letter-spacing:1.2px;text-decoration:none;">REVIEW
                             YOUR GEAR</a></td>
                       </tr>
@@ -123,7 +123,7 @@
 
           <tr>
             <td style="padding:0;background-color:#f2f2ef;"><a
-                href="{{ event.extra.line_items.0.product.review_rating_url }}" style="text-decoration:none;"><img
+                href="https://5dla.com/{{ event.extra.customer_locale|downcase|default:'en-hk' }}/products/{{ event.extra.line_items.0.product.handle }}?variant={{ event.extra.line_items.0.product.variant.id }}#reviews" style="text-decoration:none;"><img
                   src="{{ event.extra.line_items.0.product.images.0.src|default:'' }}" width="600"
                   alt="{{ event.extra.line_items.0.product.title }} {{ event.extra.line_items.0.product.variant.title }}"
                   style="display:block;width:100%;max-width:600px;height:auto;margin:0;border:0;outline:none;text-decoration:none;"></a>
@@ -167,7 +167,7 @@
                 style="margin-top:24px;border-collapse:collapse;">
                 <tr>
                   <td align="center" style="background-color:#ffffff;"><a
-                      href="{{ event.extra.line_items.0.product.review_rating_url }}"
+                      href="https://5dla.com/{{ event.extra.customer_locale|downcase|default:'en-hk' }}/products/{{ event.extra.line_items.0.product.handle }}?variant={{ event.extra.line_items.0.product.variant.id }}#reviews"
                       style="display:inline-block;padding:15px 22px;color:#080808;font-family:Arial,Helvetica,sans-serif;font-size:10px;font-weight:800;line-height:14px;letter-spacing:1.2px;text-decoration:none;">LEAVE
                       A VERIFIED REVIEW</a></td>
                 </tr>
@@ -273,7 +273,7 @@
               <p
                 style="margin:10px 0;color:#ffffff;font-family:Arial,Helvetica,sans-serif;font-size:8px;line-height:14px;letter-spacing:1px;">
                 <a href="mailto:info@5dla.com" style="color:#ffffff;text-decoration:none;">INFO@5DLA.COM</a> &middot; <a
-                  href="https://5dla.com/en-hk" style="color:#ffffff;text-decoration:none;">5DLA.COM</a>
+                  href="https://5dla.com/{{ event.extra.customer_locale|downcase|default:'en-hk' }}" style="color:#ffffff;text-decoration:none;">5DLA.COM</a>
               </p>
               <p style="margin:24px 0 0;"><a href="{% unsubscribe_link %}"
                   style="color:#aaaaaa;font-family:Arial,Helvetica,sans-serif;font-size:8px;line-height:14px;letter-spacing:.8px;text-decoration:underline;">UNSUBSCRIBE</a>
