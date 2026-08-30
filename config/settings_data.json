@@ -898,7 +898,7 @@
           "fullwidth": false,
           "padding": "0 15px",
           "margin": "",
-          "mailchimp": true,
+          "mailchimp": false,
           "form_action": ""
         }
       },

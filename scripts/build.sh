@@ -18,7 +18,7 @@ assets/image.zoom.js \
 assets/jquery.tmpl.min.js \
 -o assets/bundled.global.min.js \
 -c -m
-echo "Minified global.min.js."
+echo "Minified bundled.global.min.js."
 
 # wpbingo
 npx terser \
@@ -27,7 +27,7 @@ assets/facets.js \
 assets/predictive-search.js \
 -o assets/bundled.wpbingo.min.js \
 -c -m
-echo "Minified wpbingo.min.js."
+echo "Minified bundled.wpbingo.min.js."
 
 # pdp
 npx terser \
@@ -35,6 +35,7 @@ assets/recent-product.min.js \
 assets/360imagerotate.js \
 assets/photoswipe.min.js \
 assets/photoswipe-ui-default.min.js \
+assets/bundled.product.js \
 -o assets/bundled.product.min.js \
 -c -m
-echo "Minified product.min.js."
+echo "Minified bundled.product.min.js."

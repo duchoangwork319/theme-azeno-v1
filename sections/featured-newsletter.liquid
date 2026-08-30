@@ -185,8 +185,8 @@
 										</div>
 									</form>
 								{%- else -%}
-									{% form 'customer' %}
-										{{ form.errors | default_errors }}
+									{% form 'customer', class: 'js-newsletter-form' %}
+										<div class="js-newsletter-form-errors" style="display:none">{{ form.errors | default_errors }}</div>
 										{%- if form.posted_successfully? -%}
 											<div class="alert alert-success">{{ 'general.newsletter_form.newsletter_confirmation' | t }}</div>
 										{%- else -%}
@@ -195,7 +195,7 @@
 											<div class="newsletter-form__wrap">
 												<input value="{% if customer %}{{ customer.email }}{% endif %}"
 													placeholder="{{ 'general.newsletter_form.newsletter_placeholder' | t }}"
-													name="contact[email]" class="form-control newsletter-form__input" type="email" 
+													name="contact[email]" class="form-control newsletter-form__input" type="email" required 
 													autocorrect="off" autocapitalize="off"/>
 												<button class="btn newsletter-form__submit" type="submit">
 													<span>{{ 'general.newsletter_form.submit' | t }}</span>
