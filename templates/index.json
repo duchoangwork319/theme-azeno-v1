@@ -760,7 +760,7 @@
             "pos_icon": 0,
             "margin_icon": "0px 0px 0px 0px",
             "button_link": "https://5dla.com/en-hk/search?type=product&options%5Bprefix%5D=last&q=Jersey",
-            "border": false,
+            "border": true,
             "border_radius": "0px 0px 0px 0px",
             "border_width": "0px 0px 0px 0px",
             "color": "#000000",
@@ -847,7 +847,7 @@
             "font_icon": 14,
             "pos_icon": 1,
             "margin_icon": "0px 0px 0px 3px",
-            "button_link": "",
+            "button_link": "shopify://collections/all-products",
             "border_radius": "0px 0px 0px 0px",
             "border": true,
             "border_width": "1px",
@@ -943,14 +943,6 @@
             "limit": 10
           }
         },
-        "tab_Em6aTt": {
-          "type": "tab",
-          "settings": {
-            "title": "RECHARGES",
-            "collection": "recharge",
-            "limit": 10
-          }
-        },
         "css_wmDTjJ": {
           "type": "css",
           "settings": {
@@ -974,7 +966,6 @@
         "tab_KMEq7m",
         "tab_GXjiWk",
         "tab_LdwYWn",
-        "tab_Em6aTt",
         "css_wmDTjJ"
       ],
       "settings": {
@@ -1162,7 +1153,7 @@
             "title": "Free Shipping",
             "size_title": 30,
             "color_title": "#222222",
-            "description": "On orders over $200 USD",
+            "description": "on all orders",
             "size_description": 13,
             "color_description": "#9b9b9b",
             "align": "left",
@@ -1179,7 +1170,7 @@
             "title": "Free Returns",
             "size_title": 30,
             "color_title": "#222222",
-            "description": "On full priced items only.*",
+            "description": "30 days from purchase",
             "size_description": 13,
             "color_description": "#9b9b9b",
             "align": "left",
@@ -1278,7 +1269,7 @@
         "fullwidth": false,
         "padding": "50px 0 27px",
         "margin": "",
-        "mailchimp": true,
+        "mailchimp": false,
         "form_action": ""
       }
     },
@@ -1293,7 +1284,7 @@
             "vertical_offset": 10,
             "badge_style": "pill",
             "border_radius": 4,
-            "badge_bg_color": "#1A1919",
+            "badge_bg_color": "#1a1919",
             "badge_text_color": "#ffffff",
             "font_size": 12,
             "font_weight": "600",
