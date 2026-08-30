@@ -5552,6 +5552,10 @@ wpbingo.newsletter = function () {
 };
 wpbingo.jsNewsletter = function () {
 	$('body').on('submit', 'form.js-newsletter-form', function () {
+		if (!this.checkValidity()) {
+			return;
+		}
+
 		const $form = $(this);
 		const isInPopup = $form.parents('.js-newsletter-popup').length > 0;
 		const $submitButton = $form.find('[type="submit"]');
@@ -5565,13 +5569,42 @@ wpbingo.jsNewsletter = function () {
 	 * Remove success flag and hash from URL after page load to prevent showing
 	 * success message again on page refresh or back navigation.
 	 */
-	$(window).on('load', function () {
+	const removeFormFlagAndHashResponse = () => {
 		const hrefUrl = new URL(window.location.href);
+
 		if (hrefUrl.searchParams.get('customer_posted') === 'true') {
 			hrefUrl.searchParams.delete('customer_posted');
 			hrefUrl.hash = '';
 			history.replaceState(null, '', hrefUrl.toString());
 		}
+
+		if (
+			hrefUrl.searchParams.get('contact[tags]') === 'newsletter'
+			&& hrefUrl.searchParams.get('form_type') === 'customer'
+		) {
+			hrefUrl.searchParams.delete('contact[tags]');
+			hrefUrl.searchParams.delete('form_type');
+			hrefUrl.hash = '';
+			history.replaceState(null, '', hrefUrl.toString());
+		}
+	};
+
+	/**
+	 * If the form was re-rendered with errors (e.g. invalid/duplicate email),
+	 * the hidden errors div now has text - surface it and remove the div.
+	 */
+	const alertErrorMessage = () => {
+		const $error = $('.js-newsletter-form-errors');
+		const errorText = $.trim($error.text());
+		if (errorText) {
+			$error.remove();
+			alert(errorText);
+		}
+	};
+
+	$(window).on('load', function () {
+		removeFormFlagAndHashResponse();
+		alertErrorMessage();
 	});
 };
 wpbingo.verify_popup = function () {
