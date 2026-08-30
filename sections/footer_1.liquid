@@ -227,7 +227,7 @@
 														</div>
 													</form>
 												{%- else -%}
-													{% form 'customer' %}
+													{% form 'customer', class: 'js-newsletter-form' %}
 														{{ form.errors | default_errors }}
 														{%- if form.posted_successfully? -%}
 															<div class="alert alert-success">{{ 'general.newsletter_form.newsletter_confirmation' | t }}</div>
@@ -267,7 +267,7 @@
 														</div>
 													</form>
 												{%- else -%}
-													{% form 'customer' %}
+													{% form 'customer', class: 'js-newsletter-form' %}
 														{{ form.errors | default_errors }}
 														{%- if form.posted_successfully? -%}
 															<div class="alert alert-success">{{ 'general.newsletter_form.newsletter_confirmation' | t }}</div>

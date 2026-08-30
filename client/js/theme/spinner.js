@@ -5,7 +5,8 @@
  */
 function initSpinnerHandler() {
   // Global start function
-  function startSpinner($container, isPageLevel = false) {
+  function startSpinner($container) {
+    const isPageLevel = $container.is("body");
     const $backdrop = $("<div>")
       .css({
         position: isPageLevel ? "fixed" : "absolute",
@@ -37,12 +38,18 @@ function initSpinnerHandler() {
     $container.append($backdrop).append($spinner);
     if (!isPageLevel) {
       $container.addClass("spinner-relative");
+    } else {
+      $container.css("overflow", "hidden");
     }
   }
 
   // Global stop function
   function stopSpinner($container) {
+    const isPageLevel = $container.is("body");
     $container.find(".spinner-backdrop, .spinner").remove();
+    if (isPageLevel) {
+      $container.css("overflow", "");
+    }
   }
 
   // Element-level spinner
@@ -65,7 +72,7 @@ function initSpinnerHandler() {
   $.spinner = function () {
     return {
       start: () => {
-        startSpinner($("body"), true);
+        startSpinner($("body"));
       },
       stop: () => {
         stopSpinner($("body"));
