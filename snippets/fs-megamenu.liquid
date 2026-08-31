@@ -1,0 +1,53 @@
+{%- comment -%}
+  Renders a single megamenu-child block's content for the new Header FS
+  megamenu (widget: side | main | spotlight). Rendered from the
+  menu-spotlights / side-menu-spotlight / full-spotlights snippets, which
+  pass `block` explicitly since this is a `render` call.
+{%- endcomment -%}
+{%- case block.settings.widget -%}
+  {%- when 'side' -%}
+    {%- for link in linklists[block.settings.menu_link_list_child].links -%}
+      <li class="megamenu-widget megamenu-widget--side{% if link.active %} active{% endif %}">
+        <a class="hover-line" href="{{ link.url }}">{{ link.title }}</a>
+      </li>
+    {%- endfor -%}
+  {%- when 'main' -%}
+    <li class="megamenu-widget megamenu-widget--main">
+      {%- if block.settings.title != blank -%}
+        <a class="megamenu-widget__heading" href="#">{{ block.settings.title }}</a>
+      {%- endif -%}
+      {%- if block.settings.menu_link_list_child != blank -%}
+        <ul class="megamenu-widget__list">
+          {%- for link in linklists[block.settings.menu_link_list_child].links -%}
+            <li class="megamenu-widget__item{% if link.active %} active{% endif %}">
+              <a class="hover-line" href="{{ link.url }}">{{ link.title }}</a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </li>
+  {%- when 'spotlight' -%}
+    <div
+      class="megamenu-widget megamenu-widget--spotlight"
+      style="--megamenu-fs-spotlight-width: {{ spotlight_width | default: 25 }}%"
+    >
+      <a class="megamenu-spotlight__media" href="{{ block.settings.spotlight_link }}">
+        {%- if block.settings.spotlight_image -%}
+          {% render 'img-global', image: block.settings.spotlight_image, class: 'img-fluid', effect: 'fade-in' %}
+        {%- else -%}
+          <img
+            class="lazyload fade-in"
+            src="https://placehold.jp/440x550.png"
+            width="440"
+            height="550"
+            alt="{{ block.settings.spotlight_title | escape }}"
+          >
+        {%- endif -%}
+      </a>
+      {%- if block.settings.spotlight_title != blank -%}
+        <a class="megamenu-spotlight__caption" href="{{ block.settings.spotlight_link }}">
+          <p>{{ block.settings.spotlight_title }}</p>
+        </a>
+      {%- endif -%}
+    </div>
+{%- endcase -%}

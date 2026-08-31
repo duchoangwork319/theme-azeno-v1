@@ -2825,6 +2825,49 @@ wpbingo.HeaderSection = (function () {
 			}
 			$this.closest('.menu-mobile__nav-item').toggleClass('active');
 		});
+
+		// New Header FS mobile menu (snippets/fs-menu-mobile.liquid).
+		// Self-contained: doesn't touch the bindings/selectors above, and
+		// only adds extra listeners on the shared open/close/overlay elements.
+		var $fsMenuMobile = this.$container.find('.fs-menu-mobile');
+		if ($fsMenuMobile.length) {
+			var $fsMenuMobilePanel = $fsMenuMobile.find('.fs-menu-mobile__panel');
+
+			$fsMenuMobile.find('[data-fs-menu-mobile-open]').on('click', function (evt) {
+				evt.preventDefault();
+				var targetId = $(this).attr('data-fs-menu-mobile-open');
+				$fsMenuMobile
+					.find('[data-fs-menu-mobile-secondary]')
+					.removeClass('is-active')
+					.filter('[data-fs-menu-mobile-secondary="' + targetId + '"]')
+					.addClass('is-active');
+				$fsMenuMobilePanel.addClass('fs-menu-mobile__panel--secondary');
+			});
+
+			$fsMenuMobile.find('[data-fs-menu-mobile-close]').on('click', function (evt) {
+				evt.preventDefault();
+				$fsMenuMobilePanel.removeClass('fs-menu-mobile__panel--secondary');
+				$fsMenuMobile.find('[data-fs-menu-mobile-secondary]').removeClass('is-active');
+			});
+
+			$fsMenuMobile.find('[data-fs-menu-mobile-widget-toggle]').on('click', function (evt) {
+				evt.preventDefault();
+				let $widget = $(this).closest('[data-fs-menu-mobile-widget]');
+				let wasOpen = $widget.hasClass('is-open');
+				$fsMenuMobile.find('[data-fs-menu-mobile-widget]').removeClass('is-open');
+				if (!wasOpen) {
+					$widget.addClass('is-open');
+				}
+			});
+
+			// Reset back to panel 1 whenever the mobile menu is closed, via
+			// either the hamburger/close button or the backdrop.
+			this.cache.$menuMobileToggle.add('.menu-mobile__overlay').on('click', function () {
+				$fsMenuMobilePanel.removeClass('fs-menu-mobile__panel--secondary');
+				$fsMenuMobile.find('[data-fs-menu-mobile-secondary]').removeClass('is-active');
+				$fsMenuMobile.find('[data-fs-menu-mobile-widget]').removeClass('is-open');
+			});
+		}
 	}
 
 	Header.prototype = _.assignIn({}, Header.prototype, {

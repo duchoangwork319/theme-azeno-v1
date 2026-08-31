@@ -218,6 +218,10 @@
           {
             "value": "5",
             "label": "Header 5"
+          },
+          {
+            "value": "fs",
+            "label": "Header FS"
           }
         ],
         "default": "1"
@@ -667,7 +671,7 @@
         "type": "header",
         "content": "Security for protected collection"
       },
-        {
+      {
         "type": "checkbox",
         "id": "protected_ss_maintain",
         "label": "Maintain Session",

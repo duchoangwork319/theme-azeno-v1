@@ -1,0 +1,104 @@
+{%- assign main_menu = settings.menu_link_list -%}
+<div class="main-menu">
+  <nav class="main-menu__wrap">
+    <ul class="main-menu__nav">
+      {%- for main_menu_link in linklists[main_menu].links -%}
+        {%- assign is_mega = false -%}
+
+        {%- for block in section.blocks -%}
+          {%- assign menu_item = main_menu_link.handle -%}
+          {%- if block.type == 'megamenu' -%}
+            {%- if block.settings.target_collection.handle == menu_item -%}
+              {%- assign is_mega = true -%}
+              {%- break -%}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- if is_mega == true -%}
+          {%- comment -%}
+            Inspect which widget types (side / main / spotlight) this
+            megamenu's children use, then dispatch to the matching layout
+            snippet: side+main+spotlight -> side-menu-spotlight,
+            main+spotlight -> menu-spotlights, spotlight only -> full-spotlights.
+          {%- endcomment -%}
+          {%- assign megamenu_name = '' -%}
+          {%- assign has_side_widget = false -%}
+          {%- assign has_main_widget = false -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'megamenu' -%}
+              {%- assign megamenu_name = block.settings.target_collection.handle -%}
+            {%- elsif block.type == 'megamenu-child' and megamenu_name == main_menu_link.handle -%}
+              {%- if block.settings.widget == 'side' -%}
+                {%- assign has_side_widget = true -%}
+              {%- elsif block.settings.widget == 'main' -%}
+                {%- assign has_main_widget = true -%}
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+
+          <li class="main-menu__nav-item menu-dropdown menu-dropdown--mega{% if main_menu_link.active %} active{% endif %}">
+            <a href="{{ main_menu_link.url }}">{{ main_menu_link.title }}</a>
+            <div class="menu-dropdown__content menu-dropdown__content--megamenu">
+              {%- if has_side_widget -%}
+                {% render 'side-menu-spotlight', parent_menu_link: main_menu_link %}
+              {%- elsif has_main_widget -%}
+                {% render 'menu-spotlights', parent_menu_link: main_menu_link %}
+              {%- else -%}
+                {% render 'full-spotlights', parent_menu_link: main_menu_link %}
+              {%- endif -%}
+            </div>
+          </li>
+        {%- endif -%}
+
+        {%- if is_mega == false -%}
+          {%- if main_menu_link.links != blank -%}
+            {% comment %}====== MENU DROPDOWN LEVEL I ======{% endcomment %}
+            <li class="main-menu__nav-item menu-dropdown menu-dropdown--basic{% if main_menu_link.active %} active{% endif %}">
+              <a href="{{ main_menu_link.url }}">{{ main_menu_link.title }}</a>
+              <ul class="menu-dropdown__content">
+                {%- for menu_link_child in main_menu_link.links -%}
+                  {%- if menu_link_child.links != blank -%}
+                    {% comment %}====== MENU DROPDOWN LEVEL II ======{% endcomment %}
+                    <li class="menu-dropdown menu-dropdown--basic{% if menu_link_child.active %} active{% endif %}">
+                      <a href="{{ menu_link_child.url }}">{{ menu_link_child.title }}</a>
+                      <ul class="menu-dropdown__content">
+                        {%- for menu_link_child1 in menu_link_child.links -%}
+                          {%- if menu_link_child1.links != blank -%}
+                            {% comment %}====== MENU DROPDOWN LEVEL III ======{% endcomment %}
+                            <li class="menu-dropdown menu-dropdown--basic{% if menu_link_child1.active %} active{% endif %}">
+                              <a href="{{ menu_link_child1.url }}" title="">{{ menu_link_child1.title }}</a>
+                              <ul class="menu-dropdown__content">
+                                {%- for menu_link_child2 in menu_link_child1.links -%}
+                                  <li class="{% if menu_link_child2.active %}active{% endif %}">
+                                    <a href="{{ menu_link_child2.url }}">{{ menu_link_child2.title }}</a>
+                                  </li>
+                                {%- endfor -%}
+                              </ul>
+                            </li>
+                          {%- else -%}
+                            <li class="{% if menu_link_child1.active %}active{% endif %}">
+                              <a href="{{ menu_link_child1.url }}">{{ menu_link_child1.title }}</a>
+                            </li>
+                          {%- endif -%}
+                        {%- endfor -%}
+                      </ul>
+                    </li>
+                  {%- else -%}
+                    <li class="{% if menu_link_child.active %}active{% endif %}">
+                      <a href="{{ menu_link_child.url }}">{{ menu_link_child.title }}</a>
+                    </li>
+                  {%- endif -%}
+                {%- endfor -%}
+              </ul>
+            </li>
+          {%- else -%}
+            <li class="main-menu__nav-item{% if main_menu_link.active %} active{% endif %}">
+              <a href="{{ main_menu_link.url }}">{{ main_menu_link.title }}</a>
+            </li>
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  </nav>
+</div>

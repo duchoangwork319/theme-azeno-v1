@@ -1,0 +1,27 @@
+{%- comment -%}
+  Megamenu layout: spotlight widgets only, evenly split across the row width.
+  Expects the calling scope (fs-menu.liquid) to provide `parent_menu_link`.
+{%- endcomment -%}
+{%- assign megamenu_name = '' -%}
+{%- assign spotlight_count = 0 -%}
+{%- for block in section.blocks -%}
+  {%- if block.type == 'megamenu' -%}
+    {%- assign megamenu_name = block.settings.target_collection.handle -%}
+  {%- elsif block.type == 'megamenu-child' and megamenu_name == parent_menu_link.handle and block.settings.widget == 'spotlight' -%}
+    {%- assign spotlight_count = spotlight_count | plus: 1 -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- assign spotlight_width = 100 | divided_by: spotlight_count -%}
+
+<div class="megamenu-fs megamenu-fs--full-spotlights">
+  <div class="megamenu-fs__row">
+    {%- assign megamenu_name = '' -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'megamenu' -%}
+        {%- assign megamenu_name = block.settings.target_collection.handle -%}
+      {%- elsif block.type == 'megamenu-child' and megamenu_name == parent_menu_link.handle and block.settings.widget == 'spotlight' -%}
+        {% render 'fs-megamenu', block: block, spotlight_width: spotlight_width %}
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</div>

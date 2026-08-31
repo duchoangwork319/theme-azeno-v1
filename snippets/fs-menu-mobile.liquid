@@ -1,0 +1,118 @@
+{%- comment -%}
+  Mobile nav for the Header FS section (header_fs.liquid / header-fs-mobile.liquid).
+  Rendered via `render`, so only globals are used (settings, section, linklists) -
+  no variables are expected from the caller's scope.
+
+  Layout:
+  - No separate backdrop/overlay element - `.fs-menu-mobile__panel` is an
+    opaque, full width/height drawer that fades (+ slides slightly) in over
+    the page; closing is via the `.js-menu-mobile` close button only.
+  - `.fs-menu-mobile__panel` has 2 sub-panels:
+      - `__primary`   - flat list of the mobile menu's top-level links.
+      - `__secondary` - one per top-level link that has a megamenu or a
+        plain submenu; shown when its `__primary` arrow is clicked.
+  - Section 2 of the secondary panel lists the megamenu's `main` widgets only
+    (side/spotlight are desktop-only) as collapsible accordions.
+{%- endcomment -%}
+{%- assign main_menu = settings.menu_link_mobile -%}
+<div class="fs-menu-mobile">
+  <div class="fs-menu-mobile__panel">
+    <div class="fs-menu-mobile__panel-head">
+      <button class="js-menu-mobile btn menu-mobile__btn" type="button" aria-label="Close menu">
+        <span></span>
+      </button>
+    </div>
+    <div class="fs-menu-mobile__body">
+      <nav class="fs-menu-mobile__primary" aria-label="{{ 'layout.header.menu' | t }}">
+        <ul class="fs-menu-mobile__primary-list">
+          {%- for main_menu_link in linklists[main_menu].links -%}
+            {%- assign is_mega = false -%}
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'megamenu' and block.settings.target_collection.handle == main_menu_link.handle -%}
+                {%- assign is_mega = true -%}
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
+            {%- assign has_secondary = false -%}
+            {%- if is_mega or main_menu_link.links != blank -%}
+              {%- assign has_secondary = true -%}
+            {%- endif -%}
+            <li class="fs-menu-mobile__primary-item">
+              <a class="fs-menu-mobile__primary-link" href="{{ main_menu_link.url }}">{{ main_menu_link.title }}</a>
+              {%- if has_secondary -%}
+                <button
+                  type="button"
+                  class="fs-menu-mobile__arrow-btn"
+                  data-fs-menu-mobile-open="{{ forloop.index }}"
+                  aria-label="{{ main_menu_link.title | escape }}"
+                >
+                  <i class="feather-chevron-right"></i>
+                </button>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </nav>
+
+      {%- assign megamenu_name = '' -%}
+      {%- for main_menu_link in linklists[main_menu].links -%}
+        {%- assign is_mega = false -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'megamenu' and block.settings.target_collection.handle == main_menu_link.handle -%}
+            {%- assign is_mega = true -%}
+            {%- break -%}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if is_mega or main_menu_link.links != blank -%}
+          <div class="fs-menu-mobile__secondary" data-fs-menu-mobile-secondary="{{ forloop.index }}">
+            <div class="fs-menu-mobile__secondary-head">
+              <button type="button" class="fs-menu-mobile__back-btn" data-fs-menu-mobile-close>
+                <i class="feather-chevron-left"></i>
+                <span>{{ main_menu_link.title }}</span>
+              </button>
+            </div>
+            <div class="fs-menu-mobile__secondary-body">
+              {%- if is_mega -%}
+                {%- assign megamenu_name = '' -%}
+                {%- for block in section.blocks -%}
+                  {%- if block.type == 'megamenu' -%}
+                    {%- assign megamenu_name = block.settings.target_collection.handle -%}
+                  {%- elsif block.type == 'megamenu-child'
+                    and megamenu_name == main_menu_link.handle
+                    and block.settings.widget == 'main'
+                  -%}
+                    <div class="fs-menu-mobile__widget" data-fs-menu-mobile-widget>
+                      <button type="button" class="fs-menu-mobile__widget-toggle" data-fs-menu-mobile-widget-toggle>
+                        <span>{{ block.settings.title }}</span>
+                        <i class="feather-chevron-down fs-menu-mobile__arrow-btn fs-menu-mobile__widget-icon"></i>
+                      </button>
+                      {%- if block.settings.menu_link_list_child != blank -%}
+                        <div class="fs-menu-mobile__widget-panel" data-fs-menu-mobile-widget-panel>
+                          <ul class="fs-menu-mobile__widget-list">
+                            {%- for link in linklists[block.settings.menu_link_list_child].links -%}
+                              <li class="fs-menu-mobile__widget-item">
+                                <a href="{{ link.url }}">{{ link.title }}</a>
+                              </li>
+                            {%- endfor -%}
+                          </ul>
+                        </div>
+                      {%- endif -%}
+                    </div>
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- else -%}
+                <ul class="fs-menu-mobile__plain-list">
+                  {%- for menu_link_child in main_menu_link.links -%}
+                    <li class="fs-menu-mobile__plain-item">
+                      <a href="{{ menu_link_child.url }}">{{ menu_link_child.title }}</a>
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
