@@ -1,0 +1,77 @@
+{%- comment -%}
+  BreadcrumbList JSON-LD for collection pages. Rendered from
+  sections/header_fs.liquid (needs `section.blocks` - the Header FS megamenu
+  blocks - to resolve where the current collection sits in the nav).
+
+  Max 3 items: Home > 1st collection > 2nd collection.
+    - 1st collection: a top-level link in linklists[main_menu].links that
+      points at a collection - either the current collection itself, or the
+      megamenu ancestor whose children link to it.
+    - 2nd collection: only added when the current collection is found nested
+      under that 1st collection's megamenu, via a `main` widget's
+      menu_link_list_child, or a block's spotlight_link.
+{%- endcomment -%}
+{%- assign main_menu = settings.menu_link_list -%}
+{%- assign first_collection_link = blank -%}
+{%- assign second_collection_matched = false -%}
+
+{%- for main_menu_link in linklists[main_menu].links -%}
+  {%- if first_collection_link == blank and main_menu_link.type == 'collection_link' -%}
+    {%- if main_menu_link.object.handle == collection.handle -%}
+      {%- assign first_collection_link = main_menu_link -%}
+    {%- else -%}
+      {%- assign megamenu_name = '' -%}
+      {%- for block in section.blocks -%}
+        {%- if second_collection_matched == false -%}
+          {%- if block.type == 'megamenu' -%}
+            {%- assign megamenu_name = block.settings.target_collection.handle -%}
+          {%- elsif block.type == 'megamenu-child' and megamenu_name == main_menu_link.handle -%}
+            {%- if block.settings.menu_link_list_child != blank -%}
+              {%- for link in linklists[block.settings.menu_link_list_child].links -%}
+                {%- if link.type == 'collection_link' and link.object.handle == collection.handle -%}
+                  {%- assign second_collection_matched = true -%}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endif -%}
+            {%- if second_collection_matched == false and block.settings.spotlight_link != blank and block.settings.spotlight_link contains collection.url -%}
+              {%- assign second_collection_matched = true -%}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- if second_collection_matched -%}
+        {%- assign first_collection_link = main_menu_link -%}
+      {%- endif -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- assign level2_title = first_collection_link.title | default: collection.title -%}
+{%- assign level2_url = first_collection_link.url | default: collection.url -%}
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": {{ 'general.breadcrumbs.home_link_title' | t | json }},
+        "item": {{ shop.url | json }}
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": {{ level2_title | json }},
+        "item": {{ shop.url | append: level2_url | json }}
+      }{% if second_collection_matched %},
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": {{ collection.title | json }},
+        "item": {{ shop.url | append: collection.url | json }}
+      }{% endif %}
+    ]
+  }
+</script>

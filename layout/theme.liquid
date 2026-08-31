@@ -41,7 +41,7 @@
       {% if template contains 'product' %}
         {% render 'json-ld-product' %}
       {% elsif template contains 'collection' %}
-        {% render 'json-ld-collection' %}
+        {%- comment -%} Rendered from sections/header_fs.liquid instead - it needs section.blocks. {%- endcomment -%}
       {% elsif template contains 'page' %}
         {% render 'json-ld-page' %}
       {% else %}

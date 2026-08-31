@@ -56,6 +56,9 @@
   class="bwp-header header_4{% if section.settings.header_absolute %} header-absolute{% endif %}"
   data-sticky_header="{{ section.settings.header_sticky }}"
 >
+  {%- if settings.enable_jsonld and template contains 'collection' -%}
+    {% render 'json-ld-collection', section: section %}
+  {%- endif -%}
   <div class="header-desktop">
     <h1 class="d-none" itemprop="legalName">{{ shop.name }}</h1>
     <div class="container">
