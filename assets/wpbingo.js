@@ -5536,37 +5536,37 @@ wpbingo.lookbook = function () {
 	});
 }
 wpbingo.newsletter = function () {
-	var alertNewsletter;
-	$('.js-wpbingo-newsletter').each(function () {
-		var $form = $(this);
-		$form.on('submit', function (event) {
-			event.preventDefault();
-			$('.js-alert-newsletter').remove();
-			$.ajax({
-				type: $form.attr('method'),
-				url: $form.attr('action'),
-				data: $form.serialize(),
-				cache: false,
-				dataType: 'json',
-				contentType: 'application/json; charset=utf-8',
-				success: function (data) {
-					if (data.result === 'success') {
-						$form.prepend(alertNewsletter(wpbingo.strings.newsletterSuccess, 'success'));
-						$('.js-input-newsletter').val('');
-					} else {
-						$form.prepend(alertNewsletter(data.msg.replace('0 - ', ''), 'danger'));
-					}
-				},
-				error: function (err) {
-					$form.prepend(alertNewsletter(err, 'danger'));
-				}
-			});
-		});
-	});
-	alertNewsletter = function (message, type) {
-		var alert = '<div class="js-alert-newsletter alert alert--mailchimp alert-' + type + '">' + message + '</div>';
-		return alert;
-	};
+	// var alertNewsletter;
+	// $('.js-wpbingo-newsletter').each(function () {
+	// 	var $form = $(this);
+	// 	$form.on('submit', function (event) {
+	// 		event.preventDefault();
+	// 		$('.js-alert-newsletter').remove();
+	// 		$.ajax({
+	// 			type: $form.attr('method'),
+	// 			url: $form.attr('action'),
+	// 			data: $form.serialize(),
+	// 			cache: false,
+	// 			dataType: 'json',
+	// 			contentType: 'application/json; charset=utf-8',
+	// 			success: function (data) {
+	// 				if (data.result === 'success') {
+	// 					$form.prepend(alertNewsletter(wpbingo.strings.newsletterSuccess, 'success'));
+	// 					$('.js-input-newsletter').val('');
+	// 				} else {
+	// 					$form.prepend(alertNewsletter(data.msg.replace('0 - ', ''), 'danger'));
+	// 				}
+	// 			},
+	// 			error: function (err) {
+	// 				$form.prepend(alertNewsletter(err, 'danger'));
+	// 			}
+	// 		});
+	// 	});
+	// });
+	// alertNewsletter = function (message, type) {
+	// 	var alert = '<div class="js-alert-newsletter alert alert--mailchimp alert-' + type + '">' + message + '</div>';
+	// 	return alert;
+	// };
 	var newsletterPopup = '.js-newsletter-popup',
 		newsletterPopupClose = '.js-newsletter-popup-close',
 		newsletterPopupSubmit = '.js-newsletter-popup-submit',
@@ -5591,6 +5591,63 @@ wpbingo.newsletter = function () {
 	});
 	$(newsletterPopupSubmit).on('click', function () {
 		wpbingo.setCookie('wpbingo_newsletter_popup', 1, 30);
+	});
+};
+wpbingo.jsNewsletter = function () {
+	$('body').on('submit', 'form.js-newsletter-form', function () {
+		if (!this.checkValidity()) {
+			return;
+		}
+
+		const $form = $(this);
+		const isInPopup = $form.parents('.js-newsletter-popup').length > 0;
+		const $submitButton = $form.find('[type="submit"]');
+		const spinnerRef = isInPopup ? $form.parents('.newsletter-popup__inner') : $('body');
+
+		$submitButton.prop('disabled', true);
+		spinnerRef.spinner().start();
+	});
+
+	/**
+	 * Remove success flag and hash from URL after page load to prevent showing
+	 * success message again on page refresh or back navigation.
+	 */
+	const removeFormFlagAndHashResponse = () => {
+		const hrefUrl = new URL(window.location.href);
+
+		if (hrefUrl.searchParams.get('customer_posted') === 'true') {
+			hrefUrl.searchParams.delete('customer_posted');
+			hrefUrl.hash = '';
+			history.replaceState(null, '', hrefUrl.toString());
+		}
+
+		if (
+			hrefUrl.searchParams.get('contact[tags]') === 'newsletter'
+			&& hrefUrl.searchParams.get('form_type') === 'customer'
+		) {
+			hrefUrl.searchParams.delete('contact[tags]');
+			hrefUrl.searchParams.delete('form_type');
+			hrefUrl.hash = '';
+			history.replaceState(null, '', hrefUrl.toString());
+		}
+	};
+
+	/**
+	 * If the form was re-rendered with errors (e.g. invalid/duplicate email),
+	 * the hidden errors div now has text - surface it and remove the div.
+	 */
+	const alertErrorMessage = () => {
+		const $error = $('.js-newsletter-form-errors');
+		const errorText = $.trim($error.text());
+		if (errorText) {
+			$error.remove();
+			alert(errorText);
+		}
+	};
+
+	$(window).on('load', function () {
+		removeFormFlagAndHashResponse();
+		alertErrorMessage();
 	});
 };
 wpbingo.verify_popup = function () {
@@ -8089,6 +8146,7 @@ wpbingo.init = function () {
 	wpbingo.active_form_login();
 	wpbingo.cookieConsent();
 	wpbingo.newsletter();
+	wpbingo.jsNewsletter();
 	wpbingo.verify_popup();
 	wpbingo.header_campar();
 	wpbingo.customNumberInput();

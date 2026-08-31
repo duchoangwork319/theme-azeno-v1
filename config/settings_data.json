@@ -898,7 +898,7 @@
           "fullwidth": false,
           "padding": "0 15px",
           "margin": "",
-          "mailchimp": true,
+          "mailchimp": false,
           "form_action": ""
         }
       },
@@ -5105,6 +5105,11 @@
       },
       "11349500561483629931": {
         "type": "shopify://apps/notify-me/blocks/app-embed/b399b727-6c85-44fc-9e21-63114bd72054",
+        "disabled": true,
+        "settings": {}
+      },
+      "855628211100114053": {
+        "type": "shopify://apps/klaviyo-email-marketing-sms/blocks/klaviyo-onsite-embed/2632fe16-c075-4321-a88b-50b567f42507",
         "disabled": true,
         "settings": {}
       }
