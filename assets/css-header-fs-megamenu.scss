@@ -40,6 +40,38 @@ $megamenu-fs-space-12: 48px; // px-12
   }
 }
 
+.header-fs-section {
+  .menu-dropdown__content--megamenu {
+    box-shadow: none;
+  }
+
+  &.header-absolute {
+    .header-desktop {
+      &.menu-dropdown--open {
+        background-color: white !important;
+
+        .main-menu__nav-item {
+          >a {
+            color: black !important;
+
+            &::before {
+              background-color: black !important;
+            }
+          }
+        }
+
+        .search-toggle,
+        .login-account,
+        .header-account__title,
+        .header-cart__link,
+        .wishlist {
+          color: black !important;
+        }
+      }
+    }
+  }
+}
+
 .main-menu {
   .megamenu-fs {
     width: 100%;
@@ -101,6 +133,26 @@ $megamenu-fs-space-12: 48px; // px-12
 
         &:hover {
           color: var(--menu-dropdown-hover-color);
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1440px) {
+  .main-menu {
+    .megamenu-fs {
+      padding: 0 30px;
+
+      .megamenu-widget__item {
+        a {
+          font-size: 14px;
+        }
+      }
+
+      .megamenu-widget--side {
+        >a {
+          font-size: 16px;
         }
       }
     }

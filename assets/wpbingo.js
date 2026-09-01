@@ -2772,7 +2772,9 @@ wpbingo.HeaderSection = (function () {
 		searchOptions: '.js-header-search-options',
 		searchMobileToggle: '.js-header-search-toggle',
 		menuMobileToggle: '.js-menu-mobile',
-		menuMobileChildToggle: '.js-mm-nav-item'
+		menuMobileChildToggle: '.js-mm-nav-item',
+		menuDesktopNavItem: 'li.main-menu__nav-item.menu-dropdown',
+		headerDesktop: '.header-desktop'
 	};
 
 	function Header(container) {
@@ -2826,6 +2828,16 @@ wpbingo.HeaderSection = (function () {
 			$this.closest('.menu-mobile__nav-item').toggleClass('active');
 		});
 
+		// New Header FS Desktop menu (snippets/fs-menu.liquid).
+		var $fsMenuDesktop = this.$container.find('.fs-menu-desktop');
+		if ($fsMenuDesktop.length) {
+			this.cache.$menuDesktopNavItem.on('mouseenter', () => {
+				this.cache.$headerDesktop.addClass('menu-dropdown--open');
+			}).on('mouseleave', () => {
+				this.cache.$headerDesktop.removeClass('menu-dropdown--open');
+			});
+		}
+
 		// New Header FS mobile menu (snippets/fs-menu-mobile.liquid).
 		// Self-contained: doesn't touch the bindings/selectors above, and
 		// only adds extra listeners on the shared open/close/overlay elements.
@@ -2878,7 +2890,9 @@ wpbingo.HeaderSection = (function () {
 				$searchOptions: this.$container.find(selectors.searchOptions),
 				$searchMobileToggle: this.$container.find(selectors.searchMobileToggle),
 				$menuMobileToggle: this.$container.find(selectors.menuMobileToggle),
-				$menuMobileChildToggle: this.$container.find(selectors.menuMobileChildToggle)
+				$menuMobileChildToggle: this.$container.find(selectors.menuMobileChildToggle),
+				$menuDesktopNavItem: this.$container.find(selectors.menuDesktopNavItem),
+				$headerDesktop: this.$container.find(selectors.headerDesktop)
 			};
 		},
 

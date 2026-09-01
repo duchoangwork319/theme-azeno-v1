@@ -12,6 +12,15 @@
       {% if section.settings.width_header != blank %}max-width: {{ section.settings.width_header }};{% endif %}
     }
   {% endif %}
+  {%- assign main_menuitem_padding = section.settings.main_menuitem_padding -%}
+  {% if main_menuitem_padding != blank %}
+    .bwp-header .header-desktop .main-menu__nav-item {
+      padding: {{ main_menuitem_padding }};
+    }
+    .bwp-header .header-desktop .main-menu__nav-item:first-child {
+      padding-left: 0;
+    }
+  {% endif %}
   .header-logo img {max-width: {{ logo_max_width | append: 'px' }};}
   {% if section.settings.header_absolute %}
   	@media (min-width:1199px){
@@ -53,7 +62,7 @@
 <div
   data-section-id="{{ section.id }}"
   data-section-type="header-section"
-  class="bwp-header header_4{% if section.settings.header_absolute %} header-absolute{% endif %}"
+  class="bwp-header header_4 header-fs-section {% if section.settings.header_absolute %}header-absolute{% endif %}"
   data-sticky_header="{{ section.settings.header_sticky }}"
 >
   {%- if settings.enable_jsonld and template contains 'collection' -%}
@@ -154,7 +163,14 @@
       "id": "padding",
       "label": "Padding",
       "placeholder": "60px 0px 60px 0px",
-      "default": "60px 0"
+      "default": "0 0"
+    },
+    {
+      "type": "text",
+      "id": "main_menuitem_padding",
+      "label": "Main Menu Item Padding",
+      "placeholder": "60px 0px 60px 0px",
+      "default": "32px 20px"
     },
     {
       "type": "checkbox",
