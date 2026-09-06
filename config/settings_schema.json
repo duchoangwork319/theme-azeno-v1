@@ -683,6 +683,17 @@
         "id": "protected_ss_duration",
         "label": "Session Duration (minutes)",
         "default": 30
+      },
+      {
+        "type": "header",
+        "content": "Breadcrumb"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_shopall_breadcrumb",
+        "label": "Show \"Shop all\" breadcrumb item",
+        "default": false,
+        "info": "When viewing the \"All\" collection itself, show it as a breadcrumb item (position 2) instead of omitting it. Used by the collection breadcrumb and its BreadcrumbList JSON-LD."
       }
     ]
   },

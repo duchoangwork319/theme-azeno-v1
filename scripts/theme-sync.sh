@@ -25,22 +25,23 @@ Actions:
   pull                 Pull theme files from Shopify down to the repo
   push                 Push local theme files up to Shopify
   login                Run 'shopify auth login'
-  logout                Run 'shopify auth logout'
+  logout               Run 'shopify auth logout'
 
 Env:
   Any environment with a matching .env/.env.<env> file, e.g.:
     dev                 Uses .env/.env.dev
     prd                 Uses .env/.env.prd
 
-Target (optional, default: theme). Pass multiple to combine them, e.g.
+Target (optional, default: all). Pass multiple to combine them, e.g.
 'assets sections layout':
-  theme                 Full theme (exclusive - cannot combine with others)
-  data                  config/*, templates/*, locales/* only (pull only, exclusive)
+  all                   Full theme (exclusive - cannot combine with others)
+  config                config/*, locales/* only (pull only, exclusive)
   blocks                Full pull, preserving local ./blocks changes (pull only, exclusive)
   assets                assets/* only
-  sections               sections/* only
+  sections              sections/* only
   layout                layout/* only
-  snippets               snippets/* only (push only)
+  snippets              snippets/* only (push only)
+  templates             templates/* only
 
 Options:
   --dry-run             Print the resulting shopify CLI command instead of running it
@@ -50,11 +51,12 @@ Note: if no theme id is configured for the environment, the Shopify CLI
 itself will prompt you to choose a theme before pushing/pulling.
 
 Examples:
-  $SCRIPT_NAME pull dev theme
-  $SCRIPT_NAME pull prd data
+  $SCRIPT_NAME pull dev all
+  $SCRIPT_NAME pull prd config
   $SCRIPT_NAME push dev assets
   $SCRIPT_NAME push prd sections layout
   $SCRIPT_NAME push dev assets sections snippets --dry-run
+  $SCRIPT_NAME pull dev templates
 EOF
 }
 
@@ -97,7 +99,7 @@ done
 ACTION="${POSITIONAL[0]:-}"
 ENV_NAME="${POSITIONAL[1]:-}"
 TARGETS=("${POSITIONAL[@]:2}")
-[[ ${#TARGETS[@]} -eq 0 ]] && TARGETS=(theme)
+[[ ${#TARGETS[@]} -eq 0 ]] && TARGETS=(all)
 
 [[ -n "$ACTION" ]] || { usage; die "Missing <action>"; }
 [[ -n "$ENV_NAME" ]] || { usage; die "Missing <env>"; }
@@ -110,7 +112,7 @@ esac
 if [[ ${#TARGETS[@]} -gt 1 ]]; then
   for t in "${TARGETS[@]}"; do
     case "$t" in
-      theme|data|blocks)
+      all|config|blocks)
         die "Target '$t' cannot be combined with other targets"
         ;;
     esac
@@ -138,14 +140,14 @@ if [[ "$ACTION" == "pull" || "$ACTION" == "push" ]]; then
 
   for TARGET in "${TARGETS[@]}"; do
     case "$TARGET" in
-      theme)
+      all)
         if [[ "$ACTION" == "pull" ]]; then
           CMD+=(--ignore package.json --ignore "assets/*")
         fi
         ;;
-      data)
-        [[ "$ACTION" == "pull" ]] || die "Target 'data' is only valid for pull"
-        CMD+=(--only "config/*" --only "templates/*" --only "locales/*")
+      config)
+        [[ "$ACTION" == "pull" ]] || die "Target 'config' is only valid for pull"
+        CMD+=(--only "config/*" --only "locales/*")
         ;;
       blocks)
         [[ "$ACTION" == "pull" ]] || die "Target 'blocks' is only valid for pull"
@@ -163,8 +165,11 @@ if [[ "$ACTION" == "pull" || "$ACTION" == "push" ]]; then
         [[ "$ACTION" == "push" ]] || die "Target 'snippets' is only valid for push"
         CMD+=(--only "snippets/*")
         ;;
+      templates)
+        CMD+=(--only "templates/*")
+        ;;
       *)
-        die "Unknown target '$TARGET' (expected theme, data, blocks, assets, sections, layout, snippets)"
+        die "Unknown target '$TARGET' (expected all, config, blocks, assets, sections, layout, snippets, templates)"
         ;;
     esac
   done
