@@ -8,13 +8,19 @@
   On the "all" collection itself: 1 item (Home) unless
   settings.show_shopall_breadcrumb is on, which adds it at position 2.
 
-  Otherwise, max 3 items: Home > 1st collection > 2nd collection.
+  Otherwise, max 4 items: Home > 1st collection > widget heading > 2nd
+  collection.
     - 1st collection: a top-level link in linklists[main_menu].links that
       points at a collection - either the current collection itself, or the
       megamenu ancestor whose children link to it.
-    - 2nd collection: only added when the current collection is found nested
+    - widget heading: only added when the current collection is found nested
+      under a `main` widget block's menu_link_list_child, and that block also
+      has its own `menu_link` set - the block's title/menu_link is inserted
+      as an extra level between the 1st and 2nd collection.
+    - 2nd collection: added when the current collection is found nested
       under that 1st collection's megamenu, via a `main` widget's
-      menu_link_list_child, or a block's spotlight_link.
+      menu_link_list_child or its own `menu_link`, or a block's
+      spotlight_link.
 {%- endcomment -%}
 {%- liquid
   assign is_all_collection = false
@@ -25,6 +31,9 @@
   assign main_menu = settings.menu_link_list
   assign first_collection_link = blank
   assign second_collection_matched = false
+  assign widget_matched = false
+  assign widget_title = blank
+  assign widget_url = blank
 
   unless is_all_collection
     for main_menu_link in linklists[main_menu].links
@@ -38,10 +47,18 @@
               if block.type == 'megamenu'
                 assign megamenu_name = block.settings.target_collection.handle
               elsif block.type == 'megamenu-child' and megamenu_name == main_menu_link.handle
-                if block.settings.menu_link_list_child != blank
+                if block.settings.widget == 'main' and block.settings.menu_link != blank and block.settings.menu_link contains collection.url
+                  assign second_collection_matched = true
+                endif
+                if second_collection_matched == false and block.settings.menu_link_list_child != blank
                   for link in linklists[block.settings.menu_link_list_child].links
                     if link.type == 'collection_link' and link.object.handle == collection.handle
                       assign second_collection_matched = true
+                    endif
+                    if link.type == 'collection_link' and link.object.handle == collection.handle and block.settings.widget == 'main' and block.settings.menu_link != blank
+                      assign widget_matched = true
+                      assign widget_title = block.settings.title
+                      assign widget_url = block.settings.menu_link
                     endif
                   endfor
                 endif
@@ -60,6 +77,12 @@
 
     assign level2_title = first_collection_link.title | default: collection.title
     assign level2_url = first_collection_link.url | default: collection.url
+
+    assign level2_position = 2
+    if settings.show_shopall_breadcrumb
+      assign level2_position = 3
+    endif
+    assign next_position = level2_position | plus: 1
   endunless
 -%}
 
@@ -92,14 +115,23 @@
         {% endif %},
         {
           "@type": "ListItem",
-          "position": {% if settings.show_shopall_breadcrumb %}3{% else %}2{% endif %},
+          "position": {{ level2_position }},
           "name": {{ level2_title | json }},
           "item": {{ shop.url | append: level2_url | json }}
         }
+        {% if widget_matched %},
+          {
+            "@type": "ListItem",
+            "position": {{ next_position }},
+            "name": {{ widget_title | json }},
+            "item": {{ shop.url | append: widget_url | json }}
+          }
+          {% assign next_position = next_position | plus: 1 %}
+        {% endif %}
         {% if second_collection_matched %},
           {
             "@type": "ListItem",
-            "position": {% if settings.show_shopall_breadcrumb %}4{% else %}3{% endif %},
+            "position": {{ next_position }},
             "name": {{ collection.title | json }},
             "item": {{ shop.url | append: collection.url | json }}
           }

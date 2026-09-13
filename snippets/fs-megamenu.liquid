@@ -14,7 +14,11 @@
   {%- when 'main' -%}
     <li class="megamenu-widget megamenu-widget--main">
       {%- if block.settings.title != blank -%}
-        <a class="megamenu-widget__heading" href="#">{{ block.settings.title }}</a>
+        {%- if block.settings.menu_link != blank -%}
+          <a class="megamenu-widget__heading megamenu-widget__heading--link" href="{{ block.settings.menu_link }}">{{ block.settings.title }}</a>
+        {%- else -%}
+          <a class="megamenu-widget__heading" href="#">{{ block.settings.title }}</a>
+        {%- endif -%}
       {%- endif -%}
       {%- if block.settings.menu_link_list_child != blank -%}
         <ul class="megamenu-widget__list">

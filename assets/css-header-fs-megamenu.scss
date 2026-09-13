@@ -192,6 +192,10 @@ $megamenu-fs-space-12: 48px; // px-12
     pointer-events: none;
   }
 
+  .megamenu-widget__heading--link {
+    pointer-events: auto;
+  }
+
   .megamenu-widget__list {
     margin: $megamenu-fs-space-4 0 0;
     padding: 0;
@@ -482,6 +486,29 @@ body.menu-mobile--open {
   font-weight: 600;
   text-transform: uppercase;
   color: $fs-menu-mobile-text-color;
+  cursor: pointer;
+}
+
+.fs-menu-mobile__widget-toggle--link {
+  padding: 0;
+}
+
+.fs-menu-mobile__widget-link {
+  flex: 1 1 auto;
+  padding: 14px 0;
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: $fs-menu-mobile-text-color;
+  text-decoration: none;
+}
+
+.fs-menu-mobile__widget-icon-btn {
+  display: flex;
+  align-items: center;
+  border: 0;
+  background: none;
+  padding: 14px 0 14px 14px;
   cursor: pointer;
 }
 

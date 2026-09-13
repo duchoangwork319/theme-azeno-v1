@@ -23,7 +23,7 @@
       </button>
     </div>
     <div class="fs-menu-mobile__body">
-      <nav class="fs-menu-mobile__primary" aria-label="{{ 'layout.header.menu' | t }}">
+      <nav class="fs-menu-mobile__primary">
         <ul class="fs-menu-mobile__primary-list">
           {%- for main_menu_link in linklists[main_menu].links -%}
             {%- assign is_mega = false -%}
@@ -82,10 +82,24 @@
                     and block.settings.widget == 'main'
                   -%}
                     <div class="fs-menu-mobile__widget" data-fs-menu-mobile-widget>
-                      <button type="button" class="fs-menu-mobile__widget-toggle" data-fs-menu-mobile-widget-toggle>
-                        <span>{{ block.settings.title }}</span>
-                        <i class="feather-chevron-down fs-menu-mobile__arrow-btn fs-menu-mobile__widget-icon"></i>
-                      </button>
+                      {%- if block.settings.menu_link != blank -%}
+                        <div class="fs-menu-mobile__widget-toggle fs-menu-mobile__widget-toggle--link">
+                          <a class="fs-menu-mobile__widget-link" href="{{ block.settings.menu_link }}">{{ block.settings.title }}</a>
+                          <button
+                            type="button"
+                            class="fs-menu-mobile__widget-icon-btn"
+                            data-fs-menu-mobile-widget-toggle
+                            aria-label="{{ block.settings.title | escape }}"
+                          >
+                            <i class="feather-chevron-down fs-menu-mobile__arrow-btn fs-menu-mobile__widget-icon"></i>
+                          </button>
+                        </div>
+                      {%- else -%}
+                        <button type="button" class="fs-menu-mobile__widget-toggle" data-fs-menu-mobile-widget-toggle>
+                          <span>{{ block.settings.title }}</span>
+                          <i class="feather-chevron-down fs-menu-mobile__arrow-btn fs-menu-mobile__widget-icon"></i>
+                        </button>
+                      {%- endif -%}
                       {%- if block.settings.menu_link_list_child != blank -%}
                         <div class="fs-menu-mobile__widget-panel" data-fs-menu-mobile-widget-panel>
                           <ul class="fs-menu-mobile__widget-list">
