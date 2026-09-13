@@ -1,5 +1,6 @@
 /.env
 /.local
+/scripts/admin/data/access-token.json
 /node_modules
 /ignore
 /assets/bundled.*
