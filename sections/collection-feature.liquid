@@ -1,0 +1,181 @@
+{%- assign nav = section.settings.navigation -%}
+{%- assign infinite = section.settings.infinite -%}
+{%- assign columns = section.settings.columns -%}
+{%- assign column1440 = section.settings.column1440 -%}
+{%- assign column1 = section.settings.column1 -%}
+{%- assign column2 = section.settings.column2 -%}
+{%- assign column3 = section.settings.column3 -%}
+{%- assign column4 = section.settings.column4 -%}
+
+{%- if collection.handle != 'all' -%}
+  {%- assign is_collection_page = true -%}
+{%- endif -%}
+
+{%- if section.settings.enable_collection and is_collection_page == blank -%}
+  <div class="bwp_slider-carousel {{ section.settings.style_collection }}">
+    <div class="content-carousel">
+      <div
+        class="js-carousel slick-carousel"
+        data-nav="{{ nav }}"
+        data-infinite="{{ infinite }}"
+        data-columns="{{ columns }}"
+        data-column1440="{{ column1440 }}"
+        data-column1="{{ column1 }}"
+        data-column2="{{ column2 }}"
+        data-column3="{{ column3 }}"
+        data-column4="{{ column4 }}"
+      >
+        {%- assign current_handle = collection.handle -%}
+        {% for link in linklists[section.settings.categories_menu].links %}
+          {%- for collection in collections -%}
+            {%- if collection.handle == link.handle -%}
+              <div class="item-collection{% if current_handle != blank and current_handle == collection.handle %} active{% endif %}">
+                {%- if section.settings.style_collection == 'style_2' -%}
+                  {%- if collection.image -%}
+                    {%- assign collection_image = collection.image | image_url: width: 200, height: 200 -%}
+                  {%- else -%}
+                    {%- assign collection_image = 'https://placehold.jp/200x200.png' -%}
+                  {%- endif -%}
+                {%- else -%}
+                  {%- if collection.image -%}
+                    {%- assign collection_image = collection.image
+                      | image_url: width: collection.image.width, height: collection.image.height
+                    -%}
+                  {%- else -%}
+                    {%- assign collection_image = 'https://placehold.jp/258x258.png' -%}
+                  {%- endif -%}
+                {%- endif -%}
+                <a href="{{ link.url }}" title="{{ link.title | escape }}">
+                  <div class="image">
+                    <img
+                      class="lazyload fade-in"
+                      src="{{ collection_image }}"
+                      data-sizes="auto"
+                      data-image="true"
+                      alt="{{ collection_image.alt | escape }}"
+                      width="{{ collection_image.width }}"
+                      height="{{ collection_image.height }}"
+                    >
+                  </div>
+                  <h2>
+                    <span>{{ link.title }}</span>
+                  </h2>
+                </a>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+{% schema %}
+{
+  "name": "Collection Feature",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_collection",
+      "label": "Enable Collection",
+      "default": true
+    },
+    {
+      "type": "link_list",
+      "id": "categories_menu",
+      "label": "List Collection Menu"
+    },
+    {
+      "type": "select",
+      "id": "style_collection",
+      "label": "Style Collection",
+      "options": [
+        {
+          "value": "style_1",
+          "label": "Style 1"
+        },
+        {
+          "value": "style_2",
+          "label": "Style 2"
+        }
+      ],
+      "default": "style_1"
+    },
+    {
+      "type": "checkbox",
+      "id": "navigation",
+      "label": "Show navigation",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "infinite",
+      "label": "Infinite loop sliding",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "label": "Number of Columns >1440px",
+      "default": 4,
+      "info": "Desktops"
+    },
+    {
+      "type": "range",
+      "id": "column1440",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "label": "Number of Columns 1200px to 1440px",
+      "default": 4,
+      "info": "Desktops"
+    },
+    {
+      "type": "range",
+      "id": "column1",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "label": "Number of Columns on 992px to 1199px",
+      "default": 4,
+      "info": "Desktops"
+    },
+    {
+      "type": "range",
+      "id": "column2",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "label": "Number of Columns on 768px to 991px",
+      "default": 3,
+      "info": "Laptop"
+    },
+    {
+      "type": "range",
+      "id": "column3",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "label": "Number of Columns on 480px to 767px",
+      "default": 1,
+      "info": "Tablets"
+    },
+    {
+      "type": "range",
+      "id": "column4",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "label": "Number of Columns in 480px or less than",
+      "default": 1,
+      "info": "Mobile phone"
+    }
+  ]
+}
+{% endschema %}

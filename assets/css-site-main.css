@@ -869,7 +869,7 @@ textarea:focus-visible {
 	margin-left: 3px;
 	font-family: FontAwesome;
 	position: relative;
-	top: 1px;
+	top: -3px;
 }
 
 .menu-dropdown--basic {
