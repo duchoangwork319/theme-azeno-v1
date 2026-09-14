@@ -10,7 +10,7 @@
         {%- if block.type == 'megamenu' -%}
           {%- assign megamenu_name = block.settings.target_collection.handle -%}
         {%- elsif block.type == 'megamenu-child'
-          and megamenu_name == parent_menu_link.handle
+          and megamenu_name == parent_menu_link.object.handle
           and block.settings.widget == 'side'
         -%}
           {% render 'fs-megamenu', block: block %}
@@ -23,7 +23,7 @@
         {%- if block.type == 'megamenu' -%}
           {%- assign megamenu_name = block.settings.target_collection.handle -%}
         {%- elsif block.type == 'megamenu-child'
-          and megamenu_name == parent_menu_link.handle
+          and megamenu_name == parent_menu_link.object.handle
           and block.settings.widget == 'main'
         -%}
           {% render 'fs-megamenu', block: block %}
@@ -35,7 +35,7 @@
       {%- if block.type == 'megamenu' -%}
         {%- assign megamenu_name = block.settings.target_collection.handle -%}
       {%- elsif block.type == 'megamenu-child'
-        and megamenu_name == parent_menu_link.handle
+        and megamenu_name == parent_menu_link.object.handle
         and block.settings.widget == 'spotlight'
       -%}
         {% render 'fs-megamenu', block: block, spotlight_width: 25 %}

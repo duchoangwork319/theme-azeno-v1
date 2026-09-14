@@ -30,7 +30,13 @@ const { SHOPIFY_API_VERSION } = process.env;
 const apiVersion = SHOPIFY_API_VERSION || '2026-04';
 
 const tokenFile = path.join(__dirname, 'data', 'access-token.json');
-const menuInputArg = process.argv[2] || 'mens-menu-create-inputs-20260913-1220.json';
+const menuInputArg = process.argv[2];
+
+if (!menuInputArg) {
+  console.error('Missing menu input file argument.');
+  process.exit(1);
+}
+
 const menuVariablesFile = path.isAbsolute(menuInputArg)
   ? menuInputArg
   : path.join(__dirname, 'data', menuInputArg);
@@ -66,15 +72,6 @@ function readJsonFile(file, label) {
     process.exit(1);
   }
   return JSON.parse(fs.readFileSync(file, 'utf8'));
-}
-
-// Accepts either a single menuCreate input ({ title, handle, items }) or a
-// batch of them ({ menuCreateInputs: [{ title, handle, items }, ...] }).
-function toMenuInputList(data) {
-  if (Array.isArray(data.menuCreateInputs)) {
-    return data.menuCreateInputs;
-  }
-  return [data];
 }
 
 // Resolves a "/collections/<handle>" item url to its real resourceId using
@@ -128,7 +125,7 @@ async function createCollectionMenu(shop, accessToken, variables) {
 
 async function main() {
   const { shop, access_token: accessToken } = readJsonFile(tokenFile, 'access token');
-  const menuInputs = toMenuInputList(readJsonFile(menuVariablesFile, 'menu variables'));
+  const menuInputs = readJsonFile(menuVariablesFile, 'menu variables');
   const collectionResourceIds = fs.existsSync(resourceIdsFile)
     ? readJsonFile(resourceIdsFile, 'collection resource ids')
     : {};

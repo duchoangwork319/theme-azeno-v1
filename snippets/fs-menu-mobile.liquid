@@ -28,7 +28,7 @@
           {%- for main_menu_link in linklists[main_menu].links -%}
             {%- assign is_mega = false -%}
             {%- for block in section.blocks -%}
-              {%- if block.type == 'megamenu' and block.settings.target_collection.handle == main_menu_link.handle -%}
+              {%- if block.type == 'megamenu' and block.settings.target_collection.handle == main_menu_link.object.handle -%}
                 {%- assign is_mega = true -%}
                 {%- break -%}
               {%- endif -%}
@@ -58,7 +58,7 @@
       {%- for main_menu_link in linklists[main_menu].links -%}
         {%- assign is_mega = false -%}
         {%- for block in section.blocks -%}
-          {%- if block.type == 'megamenu' and block.settings.target_collection.handle == main_menu_link.handle -%}
+          {%- if block.type == 'megamenu' and block.settings.target_collection.handle == main_menu_link.object.handle -%}
             {%- assign is_mega = true -%}
             {%- break -%}
           {%- endif -%}
@@ -78,7 +78,7 @@
                   {%- if block.type == 'megamenu' -%}
                     {%- assign megamenu_name = block.settings.target_collection.handle -%}
                   {%- elsif block.type == 'megamenu-child'
-                    and megamenu_name == main_menu_link.handle
+                    and megamenu_name == main_menu_link.object.handle
                     and block.settings.widget == 'main'
                   -%}
                     <div class="fs-menu-mobile__widget" data-fs-menu-mobile-widget>

@@ -46,7 +46,7 @@
             if second_collection_matched == false
               if block.type == 'megamenu'
                 assign megamenu_name = block.settings.target_collection.handle
-              elsif block.type == 'megamenu-child' and megamenu_name == main_menu_link.handle
+              elsif block.type == 'megamenu-child' and megamenu_name == main_menu_link.object.handle
                 if block.settings.widget == 'main' and block.settings.menu_link != blank and block.settings.menu_link contains collection.url
                   assign second_collection_matched = true
                 endif

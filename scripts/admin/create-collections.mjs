@@ -35,7 +35,13 @@ const CHUNK_SIZE = 10;
 const REQUEST_DELAY_MS = 500;
 
 const tokenFile = path.join(__dirname, 'data', 'access-token.json');
-const collectionsInputArg = process.argv[2] || 'collections.json';
+const collectionsInputArg = process.argv[2];
+
+if (!collectionsInputArg) {
+  console.error('Missing collections input file argument.');
+  process.exit(1);
+}
+
 const collectionsFile = path.isAbsolute(collectionsInputArg)
   ? collectionsInputArg
   : path.join(__dirname, 'data', collectionsInputArg);
