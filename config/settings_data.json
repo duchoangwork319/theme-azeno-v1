@@ -24,8 +24,9 @@
     "font-family-base-google-link": "",
     "font-family-base": "Arial",
     "font-size-base": 14,
-    "layout_header": "4",
-    "menu_link_list": "main-menu",
+    "layout_header": "fs",
+    "menu_link_list": "new-main-menu",
+    "menu_link_mobile": "new-main-menu",
     "show_menu_bottom": true,
     "color_header_bg": "#ffffff",
     "color_menu_text": "#222222",
@@ -1088,18 +1089,7 @@
           "show_pagetitle": true,
           "show_breadcrumb": true,
           "color_breadcrumb": "#222222",
-          "align_breadcrumb": "center",
-          "enable_collection": true,
-          "categories_menu": "",
-          "style_collection": "style_2",
-          "navigation": true,
-          "infinite": true,
-          "columns": 5,
-          "column1440": 4,
-          "column1": 4,
-          "column2": 4,
-          "column3": 3,
-          "column4": 2
+          "align_breadcrumb": "center"
         }
       },
       "article-breadcrumb": {
@@ -5075,6 +5065,204 @@
           "button_color": "#ff3535",
           "button_hover_color": "#31373d",
           "button_text_color": "#ffffff"
+        }
+      },
+      "header_fs": {
+        "type": "header_fs",
+        "blocks": {
+          "megamenu_tdVQNL": {
+            "type": "megamenu",
+            "settings": {
+              "title": "Men",
+              "target_collection": "men-1",
+              "show_megamenu_dropdown_mb": true
+            }
+          },
+          "megamenu_child_JEhTxA": {
+            "type": "megamenu-child",
+            "settings": {
+              "title": "Featured",
+              "widget": "main",
+              "menu_link_list_child": "mens-featured",
+              "menu_link": "shopify://collections/mens-featured",
+              "spotlight_title": "",
+              "spotlight_link": ""
+            }
+          },
+          "megamenu_child_CYP8WF": {
+            "type": "megamenu-child",
+            "settings": {
+              "title": "Triathlon",
+              "widget": "main",
+              "menu_link_list_child": "mens-triathlon",
+              "menu_link": "shopify://collections/mens-triathlon",
+              "spotlight_title": "",
+              "spotlight_link": ""
+            }
+          },
+          "megamenu_child_BqXjHY": {
+            "type": "megamenu-child",
+            "settings": {
+              "title": "Cycling",
+              "widget": "main",
+              "menu_link_list_child": "mens-cycling",
+              "menu_link": "shopify://collections/mens-cycling",
+              "spotlight_title": "",
+              "spotlight_link": ""
+            }
+          },
+          "megamenu_child_DXkJKW": {
+            "type": "megamenu-child",
+            "settings": {
+              "title": "Running",
+              "widget": "main",
+              "menu_link_list_child": "mens-running",
+              "menu_link": "shopify://collections/mens-running",
+              "spotlight_title": "",
+              "spotlight_link": ""
+            }
+          },
+          "megamenu_child_bBrPAL": {
+            "type": "megamenu-child",
+            "settings": {
+              "title": "Training",
+              "widget": "main",
+              "menu_link_list_child": "mens-training",
+              "menu_link": "shopify://collections/mens-training",
+              "spotlight_title": "",
+              "spotlight_link": ""
+            }
+          },
+          "megamenu_JFRgrX": {
+            "type": "megamenu",
+            "settings": {
+              "title": "Women",
+              "target_collection": "womens",
+              "show_megamenu_dropdown_mb": true
+            }
+          },
+          "megamenu_child_6HEbX9": {
+            "type": "megamenu-child",
+            "settings": {
+              "title": "Featured",
+              "widget": "main",
+              "menu_link_list_child": "womens-featured",
+              "menu_link": "shopify://collections/womens-featured",
+              "spotlight_title": "",
+              "spotlight_link": ""
+            }
+          },
+          "megamenu_child_ei9e6c": {
+            "type": "megamenu-child",
+            "settings": {
+              "title": "Triathlon",
+              "widget": "main",
+              "menu_link_list_child": "womens-triathlon",
+              "menu_link": "shopify://collections/womens-triathlon",
+              "spotlight_title": "",
+              "spotlight_link": ""
+            }
+          },
+          "megamenu_child_g7JaVR": {
+            "type": "megamenu-child",
+            "settings": {
+              "title": "Cycling",
+              "widget": "main",
+              "menu_link_list_child": "womens-cycling",
+              "menu_link": "shopify://collections/womens-cycling",
+              "spotlight_title": "",
+              "spotlight_link": ""
+            }
+          },
+          "megamenu_child_Yp6xGn": {
+            "type": "megamenu-child",
+            "settings": {
+              "title": "Running",
+              "widget": "main",
+              "menu_link_list_child": "womens-running",
+              "menu_link": "shopify://collections/womens-running",
+              "spotlight_title": "",
+              "spotlight_link": ""
+            }
+          },
+          "megamenu_child_EfthjV": {
+            "type": "megamenu-child",
+            "settings": {
+              "title": "Training",
+              "widget": "main",
+              "menu_link_list_child": "womens-training",
+              "menu_link": "shopify://collections/womens-training",
+              "spotlight_title": "",
+              "spotlight_link": ""
+            }
+          },
+          "megamenu_qbHKtw": {
+            "type": "megamenu",
+            "settings": {
+              "title": "Shop by Sport",
+              "target_collection": "",
+              "show_megamenu_dropdown_mb": true
+            }
+          },
+          "megamenu_HCmzty": {
+            "type": "megamenu",
+            "settings": {
+              "title": "TEMPO!",
+              "target_collection": "",
+              "show_megamenu_dropdown_mb": true
+            }
+          },
+          "megamenu_LdDgLh": {
+            "type": "megamenu",
+            "settings": {
+              "title": "Brands",
+              "target_collection": "",
+              "show_megamenu_dropdown_mb": true
+            }
+          },
+          "megamenu_xU6fbw": {
+            "type": "megamenu",
+            "settings": {
+              "title": "Sale",
+              "target_collection": "",
+              "show_megamenu_dropdown_mb": true
+            }
+          }
+        },
+        "block_order": [
+          "megamenu_tdVQNL",
+          "megamenu_child_JEhTxA",
+          "megamenu_child_CYP8WF",
+          "megamenu_child_BqXjHY",
+          "megamenu_child_DXkJKW",
+          "megamenu_child_bBrPAL",
+          "megamenu_JFRgrX",
+          "megamenu_child_6HEbX9",
+          "megamenu_child_ei9e6c",
+          "megamenu_child_g7JaVR",
+          "megamenu_child_Yp6xGn",
+          "megamenu_child_EfthjV",
+          "megamenu_qbHKtw",
+          "megamenu_HCmzty",
+          "megamenu_LdDgLh",
+          "megamenu_xU6fbw"
+        ],
+        "settings": {
+          "width_header": "1770px",
+          "padding": "0 0",
+          "main_menuitem_padding": "32px 20px",
+          "header_sticky": true,
+          "header_absolute": true,
+          "color_homepage_text": "#ffffff",
+          "logo": "shopify://shop_images/5Dla_Logo.png",
+          "logo_max_width": 50,
+          "show_header_search": true,
+          "show_header_wishlist": true,
+          "page_wishlist": "",
+          "show_header_user": true,
+          "header_user_title": "Account",
+          "header_user_link_list": "",
+          "show_header_cart": true
         }
       }
     },
