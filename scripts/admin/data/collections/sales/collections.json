@@ -5,8 +5,16 @@
     "ruleSet": {
       "appliedDisjunctively": false,
       "rules": [
-        { "column": "VARIANT_COMPARE_AT_PRICE", "relation": "IS_SET", "condition": "" },
-        { "column": "TAG", "relation": "NOT_EQUALS", "condition": "Preorder" }
+        {
+          "column": "VARIANT_COMPARE_AT_PRICE",
+          "relation": "GREATER_THAN",
+          "condition": "0"
+        },
+        {
+          "column": "TAG",
+          "relation": "NOT_EQUALS",
+          "condition": "Preorder"
+        }
       ]
     }
   },
@@ -16,8 +24,16 @@
     "ruleSet": {
       "appliedDisjunctively": false,
       "rules": [
-        { "column": "VARIANT_COMPARE_AT_PRICE", "relation": "IS_SET", "condition": "" },
-        { "column": "TAG", "relation": "NOT_EQUALS", "condition": "Preorder" }
+        {
+          "column": "VARIANT_COMPARE_AT_PRICE",
+          "relation": "GREATER_THAN",
+          "condition": "0"
+        },
+        {
+          "column": "TAG",
+          "relation": "NOT_EQUALS",
+          "condition": "Preorder"
+        }
       ]
     }
   },
@@ -27,8 +43,16 @@
     "ruleSet": {
       "appliedDisjunctively": false,
       "rules": [
-        { "column": "VARIANT_COMPARE_AT_PRICE", "relation": "IS_SET", "condition": "" },
-        { "column": "TAG", "relation": "NOT_EQUALS", "condition": "Preorder" }
+        {
+          "column": "VARIANT_COMPARE_AT_PRICE",
+          "relation": "GREATER_THAN",
+          "condition": "0"
+        },
+        {
+          "column": "TAG",
+          "relation": "NOT_EQUALS",
+          "condition": "Preorder"
+        }
       ]
     }
   },
@@ -38,9 +62,21 @@
     "ruleSet": {
       "appliedDisjunctively": false,
       "rules": [
-        { "column": "VARIANT_COMPARE_AT_PRICE", "relation": "IS_SET", "condition": "" },
-        { "column": "TAG", "relation": "EQUALS", "condition": "Men" },
-        { "column": "TAG", "relation": "NOT_EQUALS", "condition": "Preorder" }
+        {
+          "column": "VARIANT_COMPARE_AT_PRICE",
+          "relation": "GREATER_THAN",
+          "condition": "0"
+        },
+        {
+          "column": "TAG",
+          "relation": "EQUALS",
+          "condition": "Men"
+        },
+        {
+          "column": "TAG",
+          "relation": "NOT_EQUALS",
+          "condition": "Preorder"
+        }
       ]
     }
   },
@@ -50,9 +86,21 @@
     "ruleSet": {
       "appliedDisjunctively": false,
       "rules": [
-        { "column": "VARIANT_COMPARE_AT_PRICE", "relation": "IS_SET", "condition": "" },
-        { "column": "TAG", "relation": "EQUALS", "condition": "Women" },
-        { "column": "TAG", "relation": "NOT_EQUALS", "condition": "Preorder" }
+        {
+          "column": "VARIANT_COMPARE_AT_PRICE",
+          "relation": "GREATER_THAN",
+          "condition": "0"
+        },
+        {
+          "column": "TAG",
+          "relation": "EQUALS",
+          "condition": "Women"
+        },
+        {
+          "column": "TAG",
+          "relation": "NOT_EQUALS",
+          "condition": "Preorder"
+        }
       ]
     }
   },
@@ -62,8 +110,16 @@
     "ruleSet": {
       "appliedDisjunctively": false,
       "rules": [
-        { "column": "VARIANT_COMPARE_AT_PRICE", "relation": "IS_SET", "condition": "" },
-        { "column": "TAG", "relation": "NOT_EQUALS", "condition": "Preorder" }
+        {
+          "column": "VARIANT_COMPARE_AT_PRICE",
+          "relation": "GREATER_THAN",
+          "condition": "0"
+        },
+        {
+          "column": "TAG",
+          "relation": "NOT_EQUALS",
+          "condition": "Preorder"
+        }
       ]
     }
   },
@@ -73,9 +129,21 @@
     "ruleSet": {
       "appliedDisjunctively": false,
       "rules": [
-        { "column": "VARIANT_COMPARE_AT_PRICE", "relation": "IS_SET", "condition": "" },
-        { "column": "TAG", "relation": "EQUALS", "condition": "Triathlon" },
-        { "column": "TAG", "relation": "NOT_EQUALS", "condition": "Preorder" }
+        {
+          "column": "VARIANT_COMPARE_AT_PRICE",
+          "relation": "GREATER_THAN",
+          "condition": "0"
+        },
+        {
+          "column": "TAG",
+          "relation": "EQUALS",
+          "condition": "Triathlon"
+        },
+        {
+          "column": "TAG",
+          "relation": "NOT_EQUALS",
+          "condition": "Preorder"
+        }
       ]
     }
   },
@@ -85,9 +153,21 @@
     "ruleSet": {
       "appliedDisjunctively": false,
       "rules": [
-        { "column": "VARIANT_COMPARE_AT_PRICE", "relation": "IS_SET", "condition": "" },
-        { "column": "TAG", "relation": "EQUALS", "condition": "Cycling" },
-        { "column": "TAG", "relation": "NOT_EQUALS", "condition": "Preorder" }
+        {
+          "column": "VARIANT_COMPARE_AT_PRICE",
+          "relation": "GREATER_THAN",
+          "condition": "0"
+        },
+        {
+          "column": "TAG",
+          "relation": "EQUALS",
+          "condition": "Cycling"
+        },
+        {
+          "column": "TAG",
+          "relation": "NOT_EQUALS",
+          "condition": "Preorder"
+        }
       ]
     }
   },
@@ -97,9 +177,21 @@
     "ruleSet": {
       "appliedDisjunctively": false,
       "rules": [
-        { "column": "VARIANT_COMPARE_AT_PRICE", "relation": "IS_SET", "condition": "" },
-        { "column": "TAG", "relation": "EQUALS", "condition": "Running" },
-        { "column": "TAG", "relation": "NOT_EQUALS", "condition": "Preorder" }
+        {
+          "column": "VARIANT_COMPARE_AT_PRICE",
+          "relation": "GREATER_THAN",
+          "condition": "0"
+        },
+        {
+          "column": "TAG",
+          "relation": "EQUALS",
+          "condition": "Running"
+        },
+        {
+          "column": "TAG",
+          "relation": "NOT_EQUALS",
+          "condition": "Preorder"
+        }
       ]
     }
   },
@@ -109,8 +201,16 @@
     "ruleSet": {
       "appliedDisjunctively": false,
       "rules": [
-        { "column": "VARIANT_COMPARE_AT_PRICE", "relation": "IS_SET", "condition": "" },
-        { "column": "TAG", "relation": "NOT_EQUALS", "condition": "Preorder" }
+        {
+          "column": "VARIANT_COMPARE_AT_PRICE",
+          "relation": "GREATER_THAN",
+          "condition": "0"
+        },
+        {
+          "column": "TAG",
+          "relation": "NOT_EQUALS",
+          "condition": "Preorder"
+        }
       ]
     }
   },
@@ -120,11 +220,31 @@
     "ruleSet": {
       "appliedDisjunctively": false,
       "rules": [
-        { "column": "VARIANT_COMPARE_AT_PRICE", "relation": "IS_SET", "condition": "" },
-        { "column": "TYPE", "relation": "NOT_CONTAINS", "condition": "Accessories" },
-        { "column": "TITLE", "relation": "NOT_CONTAINS", "condition": "Shoe" },
-        { "column": "TITLE", "relation": "NOT_CONTAINS", "condition": "Sock" },
-        { "column": "TAG", "relation": "NOT_EQUALS", "condition": "Preorder" }
+        {
+          "column": "VARIANT_COMPARE_AT_PRICE",
+          "relation": "GREATER_THAN",
+          "condition": "0"
+        },
+        {
+          "column": "TYPE",
+          "relation": "NOT_CONTAINS",
+          "condition": "Accessories"
+        },
+        {
+          "column": "TITLE",
+          "relation": "NOT_CONTAINS",
+          "condition": "Shoe"
+        },
+        {
+          "column": "TITLE",
+          "relation": "NOT_CONTAINS",
+          "condition": "Sock"
+        },
+        {
+          "column": "TAG",
+          "relation": "NOT_EQUALS",
+          "condition": "Preorder"
+        }
       ]
     }
   },
@@ -134,9 +254,21 @@
     "ruleSet": {
       "appliedDisjunctively": false,
       "rules": [
-        { "column": "VARIANT_COMPARE_AT_PRICE", "relation": "IS_SET", "condition": "" },
-        { "column": "TITLE", "relation": "CONTAINS", "condition": "Shoe" },
-        { "column": "TAG", "relation": "NOT_EQUALS", "condition": "Preorder" }
+        {
+          "column": "VARIANT_COMPARE_AT_PRICE",
+          "relation": "GREATER_THAN",
+          "condition": "0"
+        },
+        {
+          "column": "TITLE",
+          "relation": "CONTAINS",
+          "condition": "Shoe"
+        },
+        {
+          "column": "TAG",
+          "relation": "NOT_EQUALS",
+          "condition": "Preorder"
+        }
       ]
     }
   },
@@ -146,9 +278,21 @@
     "ruleSet": {
       "appliedDisjunctively": false,
       "rules": [
-        { "column": "VARIANT_COMPARE_AT_PRICE", "relation": "IS_SET", "condition": "" },
-        { "column": "TYPE", "relation": "CONTAINS", "condition": "Accessories" },
-        { "column": "TAG", "relation": "NOT_EQUALS", "condition": "Preorder" }
+        {
+          "column": "VARIANT_COMPARE_AT_PRICE",
+          "relation": "GREATER_THAN",
+          "condition": "0"
+        },
+        {
+          "column": "TYPE",
+          "relation": "CONTAINS",
+          "condition": "Accessories"
+        },
+        {
+          "column": "TAG",
+          "relation": "NOT_EQUALS",
+          "condition": "Preorder"
+        }
       ]
     }
   }
