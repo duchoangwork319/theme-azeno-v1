@@ -5200,32 +5200,131 @@
             "type": "megamenu",
             "settings": {
               "title": "Shop by Sport",
-              "target_collection": "",
+              "target_collection": "shop-by-sport",
               "show_megamenu_dropdown_mb": true
+            }
+          },
+          "megamenu_child_6pkMrX": {
+            "type": "megamenu-child",
+            "settings": {
+              "title": "Triathlon",
+              "widget": "main",
+              "menu_link_list_child": "shop-by-sport-triathlon",
+              "menu_link": "shopify://collections/shop-by-sport-triathlon",
+              "spotlight_title": "",
+              "spotlight_link": ""
+            }
+          },
+          "megamenu_child_y9dkBb": {
+            "type": "megamenu-child",
+            "settings": {
+              "title": "Cycling",
+              "widget": "main",
+              "menu_link_list_child": "shop-by-sport-cycling",
+              "menu_link": "shopify://collections/shop-by-sport-cycling",
+              "spotlight_title": "",
+              "spotlight_link": ""
+            }
+          },
+          "megamenu_child_4Pe8j9": {
+            "type": "megamenu-child",
+            "settings": {
+              "title": "Running",
+              "widget": "main",
+              "menu_link_list_child": "shop-by-sport-running",
+              "menu_link": "shopify://collections/shop-by-sport-running",
+              "spotlight_title": "",
+              "spotlight_link": ""
+            }
+          },
+          "megamenu_child_XJ8JWF": {
+            "type": "megamenu-child",
+            "settings": {
+              "title": "Training",
+              "widget": "main",
+              "menu_link_list_child": "shop-by-sport-training",
+              "menu_link": "shopify://collections/shop-by-sport-training",
+              "spotlight_title": "",
+              "spotlight_link": ""
             }
           },
           "megamenu_HCmzty": {
             "type": "megamenu",
             "settings": {
               "title": "TEMPO!",
-              "target_collection": "",
+              "target_collection": "tempo",
               "show_megamenu_dropdown_mb": true
+            }
+          },
+          "megamenu_child_hUEELg": {
+            "type": "megamenu-child",
+            "settings": {
+              "title": "TEMPO!",
+              "widget": "main",
+              "menu_link_list_child": "tempo",
+              "menu_link": "",
+              "spotlight_title": "",
+              "spotlight_link": ""
             }
           },
           "megamenu_LdDgLh": {
             "type": "megamenu",
             "settings": {
               "title": "Brands",
-              "target_collection": "",
+              "target_collection": "brands",
               "show_megamenu_dropdown_mb": true
+            }
+          },
+          "megamenu_child_frJDzR": {
+            "type": "megamenu-child",
+            "settings": {
+              "title": "FUSION",
+              "widget": "main",
+              "menu_link_list_child": "brands-fusion",
+              "menu_link": "shopify://collections/brands-fusion",
+              "spotlight_title": "",
+              "spotlight_link": ""
             }
           },
           "megamenu_xU6fbw": {
             "type": "megamenu",
             "settings": {
               "title": "Sale",
-              "target_collection": "",
+              "target_collection": "sale",
               "show_megamenu_dropdown_mb": true
+            }
+          },
+          "megamenu_child_PLhX3e": {
+            "type": "megamenu-child",
+            "settings": {
+              "title": "Shop Sale",
+              "widget": "main",
+              "menu_link_list_child": "sale-shop-sale",
+              "menu_link": "shopify://collections/sale-shop-sale",
+              "spotlight_title": "",
+              "spotlight_link": ""
+            }
+          },
+          "megamenu_child_RBXfbM": {
+            "type": "megamenu-child",
+            "settings": {
+              "title": "By Sport",
+              "widget": "main",
+              "menu_link_list_child": "sale-by-sport",
+              "menu_link": "shopify://collections/sale-by-sport",
+              "spotlight_title": "",
+              "spotlight_link": ""
+            }
+          },
+          "megamenu_child_F9VKPh": {
+            "type": "megamenu-child",
+            "settings": {
+              "title": "By Product",
+              "widget": "main",
+              "menu_link_list_child": "sale-by-product",
+              "menu_link": "shopify://collections/sale-by-product",
+              "spotlight_title": "",
+              "spotlight_link": ""
             }
           }
         },
@@ -5243,9 +5342,18 @@
           "megamenu_child_Yp6xGn",
           "megamenu_child_EfthjV",
           "megamenu_qbHKtw",
+          "megamenu_child_6pkMrX",
+          "megamenu_child_y9dkBb",
+          "megamenu_child_4Pe8j9",
+          "megamenu_child_XJ8JWF",
           "megamenu_HCmzty",
+          "megamenu_child_hUEELg",
           "megamenu_LdDgLh",
-          "megamenu_xU6fbw"
+          "megamenu_child_frJDzR",
+          "megamenu_xU6fbw",
+          "megamenu_child_PLhX3e",
+          "megamenu_child_RBXfbM",
+          "megamenu_child_F9VKPh"
         ],
         "settings": {
           "width_header": "1770px",
@@ -5255,7 +5363,7 @@
           "header_absolute": true,
           "color_homepage_text": "#ffffff",
           "logo": "shopify://shop_images/5Dla_Logo.png",
-          "logo_max_width": 50,
+          "logo_max_width": 55,
           "show_header_search": true,
           "show_header_wishlist": true,
           "page_wishlist": "",
