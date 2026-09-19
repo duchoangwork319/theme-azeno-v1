@@ -104,6 +104,12 @@
                         <div class="fs-menu-mobile__widget-panel" data-fs-menu-mobile-widget-panel>
                           <ul class="fs-menu-mobile__widget-list">
                             {%- for link in linklists[block.settings.menu_link_list_child].links -%}
+                              {%- if section.settings.show_only_available_collection and link.type == 'collection_link' and link.object -%}
+                                {%- assign available_products = link.object.products | where: 'available', true -%}
+                                {%- if available_products.size == 0 -%}
+                                  {%- continue -%}
+                                {%- endif -%}
+                              {%- endif -%}
                               <li class="fs-menu-mobile__widget-item">
                                 <a href="{{ link.url }}">{{ link.title }}</a>
                               </li>

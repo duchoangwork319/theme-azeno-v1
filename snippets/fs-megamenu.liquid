@@ -7,6 +7,12 @@
 {%- case block.settings.widget -%}
   {%- when 'side' -%}
     {%- for link in linklists[block.settings.menu_link_list_child].links -%}
+      {%- if section.settings.show_only_available_collection and link.type == 'collection_link' and link.object -%}
+        {%- assign available_products = link.object.products | where: 'available', true -%}
+        {%- if available_products.size == 0 -%}
+          {%- continue -%}
+        {%- endif -%}
+      {%- endif -%}
       <li class="megamenu-widget megamenu-widget--side{% if link.active %} active{% endif %}">
         <a class="hover-line" href="{{ link.url }}">{{ link.title }}</a>
       </li>
@@ -15,7 +21,9 @@
     <li class="megamenu-widget megamenu-widget--main">
       {%- if block.settings.title != blank -%}
         {%- if block.settings.menu_link != blank -%}
-          <a class="megamenu-widget__heading megamenu-widget__heading--link" href="{{ block.settings.menu_link }}">{{ block.settings.title }}</a>
+          <a class="megamenu-widget__heading megamenu-widget__heading--link" href="{{ block.settings.menu_link }}">
+            {{- block.settings.title -}}
+          </a>
         {%- else -%}
           <a class="megamenu-widget__heading" href="#">{{ block.settings.title }}</a>
         {%- endif -%}
@@ -23,6 +31,15 @@
       {%- if block.settings.menu_link_list_child != blank -%}
         <ul class="megamenu-widget__list">
           {%- for link in linklists[block.settings.menu_link_list_child].links -%}
+            {%- if section.settings.show_only_available_collection
+              and link.type == 'collection_link'
+              and link.object
+            -%}
+              {%- assign available_products = link.object.products | where: 'available', true -%}
+              {%- if available_products.size == 0 -%}
+                {%- continue -%}
+              {%- endif -%}
+            {%- endif -%}
             <li class="megamenu-widget__item{% if link.active %} active{% endif %}">
               <a class="hover-line" href="{{ link.url }}">{{ link.title }}</a>
             </li>
