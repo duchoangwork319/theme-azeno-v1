@@ -67,7 +67,7 @@
       "rules": [
         { "column": "TAG", "relation": "EQUALS", "condition": "Men" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Triathlon" },
-        { "column": "TITLE", "relation": "CONTAINS", "condition": "Short" },
+        { "column": "TAG", "relation": "EQUALS", "condition": "Tri Shorts" },
         { "column": "TAG", "relation": "NOT_EQUALS", "condition": "Preorder" }
       ]
     }
@@ -92,8 +92,8 @@
       "appliedDisjunctively": false,
       "rules": [
         { "column": "TAG", "relation": "EQUALS", "condition": "Men" },
-        { "column": "TYPE", "relation": "CONTAINS", "condition": "Triathlon" },
-        { "column": "TYPE", "relation": "CONTAINS", "condition": "Accessories" },
+        { "column": "TAG", "relation": "EQUALS", "condition": "Triathlon" },
+        { "column": "TAG", "relation": "EQUALS", "condition": "Accessories" },
         { "column": "TAG", "relation": "NOT_EQUALS", "condition": "Preorder" }
       ]
     }
@@ -170,7 +170,7 @@
       "rules": [
         { "column": "TAG", "relation": "EQUALS", "condition": "Men" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Cycling" },
-        { "column": "TYPE", "relation": "CONTAINS", "condition": "Accessories" },
+        { "column": "TAG", "relation": "EQUALS", "condition": "Accessories" },
         { "column": "TAG", "relation": "NOT_EQUALS", "condition": "Preorder" }
       ]
     }
@@ -234,7 +234,7 @@
       "rules": [
         { "column": "TAG", "relation": "EQUALS", "condition": "Men" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Running" },
-        { "column": "TYPE", "relation": "CONTAINS", "condition": "Accessories" },
+        { "column": "TAG", "relation": "EQUALS", "condition": "Accessories" },
         { "column": "TAG", "relation": "NOT_EQUALS", "condition": "Preorder" }
       ]
     }
@@ -246,7 +246,7 @@
       "appliedDisjunctively": false,
       "rules": [
         { "column": "TAG", "relation": "EQUALS", "condition": "Men" },
-        { "column": "TYPE", "relation": "CONTAINS", "condition": "Training" },
+        { "column": "TAG", "relation": "EQUALS", "condition": "Training" },
         { "column": "TAG", "relation": "NOT_EQUALS", "condition": "Preorder" }
       ]
     }
@@ -258,7 +258,7 @@
       "appliedDisjunctively": false,
       "rules": [
         { "column": "TAG", "relation": "EQUALS", "condition": "Men" },
-        { "column": "TYPE", "relation": "CONTAINS", "condition": "Training" },
+        { "column": "TAG", "relation": "EQUALS", "condition": "Training" },
         { "column": "TAG", "relation": "EQUALS", "condition": "T-Shirt" },
         { "column": "TAG", "relation": "NOT_EQUALS", "condition": "Preorder" }
       ]
@@ -271,7 +271,7 @@
       "appliedDisjunctively": false,
       "rules": [
         { "column": "TAG", "relation": "EQUALS", "condition": "Men" },
-        { "column": "TYPE", "relation": "CONTAINS", "condition": "Training" },
+        { "column": "TAG", "relation": "EQUALS", "condition": "Training" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Tights" },
         { "column": "TAG", "relation": "NOT_EQUALS", "condition": "Preorder" }
       ]

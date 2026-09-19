@@ -5,7 +5,6 @@
     "ruleSet": {
       "appliedDisjunctively": false,
       "rules": [
-        { "column": "TAG", "relation": "EQUALS", "condition": "Unisex" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Women" },
         { "column": "TAG", "relation": "NOT_EQUALS", "condition": "Preorder" }
       ]
@@ -18,7 +17,6 @@
     "ruleSet": {
       "appliedDisjunctively": false,
       "rules": [
-        { "column": "TAG", "relation": "EQUALS", "condition": "Unisex" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Women" },
         { "column": "TAG", "relation": "NOT_EQUALS", "condition": "Preorder" }
       ]
@@ -31,7 +29,6 @@
     "ruleSet": {
       "appliedDisjunctively": false,
       "rules": [
-        { "column": "TAG", "relation": "EQUALS", "condition": "Unisex" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Women" },
         { "column": "TAG", "relation": "NOT_EQUALS", "condition": "Preorder" }
       ]
@@ -43,7 +40,6 @@
     "ruleSet": {
       "appliedDisjunctively": false,
       "rules": [
-        { "column": "TAG", "relation": "EQUALS", "condition": "Unisex" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Women" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Triathlon" },
         { "column": "TAG", "relation": "NOT_EQUALS", "condition": "Preorder" }
@@ -56,7 +52,6 @@
     "ruleSet": {
       "appliedDisjunctively": false,
       "rules": [
-        { "column": "TAG", "relation": "EQUALS", "condition": "Unisex" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Women" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Triathlon" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Tri Suit" },
@@ -70,7 +65,6 @@
     "ruleSet": {
       "appliedDisjunctively": false,
       "rules": [
-        { "column": "TAG", "relation": "EQUALS", "condition": "Unisex" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Women" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Triathlon" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Tri Shorts" },
@@ -84,7 +78,6 @@
     "ruleSet": {
       "appliedDisjunctively": false,
       "rules": [
-        { "column": "TAG", "relation": "EQUALS", "condition": "Unisex" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Women" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Triathlon" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Race Belt" },
@@ -98,7 +91,6 @@
     "ruleSet": {
       "appliedDisjunctively": false,
       "rules": [
-        { "column": "TAG", "relation": "EQUALS", "condition": "Unisex" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Women" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Triathlon" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Accessories" },
@@ -112,7 +104,6 @@
     "ruleSet": {
       "appliedDisjunctively": false,
       "rules": [
-        { "column": "TAG", "relation": "EQUALS", "condition": "Unisex" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Women" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Cycling" },
         { "column": "TAG", "relation": "NOT_EQUALS", "condition": "Preorder" }
@@ -125,7 +116,6 @@
     "ruleSet": {
       "appliedDisjunctively": false,
       "rules": [
-        { "column": "TAG", "relation": "EQUALS", "condition": "Unisex" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Women" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Cycling" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Jersey" },
@@ -134,12 +124,11 @@
     }
   },
   {
-    "title": "Women's Cycling - Bib Shorts",
+    "title": "Women's Cycling - Bibs & Cycling Shorts",
     "handle": "womens-cycling-bib-shorts",
     "ruleSet": {
       "appliedDisjunctively": false,
       "rules": [
-        { "column": "TAG", "relation": "EQUALS", "condition": "Unisex" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Women" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Cycling" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Bib Shorts" },
@@ -153,7 +142,6 @@
     "ruleSet": {
       "appliedDisjunctively": false,
       "rules": [
-        { "column": "TAG", "relation": "EQUALS", "condition": "Unisex" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Women" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Cycling" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Cycling Suit" },
@@ -167,7 +155,6 @@
     "ruleSet": {
       "appliedDisjunctively": false,
       "rules": [
-        { "column": "TAG", "relation": "EQUALS", "condition": "Unisex" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Women" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Cycling" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Cycling Shoes" },
@@ -181,7 +168,6 @@
     "ruleSet": {
       "appliedDisjunctively": false,
       "rules": [
-        { "column": "TAG", "relation": "EQUALS", "condition": "Unisex" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Women" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Cycling" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Accessories" },
@@ -195,7 +181,6 @@
     "ruleSet": {
       "appliedDisjunctively": false,
       "rules": [
-        { "column": "TAG", "relation": "EQUALS", "condition": "Unisex" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Women" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Running" },
         { "column": "TAG", "relation": "NOT_EQUALS", "condition": "Preorder" }
@@ -208,7 +193,6 @@
     "ruleSet": {
       "appliedDisjunctively": false,
       "rules": [
-        { "column": "TAG", "relation": "EQUALS", "condition": "Unisex" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Women" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Running" },
         { "column": "TAG", "relation": "EQUALS", "condition": "T-Shirt" },
@@ -222,7 +206,6 @@
     "ruleSet": {
       "appliedDisjunctively": false,
       "rules": [
-        { "column": "TAG", "relation": "EQUALS", "condition": "Unisex" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Women" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Running" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Tights" },
@@ -236,7 +219,6 @@
     "ruleSet": {
       "appliedDisjunctively": false,
       "rules": [
-        { "column": "TAG", "relation": "EQUALS", "condition": "Unisex" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Women" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Running" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Race Belt" },
@@ -250,7 +232,6 @@
     "ruleSet": {
       "appliedDisjunctively": false,
       "rules": [
-        { "column": "TAG", "relation": "EQUALS", "condition": "Unisex" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Women" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Running" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Accessories" },
@@ -264,7 +245,6 @@
     "ruleSet": {
       "appliedDisjunctively": false,
       "rules": [
-        { "column": "TAG", "relation": "EQUALS", "condition": "Unisex" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Women" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Training" },
         { "column": "TAG", "relation": "NOT_EQUALS", "condition": "Preorder" }
@@ -277,7 +257,6 @@
     "ruleSet": {
       "appliedDisjunctively": false,
       "rules": [
-        { "column": "TAG", "relation": "EQUALS", "condition": "Unisex" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Women" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Training" },
         { "column": "TAG", "relation": "EQUALS", "condition": "T-Shirt" },
@@ -291,7 +270,6 @@
     "ruleSet": {
       "appliedDisjunctively": false,
       "rules": [
-        { "column": "TAG", "relation": "EQUALS", "condition": "Unisex" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Women" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Training" },
         { "column": "TAG", "relation": "EQUALS", "condition": "Tights" },
