@@ -5370,7 +5370,8 @@
           "show_header_user": true,
           "header_user_title": "Account",
           "header_user_link_list": "",
-          "show_header_cart": true
+          "show_header_cart": true,
+          "show_only_available_collection": true
         }
       }
     },
