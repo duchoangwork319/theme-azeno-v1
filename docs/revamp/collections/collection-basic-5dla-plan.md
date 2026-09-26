@@ -6,11 +6,11 @@ Scope: the collection page body only (`<header>`/`<footer>` excluded — separat
 
 | Item | Status | Notes |
 |---|---|---|
-| SCSS compilation | **Already supported — no changes needed** | `sass` and `sass-embedded` are already in `devDependencies`. `scripts/vite-build.mjs` builds every top-level `client/js/*.js` file as its own Vite entry; Vite natively transforms any `.scss`/`.sass` imported from a JS entry (proven today — `client/js/style.js` already imports `assets/css-header-fs-megamenu.scss` alongside plain `.css`). |
+| SCSS compilation | Already supported by the underlying tooling | `sass` and `sass-embedded` are already in `devDependencies`. Vite natively transforms any `.scss`/`.sass` imported from a JS entry (proven today — `client/js/style.js` already imports `assets/css-header-fs-megamenu.scss` alongside plain `.css`). |
 | `package.json` | **One addition needed** | Add `bootstrap` (v5) to `dependencies`/`devDependencies` so it can be `@import`ed into the new SCSS entry and its JS components (`bootstrap`'s bundle, or just the individual ES modules we need — Offcanvas, Collapse/Accordion, Dropdown) can be imported into the new JS entry. No other new packages required to start; add more only if a specific interaction genuinely needs one (see §3). |
-| `vite-build.mjs` | No change required | It only discovers entries by scanning `client/js/*.js` (top-level), so a new SCSS/Bootstrap-importing JS entry is picked up automatically — no edits needed there either. |
+| `vite-build.mjs` | **Change needed** | `listJSFiles()` currently scans only the top level of `client/js/*.js`. It needs to also discover entries under the new `client/ver_2_0/js/` folder (see §2) so those get built the same way — as their own self-contained Vite entry/bundle. Simplest change: extend `listJSFiles()` to additionally `readdirSync(client/ver_2_0/js)` (top-level files only, same rule as today) and merge those into the `entries` array before the build loop runs; entry `name` stays the file's basename, so output files land at `assets/bundled.<name>.js`/`.css` exactly like existing entries. No change needed to the per-entry `config` (outDir, base, minify, etc.) — the new entries reuse it as-is. |
 
-**Convention to follow:** SCSS files themselves are never built directly — a `.scss` file only compiles if a `client/js/*.js` entry file `import`s it (same as the existing `style.js` pattern). This is why the plan below adds one new top-level JS entry rather than expecting `client/scss` to build on its own.
+**Convention to follow:** SCSS files themselves are never built directly — a `.scss` file only compiles if a JS entry file `import`s it (same as the existing `style.js` pattern). This is why the plan below adds one new top-level JS entry (under `client/ver_2_0/js/`) rather than expecting `client/ver_2_0/scss` to build on its own.
 
 ## 2. File & naming conventions for this revamp
 
@@ -19,11 +19,11 @@ Scope: the collection page body only (`<header>`/`<footer>` excluded — separat
 | Section files | `sections/5dla_<name>.liquid` |
 | Section `schema.name` / `presets[].name` | Prefixed `"5DLA <Name>"` |
 | Template | `templates/collection.basic.5dla.json` |
-| New SCSS | `client/scss/5dla-collection/` (partials, including a `bootstrap` import/override partial) + one entry point |
-| New JS | `client/js/5dla-collection.js` (new top-level entry, imports the SCSS entry + Bootstrap 5 JS) + `client/js/5dla/` subfolder for behavior modules (filter engine, drawer, accordion, etc.) |
+| New SCSS | `client/ver_2_0/scss/` (partials, including a `bootstrap` import/override partial) + one entry point. No `5dla` prefix — the `ver_2_0` folder itself scopes these as the new-stack resources. |
+| New JS | `client/ver_2_0/js/collection.js` (new top-level entry — picked up by the `vite-build.mjs` change above, imports the SCSS entry + Bootstrap 5 JS) + `client/ver_2_0/js/modules/` subfolder for behavior modules (filter engine, drawer, accordion, etc.). No `5dla` prefix, same reasoning. |
 | Legacy JS | `client/js/*` existing files (`main.js`, `product.js`, `head-collection.js`, `style.js`, …) are **not modified**. `assets/wpbingo.js` and jQuery are **not loaded at all** on this template — see §3. |
 
-Output bundle: `assets/bundled.5dla-collection.js` + `assets/bundled.5dla-collection.css`. These need one small **additive** (not modifying existing logic) conditional include in `snippets/header-styles.liquid` and `snippets/footer-javascript-optimized.liquid`, gated by `template.suffix == 'basic.5dla'`, mirroring the existing `page_type`/`bundled.product.css` pattern. On this gate, the legacy `bundled.wpbingo.min.js` / `bundled.global.min.js` script tags should be **skipped** for this template (not just left unused) — legacy `collection.liquid` pages keep loading them unchanged, only `collection.basic.5dla.json` opts out.
+Output bundle: `assets/bundled.collection.js` + `assets/bundled.collection.css` (from the `client/ver_2_0/js/collection.js` entry, per the `vite-build.mjs` change in §1). These need one small **additive** (not modifying existing logic) conditional include in `snippets/header-styles.liquid` and `snippets/footer-javascript-optimized.liquid`, gated by `template.suffix == 'basic.5dla'`, mirroring the existing `page_type`/`bundled.product.css` pattern. On this gate, the legacy `bundled.wpbingo.min.js` / `bundled.global.min.js` script tags should be **skipped** for this template (not just left unused) — legacy `collection.liquid` pages keep loading them unchanged, only `collection.basic.5dla.json` opts out.
 
 ## 3. JS architecture decision (important)
 
@@ -31,11 +31,11 @@ Output bundle: `assets/bundled.5dla-collection.js` + `assets/bundled.5dla-collec
 
 **Stack for this revamp:** Bootstrap 5 (CSS via SCSS `@import`, JS via its native ES modules — no jQuery dependency, Bootstrap 5 dropped it) + vanilla JS for everything else. Bootstrap components map cleanly onto the reference UI: `Offcanvas` for the filter/sort drawer, `Collapse`/`Accordion` for the FAQ, `Dropdown` for the sort control, standard grid/utility classes for the layout instead of hand-rolled flex/grid CSS. Additional modern packages (e.g. a small swatch/color-picker helper, a lightweight carousel if the "tiles" sub-collection style needs one) can be added individually if a specific interaction genuinely warrants it — default to vanilla JS or a Bootstrap component first.
 
-**Filtering/sorting engine:** the current theme's filtering is built on Shopify's **native facet/filter engine** (`collection.filters`, `results.filters`, driven by real URL params and Section Rendering API AJAX) — that server-side facet model is sound and is kept. What changes is the JS implementation: instead of reusing `wpbingo.js`'s jQuery AJAX layer, we **port the same native-facet approach to a new vanilla JS module** (`client/js/5dla/collection-filters.js`):
+**Filtering/sorting engine:** the current theme's filtering is built on Shopify's **native facet/filter engine** (`collection.filters`, `results.filters`, driven by real URL params and Section Rendering API AJAX) — that server-side facet model is sound and is kept. What changes is the JS implementation: instead of reusing `wpbingo.js`'s jQuery AJAX layer, we **port the same native-facet approach to a new vanilla JS module** (`client/ver_2_0/js/modules/collection-filters.js`):
 - Renders/reads Shopify's real `collection.filters` data (same URL params, same server-side pagination) — no in-memory/client-only filtering.
 - On filter/sort change, fetches updated markup via the Section Rendering API (`?section_id=`) using `fetch()`, swaps the DOM, updates the URL via `history.pushState` — the same technique `wpbingo.js` uses today, rewritten without jQuery and scoped only to this template.
 - Drives the Bootstrap `Offcanvas` drawer and `Accordion`/`Dropdown` UI pieces described above.
-- Lives entirely under `client/js/5dla/`, independent of `wpbingo.js`, so nothing here can regress the legacy template.
+- Lives entirely under `client/ver_2_0/js/`, independent of `wpbingo.js`, so nothing here can regress the legacy template.
 
 ## 4. Section breakdown
 
