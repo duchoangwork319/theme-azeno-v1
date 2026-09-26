@@ -1,0 +1,33 @@
+{%- comment -%}
+  Ported 1:1 (markup + CSS) from the reference's `section.collection-benefits`
+  (html/revamp-collection/rendered/Fusion Cycling Jerseys....html). Raw HTML,
+  no settings/blocks.
+{%- endcomment -%}
+
+<section class="collection-benefits" aria-label="5DLA shopping benefits">
+  <div class="collection-benefits-inner">
+    <a class="collection-benefit" href="{{ pages['shipping-delivery'].url | default: '/pages/shipping-delivery' }}">
+      <h3>FREE SHIPPING</h3>
+      <p>on all orders</p>
+    </a>
+    <a class="collection-benefit" href="{{ pages['return-exchange'].url | default: '/pages/return-exchange' }}">
+      <h3>FREE RETURNS</h3>
+      <p>30 days from purchase</p>
+    </a>
+    <a class="collection-benefit" href="{{ pages['crash-damage-replacement'].url | default: '/pages/crash-damage-replacement' }}">
+      <h3>CRASH REPLACEMENT</h3>
+      <p>50% off your new kit.*</p>
+    </a>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "5DLA Collection Benefits",
+  "presets": [
+    {
+      "name": "5DLA Collection Benefits"
+    }
+  ]
+}
+{% endschema %}

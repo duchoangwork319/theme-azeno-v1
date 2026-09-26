@@ -13,6 +13,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 ENV_DIR="$ROOT_DIR/.env"
 
 DRY_RUN=0
+DELETE=0
 
 usage() {
   cat <<EOF
@@ -45,6 +46,8 @@ Target (optional, default: all). Pass multiple to combine them, e.g.
 
 Options:
   --dry-run             Print the resulting shopify CLI command instead of running it
+  --delete              Allow the Shopify CLI to delete remote/local files not present
+                        in the source (omits --nodelete)
   -h, --help            Show this help text
 
 Note: if no theme id is configured for the environment, the Shopify CLI
@@ -84,6 +87,10 @@ while [[ $# -gt 0 ]]; do
   case "$1" in
     --dry-run)
       DRY_RUN=1
+      shift
+      ;;
+    --delete)
+      DELETE=1
       shift
       ;;
     -*)
@@ -135,7 +142,7 @@ fi
 CMD=(shopify theme "$ACTION" -s "$SHOPIFY_CLI_STORE_DOMAIN" --password "$SHOPIFY_CLI_THEME_TOKEN")
 
 if [[ "$ACTION" == "pull" || "$ACTION" == "push" ]]; then
-  CMD+=(--nodelete)
+  [[ "$DELETE" -eq 1 ]] || CMD+=(--nodelete)
   [[ -n "${SHOPIFY_CLI_THEME_ID:-}" ]] && CMD+=(-t "$SHOPIFY_CLI_THEME_ID")
 
   for TARGET in "${TARGETS[@]}"; do

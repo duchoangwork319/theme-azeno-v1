@@ -1,0 +1,75 @@
+<!--
+  Ported 1:1 (markup + CSS) from the reference's `section.editorial`
+  (html/revamp-collection/rendered/Fusion Cycling Jerseys....html), lines
+  2318-2329 (markup) + 778-813 and 1207-1216 (CSS). Class names renamed to
+  the c5dla-* convention. Meant to be pasted as the HTML content of a
+  Shopify Page, then linked via collection.metafields.bwp_fields.seo_contents
+  so sections/5dla_collection-content-slots.liquid can render it.
+-->
+<style>
+  .c5dla-editorial {
+    color: #fff;
+    background-image: linear-gradient(90deg, rgba(0, 0, 0, .47), rgba(0, 0, 0, .04)), url('https://fusionworld.com/cdn/shop/files/cycling-uno-x-mobility-team.jpg?width=2200');
+    background-position: 50% 48%;
+    background-size: cover;
+    align-items: flex-end;
+    min-height: min(620px, 47vw);
+    padding: 75px 8.1%;
+    display: flex;
+  }
+
+  .c5dla-editorial__eyebrow {
+    letter-spacing: .16em;
+    margin: 0 0 17px;
+    font-size: 10px;
+    font-weight: 600;
+  }
+
+  .c5dla-editorial__heading {
+    letter-spacing: -4px;
+    margin: 0 0 24px;
+    font-size: clamp(43px, 6.1vw, 82px);
+    font-weight: 600;
+    line-height: .97;
+  }
+
+  .c5dla-editorial__cta {
+    color: #fff;
+    text-decoration: none;
+    letter-spacing: .07em;
+    border: 1px solid #ffffffe6;
+    align-items: center;
+    gap: 22px;
+    min-height: 43px;
+    padding: 0 17px;
+    font-size: 10px;
+    font-weight: 700;
+    display: inline-flex;
+  }
+
+  @media (width <= 720px) {
+    .c5dla-editorial {
+      background-position: 54%;
+      min-height: 460px;
+      padding: 49px 24px;
+    }
+
+    .c5dla-editorial__heading {
+      letter-spacing: -2.5px;
+      font-size: 49px;
+    }
+  }
+</style>
+
+<section class="c5dla-editorial">
+  <div>
+    <p class="c5dla-editorial__eyebrow">PERFORMANCE WITHOUT SHORTCUTS</p>
+    <h2 class="c5dla-editorial__heading">Built for the ride.<br>Ready for the heat.</h2>
+    <a class="c5dla-editorial__cta" href="/collections/cycling/products/tempo-two-jersey">
+      DISCOVER TEMPO!
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M5 12h14m-6-6 6 6-6 6"></path>
+      </svg>
+    </a>
+  </div>
+</section>

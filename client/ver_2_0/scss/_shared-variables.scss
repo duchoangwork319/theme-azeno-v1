@@ -1,0 +1,32 @@
+// Bootstrap 5 variable overrides shared by BOTH ver_2_0 entries
+// (global/global.scss and collection/collection.scss). Reuses the theme's
+// existing global CSS custom properties (declared site-wide in
+// header-styles.liquid / snippets/2_0-header-styles.liquid) instead of
+// hardcoding new values, so typography/colors stay consistent with the
+// rest of the site.
+//
+// Only global/global.scss imports the full `bootstrap/scss/bootstrap` (all
+// component CSS, emitted once). collection/collection.scss imports just
+// bootstrap's functions/variables/maps/mixins (no CSS output) so its own
+// partials can use `$primary`/`@include media-breakpoint-up()` etc.
+// without duplicating ~280KB of framework CSS a second time - both
+// bundles load on the same page and share one `.c5dla-scope` root, so
+// global.2.0.css's `--bs-*` custom properties are visible to
+// collection.2.0.css's rules regardless of which file defined them.
+$font-family-sans-serif: var(--font-family-base), Helvetica, Arial, sans-serif;
+$font-family-base: $font-family-sans-serif;
+
+$body-color: #111111;
+$body-bg: #ffffff;
+
+$primary: #111111;
+$secondary: #6b6b6b;
+
+$border-radius: 0;
+$border-radius-sm: 0;
+$border-radius-lg: 0;
+
+$enable-negative-margins: true;
+
+// Offcanvas (filter/sort drawer) sizing to match the reference layout.
+$offcanvas-horizontal-width: min(425px, 100vw);

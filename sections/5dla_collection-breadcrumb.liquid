@@ -1,0 +1,53 @@
+{%- comment -%}
+  Plain text breadcrumb trail (Home / Collection), ported 1:1 (markup +
+  CSS) from the reference's `p.breadcrumb` inside `section.five-collection-intro`
+  (html/revamp-collection/rendered/Fusion Cycling Jerseys....html). See
+  docs/revamp/collections/collection-basic-5dla-plan.md §4.1.
+{%- endcomment -%}
+
+{%- if section.settings.enable -%}
+  <p class="c5dla-breadcrumb">
+    <a href="{{ routes.root_url }}">{{ section.settings.home_label }}</a>
+    {%- if section.settings.show_current -%}
+      <span>{{ section.settings.separator }}</span>
+      {{ collection.title }}
+    {%- endif -%}
+  </p>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "5DLA Breadcrumb",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable",
+      "label": "Enable",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "home_label",
+      "label": "Home label",
+      "default": "Home"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_current",
+      "label": "Show current collection",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "separator",
+      "label": "Separator character",
+      "default": "/"
+    }
+  ],
+  "presets": [
+    {
+      "name": "5DLA Breadcrumb"
+    }
+  ]
+}
+{% endschema %}

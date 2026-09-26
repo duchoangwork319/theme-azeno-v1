@@ -197,7 +197,11 @@
       "view_less": "View less",
       "show": "Show",
       "hide": "Hide",
-      "product_count_html": "You've viewed {{ max_page }} of {{ items_page }} products"
+      "product_count_html": "You've viewed {{ max_page }} of {{ items_page }} products",
+      "items_with_count": {
+        "one": "{{ count }} item",
+        "other": "{{ count }} items"
+      }
     },
     "sidebar": {
       "clear": "Clear",
@@ -445,6 +449,7 @@
       "close": "Close (Esc)"
     },
     "facets": {
+      "all": "All",
       "apply": "Apply",
       "clear": "Clear",
       "clear_all": "Clear all filter",

@@ -1,0 +1,121 @@
+// Ported 1:1 from the reference's `.toolbar` (shared wrapper, split with
+// _subcollections.scss - see that file's top comment) + `.filters` /
+// `.filter-button` / `.genders` / `.colors-toggle` / `.toggle-track`
+// rules (desktop + @1060px + @720px).
+.c5dla-toolbar {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 5.15%;
+
+  @media (width <= 1060px) {
+    padding-inline: 4%;
+  }
+
+  @media (width <= 720px) {
+    padding-inline: 15px;
+  }
+}
+
+.filters {
+  align-items: center;
+  min-height: 76px;
+  display: flex;
+
+  @media (width <= 720px) {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    min-height: 64px;
+  }
+}
+
+.filter-button {
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 0;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+
+  @media (width <= 720px) {
+    font-size: 11px;
+  }
+}
+
+.genders {
+  align-items: center;
+  gap: 19px;
+  margin: 0 auto;
+  display: flex;
+
+  @media (width <= 720px) {
+    order: 3;
+    justify-content: center;
+    width: 100%;
+    padding: 0 0 15px;
+    gap: 13px;
+  }
+
+  button {
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    color: #777;
+    padding: 7px 0;
+    font-size: 12px;
+
+    &.active {
+      color: #171717;
+      font-weight: 700;
+    }
+  }
+}
+
+.colors-toggle {
+  cursor: pointer;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  display: flex;
+
+  @media (width <= 720px) {
+    font-size: 10px;
+  }
+
+  input {
+    opacity: 0;
+    position: absolute;
+  }
+}
+
+.toggle-track {
+  background: #dedede;
+  border-radius: 20px;
+  width: 35px;
+  height: 19px;
+  transition: background 0.2s;
+  position: relative;
+  display: block;
+
+  &::after {
+    content: "";
+    background: #fff;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    transition: transform 0.2s;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+  }
+}
+
+.colors-toggle input:checked + .toggle-track {
+  background: #181818;
+
+  &::after {
+    transform: translate(16px);
+  }
+}

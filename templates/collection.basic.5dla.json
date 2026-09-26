@@ -1,0 +1,34 @@
+{
+  "sections": {
+    "breadcrumb": {
+      "type": "5dla_collection-breadcrumb"
+    },
+    "banner": {
+      "type": "5dla_collection-banner"
+    },
+    "subcollections": {
+      "type": "5dla_collection-subcollections"
+    },
+    "filter_sort": {
+      "type": "5dla_collection-filter-sort"
+    },
+    "product_grid": {
+      "type": "5dla_collection-product-grid"
+    },
+    "content_slots": {
+      "type": "5dla_collection-content-slots"
+    },
+    "benefits": {
+      "type": "5dla_collection-benefits"
+    }
+  },
+  "order": [
+    "breadcrumb",
+    "banner",
+    "subcollections",
+    "filter_sort",
+    "product_grid",
+    "content_slots",
+    "benefits"
+  ]
+}

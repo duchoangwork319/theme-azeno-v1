@@ -1,0 +1,27 @@
+// Ported 1:1 from the reference's `.breadcrumb` rule (desktop + the
+// @720px override) - see sections/5dla_collection-breadcrumb.liquid.
+// Also carries the reference `.intro` wrapper's top/side padding and
+// centering (max-width/margin auto), since this section renders where
+// `.intro`'s first child (the breadcrumb) used to sit - see
+// sections/5dla_collection-banner.liquid's top comment.
+.c5dla-breadcrumb {
+  max-width: 1600px;
+  margin: 0 auto 37px;
+  padding: 53px 5.15% 0;
+  color: #757575;
+  font-size: 11px;
+
+  span {
+    color: #a4a4a4;
+    margin: 0 8px;
+  }
+
+  @media (width <= 1060px) {
+    padding-inline: 4%;
+  }
+
+  @media (width <= 720px) {
+    padding: 33px 15px 0;
+    margin-bottom: 26px;
+  }
+}

@@ -1,0 +1,22 @@
+{%- comment -%}
+  Not ported from the raw HTML reference (unlike the other 5dla_collection-*
+  sections) - renders `collection.metafields.bwp_fields.seo_contents`, a
+  list-of-pages metafield, one page per `<div class="page-{{ page.handle }}">`.
+{%- endcomment -%}
+
+{%- for page in collection.metafields.bwp_fields.seo_contents.value -%}
+  <div class="page-{{ page.handle }}">
+    {{ page.content }}
+  </div>
+{%- endfor -%}
+
+{% schema %}
+{
+  "name": "5DLA Content Slots",
+  "presets": [
+    {
+      "name": "5DLA Content Slots"
+    }
+  ]
+}
+{% endschema %}

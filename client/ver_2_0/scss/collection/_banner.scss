@@ -1,0 +1,103 @@
+// Ported 1:1 from the reference's `.five-collection-intro h1` /
+// `.five-collection-intro>p.five-lead` / `.five-activity-links` rules
+// (desktop + @1060px + @720px). `.intro`'s shared max-width/margin/padding
+// is split between this section and _breadcrumb.scss (see
+// sections/5dla_collection-banner.liquid's top comment for why) - this
+// section owns the side padding + bottom padding, breadcrumb owns the top.
+.c5dla-banner {
+  position: relative;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 5.15% 33px;
+
+  @media (width <= 1060px) {
+    padding-inline: 4%;
+  }
+
+  @media (width <= 720px) {
+    padding: 0 15px 24px;
+  }
+
+  h1 {
+    letter-spacing: -2.4px;
+    max-width: 1080px;
+    font-size: clamp(35px, 4.5vw, 59px);
+    line-height: 1.06;
+    margin: 0 0 12px;
+    position: relative;
+    z-index: 1;
+
+    @media (width <= 720px) {
+      letter-spacing: -1.4px;
+      font-size: 36px;
+      line-height: 1.08;
+    }
+  }
+
+  .five-lead {
+    color: #535353;
+    max-width: 1030px;
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.75;
+    position: relative;
+    z-index: 1;
+
+    @media (width <= 720px) {
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    // collection.description can embed its own <img> (merchant-authored,
+    // see this section's Liquid file's top comment) - rendered as an
+    // absolutely-positioned background behind the text, which needs its
+    // own stacking (position:relative + z-index:1) to paint above it.
+    p {
+      position: relative;
+      z-index: 1;
+    }
+
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      width: 100%;
+      height: auto;
+      max-height: 326px;
+      object-fit: cover;
+    }
+  }
+
+  .five-activity-links {
+    flex-wrap: wrap;
+    gap: 8px 21px;
+    margin-top: 17px;
+    display: flex;
+    position: relative;
+    z-index: 1;
+
+    @media (width <= 720px) {
+      gap: 8px 15px;
+      margin-top: 14px;
+    }
+
+    a {
+      color: #343434;
+      text-underline-offset: 3px;
+      font-size: 11px;
+      text-decoration: underline;
+
+      @media (width <= 720px) {
+        font-size: 10px;
+      }
+    }
+  }
+
+  // Reserves room for the embedded background image (max-height 326px,
+  // see .five-lead img above) so the section doesn't collapse shorter
+  // than it when the lead text itself is short.
+  &.has-banner-img {
+    min-height: 326px;
+  }
+}

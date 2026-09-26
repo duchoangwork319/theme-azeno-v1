@@ -1,0 +1,37 @@
+// Entry point for the collection.basic.5dla revamp - the ONLY ver_2.0
+// bundle (client/ver_2_0/js/global.js and its Bootstrap5/vanilla-JS header/
+// footer port were removed; header/footer stay on the legacy jQuery/
+// wpbingo.js/Bootstrap4 stack, per "reuse legacy JS/CSS to avoid impacting
+// global components"). Only this file's compiled output gets scoped (see
+// scripts/vite-build.mjs) under the wrapper class layout/theme.liquid adds
+// to <main> for this template - so Bootstrap 5 here never collides with
+// the sitewide Bootstrap 4 build (assets/bootstrap.min.css, loaded via
+// client/js/style.js).
+
+// Variable overrides must load before Bootstrap's own `!default` values.
+// Full framework import (not just tooling) since this is now the only
+// place Bootstrap 5's component CSS (.btn, used by the load-more/
+// pagination controls in 5dla_collection-product-grid.liquid) gets
+// emitted at all.
+@import "../shared-variables";
+@import "bootstrap/scss/bootstrap";
+
+// Loading state class for [data-c5dla-toolbar]/[data-c5dla-product-grid]
+// (compound selector, not a descendant combinator, since this file's whole
+// output gets `.c5dla-scope ` prepended by scripts/vite-build.mjs - see
+// that file's postcss-prefix-selector setup). Currently unused - no JS
+// toggles it yet (this pass is markup/CSS only) - kept for when
+// AJAX filtering is reintroduced.
+[data-c5dla-toolbar].c5dla-loading,
+[data-c5dla-product-grid].c5dla-loading {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+// Section partials
+@import "breadcrumb";
+@import "banner";
+@import "subcollections";
+@import "filter-sort";
+@import "product-grid";
+@import "benefits";

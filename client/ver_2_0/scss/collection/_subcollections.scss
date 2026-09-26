@@ -1,0 +1,55 @@
+// Ported 1:1 from the reference's `.toolbar` (shared wrapper, split
+// across this section and _filter-sort.scss - see that file's top
+// comment) + `.categories` rules (desktop + @1060px + @720px).
+.c5dla-subcollections {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 5.15%;
+
+  @media (width <= 1060px) {
+    padding-inline: 4%;
+  }
+
+  @media (width <= 720px) {
+    padding-inline: 15px;
+  }
+}
+
+.categories {
+  border-bottom: 1px solid #e8e8e6;
+  scrollbar-width: none;
+  align-items: center;
+  gap: 34px;
+  padding: 12px 0 16px;
+  display: flex;
+  overflow-x: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (width <= 720px) {
+    gap: 23px;
+    margin-right: -15px;
+    padding-right: 15px;
+  }
+
+  button {
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    color: #757575;
+    flex: none;
+    padding: 8px 0;
+    font-size: 13px;
+
+    @media (width <= 720px) {
+      font-size: 12px;
+    }
+
+    &.active {
+      color: #171717;
+      font-weight: 700;
+    }
+  }
+}

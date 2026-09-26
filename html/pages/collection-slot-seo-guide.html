@@ -1,0 +1,232 @@
+<!--
+  Ported 1:1 (markup + CSS) from the reference's `section.five-seo-section`
+  (html/revamp-collection/rendered/Fusion Cycling Jerseys....html), lines
+  2344-2448 (markup, includes the nested buying guide + FAQ + related-links)
+  + 1598-1715 and 1805-1850 (CSS). Class names renamed to the c5dla-*
+  convention. Meant to be pasted as the HTML content of a Shopify Page,
+  then linked via collection.metafields.bwp_fields.seo_contents so
+  sections/5dla_collection-content-slots.liquid can render it.
+-->
+<style>
+  .c5dla-seo-guide {
+    background: #f7f7f5;
+    border-top: 1px solid #ededea;
+  }
+
+  .c5dla-seo-guide__inner {
+    max-width: 1110px;
+    margin: 0 auto;
+    padding: 83px 62px 77px;
+  }
+
+  .c5dla-seo-guide__eyebrow {
+    color: #777;
+    letter-spacing: .12em;
+    margin: 0 0 15px;
+    font-size: 10px;
+    font-weight: 600;
+  }
+
+  .c5dla-seo-guide__section-heading {
+    letter-spacing: -1.05px;
+    max-width: 830px;
+    margin: 0 0 26px;
+    font-size: clamp(25px, 3.15vw, 38px);
+    font-weight: 600;
+    line-height: 1.16;
+  }
+
+  .c5dla-seo-guide__guide p {
+    color: #494949;
+    margin: 0 0 17px;
+    font-size: 13px;
+    line-height: 1.88;
+  }
+
+  .c5dla-seo-guide__guide p:last-child {
+    margin-bottom: 0;
+  }
+
+  .c5dla-seo-guide__guide a {
+    color: #151515;
+    text-underline-offset: 3px;
+    text-decoration: underline #92928f;
+  }
+
+  .c5dla-seo-guide__faq {
+    margin-top: 68px;
+  }
+
+  .c5dla-seo-guide__faq .c5dla-seo-guide__section-heading,
+  .c5dla-seo-guide__related .c5dla-seo-guide__section-heading {
+    letter-spacing: -.55px;
+    margin-bottom: 18px;
+    font-size: 27px;
+  }
+
+  .c5dla-seo-guide__faq-list {
+    border-top: 1px solid #dcdcd8;
+  }
+
+  .c5dla-seo-guide__faq-item {
+    border-bottom: 1px solid #dcdcd8;
+  }
+
+  .c5dla-seo-guide__faq-item summary {
+    cursor: pointer;
+    justify-content: space-between;
+    align-items: center;
+    gap: 22px;
+    min-height: 59px;
+    font-size: 13px;
+    font-weight: 500;
+    list-style: none;
+    display: flex;
+  }
+
+  .c5dla-seo-guide__faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .c5dla-seo-guide__faq-icon {
+    color: #555;
+    flex: none;
+    font-size: 20px;
+    line-height: 1;
+  }
+
+  .c5dla-seo-guide__faq-item[open] .c5dla-seo-guide__faq-icon {
+    transform: rotate(45deg);
+  }
+
+  .c5dla-seo-guide__faq-answer {
+    color: #535353;
+    max-width: 780px;
+    margin: 0 0 20px;
+    font-size: 12px;
+    line-height: 1.8;
+  }
+
+  .c5dla-seo-guide__related {
+    margin-top: 67px;
+  }
+
+  .c5dla-seo-guide__related-links {
+    flex-wrap: wrap;
+    gap: 12px 23px;
+    display: flex;
+  }
+
+  .c5dla-seo-guide__related-links a {
+    color: #444;
+    text-underline-offset: 3px;
+    font-size: 12px;
+    text-decoration: underline;
+  }
+
+  @media (width <= 720px) {
+    .c5dla-seo-guide__inner {
+      padding: 58px 22px 53px;
+    }
+
+    .c5dla-seo-guide__eyebrow {
+      font-size: 9px;
+    }
+
+    .c5dla-seo-guide__guide .c5dla-seo-guide__section-heading {
+      letter-spacing: -.75px;
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+
+    .c5dla-seo-guide__guide p {
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .c5dla-seo-guide__faq,
+    .c5dla-seo-guide__related {
+      margin-top: 49px;
+    }
+
+    .c5dla-seo-guide__faq .c5dla-seo-guide__section-heading,
+    .c5dla-seo-guide__related .c5dla-seo-guide__section-heading {
+      font-size: 23px;
+    }
+
+    .c5dla-seo-guide__faq-item summary {
+      min-height: 62px;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .c5dla-seo-guide__faq-answer {
+      font-size: 11px;
+    }
+
+    .c5dla-seo-guide__related-links {
+      gap: 11px 16px;
+    }
+
+    .c5dla-seo-guide__related-links a {
+      font-size: 11px;
+    }
+  }
+</style>
+
+<section class="c5dla-seo-guide" aria-labelledby="c5dla-cycling-guide-heading">
+  <div class="c5dla-seo-guide__inner">
+    <article class="c5dla-seo-guide__guide">
+      <p class="c5dla-seo-guide__eyebrow">THE 5DLA CYCLING GUIDE</p>
+      <h2 id="c5dla-cycling-guide-heading" class="c5dla-seo-guide__section-heading">Fusion cycling jerseys and bib shorts: ready for the demands of riding in Asia?</h2>
+      <p>Cycling in Hong Kong, Singapore and Southeast Asia asks more of your kit than a standard summer ride. Humidity slows evaporation, climbs raise core temperature, and long training blocks make fit and fabric choice impossible to ignore. At 5DLA, our Fusion cycling collection brings together technical <a href="/search?q=cycling+jersey&amp;type=product">cycling jerseys</a>, <a href="/search?q=bib+shorts&amp;type=product">bib shorts</a>, road-race suits and practical accessories selected for athletes who care about performance when conditions become demanding.</p>
+      <p>Start with the right cycling jersey. The <a href="/collections/cycling/products/tempo-two-jersey">Fusion TEMPO! TWO Jersey</a> is a versatile option for fast training, weekend endurance rides and warm-weather racing. Its ventilating mesh front, UPF 50+ back panel, full-length zip and three rear pockets combine cooling, sun protection and practical storage. Riders seeking a closer aerodynamic silhouette can explore the <a href="/collections/cycling/products/tempo-jersey">TEMPO! ONE Jersey</a>, while the <a href="/collections/cycling/products/tempo-hc-jersey">TEMPO! PRO HC Jersey</a> is purpose-built for hotter days with a breathable mesh front and race-focused, zip-free construction.</p>
+      <p>Your cycling bib shorts should match both your riding duration and your preferred fit. TEMPO! TWO Bib Shorts offer an approachable starting point for regular training, while TEMPO! ONE Bib Shorts suit riders looking for a more race-oriented feel. TEMPO! PRO Bib Shorts step up to advanced construction for high-intensity riding and longer sessions. Women can also choose the <a href="/collections/cycling/products/womens-tempo-pro-flex-bib-shorts">TEMPO! PRO Flex Bib Shorts</a>, whose flexible rear panel supports easier comfort stops without removing upper layers.</p>
+      <p>For cyclists pursuing an integrated race-day setup, the <a href="/collections/cycling/products/mens-tempo-one-road-race-suit">TEMPO! Road Race Suit</a> combines a streamlined top and shorts in a single performance garment. Finish your kit with cycling accessories that address local conditions: aerodynamic socks for race-focused riding, <a href="/collections/cycling/products/cool-wings">Cool Wings</a> sleeves for added sun protection and cooling when wet, or a simple race-ready bottle for hydration. Every choice should reflect your discipline, expected effort, exposure and time in the saddle.</p>
+      <p>Fit is as important as the product tier. Fusion cycling apparel includes men's, women's and unisex styles, with size availability varying between products. Use the <a href="/pages/size-guide">5DLA size guide</a> and the individual product-page recommendation before ordering. Race-fit pieces sit closer to the body than relaxed everyday sportswear, so pay attention to each garment's description rather than assuming every jersey or pair of bib shorts fits identically. When you need help, <a href="/pages/contact-us">contact 5DLA</a> with your measurements.</p>
+      <p>Whether you are training before sunrise in Singapore, climbing in Hong Kong or preparing for your next endurance event elsewhere in Asia, choose cycling clothing around breathability, support and consistent performance. Explore Fusion cycling jerseys and bib shorts alongside our <a href="/collections/triathlon">triathlon apparel</a>, <a href="/collections/running">running collection</a> and <a href="/pages/care-guide">product care guide</a> to build a complete endurance wardrobe that works beyond race day.</p>
+    </article>
+
+    <section class="c5dla-seo-guide__faq" aria-labelledby="c5dla-cycling-faq-heading">
+      <h2 id="c5dla-cycling-faq-heading" class="c5dla-seo-guide__section-heading">Cycling clothing questions, answered.</h2>
+      <div class="c5dla-seo-guide__faq-list">
+        <details class="c5dla-seo-guide__faq-item">
+          <summary>Which Fusion cycling jersey is best for hot and humid weather?<span class="c5dla-seo-guide__faq-icon" aria-hidden="true">+</span></summary>
+          <p class="c5dla-seo-guide__faq-answer">The TEMPO! TWO Jersey is designed for warm conditions and features a ventilating mesh front with a UPF 50+ back panel. For especially hot rides, the TEMPO! PRO HC Jersey also uses a cooling mesh front and a close race fit.</p>
+        </details>
+        <details class="c5dla-seo-guide__faq-item">
+          <summary>What is the difference between Fusion TEMPO! TWO, ONE and PRO cycling apparel?<span class="c5dla-seo-guide__faq-icon" aria-hidden="true">+</span></summary>
+          <p class="c5dla-seo-guide__faq-answer">TEMPO! TWO prioritises versatile everyday training and accessible performance; TEMPO! ONE targets faster training and racing; TEMPO! PRO focuses on advanced race-focused construction. Specific features vary by product, so check each product description before choosing.</p>
+        </details>
+        <details class="c5dla-seo-guide__faq-item">
+          <summary>How should I choose my Fusion cycling jersey or bib shorts size?<span class="c5dla-seo-guide__faq-icon" aria-hidden="true">+</span></summary>
+          <p class="c5dla-seo-guide__faq-answer">Use the size guide on the relevant product page, which recommends a size based on your height, age and weight. If you are between sizes or the recommendation seems unexpected, contact 5DLA with your measurements for advice.</p>
+        </details>
+        <details class="c5dla-seo-guide__faq-item">
+          <summary>Does 5DLA ship cycling apparel to Singapore and across Asia?<span class="c5dla-seo-guide__faq-icon" aria-hidden="true">+</span></summary>
+          <p class="c5dla-seo-guide__faq-answer">Yes. 5DLA ships via SF Express to Hong Kong, Singapore, Malaysia, Thailand, Vietnam, the Philippines, Indonesia, Taiwan, mainland China and additional Asia-Pacific destinations. Review the shipping page for the current destination list and delivery information.</p>
+        </details>
+        <details class="c5dla-seo-guide__faq-item">
+          <summary>Can I return or exchange my cycling clothing?<span class="c5dla-seo-guide__faq-icon" aria-hidden="true">+</span></summary>
+          <p class="c5dla-seo-guide__faq-answer">Hong Kong orders can request size exchanges within seven days and refunds within 30 days, subject to the published conditions. Orders outside Hong Kong are eligible for refunds rather than exchanges, and return shipping costs may be the customer's responsibility.</p>
+        </details>
+      </div>
+    </section>
+
+    <nav class="c5dla-seo-guide__related" aria-labelledby="c5dla-cycling-related-heading">
+      <h2 id="c5dla-cycling-related-heading" class="c5dla-seo-guide__section-heading">Other endurance collections and cycling guides</h2>
+      <div class="c5dla-seo-guide__related-links">
+        <a href="/search?q=cycling+jersey&amp;type=product">Cycling jerseys</a>
+        <a href="/search?q=bib+shorts&amp;type=product">Cycling bib shorts</a>
+        <a href="/collections/women">Women's cycling clothing</a>
+        <a href="/collections/men">Men's cycling clothing</a>
+        <a href="/search?options%5Bprefix%5D=last&amp;q=tempo%21&amp;type=product">Fusion TEMPO! collection</a>
+        <a href="/collections/triathlon">Triathlon suits</a>
+        <a href="/collections/running">Running apparel</a>
+        <a href="/pages/size-guide">Cycling size guide</a>
+        <a href="/pages/care-guide">Garment care guide</a>
+        <a href="/pages/shipping-delivery">Shipping &amp; delivery</a>
+      </div>
+    </nav>
+  </div>
+</section>

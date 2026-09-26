@@ -1,0 +1,184 @@
+// Ported 1:1 from the reference's `.products` (fixed 4/3/2 columns per
+// request, not merchant-configurable) + `.empty-products` (desktop +
+// @1060px + @720px). Card-level rules (.product/.product-image/.badge/
+// .quick-add/.product-copy/.product-name/.swatches/.swatch/.color-count)
+// live in snippets/5dla_product-card.liquid's own styling below.
+.products {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 41px 18px;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 5.15% 85px;
+  display: grid;
+
+  @media (width <= 1060px) {
+    padding-inline: 4%;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @media (width <= 720px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 30px 9px;
+    padding: 0 9px 53px;
+  }
+}
+
+.empty-products {
+  text-align: center;
+  padding: 64px 5%;
+
+  a {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}
+
+// Not in the reference (no real pagination there, see this section's top
+// comment) - minimal, not "ported" styling just so these aren't bare
+// unstyled buttons/links.
+.c5dla-loadmore {
+  text-align: center;
+  padding: 24px 5% 64px;
+}
+
+.c5dla-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 24px 5% 64px;
+
+  .active {
+    font-weight: 700;
+  }
+}
+
+// Ported 1:1 from the reference's `.product` / `.product-image` /
+// `.badge` / `.quick-add` / `.product-copy` / `.product-name` /
+// `.swatches` / `.swatch` / `.color-count` (desktop + @720px) - see
+// snippets/5dla_product-card.liquid.
+.product {
+  min-width: 0;
+}
+
+.product-image {
+  aspect-ratio: 0.76;
+  background: #f3f3f1;
+  display: block;
+  position: relative;
+  overflow: hidden;
+
+  @media (width <= 720px) {
+    aspect-ratio: 0.72;
+  }
+
+  img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.45s;
+    display: block;
+  }
+
+  &:hover img {
+    transform: scale(1.045);
+  }
+
+  &:hover .quick-add {
+    opacity: 1;
+  }
+}
+
+.badge {
+  z-index: 1;
+  letter-spacing: 0.025em;
+  font-size: 9px;
+  font-weight: 700;
+  position: absolute;
+  top: 13px;
+  left: 12px;
+
+  @media (width <= 720px) {
+    font-size: 7px;
+    top: 9px;
+    left: 8px;
+  }
+}
+
+.quick-add {
+  opacity: 0;
+  background: #fffffff0;
+  justify-content: center;
+  align-items: center;
+  width: 34px;
+  height: 34px;
+  transition: opacity 0.2s;
+  display: flex;
+  position: absolute;
+  bottom: 11px;
+  right: 11px;
+
+  @media (width <= 720px) {
+    opacity: 1;
+    width: 29px;
+    height: 29px;
+    bottom: 8px;
+    right: 8px;
+  }
+}
+
+.product-copy {
+  padding-top: 12px;
+
+  @media (width <= 720px) {
+    padding: 9px 3px 0;
+  }
+
+  > p {
+    color: #696969;
+    margin: 6px 0 0;
+    font-size: 11px;
+    line-height: 1.55;
+
+    @media (width <= 720px) {
+      font-size: 9px;
+    }
+  }
+}
+
+.product-name {
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
+  display: flex;
+
+  @media (width <= 720px) {
+    gap: 5px;
+    font-size: 10px;
+  }
+
+  > span {
+    flex: none;
+  }
+}
+
+.swatches {
+  align-items: center;
+  gap: 6px;
+  margin-top: 11px;
+  display: flex;
+}
+
+.swatch {
+  border: 1px solid #00000021;
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+}
+
+.color-count {
+  color: #666;
+  margin-left: 2px;
+  font-size: 10px;
+}

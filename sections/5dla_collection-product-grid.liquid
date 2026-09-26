@@ -1,0 +1,105 @@
+{%- comment -%}
+  Ported 1:1 (markup + CSS) from the reference's `section.products`
+  (html/revamp-collection/rendered/Fusion Cycling Jerseys....html). Fixed
+  4/3/2 column grid (desktop/tablet/mobile) per request - no per-merchant
+  column settings. Load-more/pagination links are inert for now (no JS
+  wired up this pass, see 5dla_collection-filter-sort.liquid's top
+  comment).
+{%- endcomment -%}
+
+{%- paginate collection.products by section.settings.page_item -%}
+  {%- if collection.products.size == 0 -%}
+    <div class="empty-products">
+      {{ 'collections.general.no_matches' | t }}
+      <a href="{{ collection.url }}">{{ 'products.facets.clear_all' | t }}</a>
+    </div>
+  {%- else -%}
+    <section class="products" aria-label="{{ collection.products_count }} {{ collection.title }} products">
+      {%- for product in collection.products -%}
+        {%- render '5dla_product-card', product: product, swatch_limit: section.settings.swatch_limit -%}
+      {%- endfor -%}
+    </section>
+
+    {%- if paginate.pages > 1 -%}
+      {%- if section.settings.pagination_style == 'loadmore' -%}
+        {%- if paginate.next -%}
+          <div class="c5dla-loadmore">
+            <button
+              type="button"
+              class="btn btn-outline-dark"
+              data-c5dla-loadmore
+              data-next-url="{{ paginate.next.url }}"
+            >
+              {{ 'collections.general.load_more' | t }}
+            </button>
+          </div>
+        {%- endif -%}
+      {%- else -%}
+        {%- comment -%}
+          Not snippets/pagination.liquid - that snippet's style is gated by
+          the theme-wide `settings.select_pagination`, which would ignore
+          this section's own `pagination_style` setting. Self-contained
+          instead, per this template's independence from legacy settings.
+        {%- endcomment -%}
+        <nav class="c5dla-pagination" aria-label="{{ 'general.pagination.next' | t }}">
+          {%- if paginate.previous -%}
+            <a href="{{ paginate.previous.url }}">{{ 'general.pagination.previous' | t }}</a>
+          {%- endif -%}
+          {%- for part in paginate.parts -%}
+            {%- if part.is_link -%}
+              <a href="{{ part.url }}">{{ part.title }}</a>
+            {%- elsif part.title == paginate.current_page -%}
+              <span class="active">{{ part.title }}</span>
+            {%- else -%}
+              <span>{{ part.title }}</span>
+            {%- endif -%}
+          {%- endfor -%}
+          {%- if paginate.next -%}
+            <a href="{{ paginate.next.url }}">{{ 'general.pagination.next' | t }}</a>
+          {%- endif -%}
+        </nav>
+      {%- endif -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "5DLA Product Grid",
+  "settings": [
+    {
+      "type": "range",
+      "id": "swatch_limit",
+      "label": "Max swatches before \"+N\"",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "page_item",
+      "label": "Products per page",
+      "min": 1,
+      "max": 48,
+      "step": 1,
+      "default": 24
+    },
+    {
+      "type": "select",
+      "id": "pagination_style",
+      "label": "Pagination style",
+      "options": [
+        { "value": "loadmore", "label": "Load more button" },
+        { "value": "pagination", "label": "Pagination links" }
+      ],
+      "default": "loadmore"
+    }
+  ],
+  "presets": [
+    {
+      "name": "5DLA Product Grid"
+    }
+  ]
+}
+{% endschema %}

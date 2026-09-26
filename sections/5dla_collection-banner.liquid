@@ -1,0 +1,64 @@
+{%- comment -%}
+  Ported 1:1 (markup + CSS) from the reference's `h1` / `p.five-lead` /
+  `nav.five-activity-links` inside `section.five-collection-intro`
+  (html/revamp-collection/rendered/Fusion Cycling Jerseys....html). The
+  reference combines breadcrumb + heading + lead + links in ONE <section>;
+  this theme splits breadcrumb into its own section
+  (5dla_collection-breadcrumb.liquid per the plan's section list), so the
+  reference's `.intro` wrapper padding is split across both sections
+  instead (see _breadcrumb.scss/_banner.scss) rather than duplicated.
+
+  The reference section has no image at all. `collection.description` can
+  optionally embed its own `<img>` as its first element (added by the
+  merchant in the collection's description field) - when present, it's
+  rendered as an absolutely-positioned background behind the heading/lead/
+  links (not a separate `image_picker` setting), and `has-banner-img` is
+  added to the section so CSS can reserve space for it.
+{%- endcomment -%}
+
+{%- if section.settings.enable -%}
+  {%- assign has_banner_img = false -%}
+  {%- if collection.description contains '<img' -%}
+    {%- assign has_banner_img = true -%}
+  {%- endif -%}
+
+  <section class="c5dla-banner{% if has_banner_img %} has-banner-img{% endif %}">
+    <h1>{{ collection.title }}</h1>
+    {%- if collection.description != blank -%}
+      <div class="five-lead">
+        {{ collection.description }}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%}
+      Raw HTML, not blocks (per request) - copied as-is from the reference's
+      `nav.five-activity-links`, hrefs pointed at this store's own routes.
+    {%- endcomment -%}
+    <nav class="five-activity-links" aria-label="{{ 'collections.general.catalog_title' | t }}">
+      <a href="{{ routes.search_url }}?q=cycling+jersey&type=product">Cycling jerseys</a>
+      <a href="{{ routes.search_url }}?q=bib+shorts&type=product">Bib shorts</a>
+      <a href="{{ collection.url }}">Road race suits</a>
+      <a href="{{ routes.collections_url }}/triathlon">Triathlon</a>
+      <a href="{{ routes.collections_url }}/running">Running</a>
+    </nav>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "5DLA Collection Banner",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable",
+      "label": "Enable",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "5DLA Collection Banner"
+    }
+  ]
+}
+{% endschema %}

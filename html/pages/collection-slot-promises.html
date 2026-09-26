@@ -1,0 +1,62 @@
+<!--
+  Ported 1:1 (markup + CSS) from the reference's `section.promises`
+  (html/revamp-collection/rendered/Fusion Cycling Jerseys....html), lines
+  2330-2343 (markup) + 815-840 and 1218-1222 (CSS). Class names renamed to
+  the c5dla-* convention. Meant to be pasted as the HTML content of a
+  Shopify Page, then linked via collection.metafields.bwp_fields.seo_contents
+  so sections/5dla_collection-content-slots.liquid can render it.
+-->
+<style>
+  .c5dla-promises {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 45px;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 87px 7%;
+    display: grid;
+  }
+
+  .c5dla-promises__number {
+    color: #8b8b8b;
+    font-size: 10px;
+  }
+
+  .c5dla-promises__title {
+    margin: 16px 0 8px;
+    font-size: 15px;
+  }
+
+  .c5dla-promises__text {
+    color: #696969;
+    max-width: 300px;
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.65;
+  }
+
+  @media (width <= 720px) {
+    .c5dla-promises {
+      grid-template-columns: 1fr;
+      gap: 34px;
+      padding: 53px 23px;
+    }
+  }
+</style>
+
+<section class="c5dla-promises">
+  <div class="c5dla-promises__item">
+    <span class="c5dla-promises__number">01</span>
+    <h3 class="c5dla-promises__title">Official Fusion partner</h3>
+    <p class="c5dla-promises__text">Authentic performance cycling apparel with local sizing advice and support.</p>
+  </div>
+  <div class="c5dla-promises__item">
+    <span class="c5dla-promises__number">02</span>
+    <h3 class="c5dla-promises__title">Built for Asian conditions</h3>
+    <p class="c5dla-promises__text">Breathable, supportive kit selected for heat, humidity and demanding rides.</p>
+  </div>
+  <div class="c5dla-promises__item">
+    <span class="c5dla-promises__number">03</span>
+    <h3 class="c5dla-promises__title">Performance comes first</h3>
+    <p class="c5dla-promises__text">Technical cycling clothing chosen for function, fit and time in the saddle.</p>
+  </div>
+</section>

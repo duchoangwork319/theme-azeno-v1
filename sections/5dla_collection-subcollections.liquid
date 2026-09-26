@@ -1,0 +1,40 @@
+{%- comment -%}
+  Ported 1:1 (markup + CSS) from the reference's `nav.categories` inside
+  `div.toolbar` (html/revamp-collection/rendered/Fusion Cycling Jerseys....html).
+  Raw HTML per request - no blocks/collection_list, just the category
+  buttons as they appear in the reference. Not wired to any real filtering
+  yet (markup/CSS only pass) - see
+  docs/revamp/collections/collection-basic-5dla-plan.md §4.3.
+{%- endcomment -%}
+
+{%- if section.settings.enable -%}
+  <div class="c5dla-subcollections">
+    <nav class="categories" aria-label="{{ collection.title | append: ' product categories' }}">
+      <button class="active">All {{ collection.title | downcase }}</button>
+      <button>Jerseys</button>
+      <button>Bib shorts</button>
+      <button>Race suits</button>
+      <button>Accessories</button>
+      <button>Base layers</button>
+    </nav>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "5DLA Sub-collections",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable",
+      "label": "Enable",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "5DLA Sub-collections"
+    }
+  ]
+}
+{% endschema %}

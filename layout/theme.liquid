@@ -82,7 +82,13 @@
         endcase
       -%}
     </header>
-    <main class="main-content" role="main">
+    {%- comment -%}
+      c5dla-scope only wraps <main> (not header/footer) since those stay on
+      the legacy stack - scripts/vite-build.mjs scopes
+      client/ver_2_0/scss/collection's compiled CSS under this class so its
+      Bootstrap 5 usage never collides with the sitewide Bootstrap 4 build.
+    {%- endcomment -%}
+    <main class="main-content{% if template.suffix == 'basic.5dla' %} c5dla-scope{% endif %}" role="main">
       {{ content_for_layout }}
     </main>
     <footer class="bwp-footer{% if settings.show_menu_bottom %} have-menu-bottom{% endif %}">
