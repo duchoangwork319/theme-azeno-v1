@@ -37,20 +37,33 @@
 
 // Not in the reference (no real pagination there, see this section's top
 // comment) - minimal, not "ported" styling just so these aren't bare
-// unstyled buttons/links.
+// unstyled buttons/links. Shared by both pagination_style values (loadmore
+// button vs. infinite-scroll sentinel) - see client/ver_2_0/js/collection.js.
 .c5dla-loadmore {
   text-align: center;
   padding: 24px 5% 64px;
-}
 
-.c5dla-pagination {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  padding: 24px 5% 64px;
+  &.is-loading [data-c5dla-loadmore] {
+    opacity: 0.6;
+    pointer-events: none;
+  }
 
-  .active {
-    font-weight: 700;
+  &__spinner {
+    width: 24px;
+    height: 24px;
+    margin: 0 auto;
+    border: 2px solid rgba(0, 0, 0, 0.15);
+    border-top-color: #171717;
+    border-radius: 50%;
+    // Invisible until a load is in flight - its only job the rest of the
+    // time is to sit at the bottom of the grid as the IntersectionObserver
+    // target (see initInfiniteScroll in client/ver_2_0/js/collection.js).
+    opacity: 0;
+    animation: c5dla-spin-load 0.8s linear infinite;
+  }
+
+  &.is-loading &__spinner {
+    opacity: 1;
   }
 }
 
@@ -271,10 +284,27 @@
   &.disabled {
     opacity: 0.35;
   }
+
+  // Ports the reference's `a.swatches.slice(0, allColours ? void 0 : 4)` -
+  // every swatch past `swatch_limit` is always in the DOM (see
+  // snippets/5dla_product-card.liquid/5dla_product-swatch.liquid) but
+  // hidden until the "Show all colours" checkbox toggles this page-wide
+  // class (client/ver_2_0/js/collection.js).
+  &--extra {
+    display: none;
+  }
+}
+
+body.show-all-colours .swatch--extra {
+  display: inline-block;
 }
 
 .color-count {
   color: #666;
   margin-left: 2px;
   font-size: 10px;
+}
+
+body.show-all-colours .color-count {
+  display: none;
 }

@@ -147,8 +147,19 @@ const buildVer2Entry = async entry => {
       prefixSelector({
         prefix: `.${VER_2_0_SCOPE_CLASS}`,
         transform(prefix, selector) {
-          if (selector === ":root" || selector === "html" || selector === "body") {
-            return prefix;
+          // `:root`/`html`/`body` (bare, e.g. Bootstrap's own `:root{--bs-*}`)
+          // become the bare wrapper class rather than a descendant of it,
+          // so Bootstrap 5's CSS custom properties still apply to elements
+          // inside the wrapper. Also handles a *leading* `body.foo`/`html.foo`
+          // (e.g. a page-wide state class toggled on <body> by JS, like
+          // `body.show-all-colours` in client/ver_2_0/js/collection.js) -
+          // `.c5dla-scope` is applied to <main>, a descendant of <body>, so
+          // a plain `${prefix} body.foo ...` would require `body` to be
+          // INSIDE `.c5dla-scope`, which is backwards and never matches.
+          // Replacing just the leading tag keeps the rest of the selector
+          // (e.g. the trailing `.swatch--extra` descendant) as-is.
+          if (/^(:root|html|body)(?![\w-])/.test(selector)) {
+            return selector.replace(/^(:root|html|body)/, prefix);
           }
           return `${prefix} ${selector}`;
         },

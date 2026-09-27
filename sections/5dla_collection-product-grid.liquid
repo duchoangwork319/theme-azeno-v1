@@ -2,9 +2,12 @@
   Ported 1:1 (markup + CSS) from the reference's `section.products`
   (html/revamp-collection/rendered/Fusion Cycling Jerseys....html). Fixed
   4/3/2 column grid (desktop/tablet/mobile) per request - no per-merchant
-  column settings. Load-more/pagination links are inert for now (no JS
-  wired up this pass, see 5dla_collection-filter-sort.liquid's top
-  comment).
+  column settings.
+
+  `pagination_style` is `loadmore` (button) or `infinite` (scroll
+  sentinel) - both share the same `[data-c5dla-pagination]` container/
+  Section Rendering API fetch-and-append in client/ver_2_0/js/collection.js,
+  ported from assets/wpbingo.js's `ajaxFilterInfinity`.
 {%- endcomment -%}
 
 {%- paginate collection.products by section.settings.page_item -%}
@@ -20,45 +23,22 @@
       {%- endfor -%}
     </section>
 
-    {%- if paginate.pages > 1 -%}
-      {%- if section.settings.pagination_style == 'loadmore' -%}
-        {%- if paginate.next -%}
-          <div class="c5dla-loadmore">
-            <button
-              type="button"
-              class="btn btn-outline-dark"
-              data-c5dla-loadmore
-              data-next-url="{{ paginate.next.url }}"
-            >
-              {{ 'collections.general.load_more' | t }}
-            </button>
-          </div>
+    {%- if paginate.pages > 1 and paginate.next -%}
+      <div
+        class="c5dla-loadmore"
+        data-c5dla-pagination
+        data-section-id="{{ section.id }}"
+        data-next-url="{{ paginate.next.url }}"
+        data-pagination-style="{{ section.settings.pagination_style }}"
+      >
+        {%- if section.settings.pagination_style == 'loadmore' -%}
+          <button type="button" class="btn btn-outline-dark" data-c5dla-loadmore>
+            {{ 'collections.general.load_more' | t }}
+          </button>
+        {%- else -%}
+          <div class="c5dla-loadmore__spinner" data-c5dla-infinite-sentinel aria-hidden="true"></div>
         {%- endif -%}
-      {%- else -%}
-        {%- comment -%}
-          Not snippets/pagination.liquid - that snippet's style is gated by
-          the theme-wide `settings.select_pagination`, which would ignore
-          this section's own `pagination_style` setting. Self-contained
-          instead, per this template's independence from legacy settings.
-        {%- endcomment -%}
-        <nav class="c5dla-pagination" aria-label="{{ 'general.pagination.next' | t }}">
-          {%- if paginate.previous -%}
-            <a href="{{ paginate.previous.url }}">{{ 'general.pagination.previous' | t }}</a>
-          {%- endif -%}
-          {%- for part in paginate.parts -%}
-            {%- if part.is_link -%}
-              <a href="{{ part.url }}">{{ part.title }}</a>
-            {%- elsif part.title == paginate.current_page -%}
-              <span class="active">{{ part.title }}</span>
-            {%- else -%}
-              <span>{{ part.title }}</span>
-            {%- endif -%}
-          {%- endfor -%}
-          {%- if paginate.next -%}
-            <a href="{{ paginate.next.url }}">{{ 'general.pagination.next' | t }}</a>
-          {%- endif -%}
-        </nav>
-      {%- endif -%}
+      </div>
     {%- endif -%}
   {%- endif -%}
 {%- endpaginate -%}
@@ -91,7 +71,7 @@
       "label": "Pagination style",
       "options": [
         { "value": "loadmore", "label": "Load more button" },
-        { "value": "pagination", "label": "Pagination links" }
+        { "value": "infinite", "label": "Infinite scroll" }
       ],
       "default": "loadmore"
     }

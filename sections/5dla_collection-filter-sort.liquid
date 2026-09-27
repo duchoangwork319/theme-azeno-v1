@@ -3,9 +3,10 @@
   `div.toolbar` (html/revamp-collection/rendered/Fusion Cycling Jerseys....html).
   Offcanvas/facets/form removed per request - raw HTML only, to see the
   exact UI first. Not wired to any real filtering/sorting/drawer yet - the
-  "Filter & sorting" button, gender buttons and colours toggle are inert
-  until a future pass adds behavior back. See
-  docs/revamp/collections/collection-basic-5dla-plan.md §4.4.
+  "Filter & sorting" button and gender buttons are still inert. The
+  "Show all colours" checkbox IS wired up (client/ver_2_0/js/collection.js
+  toggles `body.show-all-colours`, see snippets/5dla_product-swatch.liquid).
+  See docs/revamp/collections/collection-basic-5dla-plan.md §4.4.
 {%- endcomment -%}
 
 {%- if section.settings.enable -%}
@@ -27,7 +28,7 @@
 
       <label class="colors-toggle">
         Show all colours
-        <input type="checkbox">
+        <input type="checkbox" data-c5dla-colors-toggle>
         <span class="toggle-track"></span>
       </label>
     </div>

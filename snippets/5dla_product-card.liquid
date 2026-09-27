@@ -76,13 +76,15 @@
     {%- if color_option -%}
       {%- assign current_variant = product.selected_or_first_available_variant -%}
       <div class="swatches wpb-variants-swatch" aria-label="Available product colours">
-        {%- for value in color_option.values limit: swatch_limit -%}
+        {%- for value in color_option.values -%}
           {%- render '5dla_product-swatch',
             product: product,
             option_position: color_option.position,
             value: value,
             is_first: forloop.first,
-            current_variant: current_variant
+            current_variant: current_variant,
+            index: forloop.index0,
+            swatch_limit: swatch_limit
           -%}
         {%- endfor -%}
         {%- if color_option.values.size > swatch_limit -%}

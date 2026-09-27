@@ -9,13 +9,27 @@
 
   Expects: product, option_position (color_option.position - NOT
   hardcoded to 1, since Color isn't guaranteed to be the product's first
-  option), value, is_first, current_variant
+  option), value, is_first, current_variant, index (0-based position in
+  the values loop), swatch_limit
+
+  `index >= swatch_limit` gets `swatch--extra`, hidden by default (see
+  client/ver_2_0/scss/collection/_product-grid.scss) and revealed by
+  toggling `body.show-all-colours` (client/ver_2_0/js/collection.js,
+  bound to the "Show all colours" checkbox in
+  sections/5dla_collection-filter-sort.liquid) - ports the reference's
+  `a.swatches.slice(0, allColours ? void 0 : 4)` behavior, ie. all
+  swatches are always in the DOM, just CSS-hidden past the limit.
 {%- endcomment -%}
 
 {% liquid
   assign active = ''
   if is_first
     assign active = ' active'
+  endif
+
+  assign extra = ''
+  if index >= swatch_limit
+    assign extra = ' swatch--extra'
   endif
 
   assign safe_value = value | escape | replace: '/', '-' | replace: ' ', '-'
@@ -47,7 +61,7 @@
 %}
 
 <span
-  class="swatch {{ active }}{% if option_disabled %} disabled{% endif %} {{ value }} {{ safe_value }}"
+  class="swatch{{ active }}{{ extra }}{% if option_disabled %} disabled{% endif %} {{ value }} {{ safe_value }}"
   title="{{ value | strip | escape }}"
   data-variant="{{ value | strip | escape }}"
 ></span>

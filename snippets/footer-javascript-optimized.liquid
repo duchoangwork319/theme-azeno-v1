@@ -18,3 +18,9 @@
   <script src="{{ 'bundled.faker.js' | asset_url }}" defer></script>
 {% endif %}
 <script src="{{ 'bundled.main.js' | asset_url }}" defer="defer"></script>
+
+{%- if page_type contains 'collection' or page_type contains 'search' -%}
+  {%- if template.suffix == 'basic.5dla' -%}
+    <script src="{{ 'bundled.collection.2.0.js' | asset_url }}" defer="defer"></script>
+  {%- endif -%}
+{%- endif -%}
