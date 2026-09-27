@@ -1,0 +1,167 @@
+{%- comment -%}
+  Product-card hover action buttons, ported from
+  snippets/product-grid-hover-9.liquid L121-222 (div.product-card__buttons).
+  Ordinal per request: quick view, compare, wishlist, add to cart -
+  rendered top to bottom via flexbox (see .product-card-actions in
+  client/ver_2_0/scss/collection/_product-grid.scss). The quantity
+  stepper (wpbingo-qty) is intentionally not ported - not needed in this
+  theme. Add to cart only has 2 states - sold out or the add-to-cart form
+  (no "view product" fallback for multi-variant products - out of scope
+  here). HTML/CSS only - no JS wired up yet; class/data-attribute hooks
+  are kept identical to the legacy markup (js-btn-quickview,
+  button-compare, button-wishlist, js-btn-addtocart, data-product-form)
+  so either legacy or new JS can bind to them later. Icons are inline SVG
+  (not the legacy icon font, which isn't loaded in this stack) - visible
+  text is `.visually-hidden` (a Bootstrap 5 utility, already available
+  since this stack imports the full framework), matching the icon-only
+  look of the original single quick-add button.
+
+  `.is-adding` (added to `.btn--add-to-cart` by future JS, e.g. while a
+  /cart/add.js request is in flight) shows a spinner - ported from
+  `.product-card__buttons .btn.is-adding:before` in assets/css-site-main.css
+  (~L3645), see client/ver_2_0/scss/collection/_product-grid.scss.
+
+  Expects: product
+{%- endcomment -%}
+
+{% liquid
+  assign variant = product.selected_or_first_available_variant
+%}
+
+<div class="product-card-actions">
+  {%- if settings.quickview_enable -%}
+    <div class="product-card-actions__item product-card__quickview" data-title="{{ 'products.product.quickview' | t }}">
+      <a
+        class="js-btn-quickview btn btn--quickview"
+        href="javascript:void(0);"
+        data-handle="{{ product.handle }}"
+        title="{{ 'products.product.quickview' | t }}"
+      >
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        </svg>
+        <span class="visually-hidden">{{ 'products.product.quickview' | t }}</span>
+      </a>
+    </div>
+  {%- endif -%}
+
+  {%- if product.handle != blank and settings.show_compare -%}
+    <div class="product-card-actions__item button-compare" data-title="{{ 'products.product.compare' | t }}">
+      <button
+        type="button"
+        class="btn btn--compare"
+        aria-label="{{ 'products.product.compare' | t }}"
+        button-compare
+        data-product-handle="{{ product.handle }}"
+      >
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <rect x="3" y="3" width="13" height="13" rx="2"></rect>
+          <path d="M21 8v10a2 2 0 0 1-2 2H9"></path>
+        </svg>
+        <span class="visually-hidden">{{ 'products.product.compare' | t }}</span>
+      </button>
+    </div>
+  {%- endif -%}
+
+  {%- if product.handle != blank and settings.show_wishlist -%}
+    <div class="product-card-actions__item button-wishlist" data-title="{{ 'products.product.wishlist' | t }}">
+      <button
+        type="button"
+        class="btn btn--wishlist"
+        aria-label="{{ 'products.product.wishlist' | t }}"
+        button-wishlist
+        data-product-handle="{{ product.handle }}"
+      >
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21.2l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"></path>
+        </svg>
+        <span class="visually-hidden">{{ 'products.product.wishlist' | t }}</span>
+      </button>
+    </div>
+  {%- endif -%}
+
+  <div class="product-card-actions__item product-card__form" data-handle="{{ product.handle }}">
+    {%- if product.available == false -%}
+      <span class="btn btn--add-to-cart btn--sold-out" aria-disabled="true">
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M6 6h15l-1.5 9h-12z"></path>
+          <path d="M6 6 5 3H2"></path>
+          <circle cx="9" cy="20" r="1"></circle>
+          <circle cx="18" cy="20" r="1"></circle>
+        </svg>
+        <span class="visually-hidden">{{ 'products.product.sold_out' | t }}</span>
+      </span>
+    {%- else -%}
+      <form
+        action="{{ routes.cart_add_url }}"
+        method="post"
+        enctype="multipart/form-data"
+        class="form-addtocart h-100"
+        data-product-form
+      >
+        <input type="hidden" name="id" value="{{ variant.id }}">
+        <button
+          class="js-btn-addtocart btn btn--add-to-cart"
+          type="submit"
+          title="{{ 'products.product.add_to_cart' | t }}"
+        >
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M12 5v14M5 12h14"></path>
+          </svg>
+          <span class="visually-hidden">{{ 'products.product.add_to_cart' | t }}</span>
+        </button>
+      </form>
+    {%- endif -%}
+  </div>
+</div>

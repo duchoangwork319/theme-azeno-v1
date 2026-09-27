@@ -43,6 +43,10 @@ Target (optional, default: all). Pass multiple to combine them, e.g.
   layout                layout/* only
   snippets              snippets/* only (push only)
   templates             templates/* only
+  <folder>/             Arbitrary folder path, e.g. 'sections/' (trailing
+                        slash optional; combine freely with other targets)
+  <folder>/<file>       Specific file(s), e.g.
+                        'snippets/5dla_product-card.liquid'
 
 Options:
   --dry-run             Print the resulting shopify CLI command instead of running it
@@ -60,6 +64,8 @@ Examples:
   $SCRIPT_NAME push prd sections layout
   $SCRIPT_NAME push dev assets sections snippets --dry-run
   $SCRIPT_NAME pull dev templates
+  $SCRIPT_NAME push dev snippets/ sections/
+  $SCRIPT_NAME push dev snippets/5dla_product-card.liquid
 EOF
 }
 
@@ -107,6 +113,12 @@ ACTION="${POSITIONAL[0]:-}"
 ENV_NAME="${POSITIONAL[1]:-}"
 TARGETS=("${POSITIONAL[@]:2}")
 [[ ${#TARGETS[@]} -eq 0 ]] && TARGETS=(all)
+
+# Normalize a single trailing slash so `snippets/` behaves like the `snippets`
+# keyword (tab-completing a directory appends a trailing slash).
+for i in "${!TARGETS[@]}"; do
+  TARGETS[$i]="${TARGETS[$i]%/}"
+done
 
 [[ -n "$ACTION" ]] || { usage; die "Missing <action>"; }
 [[ -n "$ENV_NAME" ]] || { usage; die "Missing <env>"; }
@@ -175,8 +187,12 @@ if [[ "$ACTION" == "pull" || "$ACTION" == "push" ]]; then
       templates)
         CMD+=(--only "templates/*")
         ;;
+      */*)
+        # Explicit file or folder path, e.g. 'snippets/5dla_product-card.liquid'
+        CMD+=(--only "$TARGET")
+        ;;
       *)
-        die "Unknown target '$TARGET' (expected all, config, blocks, assets, sections, layout, snippets, templates)"
+        die "Unknown target '$TARGET' (expected all, config, blocks, assets, sections, layout, snippets, templates, or a file/folder path)"
         ;;
     esac
   done

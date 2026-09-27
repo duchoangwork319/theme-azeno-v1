@@ -1,8 +1,10 @@
 // Ported 1:1 from the reference's `.products` (fixed 4/3/2 columns per
 // request, not merchant-configurable) + `.empty-products` (desktop +
 // @1060px + @720px). Card-level rules (.product/.product-image/.badge/
-// .quick-add/.product-copy/.product-name/.swatches/.swatch/.color-count)
-// live in snippets/5dla_product-card.liquid's own styling below.
+// .product-copy/.product-name/.swatches/.swatch/.color-count) live in
+// snippets/5dla_product-card.liquid's own styling below;
+// .product-card-actions (evolved from the reference's single `.quick-add`
+// icon into a 4-button stack) is in snippets/5dla_product-card-actions.liquid.
 .products {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 41px 18px;
@@ -53,18 +55,29 @@
 }
 
 // Ported 1:1 from the reference's `.product` / `.product-image` /
-// `.badge` / `.quick-add` / `.product-copy` / `.product-name` /
-// `.swatches` / `.swatch` / `.color-count` (desktop + @720px) - see
-// snippets/5dla_product-card.liquid.
+// `.badge` / `.product-copy` / `.product-name` / `.swatches` / `.swatch` /
+// `.color-count` (desktop + @720px) - see snippets/5dla_product-card.liquid.
 .product {
   min-width: 0;
+}
+
+// Wraps `a.product-image` + the action buttons (see
+// snippets/5dla_product-card-actions.liquid) as siblings - the actions
+// can't nest inside the anchor (interactive content inside interactive
+// content), so this is their shared positioning context instead of
+// `.product-image` itself.
+.product-media {
+  position: relative;
+
+  &:hover .product-card-actions {
+    opacity: 1;
+  }
 }
 
 .product-image {
   aspect-ratio: 0.76;
   background: #f3f3f1;
   display: block;
-  position: relative;
   overflow: hidden;
 
   @media (width <= 720px) {
@@ -81,10 +94,6 @@
 
   &:hover img {
     transform: scale(1.045);
-  }
-
-  &:hover .quick-add {
-    opacity: 1;
   }
 }
 
@@ -104,25 +113,105 @@
   }
 }
 
-.quick-add {
-  opacity: 0;
-  background: #fffffff0;
-  justify-content: center;
-  align-items: center;
-  width: 34px;
-  height: 34px;
-  transition: opacity 0.2s;
+// Evolves the reference's single `.quick-add` icon (bottom-right, hidden
+// until hover) into a top-to-bottom stack of 4 action buttons in the same
+// corner - `column` + a `bottom` anchor means extra buttons stack upward
+// from the original icon's position instead of shifting it.
+.product-card-actions {
   display: flex;
+  flex-direction: column;
+  gap: 6px;
+  opacity: 0;
+  transition: opacity 0.2s;
   position: absolute;
   bottom: 11px;
   right: 11px;
 
   @media (width <= 720px) {
     opacity: 1;
-    width: 29px;
-    height: 29px;
+    gap: 5px;
     bottom: 8px;
     right: 8px;
+  }
+}
+
+.product-card-actions__item {
+  width: 34px;
+  height: 34px;
+
+  @media (width <= 720px) {
+    width: 29px;
+    height: 29px;
+  }
+
+  .btn {
+    width: 100%;
+    height: 100%;
+    background: #fffffff0;
+    border: 0;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    position: relative;
+    border-radius: 50%;
+    color: inherit;
+    text-decoration: none;
+    padding: 0;
+
+    &.btn--sold-out {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    // Ported from `.product-card__buttons .btn.is-adding:before` in
+    // assets/css-site-main.css (~L3645) - `.is-adding` is added to
+    // `.btn--add-to-cart` by future JS while an add-to-cart request is in
+    // flight. The legacy version hides its visible label with
+    // `font-size: 0` on a text <span>; this button's visible content is
+    // an <svg> instead, so it's hidden the same way via `visibility`
+    // (keeps the button's layout/size, unlike `display: none`) - without
+    // this, the icon and the spinner render on top of each other, which
+    // was the reported bug.
+    //
+    // This form reuses the legacy hooks (.form-addtocart/data-product-form)
+    // on purpose (see snippets/5dla_product-card-actions.liquid), which
+    // means assets/wpbingo.js's own global `formOverride` handler (bound
+    // on <body>, delegated to `settings.formSelector`) already intercepts
+    // its submit - and it does more than toggle `.is-adding`: it also
+    // *prepends a real element*, `<span class="spinner-border
+    // spinner-border-sm">`, into the button. That's a second, literal
+    // spinner rendering alongside this `::before` one. We don't touch
+    // wpbingo.js (legacy/global, not ours to edit) - hide its injected
+    // element here instead, in the same rule that owns `.is-adding`, so
+    // ours is the only spinner shown.
+    &.is-adding {
+      svg {
+        visibility: hidden;
+      }
+
+      .spinner-border {
+        display: none;
+      }
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: calc(50% - 8px);
+        left: calc(50% - 8px);
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(0, 0, 0, 0.15);
+        border-top-color: #171717;
+        border-radius: 50%;
+        animation: c5dla-spin-load 0.8s linear infinite;
+      }
+    }
+  }
+}
+
+@keyframes c5dla-spin-load {
+  to {
+    transform: rotate(360deg);
   }
 }
 
@@ -175,6 +264,13 @@
   border-radius: 50%;
   width: 12px;
   height: 12px;
+
+  // Not in the reference - a new affordance from porting option_disabled
+  // (see snippets/5dla_product-swatch.liquid): dims a color that has no
+  // available variant given the product's currently selected options.
+  &.disabled {
+    opacity: 0.35;
+  }
 }
 
 .color-count {
