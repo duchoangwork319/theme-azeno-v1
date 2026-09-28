@@ -1,9 +1,16 @@
 {%- comment -%}
+  Card variant 1/3 (sections/5dla_collection-product-grid.liquid's
+  `product_card_type` setting picks between 5dla_product-card-1/2/3).
   Ported 1:1 (markup + CSS) from the reference's `article.product`
   (html/revamp-collection/rendered/Fusion Cycling Jerseys....html). Not a
   wrapper around the legacy `product-grid-item` snippet (which dispatches
   to one of nine `settings.hover_style` includes) - kept independent per
   docs/revamp/collections/collection-basic-5dla-plan.md.
+
+  `c5dla-card-1` on the root element is this variant's CSS prefix (see
+  client/ver_2_0/scss/collection/_product-grid.scss) - lets card-2/card-3
+  reuse plain descendant class names (.product-image, .badge, etc.)
+  without colliding with this variant's rules.
 
   Expects: product, swatch_limit
 {%- endcomment -%}
@@ -34,7 +41,7 @@
   | truncatewords: 14
 -%}
 
-<article class="product">
+<article class="product c5dla-card-1">
   <div class="product-media">
     <a class="product-image" href="{{ product.url }}">
       {%- if badge_text != blank -%}

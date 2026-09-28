@@ -1,14 +1,28 @@
 {%- comment -%}
   Ported 1:1 (markup + CSS) from the reference's `section.products`
-  (html/revamp-collection/rendered/Fusion Cycling Jerseys....html). Fixed
-  4/3/2 column grid (desktop/tablet/mobile) per request - no per-merchant
-  column settings.
+  (html/revamp-collection/rendered/Fusion Cycling Jerseys....html).
+  Tablet/mobile stay fixed at 3/2 columns (not merchant-configurable);
+  desktop column count is `desktop_grid_item_count`, passed to CSS via a
+  custom property (see client/ver_2_0/scss/collection/_product-grid.scss).
+
+  `product_card_type` picks which snippets/5dla_product-card-<N>.liquid
+  renders each product - each one prefixes its own CSS under a matching
+  `c5dla-card-<N>` class on its root element, so card variants never
+  collide with each other's styling even while reusing the same plain
+  class names (.product-image, .badge, etc.) internally.
 
   `pagination_style` is `loadmore` (button) or `infinite` (scroll
   sentinel) - both share the same `[data-c5dla-pagination]` container/
   Section Rendering API fetch-and-append in client/ver_2_0/js/collection.js,
   ported from assets/wpbingo.js's `ajaxFilterInfinity`.
 {%- endcomment -%}
+
+{%- liquid
+  # type: "number" settings have no schema-level min/max (only "range"
+  # does) - clamp here so an out-of-range value can't produce a
+  # degenerate grid.
+  assign desktop_columns = section.settings.desktop_grid_item_count | at_least: 3 | at_most: 5
+-%}
 
 {%- paginate collection.products by section.settings.page_item -%}
   {%- if collection.products.size == 0 -%}
@@ -17,9 +31,21 @@
       <a href="{{ collection.url }}">{{ 'products.facets.clear_all' | t }}</a>
     </div>
   {%- else -%}
-    <section class="products" aria-label="{{ collection.products_count }} {{ collection.title }} products">
+    <section
+      class="products"
+      aria-label="{{ collection.products_count }} {{ collection.title }} products"
+      style="--c5dla-grid-desktop-columns: {{ desktop_columns }};"
+    >
       {%- for product in collection.products -%}
-        {%- render '5dla_product-card', product: product, swatch_limit: section.settings.swatch_limit -%}
+        {% liquid
+          if section.settings.product_card_type == 'card_1'
+            render '5dla_product-card-1', product: product, swatch_limit: section.settings.swatch_limit
+          elsif section.settings.product_card_type == 'card_2'
+            render '5dla_product-card-2', product: product, swatch_limit: section.settings.swatch_limit
+          elsif section.settings.product_card_type == 'card_3'
+            render '5dla_product-card-3', product: product, swatch_limit: section.settings.swatch_limit
+          endif
+        %}
       {%- endfor -%}
     </section>
 
@@ -47,6 +73,24 @@
 {
   "name": "5DLA Product Grid",
   "settings": [
+    {
+      "type": "select",
+      "id": "product_card_type",
+      "label": "Product card style",
+      "options": [
+        { "value": "card_1", "label": "Card 1" },
+        { "value": "card_2", "label": "Card 2" },
+        { "value": "card_3", "label": "Card 3" }
+      ],
+      "default": "card_1"
+    },
+    {
+      "type": "number",
+      "id": "desktop_grid_item_count",
+      "label": "Columns (desktop)",
+      "info": "3-5. Tablet/mobile are fixed at 3/2 columns.",
+      "default": 4
+    },
     {
       "type": "range",
       "id": "swatch_limit",
