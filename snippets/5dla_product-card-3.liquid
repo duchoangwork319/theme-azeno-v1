@@ -32,8 +32,9 @@
     of "migrate article.product-card") reuses the same
     product.metafields.bwp_fields.badge_label as card 2, for consistency.
   - product-swatches: snippets/5dla_product-card-3-swatches.liquid (new) -
-    NOT a direct {% render '5dla_product-swatch' %} reuse, see that
-    snippet's own top comment for why.
+    its own markup/CSS, not shared with card 1's
+    snippets/5dla_product-card-1-swatches.liquid (different shape: flat
+    dot vs. this card's ring+dot).
   - size-selector: snippets/5dla_product-size-selector.liquid (new).
   - Add to cart: snippets/5dla_product-card-3-actions.liquid (new).
 

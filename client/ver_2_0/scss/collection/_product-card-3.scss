@@ -180,9 +180,16 @@
     display: grid;
 
     // Not in the reference - matches the availability dimming already
-    // established for card 1's swatches (snippets/5dla_product-swatch.liquid).
+    // established for card 1's swatches (snippets/5dla_product-card-1-swatches.liquid).
     &.disabled {
       opacity: 0.35;
+    }
+
+    // Not in the reference - highlights the currently-selected color
+    // (the first value, per snippets/5dla_product-card-3-swatches.liquid's
+    // `active` assign) with a black ring instead of the default grey one.
+    &.active {
+      border-color: #141613;
     }
 
     // "+N" overflow count past swatch_limit (snippets/

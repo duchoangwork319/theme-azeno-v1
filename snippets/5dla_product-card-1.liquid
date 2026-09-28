@@ -27,14 +27,6 @@
   {%- assign badge_text = 'products.general.sale_price' | t -%}
 {%- endif -%}
 
-{%- assign color_option = null -%}
-{%- for option in product.options_with_values -%}
-  {%- if option.name == 'Color' or option.name == 'Colour' -%}
-    {%- assign color_option = option -%}
-    {%- break -%}
-  {%- endif -%}
-{%- endfor -%}
-
 {%- assign short_description = product.metafields.custom.short_description.value
   | default: product.description
   | strip_html
@@ -80,24 +72,6 @@
     {%- if short_description != blank -%}
       <p>{{ short_description }}</p>
     {%- endif -%}
-    {%- if color_option -%}
-      {%- assign current_variant = product.selected_or_first_available_variant -%}
-      <div class="swatches wpb-variants-swatch" aria-label="Available product colours">
-        {%- for value in color_option.values -%}
-          {%- render '5dla_product-swatch',
-            product: product,
-            option_position: color_option.position,
-            value: value,
-            is_first: forloop.first,
-            current_variant: current_variant,
-            index: forloop.index0,
-            swatch_limit: swatch_limit
-          -%}
-        {%- endfor -%}
-        {%- if color_option.values.size > swatch_limit -%}
-          <span class="color-count">+ {{ color_option.values.size | minus: swatch_limit }}</span>
-        {%- endif -%}
-      </div>
-    {%- endif -%}
+    {%- render '5dla_product-card-1-swatches', product: product, swatch_limit: swatch_limit -%}
   </div>
 </article>

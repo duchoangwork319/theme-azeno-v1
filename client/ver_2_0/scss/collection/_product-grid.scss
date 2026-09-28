@@ -288,7 +288,7 @@
     height: 12px;
 
     // Not in the reference - a new affordance from porting
-    // option_disabled (see snippets/5dla_product-swatch.liquid): dims a
+    // option_disabled (see snippets/5dla_product-card-1-swatches.liquid): dims a
     // color that has no available variant given the product's currently
     // selected options.
     &.disabled {
@@ -297,7 +297,7 @@
 
     // Ports the reference's `a.swatches.slice(0, allColours ? void 0 : 4)` -
     // every swatch past `swatch_limit` is always in the DOM (see
-    // snippets/5dla_product-card-1.liquid/5dla_product-swatch.liquid) but
+    // snippets/5dla_product-card-1-swatches.liquid) but
     // hidden until the "Show all colours" checkbox toggles this page-wide
     // class (client/ver_2_0/js/collection.js).
     &--extra {

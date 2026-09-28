@@ -34,7 +34,7 @@
 
         assign safe_value = value | escape | replace: '/', '-' | replace: ' ', '-'
 
-        # Same cascading-availability computation as snippets/5dla_product-swatch.liquid.
+        # Same cascading-availability computation as snippets/5dla_product-card-1-swatches.liquid.
         assign option_key = 'option' | append: color_option.position
         assign option_disabled = true
         for variant in product.variants

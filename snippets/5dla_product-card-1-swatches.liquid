@@ -1,0 +1,84 @@
+{%- comment -%}
+  Renders the whole color-swatch element (`.swatches` + every `.swatch`
+  span, plus the "+N" `.color-count`) for snippets/5dla_product-card-1.liquid -
+  one self-contained snippet instead of a wrapper + a per-value render
+  (snippets/5dla_product-swatch.liquid, now removed), same consolidation
+  as snippets/5dla_product-card-3-swatches.liquid.
+
+  `wpb-variants-swatch` lives on the `.swatches` wrapper, not on each
+  swatch - sections/customer-variant.liquid generates `.wpb-variants-swatch
+  {{ variant_name }}{...}`, a DESCENDANT selector (note the space before
+  the value class), so the value class has to be on a descendant of
+  `.wpb-variants-swatch`, not the same element.
+
+  Unlike card 3's swatches (which truncate the loop with `limit:` and show
+  a static "+N"), every swatch here stays in the DOM past `swatch_limit`
+  (CSS-hidden via `.swatch--extra`, see
+  client/ver_2_0/scss/collection/_product-grid.scss) so toggling "Show all
+  colours" (client/ver_2_0/js/collection.js) can reveal them without a
+  re-render - ports the reference's `a.swatches.slice(0, allColours ?
+  void 0 : 4)`.
+
+  Expects: product, swatch_limit
+{%- endcomment -%}
+
+{%- liquid
+  assign color_option = nil
+  for option in product.options_with_values
+    if option.name == 'Color' or option.name == 'Colour'
+      assign color_option = option
+      break
+    endif
+  endfor
+-%}
+
+{%- if color_option -%}
+  {%- assign current_variant = product.selected_or_first_available_variant -%}
+  <div class="swatches wpb-variants-swatch" aria-label="Available product colours">
+    {%- for value in color_option.values -%}
+      {%- liquid
+        assign active = ''
+        if forloop.first
+          assign active = ' active'
+        endif
+
+        assign extra = ''
+        if forloop.index0 >= swatch_limit
+          assign extra = ' swatch--extra'
+        endif
+
+        assign safe_value = value | escape | replace: '/', '-' | replace: ' ', '-'
+
+        # Same cascading-availability computation as
+        # snippets/5dla_product-card-3-swatches.liquid.
+        assign option_key = 'option' | append: color_option.position
+        assign option_disabled = true
+        for variant in product.variants
+          if variant.available and variant[option_key] == value
+            assign matches_preceding = true
+            for i in (1..color_option.position)
+              if i != color_option.position
+                assign prior_key = 'option' | append: i
+                if variant[prior_key] != current_variant[prior_key]
+                  assign matches_preceding = false
+                endif
+              endif
+            endfor
+            if matches_preceding
+              assign option_disabled = false
+              break
+            endif
+          endif
+        endfor
+      -%}
+      <span
+        class="swatch{{ active }}{{ extra }}{% if option_disabled %} disabled{% endif %} {{ value }} {{ safe_value }}"
+        title="{{ value | strip | escape }}"
+        data-variant="{{ value | strip | escape }}"
+      ></span>
+    {%- endfor -%}
+    {%- if color_option.values.size > swatch_limit -%}
+      <span class="color-count">+ {{ color_option.values.size | minus: swatch_limit }}</span>
+    {%- endif -%}
+  </div>
+{%- endif -%}

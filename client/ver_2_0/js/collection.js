@@ -5,6 +5,7 @@ import "../scss/collection/collection.scss";
 const PAGINATION_SELECTOR = "[data-c5dla-pagination]";
 const PRODUCTS_SELECTOR = ".products";
 const SENTINEL_SELECTOR = "[data-c5dla-infinite-sentinel]";
+const CARD_SELECTOR = ".products > article";
 
 let paginationLoading = false;
 
@@ -49,6 +50,7 @@ const loadNextPage = async pagination => {
     const currentProducts = document.querySelector(PRODUCTS_SELECTOR);
     if (newProducts && currentProducts) {
       currentProducts.append(...newProducts.children);
+      ensureCardHeightEqual();
     }
 
     const newPagination = parsed.querySelector(PAGINATION_SELECTOR);
@@ -108,13 +110,50 @@ const initInfiniteScroll = () => {
 };
 
 /**
+ * Ports assets/wpbingo.js's `makeHeightEqual`: sets every element in the
+ * collection to the tallest one's height, so cards with shorter content
+ * (description/headline/feature text of varying length) still line up
+ * with their taller neighbours - CSS grid's own row-stretch already
+ * equalizes the `article` root, but not stray inline heights left over
+ * from a previous, taller state, so this resets to `auto` before
+ * remeasuring.
+ * @param {NodeListOf<Element>} elements
+ */
+const makeHeightEqual = elements => {
+  if (!elements.length) return;
+
+  elements.forEach(el => {
+    el.style.height = "auto";
+  });
+
+  const maxHeight = Math.max(...Array.from(elements, el => el.getBoundingClientRect().height));
+  if (!Number.isFinite(maxHeight) || maxHeight <= 0) return;
+
+  elements.forEach(el => {
+    el.style.height = `${maxHeight}px`;
+  });
+};
+
+/**
+ * Equalizes every product card's height in `.products` (whichever
+ * 5dla_product-card-1/2/3 variant is rendered - see
+ * sections/5dla_collection-product-grid.liquid) - ports
+ * `wpbingo.ensureHeightEqual`'s intent for this grid. Re-run after
+ * `loadNextPage` appends more cards (see below), since new cards join
+ * the same grid and need to be measured against the existing ones too.
+ */
+const ensureCardHeightEqual = () => {
+  makeHeightEqual(document.querySelectorAll(CARD_SELECTOR));
+};
+
+/**
  * "Show all colours" checkbox (sections/5dla_collection-filter-sort.liquid) -
  * toggles `.show-all-colours` on `.c5dla-scope` (this template's <main>,
  * not <body> - see scripts/vite-build.mjs's postcss-prefix-selector
  * setup for why it has to be the actual scoped root), which reveals every
  * product card's `.swatch--extra` swatches and hides the "+N" count (see
  * client/ver_2_0/scss/collection/_product-grid.scss and
- * snippets/5dla_product-swatch.liquid). A single page-wide class rather
+ * snippets/5dla_product-card-1-swatches.liquid). A single page-wide class rather
  * than per-card state, matching the reference's own client-side behavior
  * (one toggle affecting every card's swatch list at once).
  */
@@ -132,4 +171,5 @@ document.addEventListener("DOMContentLoaded", () => {
   initColorsToggle();
   initLoadMore();
   initInfiniteScroll();
+  ensureCardHeightEqual();
 });
