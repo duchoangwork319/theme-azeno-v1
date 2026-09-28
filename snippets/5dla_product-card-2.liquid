@@ -1,0 +1,76 @@
+{%- comment -%}
+  Card variant 2/3 (sections/5dla_collection-product-grid.liquid's
+  `product_card_type` setting picks between 5dla_product-card-1/2/3).
+  Ported 1:1 (markup + CSS) from the reference's `article.model-card`
+  inside `section#models` (html/revamp-collection/rendered/Fusion Tri
+  Suits for Hot-Weather Racing....html). No action button group (per
+  request) - the reference's own `.model-card` has none either, only the
+  always-visible `.model-shop-link` at the bottom, which IS part of the
+  card's own content, not a hover action group like card-1's.
+
+  `c5dla-card-2` on the root element is this variant's CSS prefix (see
+  client/ver_2_0/scss/collection/_product-card-2.scss) - same convention
+  as 5dla_product-card-1.liquid's `c5dla-card-1`.
+
+  Font: the reference page sets `--display`/`--body: "Jost", Arial,
+  sans-serif` (its entire body font, not just headings) - loaded via
+  sections/5dla_collection-product-grid.liquid's Google Fonts <link>
+  (once per section, not once per card).
+
+  Data mapping (per request - some fields have no real data source yet,
+  so they're raw-HTML-with-dummy-text placeholders):
+  - model-image: current_variant's own featured image, falling back to
+    the product's featured media if the variant has none.
+  - model-badge: product.metafields.bwp_fields.badge_label (blank/no
+    badge rendered if not set - not every product needs one).
+  - model-name-row: product.title + current_variant.price (a VARIANT
+    price, not the product's general price range).
+  - model-headline / model-features: dummy placeholder text - no data
+    source specified yet.
+
+  Expects: product, swatch_limit (unused here - kept for a consistent
+  render signature with 5dla_product-card-1.liquid)
+{%- endcomment -%}
+
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign model_image = current_variant.featured_image | default: product.featured_media
+  assign badge_label = product.metafields.bwp_fields.badge_label
+-%}
+
+<article class="model-card c5dla-card-2">
+  <div class="model-image-box">
+    {%- if model_image -%}
+      <img
+        class="model-image"
+        src="{{ model_image | image_url: width: 960 }}"
+        alt="{{ model_image.alt | default: product.title | escape }}"
+        loading="lazy"
+        width="960"
+        height="{{ 960 | divided_by: model_image.aspect_ratio }}"
+      >
+    {%- endif -%}
+    {%- if badge_label != blank -%}
+      <span class="model-badge">{{ badge_label }}</span>
+    {%- endif -%}
+  </div>
+  <div class="model-info">
+    <div class="model-name-row">
+      <h3 class="model-name">{{ product.title }}</h3>
+      <span class="model-price">{{ current_variant.price | money }}</span>
+    </div>
+    {%- comment -%} No headline data source yet - dummy placeholder. {%- endcomment -%}
+    <p class="model-headline">Dummy headline text goes here.</p>
+    {%- comment -%} No features data source yet - dummy placeholders. {%- endcomment -%}
+    <div class="model-features">
+      <span class="feature-pill">FEATURE ONE</span>
+      <span class="feature-pill">FEATURE TWO</span>
+    </div>
+    <a class="model-shop-link" href="{{ product.url }}">
+      Shop {{ product.title }}
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M5 12h14m-6-6 6 6-6 6"></path>
+      </svg>
+    </a>
+  </div>
+</article>

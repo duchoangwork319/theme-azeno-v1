@@ -1,0 +1,36 @@
+{%- comment -%}
+  Add-to-cart action for card variant 3 (snippets/5dla_product-card-3.liquid).
+  Ported from the reference's `a.button.product-action.button-dark`
+  (html/revamp-collection/rendered/Fusion Tri Suits for Hot-Weather
+  Racing....html, section#shop) - the reference just links to the product
+  page, but this is a real add-to-cart form instead, reusing the same
+  legacy AJAX hooks (.form-addtocart/data-product-form) as
+  snippets/5dla_product-card-actions.liquid (card 1's add-to-cart), so it
+  works via assets/wpbingo.js's global `formOverride` handler without any
+  new JS. Sold-out gets a disabled state instead of a form, same pattern
+  as card 1.
+
+  Expects: product, current_variant
+{%- endcomment -%}
+
+{%- if product.available == false -%}
+  <span class="button product-action button-dark" aria-disabled="true" style="opacity:0.5;pointer-events:none;">
+    {{ 'products.product.sold_out' | t }}
+  </span>
+{%- else -%}
+  <form
+    action="{{ routes.cart_add_url }}"
+    method="post"
+    enctype="multipart/form-data"
+    class="form-addtocart"
+    data-product-form
+  >
+    <input type="hidden" name="id" value="{{ current_variant.id }}">
+    <button type="submit" class="js-btn-addtocart button product-action button-dark" title="{{ 'products.product.add_to_cart' | t }}">
+      {{ 'products.product.add_to_cart' | t }}
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M5 12h14m-6-6 6 6-6 6"></path>
+      </svg>
+    </button>
+  </form>
+{%- endif -%}

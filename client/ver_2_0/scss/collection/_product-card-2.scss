@@ -1,0 +1,116 @@
+// Ported 1:1 from the reference's `.model-card` / `.model-image-box` /
+// `.model-image` / `.model-badge` / `.model-card-recommended .model-badge`
+// (CSS kept even though no Liquid condition applies that modifier yet -
+// see snippets/5dla_product-card-2.liquid) / `.model-info` /
+// `.model-name-row` / `.model-name` / `.model-price` / `.model-headline` /
+// `.model-features` / `.feature-pill` / `.model-shop-link`. Reference
+// custom properties inlined as literal values (--white:#fff, --ink:#141613,
+// --muted:#747770, --line:#dedfd9, --lime:#d8f54f) rather than redefined
+// as CSS vars, since this is the only place in this stack that needs them.
+// Only `.model-grid`/`.models-section` (the reference's OWN grid wrapper)
+// were intentionally NOT ported - this theme's product grid
+// (sections/5dla_collection-product-grid.liquid's `.products`) is the
+// real grid these cards sit inside; `.model-grid` was a different,
+// unrelated section in the reference.
+.c5dla-card-2 {
+  // Reference page's entire body font (--body: "Jost", Arial, sans-serif),
+  // not just `.model-name`/headings - loaded via a Google Fonts <link> in
+  // sections/5dla_collection-product-grid.liquid (once per section).
+  font-family: "Jost", Arial, sans-serif;
+
+  &.model-card {
+    min-width: 0;
+    position: relative;
+  }
+
+  .model-image-box {
+    aspect-ratio: 0.76;
+    background: #f0f0ee;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .model-image {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.28s;
+  }
+
+  &:hover .model-image {
+    transform: scale(1.035);
+  }
+
+  .model-badge {
+    letter-spacing: 0.08em;
+    background: #fffffff5;
+    max-width: calc(100% - 24px);
+    padding: 7px 9px;
+    font-size: 8px;
+    font-weight: 700;
+    position: absolute;
+    top: 12px;
+    left: 12px;
+  }
+
+  &.model-card-recommended .model-badge {
+    background: #d8f54f;
+  }
+
+  .model-info {
+    padding: 17px 0 0;
+  }
+
+  .model-name-row {
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+    display: flex;
+  }
+
+  .model-name {
+    font-family: "Jost", Arial, sans-serif;
+    margin: 0;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1;
+  }
+
+  .model-price {
+    white-space: nowrap;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .model-headline {
+    margin: 10px 0 0;
+    font-size: 13px;
+  }
+
+  .model-features {
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 13px 0 0;
+    display: flex;
+  }
+
+  .feature-pill {
+    border: 1px solid #dedfd9;
+    color: #5e625b;
+    padding: 4px 6px;
+    font-size: 9px;
+  }
+
+  .model-shop-link {
+    color: #141613;
+    text-decoration: none;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    align-items: center;
+    gap: 6px;
+    margin-top: 18px;
+    font-size: 10px;
+    font-weight: 700;
+    display: inline-flex;
+  }
+}

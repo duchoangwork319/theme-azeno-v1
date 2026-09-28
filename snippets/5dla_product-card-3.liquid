@@ -1,0 +1,92 @@
+{%- comment -%}
+  Card variant 3/3 (sections/5dla_collection-product-grid.liquid's
+  `product_card_type` setting picks between 5dla_product-card-1/2/3).
+  Ported 1:1 (markup + CSS) from the reference's `article.product-card`
+  inside `section#shop` (html/revamp-collection/rendered/Fusion Tri
+  Suits for Hot-Weather Racing....html).
+
+  `c5dla-card-3` on the root element is this variant's CSS prefix (see
+  client/ver_2_0/scss/collection/_product-card-3.scss), same convention
+  as card 1/2.
+
+  Font: same reference page as card 2, same `--body: "Jost", Arial,
+  sans-serif` - the Google Fonts <link> in
+  sections/5dla_collection-product-grid.liquid is shared by both
+  (gated on `product_card_type == 'card_2' or 'card_3'`).
+
+  Data mapping (per request):
+  - store-product-category: the CURRENT collection (collection.title/.url),
+    not "All" like the reference's own link.
+  - store-product-review: product.metafields.judgeme.badge, wrapped in the
+    same `.jdgm-widget.jdgm-preview-badge[data-id]` hook used elsewhere in
+    this theme (snippets/product-grid-hover-1.liquid) - Judge.me's own app
+    script (not part of this stack) hydrates it wherever that hook appears.
+  - product-title-row: product.title, linked to product.url.
+  - store-product-vendor: product.vendor. The reference links it to a
+    static brand page; no per-vendor page mapping was specified, so this
+    links to a best-effort `/pages/<handleized vendor>` guess (same
+    fallback-link pattern as sections/5dla_collection-benefits.liquid).
+  - store-product-price: current_variant.price (a VARIANT price, matching
+    card 2's convention, not a product-level range).
+  - store-product-badge (image overlay, not in the mapping list but part
+    of "migrate article.product-card") reuses the same
+    product.metafields.bwp_fields.badge_label as card 2, for consistency.
+  - product-swatches: snippets/5dla_product-card-3-swatches.liquid (new) -
+    NOT a direct {% render '5dla_product-swatch' %} reuse, see that
+    snippet's own top comment for why.
+  - size-selector: snippets/5dla_product-size-selector.liquid (new).
+  - Add to cart: snippets/5dla_product-card-3-actions.liquid (new).
+
+  Expects: product, swatch_limit, size_limit (section.settings.size_selector_limit,
+  passed through to snippets/5dla_product-size-selector.liquid)
+{%- endcomment -%}
+
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign badge_label = product.metafields.bwp_fields.badge_label
+  assign review_badge = product.metafields.judgeme.badge
+-%}
+
+<article class="product-card c5dla-card-3">
+  <div class="product-image-box">
+    {%- if product.featured_media -%}
+      <img
+        src="{{ product.featured_media | image_url: width: 960 }}"
+        alt="{{ product.featured_media.alt | default: product.title | escape }}"
+        loading="lazy"
+        width="960"
+        height="{{ 960 | divided_by: product.featured_media.preview_image.aspect_ratio }}"
+      >
+    {%- endif -%}
+    {%- if badge_label != blank -%}
+      <span class="store-product-badge">{{ badge_label }}</span>
+    {%- endif -%}
+    <button class="quick-view-button" type="button" data-handle="{{ product.handle }}">
+      {{ 'products.product.quickview' | t }}
+    </button>
+  </div>
+  <div class="product-info">
+    <a class="store-product-category" href="{{ collection.url }}">{{ collection.title }}</a>
+    {%- if review_badge != blank -%}
+      <span class="store-product-review jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}">
+        {{ review_badge }}
+      </span>
+    {%- endif -%}
+    <div class="product-title-row">
+      <h3><a href="{{ product.url }}">{{ product.title }}</a></h3>
+    </div>
+    {%- if product.vendor != blank -%}
+      {%- assign vendor_handle = product.vendor | handleize -%}
+      <a class="store-product-vendor" href="{{ pages[vendor_handle].url | default: '#' }}">
+        {{ product.vendor }}
+      </a>
+    {%- endif -%}
+    <span class="store-product-price">{{ current_variant.price | money }}</span>
+
+    {%- render '5dla_product-card-3-swatches', product: product, swatch_limit: swatch_limit, current_variant: current_variant -%}
+
+    {%- render '5dla_product-size-selector', product: product, current_variant: current_variant, size_limit: size_limit -%}
+    {%- render '5dla_product-card-3-actions', product: product, current_variant: current_variant -%}
+    <p class="availability-note">Confirm size and availability at checkout.</p>
+  </div>
+</article>

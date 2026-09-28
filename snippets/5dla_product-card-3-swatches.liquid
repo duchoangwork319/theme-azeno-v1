@@ -1,0 +1,72 @@
+{%- comment -%}
+  Renders the whole color-option element (`.product-swatches` +
+  every `.store-color-option`) for snippets/5dla_product-card-3.liquid -
+  one self-contained snippet instead of a wrapper + a per-value render
+  (snippets/5dla_product-card-3-swatch.liquid, now removed).
+
+  `wpb-variants-swatch` lives on the `.product-swatches` wrapper, not on
+  each swatch - sections/customer-variant.liquid generates
+  `.wpb-variants-swatch {{ variant_name }}{...}`, a DESCENDANT selector
+  (note the space before the value class), so the value class has to be
+  on a descendant of `.wpb-variants-swatch`, not the same element.
+
+  Expects: product, swatch_limit, current_variant
+{%- endcomment -%}
+
+{%- liquid
+  assign color_option = nil
+  for option in product.options_with_values
+    if option.name == 'Color' or option.name == 'Colour'
+      assign color_option = option
+      break
+    endif
+  endfor
+-%}
+
+{%- if color_option -%}
+  <div class="product-swatches wpb-variants-swatch" aria-label="Available product colours">
+    {%- for value in color_option.values limit: swatch_limit -%}
+      {%- liquid
+        assign active = ''
+        if forloop.first
+          assign active = ' active'
+        endif
+
+        assign safe_value = value | escape | replace: '/', '-' | replace: ' ', '-'
+
+        # Same cascading-availability computation as snippets/5dla_product-swatch.liquid.
+        assign option_key = 'option' | append: color_option.position
+        assign option_disabled = true
+        for variant in product.variants
+          if variant.available and variant[option_key] == value
+            assign matches_preceding = true
+            for i in (1..color_option.position)
+              if i != color_option.position
+                assign prior_key = 'option' | append: i
+                if variant[prior_key] != current_variant[prior_key]
+                  assign matches_preceding = false
+                endif
+              endif
+            endfor
+            if matches_preceding
+              assign option_disabled = false
+              break
+            endif
+          endif
+        endfor
+      -%}
+      <span
+        class="store-color-option{{ active }}{% if option_disabled %} disabled{% endif %}"
+        title="{{ value | strip | escape }}"
+      >
+        <span class="color-swatch {{ value }} {{ safe_value }}" aria-hidden="true"></span>
+        <span class="sr-only">{{ value }}</span>
+      </span>
+    {%- endfor -%}
+    {%- if color_option.values.size > swatch_limit -%}
+      <span class="store-color-option store-color-option--extra">
+        +{{ color_option.values.size | minus: swatch_limit }}
+      </span>
+    {%- endif -%}
+  </div>
+{%- endif -%}

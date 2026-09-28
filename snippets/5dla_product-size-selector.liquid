@@ -1,0 +1,67 @@
+{%- comment -%}
+  Size selector for card variant 3 (snippets/5dla_product-card-3.liquid).
+  Ported 1:1 (markup + CSS) from the reference's `.size-selector`/
+  `.size-option` inside `article.product-card`
+  (html/revamp-collection/rendered/Fusion Tri Suits for Hot-Weather
+  Racing....html, section#shop). No selection state in the reference
+  markup itself (`aria-pressed="false"` on every button, no real JS) -
+  this reuses the SAME cascading-availability computation as
+  snippets/5dla_product-swatch.liquid (option_disabled, generalized via a
+  computed `optionN` key from the option's real position) so out-of-stock
+  sizes are at least visually/semantically disabled, matching the quality
+  bar the swatch snippet already set. Purely HTML/CSS - no click handler
+  wired up (selecting a size doesn't do anything yet).
+
+  Expects: product, current_variant, size_limit
+{%- endcomment -%}
+
+{%- liquid
+  assign size_option = nil
+  for option in product.options_with_values
+    if option.name == 'Size'
+      assign size_option = option
+      break
+    endif
+  endfor
+-%}
+
+{%- if size_option -%}
+  <div class="size-selector" aria-label="Select a size for {{ product.title | escape }}">
+    {%- for value in size_option.values limit: size_limit -%}
+      {%- liquid
+        assign option_key = 'option' | append: size_option.position
+        assign option_disabled = true
+        for variant in product.variants
+          if variant.available and variant[option_key] == value
+            assign matches_preceding = true
+            for i in (1..size_option.position)
+              if i != size_option.position
+                assign prior_key = 'option' | append: i
+                if variant[prior_key] != current_variant[prior_key]
+                  assign matches_preceding = false
+                endif
+              endif
+            endfor
+            if matches_preceding
+              assign option_disabled = false
+              break
+            endif
+          endif
+        endfor
+      -%}
+      <button
+        type="button"
+        class="size-option{% if value == current_variant[option_key] %} selected{% endif %}"
+        aria-pressed="{% if value == current_variant[option_key] %}true{% else %}false{% endif %}"
+        {% if option_disabled %}disabled{% endif %}
+      >
+        {{ value }}
+      </button>
+    {%- endfor -%}
+    {%- if size_option.values.size > size_limit -%}
+      <span class="size-option size-option--extra">
+        +{{ size_option.values.size | minus: size_limit }}
+      </span>
+    {%- endif -%}
+  </div>
+{%- endif -%}

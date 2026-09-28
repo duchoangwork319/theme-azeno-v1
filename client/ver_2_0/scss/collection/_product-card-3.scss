@@ -1,0 +1,311 @@
+// Ported 1:1 from the reference's `.product-card` / `.product-image-box` /
+// `.store-product-badge` / `.product-badge-lime` (kept even though no
+// Liquid condition applies that modifier yet) / `.quick-view-button` /
+// `.product-info` / `.store-product-category` / `.store-product-review` /
+// `.product-title-row` / `.store-product-vendor` / `.store-product-price` /
+// `.product-swatches` / `.store-color-option` / `.color-swatch` /
+// `.size-selector` / `.size-option` / `.product-action` /
+// `.availability-note` (desktop + @680px - this reference page's own
+// breakpoint, not the 720px used elsewhere). `.button`/`.button-dark`
+// (the base classes `.product-action` composes with, see
+// snippets/5dla_product-card-3-actions.liquid) are also ported here since
+// nothing else in this stack defines them yet.
+//
+// Reference custom properties inlined as literal values (--white:#fff,
+// --ink:#141613, --muted:#747770, --line:#dedfd9), same convention as
+// _product-card-2.scss (same reference file/page, same variables).
+//
+// `.product-grid` (the reference's OWN grid wrapper for this section) was
+// NOT ported - same reasoning as card 2: this card sits inside this
+// theme's own `.products` grid instead.
+.c5dla-card-3 {
+  font-family: "Jost", Arial, sans-serif;
+
+  &.product-card {
+    min-width: 0;
+  }
+
+  .product-image-box {
+    aspect-ratio: 0.8;
+    background: #f0f0ee;
+    position: relative;
+    overflow: hidden;
+
+    @media (width <= 680px) {
+      aspect-ratio: 0.76;
+    }
+
+    > img {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.25s;
+    }
+  }
+
+  &:hover .product-image-box > img {
+    transform: scale(1.035);
+  }
+
+  .store-product-badge {
+    color: #343434;
+    background: #fffffff2;
+    padding: 5px 8px;
+    font-size: 11px;
+    position: absolute;
+    top: 11px;
+    left: 11px;
+
+    @media (width <= 680px) {
+      max-width: calc(100% - 14px);
+      padding: 5px 6px;
+      font-size: 9px;
+      top: 7px;
+      left: 7px;
+    }
+
+    &.product-badge-lime {
+      background: #d8f54f;
+    }
+  }
+
+  .quick-view-button {
+    letter-spacing: 0.015em;
+    background: #fffffff5;
+    border: 0;
+    min-height: 40px;
+    font-size: 12px;
+    font-weight: 500;
+    position: absolute;
+    bottom: 11px;
+    left: 11px;
+    right: 11px;
+
+    @media (width <= 680px) {
+      min-height: 32px;
+      font-size: 10px;
+      bottom: 7px;
+      left: 7px;
+      right: 7px;
+    }
+  }
+
+  .product-info {
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: 14px;
+    display: flex;
+  }
+
+  .store-product-category {
+    color: #747474;
+    font-size: 11px;
+    line-height: 1.55;
+  }
+
+  .store-product-review {
+    color: #858585;
+    margin-top: 6px;
+    font-size: 11px;
+  }
+
+  .product-title-row {
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 9px;
+    margin-top: 8px;
+    display: flex;
+
+    @media (width <= 680px) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 5px;
+    }
+
+    h3 {
+      font-family: "Jost", Arial, sans-serif;
+      margin: 0;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.45;
+
+      @media (width <= 680px) {
+        font-size: 13px;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+    }
+
+    > span {
+      white-space: nowrap;
+      font-size: 11px;
+      font-weight: 600;
+
+      @media (width <= 680px) {
+        font-size: 10px;
+      }
+    }
+  }
+
+  .store-product-vendor {
+    color: #777;
+    margin-top: 5px;
+    font-size: 11px;
+    text-decoration: none;
+  }
+
+  .store-product-price {
+    color: #111;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .product-swatches {
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 11px;
+    display: flex;
+  }
+
+  .store-color-option {
+    border: 1px solid #e5e5e5;
+    border-radius: 50%;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    display: grid;
+
+    // Not in the reference - matches the availability dimming already
+    // established for card 1's swatches (snippets/5dla_product-swatch.liquid).
+    &.disabled {
+      opacity: 0.35;
+    }
+
+    // "+N" overflow count past swatch_limit (snippets/
+    // 5dla_product-card-3-swatches.liquid) - same circle as a regular
+    // swatch, just text instead of a .color-swatch dot.
+    &--extra {
+      color: #747770;
+      font-size: 9px;
+      font-weight: 500;
+    }
+  }
+
+  .color-swatch {
+    border: 1px solid #1416132e;
+    border-radius: 50%;
+    width: 14px;
+    height: 14px;
+  }
+
+  .size-selector {
+    gap: 5px;
+    margin-top: 15px;
+    display: flex;
+
+    @media (width <= 680px) {
+      flex-wrap: wrap;
+      gap: 3px;
+    }
+  }
+
+  .size-option {
+    border: 1px solid #dedfd9;
+    background: #fff;
+    place-items: center;
+    width: 33px;
+    height: 29px;
+    font-size: 10px;
+    display: grid;
+
+    @media (width <= 680px) {
+      width: 29px;
+      height: 28px;
+      font-size: 9px;
+    }
+
+    &.selected {
+      border-color: #141613;
+      background: #141613;
+      color: #fff;
+    }
+
+    &:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    // "+N" overflow count past size_limit (snippets/
+    // 5dla_product-size-selector.liquid) - a plain <span>, not a <button>,
+    // since it isn't a selectable size.
+    &--extra {
+      color: #747770;
+    }
+  }
+
+  // Base .button/.button-dark (reference lines ~608-639) - nothing else
+  // in this stack defines them yet, ported here since
+  // snippets/5dla_product-card-3-actions.liquid's add-to-cart button
+  // composes both classes with `.product-action`.
+  .button {
+    letter-spacing: 0.035em;
+    text-transform: uppercase;
+    border: 1px solid transparent;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    min-height: 50px;
+    padding: 0 22px;
+    font-size: 12px;
+    font-weight: 500;
+    transition: background-color 0.16s, border-color 0.16s, transform 0.16s;
+    display: inline-flex;
+    text-decoration: none;
+    cursor: pointer;
+
+    @media (width <= 680px) {
+      min-height: 45px;
+      padding: 0 13px;
+      font-size: 9px;
+    }
+
+    &:hover {
+      transform: translateY(-1px);
+    }
+  }
+
+  .button-dark {
+    background: #141613;
+    color: #fff;
+    border-color: #141613;
+  }
+
+  .product-action {
+    text-transform: none;
+    width: 100%;
+    margin-top: 14px;
+    font-size: 12px;
+    display: flex;
+
+    @media (width <= 680px) {
+      gap: 4px;
+      padding: 0 5px;
+      font-size: 10px;
+    }
+  }
+
+  form.form-addtocart {
+    display: block;
+    width: 100%;
+  }
+
+  .availability-note {
+    color: #747770;
+    margin: 8px 0 0;
+    font-size: 9px;
+  }
+}
