@@ -1,0 +1,67 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "breadcrumb": {
+      "type": "5dla_collection-breadcrumb",
+      "settings": {
+        "enable": true,
+        "home_label": "Home",
+        "show_current": true,
+        "separator": "/"
+      }
+    },
+    "banner": {
+      "type": "5dla_collection-banner",
+      "settings": {
+        "enable": true
+      }
+    },
+    "subcollections": {
+      "type": "5dla_collection-subcollections",
+      "settings": {
+        "enable": true
+      }
+    },
+    "filter_sort": {
+      "type": "5dla_collection-filter-sort",
+      "settings": {
+        "enable": true
+      }
+    },
+    "product_grid": {
+      "type": "5dla_collection-product-grid",
+      "settings": {
+        "product_card_type": "card_3",
+        "desktop_grid_item_count": 4,
+        "swatch_limit": 4,
+        "page_item": 24,
+        "pagination_style": "loadmore"
+      }
+    },
+    "content_slots": {
+      "type": "5dla_collection-content-slots",
+      "settings": {}
+    },
+    "benefits": {
+      "type": "5dla_collection-benefits",
+      "settings": {}
+    }
+  },
+  "order": [
+    "breadcrumb",
+    "banner",
+    "subcollections",
+    "filter_sort",
+    "product_grid",
+    "content_slots",
+    "benefits"
+  ]
+}

@@ -1,0 +1,51 @@
+{%- comment -%}
+  Grid + load-more markup shared by both `paginate` branches in
+  snippets/5dla_collection-product-grid-paginate.liquid.
+
+  Expects `grid_collection` (the paginated collection), `desktop_columns`
+  (number) and `paginate` (the enclosing `{% paginate %}` object) as render
+  params. `section` is used directly (global object, not passed).
+{%- endcomment -%}
+
+{%- if grid_collection.products.size == 0 -%}
+  <div class="empty-products">
+    {{ 'collections.general.no_matches' | t }}
+    <a href="{{ grid_collection.url }}">{{ 'products.facets.clear_all' | t }}</a>
+  </div>
+{%- else -%}
+  <section
+    class="products"
+    aria-label="{{ grid_collection.products_count }} {{ grid_collection.title }} products"
+    style="--c5dla-grid-desktop-columns: {{ desktop_columns }};"
+  >
+    {%- for product in grid_collection.products -%}
+      {% liquid
+        if section.settings.product_card_type == 'card_1'
+          render '5dla_product-card-1', product: product, swatch_limit: section.settings.swatch_limit
+        elsif section.settings.product_card_type == 'card_2'
+          render '5dla_product-card-2', product: product, swatch_limit: section.settings.swatch_limit
+        elsif section.settings.product_card_type == 'card_3'
+          render '5dla_product-card-3', product: product, swatch_limit: section.settings.swatch_limit, size_limit: section.settings.size_selector_limit
+        endif
+      %}
+    {%- endfor -%}
+  </section>
+
+  {%- if paginate.pages > 1 and paginate.next -%}
+    <div
+      class="c5dla-loadmore"
+      data-c5dla-pagination
+      data-section-id="{{ section.id }}"
+      data-next-url="{{ paginate.next.url }}"
+      data-pagination-style="{{ section.settings.pagination_style }}"
+    >
+      {%- if section.settings.pagination_style == 'loadmore' -%}
+        <button type="button" class="btn btn-outline-dark" data-c5dla-loadmore>
+          {{ 'collections.general.load_more' | t }}
+        </button>
+      {%- else -%}
+        <div class="c5dla-loadmore__spinner" data-c5dla-infinite-sentinel aria-hidden="true"></div>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+{%- endif -%}

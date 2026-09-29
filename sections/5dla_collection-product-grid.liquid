@@ -24,32 +24,17 @@
   assign desktop_columns = section.settings.desktop_grid_item_count | at_least: 3 | at_most: 5
 -%}
 
-{%- if section.settings.product_card_type == 'card_2' or section.settings.product_card_type == 'card_3' -%}
-  {%- comment -%}
-    5dla_product-card-2.liquid and 5dla_product-card-3.liquid both come
-    from the same reference page and use its page-wide font (--body/
-    --display: "Jost", Arial, sans-serif) - loaded once here (section-
-    level), not per-card, to avoid duplicate <link> tags once per product
-    in the loop below.
-  {%- endcomment -%}
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
-{%- endif -%}
-
-{%- paginate collection.products by section.settings.page_item -%}
-  {%- if collection.products.size == 0 -%}
-    <div class="empty-products">
-      {{ 'collections.general.no_matches' | t }}
-      <a href="{{ collection.url }}">{{ 'products.facets.clear_all' | t }}</a>
-    </div>
-  {%- else -%}
+{%- liquid
+  assign product_list = section.settings.product_list
+-%}
+{%- if product_list and product_list.size > 0 -%}
+  {%- paginate product_list by section.settings.page_item -%}
     <section
       class="products"
-      aria-label="{{ collection.products_count }} {{ collection.title }} products"
+      aria-label="{{ product_list.size }} products"
       style="--c5dla-grid-desktop-columns: {{ desktop_columns }};"
     >
-      {%- for product in collection.products -%}
+      {%- for product in product_list -%}
         {% liquid
           if section.settings.product_card_type == 'card_1'
             render '5dla_product-card-1', product: product, swatch_limit: section.settings.swatch_limit
@@ -61,31 +46,40 @@
         %}
       {%- endfor -%}
     </section>
-
-    {%- if paginate.pages > 1 and paginate.next -%}
-      <div
-        class="c5dla-loadmore"
-        data-c5dla-pagination
-        data-section-id="{{ section.id }}"
-        data-next-url="{{ paginate.next.url }}"
-        data-pagination-style="{{ section.settings.pagination_style }}"
-      >
-        {%- if section.settings.pagination_style == 'loadmore' -%}
-          <button type="button" class="btn btn-outline-dark" data-c5dla-loadmore>
-            {{ 'collections.general.load_more' | t }}
-          </button>
-        {%- else -%}
-          <div class="c5dla-loadmore__spinner" data-c5dla-infinite-sentinel aria-hidden="true"></div>
-        {%- endif -%}
-      </div>
-    {%- endif -%}
-  {%- endif -%}
-{%- endpaginate -%}
+    {{ paginate | default_pagination }}
+  {%- endpaginate -%}
+{%- elsif section.settings.collection != blank -%}
+  {%- render '5dla_collection-product-grid-paginate',
+    target_collection: section.settings.collection,
+    desktop_columns: desktop_columns
+  -%}
+{%- elsif collection != blank -%}
+  {%- render '5dla_collection-product-grid-paginate',
+    target_collection: collection,
+    desktop_columns: desktop_columns
+  -%}
+{%- else -%}
+  <div class="empty-products">
+    {{ 'collections.general.no_matches' | t }}
+  </div>
+{%- endif -%}
 
 {% schema %}
 {
   "name": "5DLA Product Grid",
   "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection",
+      "info": "If set, paginates this collection instead of the page's own collection. Ignored if a product list is set below."
+    },
+    {
+      "type": "product_list",
+      "id": "product_list",
+      "label": "Products",
+      "info": "If set, renders these products in full (no pagination) instead of a collection."
+    },
     {
       "type": "select",
       "id": "product_card_type",

@@ -1,4 +1,4 @@
-# Collection Page Revamp — `collection.basic.5dla`
+# Collection Page Revamp — `collection.c5dla.basic`
 
 **Status as of this doc**: all 7 sections exist and render on the live template. Markup/CSS for 5 of them is a 1:1 port of the reference HTML (`html/revamp-collection/rendered/Fusion Cycling Jerseys....html`); 2 real features are wired up with actual JS (colour toggle, load-more/infinite-scroll pagination); everything else (filter/sort drawer, gender pills, sub-collection pills, quick view/compare/wishlist) is HTML/CSS only, intentionally inert for now. This doc was rewritten from scratch against the current repo state - earlier revisions of this doc described an architecture (Bootstrap-heavy facet drawer, blocks-based content, a separate `2_0-theme.liquid` layout, a `global.js` header/footer port) that was built, then explicitly torn back out. Don't trust anything from before this rewrite.
 
@@ -8,11 +8,11 @@ Scope: the collection page body only. `<header>`/`<footer>` are out of scope and
 
 - **Layout**: `layout/theme.liquid` (the theme's normal, legacy layout - **not** a separate file). Its only edit for this project is one conditional class:
   ```liquid
-  <main class="main-content{% if template.suffix == 'basic.5dla' %} c5dla-scope{% endif %}" role="main">
+  <main class="main-content{% if template.suffix contains 'c5dla' %} c5dla-scope{% endif %}" role="main">
   ```
   `.c5dla-scope` is the sole hook the new stack's CSS is scoped under.
-- **Template**: `templates/collection.basic.5dla.json` - no `"layout"` key (uses the default `layout/theme.liquid`). Lists the 7 sections in `order`.
-- **Header/footer stay 100% legacy** - jQuery, `assets/wpbingo.js`, Bootstrap 4 (`assets/bootstrap.min.css` via `client/js/style.js`) untouched. Two small **additive** conditional includes make the new bundle load, both gated by `template.suffix == 'basic.5dla'`:
+- **Template**: `templates/collection.c5dla.basic.json` - no `"layout"` key (uses the default `layout/theme.liquid`). Lists the 7 sections in `order`.
+- **Header/footer stay 100% legacy** - jQuery, `assets/wpbingo.js`, Bootstrap 4 (`assets/bootstrap.min.css` via `client/js/style.js`) untouched. Two small **additive** conditional includes make the new bundle load, both gated by `template.suffix contains 'c5dla'`:
   - `snippets/header-styles.liquid` (~L115): `{{ 'bundled.collection.2.0.css' | asset_url | stylesheet_tag }}`
   - `snippets/footer-javascript-optimized.liquid` (end of file, also gated by `page_type contains 'collection'`): `<script src="{{ 'bundled.collection.2.0.js' | asset_url }}" defer="defer"></script>`
 - **Build**: `scripts/vite-build.mjs` builds two families of entries:
@@ -134,7 +134,7 @@ All classes renamed to a `c5dla-*` convention (e.g. `c5dla-editorial__heading`, 
 
 ```bash
 node scripts/vite-build.mjs --mode production   # builds assets/bundled.collection.2.0.{js,css} (and all legacy entries)
-npx shopify theme check --output json           # should be 0 errors on every 5dla_*/collection.basic.5dla file
+npx shopify theme check --output json           # should be 0 errors on every 5dla_*/collection.c5dla.basic file
 ```
 
 ## 9. Open items for a future session

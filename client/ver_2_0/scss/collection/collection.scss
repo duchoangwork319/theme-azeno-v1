@@ -1,4 +1,4 @@
-// Entry point for the collection.basic.5dla revamp - the ONLY ver_2.0
+// Entry point for the collection.c5dla.basic revamp - the ONLY ver_2.0
 // bundle (client/ver_2_0/js/global.js and its Bootstrap5/vanilla-JS header/
 // footer port were removed; header/footer stay on the legacy jQuery/
 // wpbingo.js/Bootstrap4 stack, per "reuse legacy JS/CSS to avoid impacting
@@ -15,6 +15,14 @@
 // emitted at all.
 @import "../shared-variables";
 @import "bootstrap/scss/bootstrap";
+
+// Jost is the official font for the whole c5dla scope (ported from the
+// reference pages' --body/--display: "Jost", Arial, sans-serif). `:root`
+// gets rewritten to `.c5dla-scope` by scripts/vite-build.mjs, so this
+// cascades to every c5dla_* section without each one re-declaring it.
+:root {
+  font-family: "Jost", Arial, sans-serif;
+}
 
 // Loading state class for [data-c5dla-toolbar]/[data-c5dla-product-grid]
 // (compound selector, not a descendant combinator, since this file's whole

@@ -1,0 +1,42 @@
+{%- comment -%}
+  Generic content-slot section - unlike sections/5dla_collection-content-slots.liquid
+  (which pulls its pages from a collection metafield), this one lets the
+  merchant pick pages directly via blocks, one `type: "page"` setting per
+  block.
+{%- endcomment -%}
+
+{%- for block in section.blocks -%}
+  {%- assign content_page = block.settings.content -%}
+  <div class="page-{{ content_page.handle }}" {{ block.shopify_attributes }}>
+    {{ content_page.content }}
+  </div>
+{%- endfor -%}
+
+{% schema %}
+{
+  "name": "5DLA Content Slots",
+  "blocks": [
+    {
+      "type": "page",
+      "name": "Page",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "page",
+          "id": "content",
+          "label": "Select content"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "5DLA Content Slots"
+    }
+  ]
+}
+{% endschema %}

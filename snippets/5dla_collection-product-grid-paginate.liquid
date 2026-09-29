@@ -1,0 +1,16 @@
+{%- comment -%}
+  Wraps `{% paginate %}` for `sections/5dla_collection-product-grid.liquid`'s
+  collection-driven (non `product_list`) path.
+
+  Expects `target_collection` (the collection to paginate, already resolved
+  by the caller to either `section.settings.collection` or the page's own
+  `collection`) and `desktop_columns` (number) as render params.
+{%- endcomment -%}
+
+{%- paginate target_collection.products by section.settings.page_item -%}
+  {%- render '5dla_collection-product-grid-body',
+    grid_collection: target_collection,
+    desktop_columns: desktop_columns,
+    paginate: paginate
+  -%}
+{%- endpaginate -%}

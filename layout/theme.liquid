@@ -88,7 +88,7 @@
       client/ver_2_0/scss/collection's compiled CSS under this class so its
       Bootstrap 5 usage never collides with the sitewide Bootstrap 4 build.
     {%- endcomment -%}
-    <main class="main-content{% if template.suffix == 'basic.5dla' %} c5dla-scope{% endif %}" role="main">
+    <main class="main-content{% if template.suffix contains 'c5dla' %} c5dla-scope{% endif %}" role="main">
       {{ content_for_layout }}
     </main>
     <footer class="bwp-footer{% if settings.show_menu_bottom %} have-menu-bottom{% endif %}">

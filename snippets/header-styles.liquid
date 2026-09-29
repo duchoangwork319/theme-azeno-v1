@@ -112,7 +112,15 @@
 {%- assign page_type = request.page_type | handle -%}
 
 {%- if page_type contains 'collection' or page_type contains 'search' -%}
-  {%- if template.suffix == 'basic.5dla' -%}
+  {%- if template.suffix contains 'c5dla' -%}
+    {%- comment -%}
+      Jost is the official c5dla-scope font (see the `:root` rule in
+      client/ver_2_0/scss/collection/collection.scss) - loaded once here,
+      sitewide for every c5dla template, rather than per product-card type.
+    {%- endcomment -%}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
     {{ 'bundled.collection.2.0.css' | asset_url | stylesheet_tag }}
   {% else %}
     {{ 'css-collection.css' | asset_url | stylesheet_tag }}

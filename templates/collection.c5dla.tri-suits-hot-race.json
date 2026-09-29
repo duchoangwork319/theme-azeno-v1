@@ -1,0 +1,76 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "breadcrumb": {
+      "type": "page-breadcrumb",
+      "disabled": true,
+      "settings": {
+        "enable": true,
+        "bgimage": false,
+        "show_pagetitle": true,
+        "show_breadcrumb": true,
+        "color_breadcrumb": "#000000",
+        "align_breadcrumb": "left"
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "enable": true,
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "5dla_content_slots_dJBhrj": {
+      "type": "5dla_content-slots",
+      "name": "5DLA Content Slots",
+      "settings": {}
+    },
+    "5dla_collection_product_grid_FWVhMn": {
+      "type": "5dla_collection-product-grid",
+      "name": "5DLA Product Grid",
+      "settings": {
+        "product_card_type": "card_1",
+        "desktop_grid_item_count": 4,
+        "swatch_limit": 4,
+        "size_selector_limit": 5,
+        "page_item": 24,
+        "pagination_style": "loadmore"
+      }
+    },
+    "5dla_content_slots_7LwtTz": {
+      "type": "5dla_content-slots",
+      "name": "5DLA Content Slots",
+      "settings": {}
+    },
+    "5dla_collection_product_grid_hkXDg7": {
+      "type": "5dla_collection-product-grid",
+      "name": "5DLA Product Grid",
+      "settings": {
+        "product_card_type": "card_1",
+        "desktop_grid_item_count": 4,
+        "swatch_limit": 4,
+        "size_selector_limit": 5,
+        "page_item": 24,
+        "pagination_style": "loadmore"
+      }
+    }
+  },
+  "order": [
+    "breadcrumb",
+    "main",
+    "5dla_content_slots_dJBhrj",
+    "5dla_collection_product_grid_FWVhMn",
+    "5dla_content_slots_7LwtTz",
+    "5dla_collection_product_grid_hkXDg7"
+  ]
+}
