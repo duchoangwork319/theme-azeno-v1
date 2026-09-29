@@ -1,0 +1,69 @@
+{%- comment -%}
+  Card variant 4/4 (sections/5dla_collection-product-grid.liquid's
+  `product_card_type` setting picks between 5dla_product-card-1/2/3/4).
+  Ported 1:1 (markup + CSS) from the reference's `article.essential-card`
+  inside `section.essentials-section` (html/revamp-collection/rendered/
+  Fusion Tri Suits for Hot-Weather Racing....html).
+
+  `c5dla-card-4` on the root element is this variant's CSS prefix (see
+  client/ver_2_0/scss/collection/_product-card-4.scss), same convention
+  as card 1/2/3.
+
+  Font: same reference page as card 2/3, same `--body: "Jost", Arial,
+  sans-serif` - inherited from the scope-wide `:root` rule in
+  client/ver_2_0/scss/collection/collection.scss (self-hosted from
+  client/ver_2_0/fonts/Jost/static), not re-declared here.
+
+  Data mapping (per request):
+  - essential-image: product.featured_media.
+  - store-product-badge: product.metafields.bwp_fields.badge_label, same
+    metafield used by card 2/3 (blank/no badge rendered if not set).
+  - h3: product.title.
+  - eyebrow: no data source specified - dummy placeholder text.
+  - essential-copy: no data source specified - dummy placeholder text.
+  - essential-price / essential-link (not in the mapping list, but part of
+    "migrate article.essential-card") - the reference's own text is
+    generic ("View price & availability" / "Find on 5DLA", not tied to a
+    real product). Mapped here to current_variant.price and product.url
+    for consistency with card 2/3's price/link handling, instead of
+    kept as static text.
+
+  Expects: product, swatch_limit (unused here - kept for a consistent
+  render signature with 5dla_product-card-1/2.liquid)
+{%- endcomment -%}
+
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign badge_label = product.metafields.bwp_fields.badge_label
+-%}
+
+<article class="essential-card c5dla-card-4">
+  <a class="essential-image" href="{{ product.url }}">
+    {%- if product.featured_media -%}
+      <img
+        src="{{ product.featured_media | image_url: width: 900 }}"
+        alt="{{ product.featured_media.alt | default: product.title | escape }}"
+        loading="lazy"
+        width="900"
+        height="{{ 900 | divided_by: product.featured_media.preview_image.aspect_ratio }}"
+      >
+    {%- endif -%}
+    {%- if badge_label != blank -%}
+      <span class="store-product-badge">{{ badge_label }}</span>
+    {%- endif -%}
+  </a>
+  <div class="essential-info">
+    {%- comment -%} No eyebrow data source yet - dummy placeholder. {%- endcomment -%}
+    <p class="eyebrow">RACE-DAY ESSENTIAL</p>
+    <h3><a href="{{ product.url }}">{{ product.title }}</a></h3>
+    {%- comment -%} No essential-copy data source yet - dummy placeholder. {%- endcomment -%}
+    <p class="essential-copy">Dummy supporting copy for this product goes here.</p>
+    <span class="essential-price">{{ current_variant.price | money }}</span>
+    <a class="essential-link" href="{{ product.url }}">
+      Shop {{ product.title }}
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M5 12h14m-6-6 6 6-6 6"></path>
+      </svg>
+    </a>
+  </div>
+</article>

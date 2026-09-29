@@ -2,15 +2,23 @@
 // section.settings.desktop_grid_item_count on desktop, via a CSS custom
 // property - tablet/mobile stay fixed at 3/2, not merchant-configurable)
 // + `.empty-products` (desktop + @1060px + @720px).
+//
+// `max-width` and `padding` are likewise driven by section.settings.max_width/
+// .padding, but ONLY on desktop (per request) - both custom properties are
+// set unconditionally (sections/5dla_collection-product-grid.liquid), but
+// only read here at the default (desktop) breakpoint; the <=1060px query
+// resets `max-width` to `none` and overrides `padding` with its own fixed
+// value, so tablet/mobile are never affected by a desktop-configured value.
 .products {
   grid-template-columns: repeat(var(--c5dla-grid-desktop-columns, 4), minmax(0, 1fr));
   gap: 41px 18px;
-  max-width: 1600px;
+  max-width: var(--c5dla-grid-desktop-max-width, 1600px);
   margin: 0 auto;
-  padding: 0 5.15% 85px;
+  padding: var(--c5dla-grid-desktop-padding, 0 5.15% 85px);
   display: grid;
 
   @media (width <=1060px) {
+    max-width: none;
     padding-inline: 4%;
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }

@@ -16,6 +16,44 @@
 @import "../shared-variables";
 @import "bootstrap/scss/bootstrap";
 
+// Self-hosted Jost (client/ver_2_0/fonts/Jost/static), not Google Fonts -
+// referenced by relative url() so Vite picks each file up as an asset and
+// emits it to assets/bundled.<name>.2.0.ttf (see scripts/vite-build.mjs's
+// assetFileNames), same convention as this entry's JS/CSS output. Only the
+// weights this stack actually sets (400/500/600/700, normal style) are
+// declared.
+@font-face {
+  font-family: "Jost";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../../fonts/Jost/static/Jost-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Jost";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../../fonts/Jost/static/Jost-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Jost";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../../fonts/Jost/static/Jost-SemiBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Jost";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../../fonts/Jost/static/Jost-Bold.ttf") format("truetype");
+}
+
 // Jost is the official font for the whole c5dla scope (ported from the
 // reference pages' --body/--display: "Jost", Arial, sans-serif). `:root`
 // gets rewritten to `.c5dla-scope` by scripts/vite-build.mjs, so this
@@ -44,4 +82,5 @@
 @import "product-grid";
 @import "product-card-2";
 @import "product-card-3";
+@import "product-card-4";
 @import "benefits";

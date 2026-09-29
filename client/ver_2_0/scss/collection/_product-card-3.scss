@@ -19,7 +19,8 @@
 // NOT ported - same reasoning as card 2: this card sits inside this
 // theme's own `.products` grid instead.
 .c5dla-card-3 {
-  font-family: "Jost", Arial, sans-serif;
+  // Jost is inherited from the scope-wide `:root` rule in collection.scss,
+  // not re-declared here.
 
   &.product-card {
     min-width: 0;
@@ -123,7 +124,6 @@
     }
 
     h3 {
-      font-family: "Jost", Arial, sans-serif;
       margin: 0;
       font-size: 14px;
       font-weight: 500;

@@ -3,8 +3,11 @@
   snippets/5dla_collection-product-grid-paginate.liquid.
 
   Expects `grid_collection` (the paginated collection), `desktop_columns`
-  (number) and `paginate` (the enclosing `{% paginate %}` object) as render
-  params. `section` is used directly (global object, not passed).
+  (number), `desktop_max_width` (a CSS length string, e.g. `1600px` or
+  `min(1270px, 100% - 104px)`), `desktop_padding` (a CSS padding shorthand
+  string, e.g. `0 5.15% 85px`) and `paginate` (the enclosing
+  `{% paginate %}` object) as render params. `section` is used directly
+  (global object, not passed).
 {%- endcomment -%}
 
 {%- if grid_collection.products.size == 0 -%}
@@ -16,7 +19,7 @@
   <section
     class="products"
     aria-label="{{ grid_collection.products_count }} {{ grid_collection.title }} products"
-    style="--c5dla-grid-desktop-columns: {{ desktop_columns }};"
+    style="--c5dla-grid-desktop-columns: {{ desktop_columns }}; --c5dla-grid-desktop-max-width: {{ desktop_max_width | escape }}; --c5dla-grid-desktop-padding: {{ desktop_padding | escape }};"
   >
     {%- for product in grid_collection.products -%}
       {% liquid
@@ -26,6 +29,8 @@
           render '5dla_product-card-2', product: product, swatch_limit: section.settings.swatch_limit
         elsif section.settings.product_card_type == 'card_3'
           render '5dla_product-card-3', product: product, swatch_limit: section.settings.swatch_limit, size_limit: section.settings.size_selector_limit
+        elsif section.settings.product_card_type == 'card_4'
+          render '5dla_product-card-4', product: product, swatch_limit: section.settings.swatch_limit
         endif
       %}
     {%- endfor -%}

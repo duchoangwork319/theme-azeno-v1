@@ -13,10 +13,9 @@
 // real grid these cards sit inside; `.model-grid` was a different,
 // unrelated section in the reference.
 .c5dla-card-2 {
-  // Reference page's entire body font (--body: "Jost", Arial, sans-serif),
-  // not just `.model-name`/headings - loaded via a Google Fonts <link> in
-  // sections/5dla_collection-product-grid.liquid (once per section).
-  font-family: "Jost", Arial, sans-serif;
+  // Reference page's entire body font (--body: "Jost", Arial, sans-serif) -
+  // inherited from the scope-wide `:root` rule in collection.scss, not
+  // re-declared here.
 
   &.model-card {
     min-width: 0;
@@ -69,7 +68,6 @@
   }
 
   .model-name {
-    font-family: "Jost", Arial, sans-serif;
     margin: 0;
     font-size: 20px;
     font-weight: 500;

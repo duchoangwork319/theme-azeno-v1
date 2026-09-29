@@ -1,0 +1,108 @@
+// Ported 1:1 from the reference's `.essential-card` / `.essential-image` /
+// `.essential-info` / `.eyebrow` (card-scoped) / `h3` / `.essential-copy` /
+// `.essential-price` / `.essential-link` (snippets/5dla_product-card-4.liquid),
+// plus `.store-product-badge` (same base style as card 3's, re-declared
+// here rather than shared, same convention as _product-card-3.scss).
+// Reference custom properties inlined as literal values (--white:#fff,
+// --ink:#141613, --muted:#747770), same convention as
+// _product-card-2.scss/_product-card-3.scss.
+//
+// `.essentials-grid`/`.essentials-section` (the reference's OWN grid
+// wrapper) were NOT ported - same reasoning as card 2/3: this card sits
+// inside this theme's own `.products` grid instead.
+.c5dla-card-4 {
+  // Jost is inherited from the scope-wide `:root` rule in collection.scss,
+  // not re-declared here.
+  background: #fff;
+  overflow: hidden;
+
+  .essential-image {
+    aspect-ratio: 4 / 5;
+    background: #f2f2ef;
+    display: block;
+    position: relative;
+    overflow: hidden;
+
+    img {
+      object-fit: contain;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.45s;
+    }
+  }
+
+  &:hover .essential-image img {
+    transform: scale(1.025);
+  }
+
+  .store-product-badge {
+    color: #343434;
+    background: #fffffff2;
+    padding: 5px 8px;
+    font-size: 11px;
+    position: absolute;
+    top: 11px;
+    left: 11px;
+  }
+
+  .essential-info {
+    padding: 18px 3px 4px;
+  }
+
+  .eyebrow {
+    color: #748410;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    margin: 0;
+    font-size: 8px;
+    font-weight: 700;
+  }
+
+  h3 {
+    margin: 10px 0 0;
+    font-size: 23px;
+    font-weight: 500;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+  }
+
+  .essential-copy {
+    min-height: 58px;
+    color: #747770;
+    margin: 7px 0 0;
+    font-size: 11px;
+    line-height: 1.6;
+
+    @media (width <= 680px) {
+      min-height: 0;
+    }
+  }
+
+  .essential-price {
+    color: #141613;
+    margin-top: 13px;
+    font-size: 11px;
+    font-weight: 600;
+    display: block;
+  }
+
+  .essential-link {
+    color: #141613;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    align-items: center;
+    gap: 6px;
+    margin-top: 14px;
+    font-size: 9px;
+    font-weight: 700;
+    display: inline-flex;
+  }
+
+  @media (width <= 680px) {
+    min-height: 185px;
+  }
+}

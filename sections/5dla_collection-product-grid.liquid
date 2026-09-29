@@ -22,6 +22,20 @@
   # does) - clamp here so an out-of-range value can't produce a
   # degenerate grid.
   assign desktop_columns = section.settings.desktop_grid_item_count | at_least: 3 | at_most: 5
+
+  # `max_width` is free-form text (not "number"), so it can hold any valid
+  # CSS length, e.g. `min(1270px, 100% - 104px)`, not just a bare px value -
+  # passed straight through as the custom property's value.
+  assign desktop_max_width = section.settings.max_width
+
+  # Same reasoning as `max_width` - free-form `padding` shorthand text, not
+  # split into 4 numeric settings, so e.g. percentage horizontal padding
+  # (var(--c5dla-grid-desktop-padding), see
+  # client/ver_2_0/scss/collection/_product-grid.scss) stays editable as-is
+  # instead of being baked into `max_width`'s px value (which isn't
+  # equivalent - percentage padding resolves against the containing
+  # block's width on BOTH sides, not the box's own capped width).
+  assign desktop_padding = section.settings.padding
 -%}
 
 {%- liquid
@@ -32,7 +46,7 @@
     <section
       class="products"
       aria-label="{{ product_list.size }} products"
-      style="--c5dla-grid-desktop-columns: {{ desktop_columns }};"
+      style="--c5dla-grid-desktop-columns: {{ desktop_columns }}; --c5dla-grid-desktop-max-width: {{ desktop_max_width | escape }}; --c5dla-grid-desktop-padding: {{ desktop_padding | escape }};"
     >
       {%- for product in product_list -%}
         {% liquid
@@ -42,6 +56,8 @@
             render '5dla_product-card-2', product: product, swatch_limit: section.settings.swatch_limit
           elsif section.settings.product_card_type == 'card_3'
             render '5dla_product-card-3', product: product, swatch_limit: section.settings.swatch_limit, size_limit: section.settings.size_selector_limit
+          elsif section.settings.product_card_type == 'card_4'
+            render '5dla_product-card-4', product: product, swatch_limit: section.settings.swatch_limit
           endif
         %}
       {%- endfor -%}
@@ -51,12 +67,16 @@
 {%- elsif section.settings.collection != blank -%}
   {%- render '5dla_collection-product-grid-paginate',
     target_collection: section.settings.collection,
-    desktop_columns: desktop_columns
+    desktop_columns: desktop_columns,
+    desktop_max_width: desktop_max_width,
+    desktop_padding: desktop_padding
   -%}
 {%- elsif collection != blank -%}
   {%- render '5dla_collection-product-grid-paginate',
     target_collection: collection,
-    desktop_columns: desktop_columns
+    desktop_columns: desktop_columns,
+    desktop_max_width: desktop_max_width,
+    desktop_padding: desktop_padding
   -%}
 {%- else -%}
   <div class="empty-products">
@@ -87,7 +107,8 @@
       "options": [
         { "value": "card_1", "label": "Card 1" },
         { "value": "card_2", "label": "Card 2" },
-        { "value": "card_3", "label": "Card 3" }
+        { "value": "card_3", "label": "Card 3" },
+        { "value": "card_4", "label": "Card 4" }
       ],
       "default": "card_1"
     },
@@ -97,6 +118,20 @@
       "label": "Columns (desktop)",
       "info": "3-5. Tablet/mobile are fixed at 3/2 columns.",
       "default": 4
+    },
+    {
+      "type": "text",
+      "id": "max_width",
+      "label": "Max width (desktop)",
+      "info": "Any valid CSS length, e.g. 1600px or min(1270px, 100% - 104px). Desktop only - ignored on tablet/mobile.",
+      "default": "1600px"
+    },
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Padding (desktop)",
+      "info": "Any valid CSS padding shorthand, e.g. 0 5.15% 85px. Desktop only - tablet/mobile keep their own fixed padding.",
+      "default": "0 5.15% 85px"
     },
     {
       "type": "range",
