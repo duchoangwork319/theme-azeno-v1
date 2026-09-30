@@ -1,0 +1,69 @@
+// Ported 1:1 from the reference's `.other-tempo-card` / `.other-tempo-image`
+// / `.other-tempo-link` (card-scoped) (snippets/5dla_product-card-6.liquid).
+// Reference custom properties inlined as literal values (--ink:#171916),
+// same convention as _product-card-2.scss/_product-card-3.scss/
+// _product-card-4.scss/_product-card-5.scss.
+//
+// `.other-tempo-carousel`/`.other-tempo-section` (the reference's OWN
+// scroll-snap carousel wrapper) were NOT ported - same reasoning as
+// card 2/3/4/5: this card sits inside this theme's own `.products` grid
+// instead. `scroll-snap-align` also dropped for the same reason (no
+// scroll-snap container here).
+.c5dla-card-6 {
+  // Jost is inherited from the scope-wide `:root` rule in collection.scss,
+  // not re-declared here.
+  min-width: 0;
+
+  .other-tempo-image {
+    aspect-ratio: 4 / 5;
+    background: #f3f3f0;
+    display: block;
+    overflow: hidden;
+
+    img {
+      object-fit: contain;
+      mix-blend-mode: multiply;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.35s;
+    }
+  }
+
+  &:hover .other-tempo-image img {
+    transform: scale(1.035);
+  }
+
+  > p {
+    color: #777a72;
+    letter-spacing: 0.08em;
+    margin: 16px 0 7px;
+    font-size: 9px;
+    font-weight: 600;
+  }
+
+  h3 {
+    letter-spacing: -0.035em;
+    margin: 0;
+    font-size: 19px;
+    font-weight: 600;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+  }
+
+  .other-tempo-link {
+    border-top: 1px solid #171916;
+    letter-spacing: 0.04em;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    padding-top: 10px;
+    font-size: 10px;
+    font-weight: 600;
+    display: flex;
+    color: inherit;
+    text-decoration: none;
+  }
+}

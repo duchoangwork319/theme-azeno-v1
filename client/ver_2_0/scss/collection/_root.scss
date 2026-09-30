@@ -1,0 +1,35 @@
+// Custom properties ported 1:1 from the reference's own `:root` block
+// (html/revamp-collection/rendered/Fusion Tri Suits for Hot-Weather
+// Racing....html, ~L337-348). These back every `var(--x)` reference in
+// this SCSS stack (_product-grid.scss, etc.) AND in the static HTML
+// fragments migrated from that same reference and pasted into Shopify
+// Pages under this scope (html/pages/fusion-tri-suits-for-hot-weather-racing/*.html) -
+// those fragments' own <style> blocks already reference var(--white),
+// var(--ink), var(--line), var(--muted), var(--lime), var(--lime-dark),
+// var(--display) and var(--body) without defining them, relying on this
+// file.
+//
+// `:root` is rewritten to `.c5dla-scope` by scripts/vite-build.mjs (see
+// collection.scss's top comment), so these resolve for every element
+// inside the c5dla-scoped <main>, not just this SCSS stack's own markup -
+// which is also why this must be imported before anything that uses
+// `var(--x)` (collection.scss imports it right after the self-hosted
+// Jost @font-face declarations).
+:root {
+  --paper: #fff;
+  --paper-warm: #f7f7f7;
+  --white: #fff;
+  --ink: #141613;
+  --muted: #747770;
+  --line: #dedfd9;
+  --lime: #d8f54f;
+  --lime-dark: #a1bb20;
+  --display: "Jost", Arial, sans-serif;
+  --body: "Jost", Arial, sans-serif;
+
+  // Jost is the official font for the whole c5dla scope (ported from the
+  // reference's --body, its entire body font, not just headings) -
+  // referencing the variable above rather than a separate literal, so
+  // there's one source of truth for the family stack.
+  font-family: var(--body);
+}

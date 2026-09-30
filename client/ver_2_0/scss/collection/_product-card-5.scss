@@ -1,0 +1,113 @@
+// Ported 1:1 from the reference's `.compare-product-card` /
+// `.compare-product-image` / `.compare-product-copy` (card-scoped)
+// (snippets/5dla_product-card-5.liquid).
+// Reference custom properties inlined as literal values (--ink:#171916),
+// same convention as _product-card-2.scss/_product-card-3.scss/
+// _product-card-4.scss.
+//
+// `.compare-product-grid`/`.comparison-section` (the reference's OWN grid
+// wrapper) were NOT ported - same reasoning as card 2/3/4: this card sits
+// inside this theme's own `.products` grid instead.
+.c5dla-card-5 {
+  // Jost is inherited from the scope-wide `:root` rule in collection.scss,
+  // not re-declared here.
+  min-width: 0;
+
+  .compare-product-image {
+    aspect-ratio: 4 / 5;
+    background: #f4f4f0;
+    display: block;
+    position: relative;
+    overflow: hidden;
+
+    img {
+      object-fit: contain;
+      mix-blend-mode: multiply;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.3s;
+    }
+
+    > span {
+      letter-spacing: 0.04em;
+      background: #fff;
+      padding: 6px 8px;
+      font-size: 8px;
+      font-weight: 600;
+      position: absolute;
+      top: 11px;
+      left: 11px;
+
+      @media (width <= 760px) {
+        padding: 5px 6px;
+        font-size: 6px;
+        top: 7px;
+        left: 7px;
+      }
+    }
+  }
+
+  &:hover .compare-product-image img {
+    transform: scale(1.035);
+  }
+
+  .compare-product-copy {
+    padding-top: 16px;
+
+    @media (width <= 760px) {
+      padding-top: 11px;
+    }
+
+    > p {
+      color: #777a72;
+      letter-spacing: 0.08em;
+      margin: 0 0 6px;
+      font-size: 9px;
+      font-weight: 600;
+    }
+
+    h3 {
+      letter-spacing: -0.035em;
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+
+      @media (width <= 760px) {
+        font-size: 15px;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+    }
+
+    > div {
+      border-top: 1px solid #171916;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 14px;
+      padding-top: 10px;
+      font-size: 10px;
+      font-weight: 600;
+      display: flex;
+
+      @media (width <= 760px) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 7px;
+        margin-top: 10px;
+        font-size: 9px;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+        align-items: center;
+        gap: 6px;
+        display: flex;
+      }
+    }
+  }
+}

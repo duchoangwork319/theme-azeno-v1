@@ -1,0 +1,48 @@
+{%- comment -%}
+  Card variant 6/6 (sections/5dla_collection-product-grid.liquid's
+  `product_card_type` setting picks between 5dla_product-card-1/2/3/4/5/6).
+  Ported 1:1 (markup + CSS) from the reference's `article.other-tempo-card`
+  inside `section.other-tempo-section` (html/revamp-collection/rendered/
+  Fusion TEMPO! Wind-Tunnel Performance & Pro Racing _ 5DLA.html).
+
+  `c5dla-card-6` on the root element is this variant's CSS prefix (see
+  client/ver_2_0/scss/collection/_product-card-6.scss), same convention as
+  card 1/2/3/4/5.
+
+  Font: Jost - inherited from the scope-wide `:root` rule in
+  collection.scss (self-hosted from client/ver_2_0/fonts/Jost/static), not
+  re-declared here, same convention as card 2/3/4/5.
+
+  Data mapping (per request, .other-tempo-card element - p/h3/a are direct
+  children in the reference, no copy wrapper unlike card 5):
+  - p: no data source specified - dummy placeholder text.
+  - h3: product.title.
+  - a (all anchors - image link, title link, "VIEW PRODUCT" link):
+    product.url.
+
+  Expects: product, swatch_limit (unused here - kept for a consistent
+  render signature with 5dla_product-card-1/2/3/4/5.liquid)
+{%- endcomment -%}
+
+<article class="other-tempo-card c5dla-card-6">
+  <a class="other-tempo-image" href="{{ product.url }}">
+    {%- if product.featured_media -%}
+      <img
+        src="{{ product.featured_media | image_url: width: 800 }}"
+        alt="{{ product.featured_media.alt | default: product.title | escape }}"
+        loading="lazy"
+        width="800"
+        height="{{ 800 | divided_by: product.featured_media.preview_image.aspect_ratio }}"
+      >
+    {%- endif -%}
+  </a>
+  {%- comment -%} No category/eyebrow data source yet - dummy placeholder. {%- endcomment -%}
+  <p>RACE-DAY ESSENTIAL</p>
+  <h3><a href="{{ product.url }}">{{ product.title }}</a></h3>
+  <a class="other-tempo-link" href="{{ product.url }}">
+    VIEW PRODUCT
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M5 12h14m-6-6 6 6-6 6"></path>
+    </svg>
+  </a>
+</article>

@@ -1,0 +1,40 @@
+{%- comment -%}
+  Renders a single page's content, section-level (not block-based) - unlike
+  sections/5dla_content-slots.liquid (one page per block), this one is meant
+  to be dropped in directly wherever a page's content should render, e.g.
+  as one of several stacked sections alongside 5dla_collection-product-grid
+  on a revamped collection/landing page.
+{%- endcomment -%}
+
+{%- liquid
+  assign content_page = section.settings.page
+-%}
+
+{%- if content_page != blank -%}
+  <div class="page-{{ content_page.handle }}">
+    {{ content_page.content }}
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "5DLA Page Content",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "page",
+      "id": "page",
+      "label": "Page"
+    }
+  ],
+  "presets": [
+    {
+      "name": "5DLA Page Content"
+    }
+  ]
+}
+{% endschema %}

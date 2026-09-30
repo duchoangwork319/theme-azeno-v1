@@ -1,0 +1,61 @@
+{%- comment -%}
+  Card variant 5/5 (sections/5dla_collection-product-grid.liquid's
+  `product_card_type` setting picks between 5dla_product-card-1/2/3/4/5).
+  Ported 1:1 (markup + CSS) from the reference's `article.compare-product-card`
+  inside `section#collection` (html/revamp-collection/rendered/Fusion TEMPO!
+  Wind-Tunnel Performance & Pro Racing _ 5DLA.html).
+
+  `c5dla-card-5` on the root element is this variant's CSS prefix (see
+  client/ver_2_0/scss/collection/_product-card-5.scss), same convention as
+  card 1/2/3/4.
+
+  Font: Jost - inherited from the scope-wide `:root` rule in
+  collection.scss (self-hosted from client/ver_2_0/fonts/Jost/static), not
+  re-declared here, same convention as card 2/3/4.
+
+  Data mapping (per request, .compare-product-copy element only):
+  - p: product.vendor.
+  - h3: product.title.
+  - span (price, inside the bottom row): current_variant.price.
+  - a (all anchors - image link, title link, "SHOP NOW" link): product.url.
+
+  Not in the mapping list - kept as reference's own placeholder text, same
+  convention as card 4's eyebrow/essential-copy:
+  - compare-product-image>span (e.g. "THE CHAMPIONSHIP SUIT" label).
+
+  Expects: product, swatch_limit (unused here - kept for a consistent
+  render signature with 5dla_product-card-1/2/3/4.liquid)
+{%- endcomment -%}
+
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+-%}
+
+<article class="compare-product-card c5dla-card-5">
+  <a class="compare-product-image" href="{{ product.url }}">
+    {%- if product.featured_media -%}
+      <img
+        src="{{ product.featured_media | image_url: width: 900 }}"
+        alt="{{ product.featured_media.alt | default: product.title | escape }}"
+        loading="lazy"
+        width="900"
+        height="{{ 900 | divided_by: product.featured_media.preview_image.aspect_ratio }}"
+      >
+    {%- endif -%}
+    {%- comment -%} No label data source yet - dummy placeholder. {%- endcomment -%}
+    <span>THE CHAMPIONSHIP SUIT</span>
+  </a>
+  <div class="compare-product-copy">
+    <p>{{ product.vendor }}</p>
+    <h3><a href="{{ product.url }}">{{ product.title }}</a></h3>
+    <div>
+      <span>{{ current_variant.price | money }}</span>
+      <a href="{{ product.url }}">
+        SHOP NOW
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h14m-6-6 6 6-6 6"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+</article>

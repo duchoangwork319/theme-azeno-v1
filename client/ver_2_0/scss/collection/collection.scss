@@ -54,13 +54,10 @@
   src: url("../../fonts/Jost/static/Jost-Bold.ttf") format("truetype");
 }
 
-// Jost is the official font for the whole c5dla scope (ported from the
-// reference pages' --body/--display: "Jost", Arial, sans-serif). `:root`
-// gets rewritten to `.c5dla-scope` by scripts/vite-build.mjs, so this
-// cascades to every c5dla_* section without each one re-declaring it.
-:root {
-  font-family: "Jost", Arial, sans-serif;
-}
+// Reference's `:root` custom properties (--white/--ink/--line/--muted/
+// --lime/--lime-dark/--display/--body/...) + the scope-wide `font-family`
+// that reads --body - see _root.scss's own top comment.
+@import "root";
 
 // Loading state class for [data-c5dla-toolbar]/[data-c5dla-product-grid]
 // (compound selector, not a descendant combinator, since this file's whole
@@ -83,4 +80,6 @@
 @import "product-card-2";
 @import "product-card-3";
 @import "product-card-4";
+@import "product-card-5";
+@import "product-card-6";
 @import "benefits";

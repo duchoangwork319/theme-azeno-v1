@@ -31,6 +31,10 @@
           render '5dla_product-card-3', product: product, swatch_limit: section.settings.swatch_limit, size_limit: section.settings.size_selector_limit
         elsif section.settings.product_card_type == 'card_4'
           render '5dla_product-card-4', product: product, swatch_limit: section.settings.swatch_limit
+        elsif section.settings.product_card_type == 'card_5'
+          render '5dla_product-card-5', product: product, swatch_limit: section.settings.swatch_limit
+        elsif section.settings.product_card_type == 'card_6'
+          render '5dla_product-card-6', product: product, swatch_limit: section.settings.swatch_limit
         endif
       %}
     {%- endfor -%}
