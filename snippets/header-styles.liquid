@@ -112,17 +112,9 @@
 {%- assign page_type = request.page_type | handle -%}
 
 {%- if page_type contains 'collection' or page_type contains 'search' -%}
-  {%- if template.suffix contains 'c5dla' -%}
-    {%- comment -%}
-      Jost is the official c5dla-scope font, self-hosted (`@font-face`s +
-      the `:root` rule in client/ver_2_0/scss/collection/collection.scss)
-      from client/ver_2_0/fonts/Jost/static and bundled into this same CSS
-      file - no separate Google Fonts request needed.
-    {%- endcomment -%}
-    {{ 'bundled.collection.2.0.css' | asset_url | stylesheet_tag }}
-  {% else %}
-    {{ 'css-collection.css' | asset_url | stylesheet_tag }}
-  {%- endif -%}
+	{% unless template.suffix contains 'c5dla' %}
+		{{ 'css-collection.css' | asset_url | stylesheet_tag }}
+	{% endunless %}
 {%- elsif page_type contains 'product' -%}
   {% comment %} {{ 'photoswipe.css' | asset_url | stylesheet_tag }} {% endcomment %}
   {% comment %} {{ 'css-product.css' | asset_url | stylesheet_tag }} {% endcomment %}
@@ -150,4 +142,7 @@
 {%- endif -%}
 {%- if request.design_mode -%}
   {{ 'css-design-mode.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
+{%- if template.suffix contains 'c5dla' -%}
+	{{ 'bundled.collection.2.0.css' | asset_url | stylesheet_tag }}
 {%- endif -%}

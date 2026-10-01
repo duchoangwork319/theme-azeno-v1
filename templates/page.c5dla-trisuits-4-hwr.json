@@ -1,0 +1,125 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "breadcrumb": {
+      "type": "page-breadcrumb",
+      "disabled": true,
+      "settings": {
+        "enable": true,
+        "bgimage": false,
+        "show_pagetitle": true,
+        "show_breadcrumb": true,
+        "color_breadcrumb": "#000000",
+        "align_breadcrumb": "left"
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "enable": true,
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "5dla_page_content_rFGYJm": {
+      "type": "5dla_page-content",
+      "name": "5DLA Page Content",
+      "settings": {
+        "title": "1",
+        "page": "fusion-tri-suits-for-hot-weather-racing-part-1"
+      }
+    },
+    "5dla_collection_product_grid_WUJycJ": {
+      "type": "5dla_collection-product-grid",
+      "name": "5DLA Product Grid",
+      "settings": {
+        "collection": "",
+        "product_list": [],
+        "product_card_type": "card_1",
+        "desktop_grid_item_count": 4,
+        "max_width": "1600px",
+        "padding": "0 5.15% 85px",
+        "swatch_limit": 4,
+        "size_selector_limit": 5,
+        "page_item": 24,
+        "pagination_style": "loadmore"
+      }
+    },
+    "5dla_page_content_WMcVt4": {
+      "type": "5dla_page-content",
+      "name": "5DLA Page Content",
+      "settings": {
+        "title": "2",
+        "page": "fusion-tri-suits-for-hot-weather-racing-part-2"
+      }
+    },
+    "5dla_collection_product_grid_rc4FDn": {
+      "type": "5dla_collection-product-grid",
+      "name": "5DLA Product Grid",
+      "settings": {
+        "collection": "",
+        "product_list": [],
+        "product_card_type": "card_1",
+        "desktop_grid_item_count": 4,
+        "max_width": "1600px",
+        "padding": "0 5.15% 85px",
+        "swatch_limit": 4,
+        "size_selector_limit": 5,
+        "page_item": 24,
+        "pagination_style": "loadmore"
+      }
+    },
+    "5dla_page_content_tQtMcx": {
+      "type": "5dla_page-content",
+      "name": "5DLA Page Content",
+      "settings": {
+        "title": "3",
+        "page": "fusion-tri-suits-for-hot-weather-racing-part-3"
+      }
+    },
+    "5dla_collection_product_grid_zNrmtg": {
+      "type": "5dla_collection-product-grid",
+      "name": "5DLA Product Grid",
+      "settings": {
+        "collection": "",
+        "product_list": [],
+        "product_card_type": "card_1",
+        "desktop_grid_item_count": 4,
+        "max_width": "1600px",
+        "padding": "0 5.15% 85px",
+        "swatch_limit": 4,
+        "size_selector_limit": 5,
+        "page_item": 24,
+        "pagination_style": "loadmore"
+      }
+    },
+    "5dla_page_content_A7RPjJ": {
+      "type": "5dla_page-content",
+      "name": "5DLA Page Content",
+      "settings": {
+        "title": "4",
+        "page": "fusion-tri-suits-for-hot-weather-racing-part-4"
+      }
+    }
+  },
+  "order": [
+    "breadcrumb",
+    "main",
+    "5dla_page_content_rFGYJm",
+    "5dla_collection_product_grid_WUJycJ",
+    "5dla_page_content_WMcVt4",
+    "5dla_collection_product_grid_rc4FDn",
+    "5dla_page_content_tQtMcx",
+    "5dla_collection_product_grid_zNrmtg",
+    "5dla_page_content_A7RPjJ"
+  ]
+}
