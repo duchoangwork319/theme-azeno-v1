@@ -27,8 +27,10 @@
   compare-product-card"): current_variant.featured_image, falling back to
   product.featured_media, same convention as card 1/2/3/4/6.
 
-  Expects: product, swatch_limit (unused here - kept for a consistent
-  render signature with 5dla_product-card-1/2/3/4.liquid)
+  Expects: product, swatch_limit, section (both unused here - kept for a
+  consistent render signature with 5dla_product-card-1/2/3/4.liquid; this
+  card has no badge to override - see snippets/5dla_product-card-badge-
+  override.liquid)
 {%- endcomment -%}
 
 {%- liquid

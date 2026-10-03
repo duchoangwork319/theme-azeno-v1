@@ -64,8 +64,12 @@
     selected variant so quick view/add-to-cart always target it, not the
     page-load default.
 
+  store-product-badge is also overridden (text only, same UI) by an
+  `custom_badge` block on `section` whose `product_list` includes this
+  product - see snippets/5dla_product-card-badge-override.liquid.
+
   Expects: product, swatch_limit, size_limit (section.settings.size_selector_limit,
-  passed through to snippets/5dla_product-size-selector.liquid)
+  passed through to snippets/5dla_product-size-selector.liquid), section
 {%- endcomment -%}
 
 {%- liquid
@@ -74,6 +78,14 @@
   assign badge_label = product.metafields.bwp_fields.badge_label
   assign review_badge = product.metafields.judgeme.badge
 -%}
+
+{%- capture badge_override -%}
+  {%- render '5dla_product-card-badge-override', product: product, section: section -%}
+{%- endcapture -%}
+{%- assign badge_override = badge_override | strip -%}
+{%- if badge_override != blank -%}
+  {%- assign badge_label = badge_override -%}
+{%- endif -%}
 
 <article
   class="product-card c5dla-card-3"

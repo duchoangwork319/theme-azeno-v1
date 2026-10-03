@@ -34,7 +34,10 @@
     padding-right: 15px;
   }
 
-  button {
+  // `:is(button, a)` - not just `button` - so `activity_link` blocks'
+  // <a> elements (sections/5dla_collection-subcollections.liquid) share
+  // this same look as the static category buttons above them.
+  :is(button, a) {
     cursor: pointer;
     background: transparent;
     border: 0;
@@ -42,6 +45,7 @@
     flex: none;
     padding: 8px 0;
     font-size: 13px;
+    text-decoration: none;
 
     @media (width <= 720px) {
       font-size: 12px;

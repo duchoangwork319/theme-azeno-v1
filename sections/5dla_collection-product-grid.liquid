@@ -15,6 +15,16 @@
   sentinel) - both share the same `[data-c5dla-pagination]` container/
   Section Rendering API fetch-and-append in client/ver_2_0/js/collection.js,
   ported from assets/wpbingo.js's `ajaxFilterInfinity`.
+
+  `custom_badge` blocks: NOT rendered as links anywhere in this section
+  (unrelated to sections/5dla_collection-subcollections.liquid's/
+  5dla_collection-banner.liquid's own `activity_link`/
+  `related_collection_link` blocks) - a badge TEXT override instead. See
+  snippets/5dla_product-card-badge-override.liquid for the full mechanics;
+  `section` is passed to every snippets/5dla_product-card-*.liquid render
+  call below (and in snippets/5dla_collection-product-grid-body.liquid) so
+  those snippets can check this section's blocks against the product
+  they're rendering.
 {%- endcomment -%}
 
 {%- liquid
@@ -51,17 +61,17 @@
       {%- for product in product_list -%}
         {% liquid
           if section.settings.product_card_type == 'card_1'
-            render '5dla_product-card-1', product: product, swatch_limit: section.settings.swatch_limit
+            render '5dla_product-card-1', product: product, swatch_limit: section.settings.swatch_limit, section: section
           elsif section.settings.product_card_type == 'card_2'
-            render '5dla_product-card-2', product: product, swatch_limit: section.settings.swatch_limit
+            render '5dla_product-card-2', product: product, swatch_limit: section.settings.swatch_limit, section: section
           elsif section.settings.product_card_type == 'card_3'
-            render '5dla_product-card-3', product: product, swatch_limit: section.settings.swatch_limit, size_limit: section.settings.size_selector_limit
+            render '5dla_product-card-3', product: product, swatch_limit: section.settings.swatch_limit, size_limit: section.settings.size_selector_limit, section: section
           elsif section.settings.product_card_type == 'card_4'
-            render '5dla_product-card-4', product: product, swatch_limit: section.settings.swatch_limit
+            render '5dla_product-card-4', product: product, swatch_limit: section.settings.swatch_limit, section: section
           elsif section.settings.product_card_type == 'card_5'
-            render '5dla_product-card-5', product: product, swatch_limit: section.settings.swatch_limit
+            render '5dla_product-card-5', product: product, swatch_limit: section.settings.swatch_limit, section: section
           elsif section.settings.product_card_type == 'card_6'
-            render '5dla_product-card-6', product: product, swatch_limit: section.settings.swatch_limit
+            render '5dla_product-card-6', product: product, swatch_limit: section.settings.swatch_limit, section: section
           endif
         %}
       {%- endfor -%}
@@ -172,6 +182,29 @@
         { "value": "infinite", "label": "Infinite scroll" }
       ],
       "default": "loadmore"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "custom_badge",
+      "name": "Custom Badge",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label"
+        },
+        {
+          "type": "product_list",
+          "id": "product_list",
+          "label": "Show in Products"
+        }
+      ]
     }
   ],
   "presets": [

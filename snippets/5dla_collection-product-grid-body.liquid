@@ -24,17 +24,17 @@
     {%- for product in grid_collection.products -%}
       {% liquid
         if section.settings.product_card_type == 'card_1'
-          render '5dla_product-card-1', product: product, swatch_limit: section.settings.swatch_limit
+          render '5dla_product-card-1', product: product, swatch_limit: section.settings.swatch_limit, section: section
         elsif section.settings.product_card_type == 'card_2'
-          render '5dla_product-card-2', product: product, swatch_limit: section.settings.swatch_limit
+          render '5dla_product-card-2', product: product, swatch_limit: section.settings.swatch_limit, section: section
         elsif section.settings.product_card_type == 'card_3'
-          render '5dla_product-card-3', product: product, swatch_limit: section.settings.swatch_limit, size_limit: section.settings.size_selector_limit
+          render '5dla_product-card-3', product: product, swatch_limit: section.settings.swatch_limit, size_limit: section.settings.size_selector_limit, section: section
         elsif section.settings.product_card_type == 'card_4'
-          render '5dla_product-card-4', product: product, swatch_limit: section.settings.swatch_limit
+          render '5dla_product-card-4', product: product, swatch_limit: section.settings.swatch_limit, section: section
         elsif section.settings.product_card_type == 'card_5'
-          render '5dla_product-card-5', product: product, swatch_limit: section.settings.swatch_limit
+          render '5dla_product-card-5', product: product, swatch_limit: section.settings.swatch_limit, section: section
         elsif section.settings.product_card_type == 'card_6'
-          render '5dla_product-card-6', product: product, swatch_limit: section.settings.swatch_limit
+          render '5dla_product-card-6', product: product, swatch_limit: section.settings.swatch_limit, section: section
         endif
       %}
     {%- endfor -%}

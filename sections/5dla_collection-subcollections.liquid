@@ -1,21 +1,61 @@
 {%- comment -%}
   Ported 1:1 (markup + CSS) from the reference's `nav.categories` inside
   `div.toolbar` (html/revamp-collection/rendered/Fusion Cycling Jerseys....html).
-  Raw HTML per request - no blocks/collection_list, just the category
-  buttons as they appear in the reference. Not wired to any real filtering
-  yet (markup/CSS only pass) - see
-  docs/revamp/collections/collection-basic-5dla-plan.md §4.3.
+  The reference's own hardcoded category buttons (Jerseys/Bib shorts/Race
+  suits/Accessories/Base layers) were removed per request - `activity_links`
+  blocks are now the only way to add entries here (besides the "All"
+  button below). Not wired to any real filtering yet (markup/CSS only
+  pass) - see docs/revamp/collections/collection-basic-5dla-plan.md §4.3.
+
+  `activity_links` blocks each render a WHOLE menu's worth of <a> elements
+  inside this same `nav.categories` - client/ver_2_0/scss/collection/
+  _subcollections.scss's `.categories` rules target `:is(button, a)` so
+  both this nav's "All" button and block links share the same look. Block
+  settings:
+  - title: optional, rendered as EVERY one of this block's links' `title`
+    attribute (a shared tooltip) - NOT the visible text (each link's own
+    `.title`, from the menu, is that).
+  - links: a `link_list` (menu) - every link in it renders here, in menu
+    order. A block only shows its links at all on collections picked in
+    `collection_list` below.
+  - collection_list: a `collection_list` setting (named to avoid shadowing
+    the global `collections` Liquid object) - this block's links only
+    render when the CURRENT collection is in this list.
+  A link is bolded (`.active`, same convention as the "All" button's
+  `.active` class) when it's a collection link pointing at the collection
+  page currently being viewed (`link.type == 'collection_link'` + the
+  linked collection's handle matching).
+
+  Each block's links render inside a `display:contents` <span> carrying
+  `block.shopify_attributes` - invisible to `.categories`' flex layout (so
+  the <a>s still lay out as direct flex items/siblings of the "All"
+  button) while still giving the theme editor one real DOM node per block
+  to anchor its block-selection UI to.
 {%- endcomment -%}
 
 {%- if section.settings.enable -%}
   <div class="c5dla-subcollections">
     <nav class="categories" aria-label="{{ collection.title | append: ' product categories' }}">
       <button class="active">All {{ collection.title | downcase }}</button>
-      <button>Jerseys</button>
-      <button>Bib shorts</button>
-      <button>Race suits</button>
-      <button>Accessories</button>
-      <button>Base layers</button>
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'activity_links' and block.settings.collection_list contains collection -%}
+          <span style="display: contents;" {{ block.shopify_attributes }}>
+            {%- for link in block.settings.links.links -%}
+              {%- liquid
+                assign is_current_collection = false
+                if link.type == 'collection_link' and link.object.handle == collection.handle
+                  assign is_current_collection = true
+                endif
+              -%}
+              <a
+                href="{{ link.url }}"
+                class="{% if is_current_collection %}active{% endif %}"
+                {% if block.settings.title != blank %}title="{{ block.settings.title | escape }}"{% endif %}
+              >{{ link.title }}</a>
+            {%- endfor -%}
+          </span>
+        {%- endif -%}
+      {%- endfor -%}
     </nav>
   </div>
 {%- endif -%}
@@ -29,6 +69,29 @@
       "id": "enable",
       "label": "Enable",
       "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "activity_links",
+      "name": "Activity Links",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "link_list",
+          "id": "links",
+          "label": "Links"
+        },
+        {
+          "type": "collection_list",
+          "id": "collection_list",
+          "label": "Show in Collections"
+        }
+      ]
     }
   ],
   "presets": [

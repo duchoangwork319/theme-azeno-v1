@@ -17,7 +17,12 @@
   card shows the SELECTED variant's own image, not just the product's
   first/default one.
 
-  Expects: product, swatch_limit
+  Badge: product.metafields.custom.badge_text.value, falling back to
+  "Sold out"/"Sale" text - ALL overridden (text only, same `.badge` UI) by
+  a `custom_badge` block on `section` whose `product_list` includes
+  this product. See snippets/5dla_product-card-badge-override.liquid.
+
+  Expects: product, swatch_limit, section
 {%- endcomment -%}
 
 {%- liquid
@@ -35,6 +40,14 @@
   {%- assign badge_text = 'products.product.sold_out' | t -%}
 {%- elsif badge_text == blank and on_sale -%}
   {%- assign badge_text = 'products.general.sale_price' | t -%}
+{%- endif -%}
+
+{%- capture badge_override -%}
+  {%- render '5dla_product-card-badge-override', product: product, section: section -%}
+{%- endcapture -%}
+{%- assign badge_override = badge_override | strip -%}
+{%- if badge_override != blank -%}
+  {%- assign badge_text = badge_override -%}
 {%- endif -%}
 
 {%- assign short_description = product.metafields.custom.short_description.value

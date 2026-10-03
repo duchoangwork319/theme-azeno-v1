@@ -31,15 +31,51 @@
     {%- endif -%}
 
     {%- comment -%}
-      Raw HTML, not blocks (per request) - copied as-is from the reference's
-      `nav.five-activity-links`, hrefs pointed at this store's own routes.
+      The reference's own hardcoded links (Cycling jerseys/Bib shorts/Road
+      race suits/Triathlon/Running) were removed per request -
+      `related_collection_links` blocks are now the only way to add
+      entries to this nav. No maximum blocks, and no maximum links within
+      a block's menu either - merchants can add as many as they want.
+      Block settings:
+      - title: optional, rendered as EVERY one of this block's links'
+        `title` attribute (a shared tooltip) - NOT the visible text (each
+        link's own `.title`, from the menu, is that).
+      - links: a `link_list` (menu) - every link in it renders here, in
+        menu order. A block only shows its links at all on collections
+        picked in `collection_list` below.
+      - collection_list: a `collection_list` setting (named to avoid
+        shadowing the global `collections` Liquid object) - this block's
+        links only render when the CURRENT collection is in this list.
+      A link is bolded (`.active`, see
+      client/ver_2_0/scss/collection/_banner.scss) when it's a collection
+      link pointing at the collection page currently being viewed.
+
+      Each block's links render inside a `display:contents` <span>
+      carrying `block.shopify_attributes` - invisible to
+      `.five-activity-links`' flex layout while still giving the theme
+      editor one real DOM node per block to anchor its block-selection UI
+      to.
     {%- endcomment -%}
     <nav class="five-activity-links" aria-label="{{ 'collections.general.catalog_title' | t }}">
-      <a href="{{ routes.search_url }}?q=cycling+jersey&type=product">Cycling jerseys</a>
-      <a href="{{ routes.search_url }}?q=bib+shorts&type=product">Bib shorts</a>
-      <a href="{{ collection.url }}">Road race suits</a>
-      <a href="{{ routes.collections_url }}/triathlon">Triathlon</a>
-      <a href="{{ routes.collections_url }}/running">Running</a>
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'related_collection_links' and block.settings.collection_list contains collection -%}
+          <span style="display: contents;" {{ block.shopify_attributes }}>
+            {%- for link in block.settings.links.links -%}
+              {%- liquid
+                assign is_current_collection = false
+                if link.type == 'collection_link' and link.object.handle == collection.handle
+                  assign is_current_collection = true
+                endif
+              -%}
+              <a
+                href="{{ link.url }}"
+                class="{% if is_current_collection %}active{% endif %}"
+                {% if block.settings.title != blank %}title="{{ block.settings.title | escape }}"{% endif %}
+              >{{ link.title }}</a>
+            {%- endfor -%}
+          </span>
+        {%- endif -%}
+      {%- endfor -%}
     </nav>
   </section>
 {%- endif -%}
@@ -53,6 +89,29 @@
       "id": "enable",
       "label": "Enable",
       "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "related_collection_links",
+      "name": "Related Collection Links",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "link_list",
+          "id": "links",
+          "label": "Links"
+        },
+        {
+          "type": "collection_list",
+          "id": "collection_list",
+          "label": "Show in Collections"
+        }
+      ]
     }
   ],
   "presets": [

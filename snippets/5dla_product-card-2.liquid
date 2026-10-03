@@ -28,8 +28,12 @@
   - model-headline / model-features: dummy placeholder text - no data
     source specified yet.
 
+  model-badge is also overridden (text only, same UI) by an
+  `custom_badge` block on `section` whose `product_list` includes this
+  product - see snippets/5dla_product-card-badge-override.liquid.
+
   Expects: product, swatch_limit (unused here - kept for a consistent
-  render signature with 5dla_product-card-1.liquid)
+  render signature with 5dla_product-card-1.liquid), section
 {%- endcomment -%}
 
 {%- liquid
@@ -37,6 +41,14 @@
   assign model_image = current_variant.featured_image | default: product.featured_media
   assign badge_label = product.metafields.bwp_fields.badge_label
 -%}
+
+{%- capture badge_override -%}
+  {%- render '5dla_product-card-badge-override', product: product, section: section -%}
+{%- endcapture -%}
+{%- assign badge_override = badge_override | strip -%}
+{%- if badge_override != blank -%}
+  {%- assign badge_label = badge_override -%}
+{%- endif -%}
 
 <article class="model-card c5dla-card-2">
   <div class="model-image-box">

@@ -30,8 +30,12 @@
     for consistency with card 2/3's price/link handling, instead of
     kept as static text.
 
+  store-product-badge is also overridden (text only, same UI) by an
+  `custom_badge` block on `section` whose `product_list` includes this
+  product - see snippets/5dla_product-card-badge-override.liquid.
+
   Expects: product, swatch_limit (unused here - kept for a consistent
-  render signature with 5dla_product-card-1/2.liquid)
+  render signature with 5dla_product-card-1/2.liquid), section
 {%- endcomment -%}
 
 {%- liquid
@@ -39,6 +43,14 @@
   assign current_media = current_variant.featured_image | default: product.featured_media
   assign badge_label = product.metafields.bwp_fields.badge_label
 -%}
+
+{%- capture badge_override -%}
+  {%- render '5dla_product-card-badge-override', product: product, section: section -%}
+{%- endcapture -%}
+{%- assign badge_override = badge_override | strip -%}
+{%- if badge_override != blank -%}
+  {%- assign badge_label = badge_override -%}
+{%- endif -%}
 
 <article class="essential-card c5dla-card-4">
   <a class="essential-image" href="{{ product.url }}">

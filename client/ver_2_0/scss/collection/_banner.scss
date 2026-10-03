@@ -91,6 +91,15 @@
       @media (width <= 720px) {
         font-size: 10px;
       }
+
+      // Not in the reference - bolds a `related_collection_link` block
+      // (sections/5dla_collection-banner.liquid) whose link points at the
+      // collection page currently being viewed, same `.active` convention
+      // as _subcollections.scss's `.categories` links.
+      &.active {
+        color: #171717;
+        font-weight: 700;
+      }
     }
   }
 
