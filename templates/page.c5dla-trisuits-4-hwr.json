@@ -35,7 +35,7 @@
       "name": "5DLA Page Content",
       "settings": {
         "title": "1",
-        "page": "fusion-tri-suits-for-hot-weather-racing-part-1"
+        "page": "fusion-tri-suits-for-hot-weather-racing-1"
       }
     },
     "5dla_collection_product_grid_WUJycJ": {
@@ -43,11 +43,16 @@
       "name": "5DLA Product Grid",
       "settings": {
         "collection": "",
-        "product_list": [],
-        "product_card_type": "card_1",
+        "product_list": [
+          "tempo-pro-tri-suit",
+          "tempo-suit",
+          "womens-tempo-one-suit",
+          "tempo-two-suit"
+        ],
+        "product_card_type": "card_2",
         "desktop_grid_item_count": 4,
-        "max_width": "1600px",
-        "padding": "0 5.15% 85px",
+        "max_width": "min(1270px, 100% - 104px)",
+        "padding": "0",
         "swatch_limit": 4,
         "size_selector_limit": 5,
         "page_item": 24,
@@ -59,7 +64,7 @@
       "name": "5DLA Page Content",
       "settings": {
         "title": "2",
-        "page": "fusion-tri-suits-for-hot-weather-racing-part-2"
+        "page": "fusion-tri-suits-for-hot-weather-racing-2"
       }
     },
     "5dla_collection_product_grid_rc4FDn": {
@@ -67,11 +72,16 @@
       "name": "5DLA Product Grid",
       "settings": {
         "collection": "",
-        "product_list": [],
-        "product_card_type": "card_1",
+        "product_list": [
+          "tempo-pro-tri-suit",
+          "tempo-suit",
+          "womens-tempo-one-suit",
+          "tempo-two-suit"
+        ],
+        "product_card_type": "card_3",
         "desktop_grid_item_count": 4,
-        "max_width": "1600px",
-        "padding": "0 5.15% 85px",
+        "max_width": "min(1270px, 100% - 104px)",
+        "padding": "0",
         "swatch_limit": 4,
         "size_selector_limit": 5,
         "page_item": 24,
@@ -83,7 +93,7 @@
       "name": "5DLA Page Content",
       "settings": {
         "title": "3",
-        "page": "fusion-tri-suits-for-hot-weather-racing-part-3"
+        "page": "fusion-tri-suits-for-hot-weather-racing-3"
       }
     },
     "5dla_collection_product_grid_zNrmtg": {
@@ -91,11 +101,15 @@
       "name": "5DLA Product Grid",
       "settings": {
         "collection": "",
-        "product_list": [],
-        "product_card_type": "card_1",
-        "desktop_grid_item_count": 4,
-        "max_width": "1600px",
-        "padding": "0 5.15% 85px",
+        "product_list": [
+          "cool-wings",
+          "tempo-calf-sleeves",
+          "bottle-600-ml"
+        ],
+        "product_card_type": "card_4",
+        "desktop_grid_item_count": 3,
+        "max_width": "min(1270px, 100% - 104px)",
+        "padding": "0  0 117px",
         "swatch_limit": 4,
         "size_selector_limit": 5,
         "page_item": 24,
@@ -107,8 +121,13 @@
       "name": "5DLA Page Content",
       "settings": {
         "title": "4",
-        "page": "fusion-tri-suits-for-hot-weather-racing-part-4"
+        "page": "fusion-tri-suits-for-hot-weather-racing-4"
       }
+    },
+    "5dla_collection_benefits_VVTbKM": {
+      "type": "5dla_collection-benefits",
+      "name": "5DLA Collection Benefits",
+      "settings": {}
     }
   },
   "order": [
@@ -120,6 +139,7 @@
     "5dla_collection_product_grid_rc4FDn",
     "5dla_page_content_tQtMcx",
     "5dla_collection_product_grid_zNrmtg",
-    "5dla_page_content_A7RPjJ"
+    "5dla_page_content_A7RPjJ",
+    "5dla_collection_benefits_VVTbKM"
   ]
 }

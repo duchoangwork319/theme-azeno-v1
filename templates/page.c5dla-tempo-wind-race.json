@@ -34,8 +34,8 @@
       "type": "5dla_page-content",
       "name": "5DLA Page Content",
       "settings": {
-        "title": "",
-        "page": ""
+        "title": "Part 1",
+        "page": "fusion-tempo-wind-tunnel-performance-and-pro-racing-1"
       }
     },
     "5dla_collection_product_grid_CtPnx3": {
@@ -43,8 +43,12 @@
       "name": "5DLA Product Grid",
       "settings": {
         "collection": "",
-        "product_list": [],
-        "product_card_type": "card_1",
+        "product_list": [
+          "tempo-pro-tri-suit",
+          "tempo-suit",
+          "tempo-two-suit"
+        ],
+        "product_card_type": "card_5",
         "desktop_grid_item_count": 4,
         "max_width": "1600px",
         "padding": "0 5.15% 85px",
@@ -58,8 +62,8 @@
       "type": "5dla_page-content",
       "name": "5DLA Page Content",
       "settings": {
-        "title": "",
-        "page": ""
+        "title": "Part 2",
+        "page": "fusion-tempo-wind-tunnel-performance-and-pro-racing-2"
       }
     },
     "5dla_collection_product_grid_8iAAqL": {
@@ -82,8 +86,8 @@
       "type": "5dla_page-content",
       "name": "5DLA Page Content",
       "settings": {
-        "title": "",
-        "page": ""
+        "title": "Part 3",
+        "page": "fusion-tempo-wind-tunnel-performance-and-pro-racing-1"
       }
     }
   },

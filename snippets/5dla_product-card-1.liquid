@@ -18,9 +18,10 @@
   first/default one.
 
   Badge: product.metafields.custom.badge_text.value, falling back to
-  "Sold out"/"Sale" text - ALL overridden (text only, same `.badge` UI) by
-  a `custom_badge` block on `section` whose `product_list` includes
-  this product. See snippets/5dla_product-card-badge-override.liquid.
+  "Sold out"/"Sale" text - ALL overridden (text + optional background/
+  text color, same `.badge` markup) by a `custom_badge` block on
+  `section` whose `product_list` includes this product. See
+  snippets/5dla_product-card-badge-override.liquid.
 
   Expects: product, swatch_limit, section
 {%- endcomment -%}
@@ -42,12 +43,12 @@
   {%- assign badge_text = 'products.general.sale_price' | t -%}
 {%- endif -%}
 
-{%- capture badge_override -%}
+{%- capture badge_override_json -%}
   {%- render '5dla_product-card-badge-override', product: product, section: section -%}
 {%- endcapture -%}
-{%- assign badge_override = badge_override | strip -%}
-{%- if badge_override != blank -%}
-  {%- assign badge_text = badge_override -%}
+{%- assign badge_override = badge_override_json | strip | parse_json -%}
+{%- if badge_override.label != blank -%}
+  {%- assign badge_text = badge_override.label -%}
 {%- endif -%}
 
 {%- assign short_description = product.metafields.custom.short_description.value
@@ -60,7 +61,7 @@
   <div class="product-media">
     <a class="product-image" href="{{ product.url }}">
       {%- if badge_text != blank -%}
-        <span class="badge">{{ badge_text }}</span>
+        <span class="badge" {% render '5dla_product-card-badge-style', bg_color: badge_override.bg_color, text_color: badge_override.text_color %}>{{ badge_text }}</span>
       {%- endif -%}
       {%- if current_media -%}
         <img
@@ -93,7 +94,7 @@
       </span>
     </div>
     {%- if short_description != blank -%}
-      <p>{{ short_description }}</p>
+      <p class="product-short-description">{{ short_description }}</p>
     {%- endif -%}
     {%- render '5dla_product-card-1-swatches', product: product, swatch_limit: swatch_limit -%}
   </div>

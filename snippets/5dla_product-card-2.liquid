@@ -28,9 +28,10 @@
   - model-headline / model-features: dummy placeholder text - no data
     source specified yet.
 
-  model-badge is also overridden (text only, same UI) by an
-  `custom_badge` block on `section` whose `product_list` includes this
-  product - see snippets/5dla_product-card-badge-override.liquid.
+  model-badge is also overridden (text + optional background/text color,
+  same markup) by a `custom_badge` block on `section` whose `product_list`
+  includes this product - see snippets/5dla_product-card-badge-override.
+  liquid.
 
   Expects: product, swatch_limit (unused here - kept for a consistent
   render signature with 5dla_product-card-1.liquid), section
@@ -42,12 +43,12 @@
   assign badge_label = product.metafields.bwp_fields.badge_label
 -%}
 
-{%- capture badge_override -%}
+{%- capture badge_override_json -%}
   {%- render '5dla_product-card-badge-override', product: product, section: section -%}
 {%- endcapture -%}
-{%- assign badge_override = badge_override | strip -%}
-{%- if badge_override != blank -%}
-  {%- assign badge_label = badge_override -%}
+{%- assign badge_override = badge_override_json | strip | parse_json -%}
+{%- if badge_override.label != blank -%}
+  {%- assign badge_label = badge_override.label -%}
 {%- endif -%}
 
 <article class="model-card c5dla-card-2">
@@ -63,7 +64,7 @@
       >
     {%- endif -%}
     {%- if badge_label != blank -%}
-      <span class="model-badge">{{ badge_label }}</span>
+      <span class="model-badge" {% render '5dla_product-card-badge-style', bg_color: badge_override.bg_color, text_color: badge_override.text_color %}>{{ badge_label }}</span>
     {%- endif -%}
   </div>
   <div class="model-info">

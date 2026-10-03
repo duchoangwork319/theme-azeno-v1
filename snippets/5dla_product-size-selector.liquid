@@ -69,4 +69,6 @@
       </span>
     {%- endif -%}
   </div>
+{% else %}
+  <div class="size-selector" aria-label="Select a size for {{ product.title | escape }}"></div>
 {%- endif -%}

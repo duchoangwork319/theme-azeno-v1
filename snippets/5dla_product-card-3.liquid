@@ -64,9 +64,10 @@
     selected variant so quick view/add-to-cart always target it, not the
     page-load default.
 
-  store-product-badge is also overridden (text only, same UI) by an
-  `custom_badge` block on `section` whose `product_list` includes this
-  product - see snippets/5dla_product-card-badge-override.liquid.
+  store-product-badge is also overridden (text + optional background/text
+  color, same markup) by a `custom_badge` block on `section` whose
+  `product_list` includes this product - see
+  snippets/5dla_product-card-badge-override.liquid.
 
   Expects: product, swatch_limit, size_limit (section.settings.size_selector_limit,
   passed through to snippets/5dla_product-size-selector.liquid), section
@@ -79,12 +80,12 @@
   assign review_badge = product.metafields.judgeme.badge
 -%}
 
-{%- capture badge_override -%}
+{%- capture badge_override_json -%}
   {%- render '5dla_product-card-badge-override', product: product, section: section -%}
 {%- endcapture -%}
-{%- assign badge_override = badge_override | strip -%}
-{%- if badge_override != blank -%}
-  {%- assign badge_label = badge_override -%}
+{%- assign badge_override = badge_override_json | strip | parse_json -%}
+{%- if badge_override.label != blank -%}
+  {%- assign badge_label = badge_override.label -%}
 {%- endif -%}
 
 <article
@@ -106,7 +107,7 @@
       >
     {%- endif -%}
     {%- if badge_label != blank -%}
-      <span class="store-product-badge">{{ badge_label }}</span>
+      <span class="store-product-badge" {% render '5dla_product-card-badge-style', bg_color: badge_override.bg_color, text_color: badge_override.text_color %}>{{ badge_label }}</span>
     {%- endif -%}
     <button
       class="quick-view-button"
@@ -120,11 +121,12 @@
   </div>
   <div class="product-info">
     <a class="store-product-category" href="{{ collection.url }}">{{ collection.title }}</a>
-    {%- if review_badge != blank -%}
+    {% comment %} Hide the Review badge temporarily {% endcomment %}
+    {% comment %} {%- if review_badge != blank -%}
       <span class="store-product-review jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}">
         {{ review_badge }}
       </span>
-    {%- endif -%}
+    {%- endif -%} {% endcomment %}
     <div class="product-title-row">
       <h3>
         <a href="{{ product.url }}"><span dynamic="product-title">{{ product.title }}</span></a>

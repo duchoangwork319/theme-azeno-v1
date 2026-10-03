@@ -5,30 +5,43 @@
   whose `product_list` includes this `product` overrides whatever badge
   text that card would otherwise show - product.metafields.custom.
   badge_text.value (card 1) or product.metafields.bwp_fields.badge_label
-  (card 2/3/4), AND card 1's own "Sold out"/"Sale" fallback text - the
-  badge's existing UI (markup/classes/conditional rendering) is untouched,
-  only the TEXT is swapped. First matching block wins if more than one
-  lists this product.
+  (card 2/3/4), AND card 1's own "Sold out"/"Sale" fallback text - AND
+  optionally the badge's background/text color. The badge's existing UI
+  (markup/classes/conditional rendering) is untouched otherwise, only
+  text/colors are swapped. First matching block wins if more than one
+  lists this product. `bg_color`/`text_color` are blank (not overridden)
+  when the merchant leaves either color setting unset.
 
   Callers can't `assign` a snippet's local variable into their own scope,
-  so this just echoes the override text (blank if none matches) for the
-  caller to `capture` instead:
+  so this echoes a small JSON object (label/bg_color/text_color - all
+  blank strings if no block matches) for the caller to `capture` + parse:
 
-    {%- capture badge_override -%}
+    {%- capture badge_override_json -%}
       {%- render '5dla_product-card-badge-override', product: product, section: section -%}
     {%- endcapture -%}
-    {%- assign badge_override = badge_override | strip -%}
-    {%- if badge_override != blank -%}{%- assign badge_text = badge_override -%}{%- endif -%}
+    {%- assign badge_override = badge_override_json | strip | parse_json -%}
+    {%- if badge_override.label != blank -%}{%- assign badge_text = badge_override.label -%}{%- endif -%}
 
   Expects: product, section
 {%- endcomment -%}
 
 {%- liquid
-  assign override = ''
+  assign label = ''
+  assign bg_color = ''
+  assign text_color = ''
   for block in section.blocks
     if block.type == 'custom_badge' and block.settings.product_list contains product
-      assign override = block.settings.label
+      assign label = block.settings.label | default: ''
+      # `| append: ''` forces the `color` setting's Color drop to its hex
+      # string ("#rrggbb") - `| json` alone could otherwise try to
+      # serialize the drop itself rather than its string value.
+      assign bg_color = '' | append: block.settings.bg_color
+      assign text_color = '' | append: block.settings.text_color
       break
     endif
   endfor
--%}{{- override -}}
+-%}{
+  "label": {{ label | json }},
+  "bg_color": {{ bg_color | json }},
+  "text_color": {{ text_color | json }}
+}

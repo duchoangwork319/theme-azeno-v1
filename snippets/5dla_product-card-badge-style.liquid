@@ -1,0 +1,13 @@
+{%- comment -%}
+  Shared by snippets/5dla_product-card-1/2/3/4.liquid - outputs a
+  ` style="background-color: ...; color: ...;"` HTML attribute (or
+  nothing, if neither color is set) for a badge whose colors were
+  overridden via a `custom_badge` block. See
+  snippets/5dla_product-card-badge-override.liquid for where `bg_color`/
+  `text_color` come from.
+
+  Expects: bg_color, text_color (both optional strings, e.g. "#rrggbb")
+{%- endcomment -%}
+{%- if bg_color != blank or text_color != blank -%}
+  style="{% if bg_color != blank %}background-color: {{ bg_color }};{% endif %}{% if text_color != blank %}color: {{ text_color }};{% endif %}"
+{%- endif -%}

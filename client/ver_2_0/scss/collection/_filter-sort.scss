@@ -79,6 +79,8 @@
   gap: 10px;
   font-size: 12px;
   display: flex;
+  padding: 7px 0;
+  margin-bottom: 0;
 
   @media (width <= 720px) {
     font-size: 10px;

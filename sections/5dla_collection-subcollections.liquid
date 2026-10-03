@@ -36,7 +36,6 @@
 {%- if section.settings.enable -%}
   <div class="c5dla-subcollections">
     <nav class="categories" aria-label="{{ collection.title | append: ' product categories' }}">
-      <button class="active">All {{ collection.title | downcase }}</button>
       {%- for block in section.blocks -%}
         {%- if block.type == 'activity_links' and block.settings.collection_list contains collection -%}
           <span style="display: contents;" {{ block.shopify_attributes }}>

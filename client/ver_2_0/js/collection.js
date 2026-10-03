@@ -10,7 +10,6 @@ import { initVariantPickers } from "./modules/variant.js";
 const PAGINATION_SELECTOR = "[data-c5dla-pagination]";
 const PRODUCTS_SELECTOR = ".products";
 const SENTINEL_SELECTOR = "[data-c5dla-infinite-sentinel]";
-const CARD_SELECTOR = ".products > article";
 
 let paginationLoading = false;
 
@@ -153,7 +152,14 @@ const makeHeightEqual = elements => {
  * the same grid and need to be measured against the existing ones too.
  */
 const ensureCardHeightEqual = () => {
-  makeHeightEqual(document.querySelectorAll(CARD_SELECTOR));
+  const prefixCard1 = "article.c5dla-card-1 .product-copy";
+  const prefixCard3 = "article.c5dla-card-3 .product-info";
+  makeHeightEqual(document.querySelectorAll(`${prefixCard1} .product-name`));
+  makeHeightEqual(document.querySelectorAll(`${prefixCard1} > .product-short-description`));
+
+  makeHeightEqual(document.querySelectorAll(`${prefixCard3} h3 a`));
+  makeHeightEqual(document.querySelectorAll(`${prefixCard3} .product-swatches`));
+  makeHeightEqual(document.querySelectorAll(`${prefixCard3} .size-selector`));
 };
 
 /**
