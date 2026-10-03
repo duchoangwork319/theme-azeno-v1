@@ -178,6 +178,7 @@
     width: 22px;
     height: 22px;
     display: grid;
+    cursor: pointer;
 
     // Not in the reference - matches the availability dimming already
     // established for card 1's swatches (snippets/5dla_product-card-1-swatches.liquid).
@@ -282,6 +283,16 @@
 
     &:hover {
       transform: translateY(-1px);
+    }
+
+    // Not in the reference - client/ver_2_0/js/variant.js disables
+    // `[dynamic="add-to-cart-button"]` when the currently selected
+    // variant is unavailable, same opacity/cursor treatment as the
+    // sold-out `<span>` (snippets/5dla_product-card-3-actions.liquid)
+    // and `.size-option:disabled` below.
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
   }
 

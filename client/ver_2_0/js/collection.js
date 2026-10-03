@@ -1,6 +1,11 @@
 "use strict";
 
-import "../scss/collection/collection.scss";
+// This entry's CSS lives in its own sibling entry, client/ver_2_0/js/
+// css-collection.js (see scripts/vite-build.mjs's buildVer2Entry) - kept
+// separate so this entry can build as "iife" (window-safe even when
+// minified) while the CSS-only entry stays "es" (so Vite still extracts
+// it into its own .css file).
+import { initVariantPickers } from "./modules/variant.js";
 
 const PAGINATION_SELECTOR = "[data-c5dla-pagination]";
 const PRODUCTS_SELECTOR = ".products";
@@ -51,6 +56,11 @@ const loadNextPage = async pagination => {
     if (newProducts && currentProducts) {
       currentProducts.append(...newProducts.children);
       ensureCardHeightEqual();
+      // Newly appended cards (card variant 3's swatches/size buttons)
+      // need their own variant.js binding too - initVariantPickers is
+      // idempotent (see its own comment), so re-scanning the whole
+      // document is safe and simpler than targeting just the new nodes.
+      initVariantPickers();
     }
 
     const newPagination = parsed.querySelector(PAGINATION_SELECTOR);
@@ -172,4 +182,5 @@ document.addEventListener("DOMContentLoaded", () => {
   initLoadMore();
   initInfiniteScroll();
   ensureCardHeightEqual();
+  initVariantPickers();
 });

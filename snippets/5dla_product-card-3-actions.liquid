@@ -11,6 +11,11 @@
   as card 1.
 
   Expects: product, current_variant
+
+  `dynamic="variant-id-input"`/`dynamic="add-to-cart-button"` - kept
+  pointed at the selected variant by client/ver_2_0/js/variant.js (see
+  snippets/5dla_product-card-3.liquid's own comment) so add-to-cart always
+  submits the variant currently shown, not the page-load default.
 {%- endcomment -%}
 
 {%- if product.available == false -%}
@@ -25,8 +30,14 @@
     class="form-addtocart"
     data-product-form
   >
-    <input type="hidden" name="id" value="{{ current_variant.id }}">
-    <button type="submit" class="js-btn-addtocart button product-action button-dark" title="{{ 'products.product.add_to_cart' | t }}">
+    <input type="hidden" name="id" value="{{ current_variant.id }}" dynamic="variant-id-input">
+    <button
+      type="submit"
+      class="js-btn-addtocart button product-action button-dark"
+      title="{{ 'products.product.add_to_cart' | t }}"
+      dynamic="add-to-cart-button"
+      {% unless current_variant.available %}disabled{% endunless %}
+    >
       {{ 'products.product.add_to_cart' | t }}
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M5 12h14m-6-6 6 6-6 6"></path>

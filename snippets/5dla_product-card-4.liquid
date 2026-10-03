@@ -15,7 +15,9 @@
   client/ver_2_0/fonts/Jost/static), not re-declared here.
 
   Data mapping (per request):
-  - essential-image: product.featured_media.
+  - essential-image: current_variant.featured_image, falling back to
+    product.featured_media (same convention as card 1/2/3/5/6) - shows the
+    SELECTED variant's own image, not just the product's default one.
   - store-product-badge: product.metafields.bwp_fields.badge_label, same
     metafield used by card 2/3 (blank/no badge rendered if not set).
   - h3: product.title.
@@ -34,18 +36,19 @@
 
 {%- liquid
   assign current_variant = product.selected_or_first_available_variant
+  assign current_media = current_variant.featured_image | default: product.featured_media
   assign badge_label = product.metafields.bwp_fields.badge_label
 -%}
 
 <article class="essential-card c5dla-card-4">
   <a class="essential-image" href="{{ product.url }}">
-    {%- if product.featured_media -%}
+    {%- if current_media -%}
       <img
-        src="{{ product.featured_media | image_url: width: 900 }}"
-        alt="{{ product.featured_media.alt | default: product.title | escape }}"
+        src="{{ current_media | image_url: width: 900 }}"
+        alt="{{ current_media.alt | default: product.title | escape }}"
         loading="lazy"
         width="900"
-        height="{{ 900 | divided_by: product.featured_media.preview_image.aspect_ratio }}"
+        height="{{ 900 | divided_by: current_media.aspect_ratio }}"
       >
     {%- endif -%}
     {%- if badge_label != blank -%}

@@ -9,8 +9,12 @@
   snippets/5dla_product-card-1-swatches.liquid (option_disabled, generalized via a
   computed `optionN` key from the option's real position) so out-of-stock
   sizes are at least visually/semantically disabled, matching the quality
-  bar the swatch snippet already set. Purely HTML/CSS - no click handler
-  wired up (selecting a size doesn't do anything yet).
+  bar the swatch snippet already set.
+
+  `data-value` also doubles as client/ver_2_0/js/modules/variant.js's
+  variant anchor - it maps this size value back to a matching variant in
+  the card's `data-product-json` client-side, same as
+  snippets/5dla_product-card-3-swatches.liquid's own `data-value`.
 
   Expects: product, current_variant, size_limit
 {%- endcomment -%}
@@ -54,6 +58,7 @@
         class="size-option{% if value == current_variant[option_key] %} selected{% endif %}"
         aria-pressed="{% if value == current_variant[option_key] %}true{% else %}false{% endif %}"
         {% if option_disabled %}disabled{% endif %}
+        data-value="{{ value | strip | escape }}"
       >
         {{ value }}
       </button>

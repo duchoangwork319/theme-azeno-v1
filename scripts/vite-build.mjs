@@ -136,10 +136,28 @@ const buildLegacyEntry = async entry => {
  * `:root`/`html`/`body` become the bare wrapper class (not a descendant of
  * it) so Bootstrap 5's CSS custom properties still apply to elements
  * inside the wrapper.
+ *
+ * Output format: a `css-`-prefixed entry (e.g. client/ver_2_0/js/
+ * css-collection.js) stays "es" so Vite still extracts its CSS into its
+ * own file - these entries have no real JS of their own, just a single
+ * SCSS import. Every OTHER entry (actual behavior, e.g. collection.js)
+ * builds as "iife" instead: with "es" + nothing left exported after
+ * tree-shaking, esbuild's minifier emitted bare top-level `var`
+ * declarations for its mangled names, which - since these load via a
+ * plain classic `<script src>`, not `<script type="module">` - attach
+ * directly to `window`. That once collided for real: a mangled name
+ * landed on `$`, clobbering jQuery's global. "iife" wraps the whole
+ * bundle in a function scope, so no mangled identifier can ever leak
+ * onto `window`, regardless of what name the minifier happens to pick.
  * @param {{name: string, file: string}} entry
  */
 const buildVer2Entry = async entry => {
   const config = baseConfig(entry);
+  const isCssOnlyEntry = entry.name.startsWith("css-");
+
+  if (!isCssOnlyEntry) {
+    config.build.rollupOptions.output.format = "iife";
+  }
 
   config.css.postcss = {
     plugins: [

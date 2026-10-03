@@ -10,6 +10,11 @@
   (note the space before the value class), so the value class has to be
   on a descendant of `.wpb-variants-swatch`, not the same element.
 
+  `data-value` also doubles as client/ver_2_0/js/modules/variant.js's
+  variant anchor - it maps this swatch's color value back to a matching
+  variant in the card's `data-product-json` client-side, so no extra
+  Liquid-side variant lookup is computed per swatch here.
+
   Expects: product, swatch_limit, current_variant
 {%- endcomment -%}
 
@@ -58,6 +63,7 @@
       <span
         class="store-color-option{{ active }}{% if option_disabled %} disabled{% endif %}"
         title="{{ value | strip | escape }}"
+        data-value="{{ value | strip | escape }}"
       >
         <span class="color-swatch {{ value }} {{ safe_value }}" aria-hidden="true"></span>
         <span class="sr-only">{{ value }}</span>
