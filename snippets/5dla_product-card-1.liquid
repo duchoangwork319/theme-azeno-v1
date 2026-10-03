@@ -43,12 +43,15 @@
   {%- assign badge_text = 'products.general.sale_price' | t -%}
 {%- endif -%}
 
-{%- capture badge_override_json -%}
+{%- capture badge_override_raw -%}
   {%- render '5dla_product-card-badge-override', product: product, section: section -%}
 {%- endcapture -%}
-{%- assign badge_override = badge_override_json | strip | parse_json -%}
-{%- if badge_override.label != blank -%}
-  {%- assign badge_text = badge_override.label -%}
+{%- assign badge_override = badge_override_raw | strip | split: ';' -%}
+{%- assign badge_override_label = badge_override[0] -%}
+{%- assign badge_override_bg_color = badge_override[1] -%}
+{%- assign badge_override_text_color = badge_override[2] -%}
+{%- if badge_override_label != blank -%}
+  {%- assign badge_text = badge_override_label -%}
 {%- endif -%}
 
 {%- assign short_description = product.metafields.custom.short_description.value
@@ -61,7 +64,7 @@
   <div class="product-media">
     <a class="product-image" href="{{ product.url }}">
       {%- if badge_text != blank -%}
-        <span class="badge" {% render '5dla_product-card-badge-style', bg_color: badge_override.bg_color, text_color: badge_override.text_color %}>{{ badge_text }}</span>
+        <span class="badge" {% render '5dla_product-card-badge-style', bg_color: badge_override_bg_color, text_color: badge_override_text_color %}>{{ badge_text }}</span>
       {%- endif -%}
       {%- if current_media -%}
         <img

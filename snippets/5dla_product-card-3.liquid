@@ -80,12 +80,15 @@
   assign review_badge = product.metafields.judgeme.badge
 -%}
 
-{%- capture badge_override_json -%}
+{%- capture badge_override_raw -%}
   {%- render '5dla_product-card-badge-override', product: product, section: section -%}
 {%- endcapture -%}
-{%- assign badge_override = badge_override_json | strip | parse_json -%}
-{%- if badge_override.label != blank -%}
-  {%- assign badge_label = badge_override.label -%}
+{%- assign badge_override = badge_override_raw | strip | split: ';' -%}
+{%- assign badge_override_label = badge_override[0] -%}
+{%- assign badge_override_bg_color = badge_override[1] -%}
+{%- assign badge_override_text_color = badge_override[2] -%}
+{%- if badge_override_label != blank -%}
+  {%- assign badge_label = badge_override_label -%}
 {%- endif -%}
 
 <article
@@ -107,7 +110,7 @@
       >
     {%- endif -%}
     {%- if badge_label != blank -%}
-      <span class="store-product-badge" {% render '5dla_product-card-badge-style', bg_color: badge_override.bg_color, text_color: badge_override.text_color %}>{{ badge_label }}</span>
+      <span class="store-product-badge" {% render '5dla_product-card-badge-style', bg_color: badge_override_bg_color, text_color: badge_override_text_color %}>{{ badge_label }}</span>
     {%- endif -%}
     <button
       class="quick-view-button"

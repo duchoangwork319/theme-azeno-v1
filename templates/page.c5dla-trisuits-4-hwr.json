@@ -40,13 +40,55 @@
     },
     "5dla_collection_product_grid_WUJycJ": {
       "type": "5dla_collection-product-grid",
+      "blocks": {
+        "custom_badge_w3pL9k": {
+          "type": "custom_badge",
+          "settings": {
+            "title": "BEST FOR MOST ATHLETES",
+            "label": "BEST FOR MOST ATHLETES",
+            "bg_color": "#d8f54f",
+            "text_color": "#141613",
+            "product_list": [
+              "tempo-two-suit"
+            ]
+          }
+        },
+        "custom_badge_j9itgH": {
+          "type": "custom_badge",
+          "settings": {
+            "title": "THE PODIUM CHASER",
+            "label": "THE PODIUM CHASER",
+            "bg_color": "",
+            "text_color": "",
+            "product_list": [
+              "tempo-suit"
+            ]
+          }
+        },
+        "custom_badge_AHY4Td": {
+          "type": "custom_badge",
+          "settings": {
+            "title": "THE RECORD-BREAKER",
+            "label": "THE RECORD-BREAKER",
+            "bg_color": "#fffffff5",
+            "text_color": "",
+            "product_list": [
+              "tempo-pro-tri-suit"
+            ]
+          }
+        }
+      },
+      "block_order": [
+        "custom_badge_w3pL9k",
+        "custom_badge_j9itgH",
+        "custom_badge_AHY4Td"
+      ],
       "name": "5DLA Product Grid",
       "settings": {
         "collection": "",
         "product_list": [
           "tempo-pro-tri-suit",
           "tempo-suit",
-          "womens-tempo-one-suit",
           "tempo-two-suit"
         ],
         "product_card_type": "card_2",

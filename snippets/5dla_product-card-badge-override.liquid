@@ -13,14 +13,19 @@
   when the merchant leaves either color setting unset.
 
   Callers can't `assign` a snippet's local variable into their own scope,
-  so this echoes a small JSON object (label/bg_color/text_color - all
-  blank strings if no block matches) for the caller to `capture` + parse:
+  so this echoes `label;bg_color;text_color` (semicolon-delimited, each
+  part blank if no block matches - NOT JSON: Shopify Liquid has no
+  `parse_json`/`json` PARSING filter, only a `json` filter that SERIALIZES
+  to JSON) for the caller to `capture` + `split`:
 
-    {%- capture badge_override_json -%}
+    {%- capture badge_override_raw -%}
       {%- render '5dla_product-card-badge-override', product: product, section: section -%}
     {%- endcapture -%}
-    {%- assign badge_override = badge_override_json | strip | parse_json -%}
-    {%- if badge_override.label != blank -%}{%- assign badge_text = badge_override.label -%}{%- endif -%}
+    {%- assign badge_override = badge_override_raw | strip | split: ';' -%}
+    {%- assign badge_override_label = badge_override[0] -%}
+    {%- assign badge_override_bg_color = badge_override[1] -%}
+    {%- assign badge_override_text_color = badge_override[2] -%}
+    {%- if badge_override_label != blank -%}{%- assign badge_text = badge_override_label -%}{%- endif -%}
 
   Expects: product, section
 {%- endcomment -%}
@@ -30,18 +35,22 @@
   assign bg_color = ''
   assign text_color = ''
   for block in section.blocks
-    if block.type == 'custom_badge' and block.settings.product_list contains product
-      assign label = block.settings.label | default: ''
-      # `| append: ''` forces the `color` setting's Color drop to its hex
-      # string ("#rrggbb") - `| json` alone could otherwise try to
-      # serialize the drop itself rather than its string value.
-      assign bg_color = '' | append: block.settings.bg_color
-      assign text_color = '' | append: block.settings.text_color
-      break
+    if block.type == 'custom_badge'
+      # `block.settings.product_list contains product` does NOT reliably
+      # work - `contains` only works for strings/numbers, not comparing a
+      # list of Product drops against a Product object. `where: 'handle',
+      # product.handle` instead filters product_list down to entries
+      # whose `.handle` matches this product's, which DOES work.
+      assign picked_products = block.settings.product_list | where: 'handle', product.handle
+      if picked_products.size > 0
+        assign label = block.settings.label | default: ''
+        # `bg_color`/`text_color` are plain `text` settings (not `color`),
+        # so 8-digit hex with alpha (e.g. #fffffff5) can be entered - the
+        # `color` setting type doesn't support that.
+        assign bg_color = block.settings.bg_color | default: ''
+        assign text_color = block.settings.text_color | default: ''
+        break
+      endif
     endif
   endfor
--%}{
-  "label": {{ label | json }},
-  "bg_color": {{ bg_color | json }},
-  "text_color": {{ text_color | json }}
-}
+-%}{{- label -}};{{- bg_color -}};{{- text_color -}}
