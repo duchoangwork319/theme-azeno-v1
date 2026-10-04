@@ -38,6 +38,7 @@ const setDrawerOpen = (toggle, drawer, overlay, open) => {
   drawer.setAttribute("aria-hidden", String(!open));
   toggle.setAttribute("aria-expanded", String(open));
   document.body.style.overflow = open ? "hidden" : "";
+  document.body.classList.toggle("c5dla-filter-drawer-open", open);
 
   if (open) {
     const firstField = drawer.querySelector("input, select, button, a[href]");

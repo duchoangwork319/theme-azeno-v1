@@ -25,6 +25,30 @@
   writes into hidden inputs with those names instead of visible number
   inputs.
 
+  `filter_list_mode` (section.settings.filter_list_mode): only affects
+  `list`/`boolean` filters (Price/`price_range` ignores it) - "column_checkbox"
+  (default: a 2-column grid of normal checkbox rows) or "pill_badge" (a
+  wrapping row of pills/swatches with a `value.count` corner badge, no
+  visible checkbox). Every filtering interaction is a real form submit/page
+  reload (see the custom-element comment below), so `value.active` from the
+  server is enough to drive the active/selected look - no `:checked`-based
+  CSS needed even in pill mode, the checkbox input is just visually hidden.
+
+  A color swatch pill (filter_list_mode "pill_badge", and only for the
+  Color/Colour filter) reuses the SAME global `.wpb-variants-swatch
+  {{ value }}` CSS convention product cards already rely on for their own
+  color swatches (see snippets/5dla_product-card-1-swatches.liquid's own
+  comment + sections/customer-variant.liquid, which emits the actual
+  per-color background for each product/filter value class sitewide) -
+  that's an existing theme-wide mechanism all swatches already depend on
+  for their literal colors, not a NEW legacy per-section setting.
+  `.wpb-variants-swatch` goes on the `<label>` (this pill's own root, same
+  role as `.swatches` on 5dla_product-card-1-swatches.liquid's wrapper),
+  while the `{{ value.value }}` class goes on the inner `&__swatch` span -
+  `sections/customer-variant.liquid` emits `.wpb-variants-swatch
+  {{ variant_name }}{...}` as a DESCENDANT selector (space, not compound),
+  so those two classes must stay on different elements, parent then child.
+
   Deliberately a plain <form> (NOT wrapped in <facet-filters-form>) -
   assets/facets.js registers that tag name as a global custom element
   (`customElements.define('facet-filters-form', FacetFiltersForm)`) that
@@ -75,20 +99,61 @@
         {%- for filter in results.filters -%}
           {%- case filter.type -%}
             {%- when 'list', 'boolean' -%}
-              <div class="c5dla-filter-drawer__section" filter-type="{{ filter.type }}">
+              {%- liquid
+                assign is_color_filter = false
+                if filter.param_name contains 'color' or filter.label == 'Color' or filter.label == 'Colour'
+                  assign is_color_filter = true
+                endif
+              -%}
+              <div class="c5dla-filter-drawer__section" filter-type="{{ filter.type }}" filter-label="{{ filter.label | escape }}">
                 <h3>{{ filter.label | escape }}</h3>
-                {%- for value in filter.values -%}
-                  <label{% if value.count == 0 and value.active == false %} class="is-disabled"{% endif %}>
-                    <input
-                      type="checkbox"
-                      name="{{ value.param_name }}"
-                      value="{{ value.value }}"
-                      {% if value.active %}checked{% endif %}
-                      {% if value.count == 0 and value.active == false %}disabled{% endif %}
-                    >
-                    {{ value.label | escape }} <span class="c5dla-filter-drawer__count">({{ value.count }})</span>
-                  </label>
-                {%- endfor -%}
+
+                {%- if filter_list_mode == 'pill_badge' -%}
+                  <div class="c5dla-filter-drawer__values c5dla-filter-drawer__values--pills{% if is_color_filter %} c5dla-filter-drawer__values--swatches wpb-variants-swatch{% endif %}">
+                    {%- for value in filter.values -%}
+                      {%- assign safe_value = value.value | escape | replace: '/', '-' | replace: ' ', '-' -%}
+                      <label
+                        class="c5dla-filter-drawer__pill{% if value.active %} is-active{% endif %}{% if value.count == 0 and value.active == false %} is-disabled{% endif %}{% if is_color_filter %} c5dla-filter-drawer__pill--swatch{% endif %}"
+                        title="{{ value.label | escape }}"
+                      >
+                        <input
+                          type="checkbox"
+                          class="c5dla-filter-drawer__pill-input"
+                          name="{{ value.param_name }}"
+                          value="{{ value.value }}"
+                          {% if value.active %}checked{% endif %}
+                          {% if value.count == 0 and value.active == false %}disabled{% endif %}
+                        >
+                        {%- if is_color_filter -%}
+                          <span class="c5dla-filter-drawer__swatch {{ value.value }} {{ safe_value }}">
+                            <span class="c5dla-filter-drawer__badge">{{ value.count }}</span>
+                          </span>
+                        {%- else -%}
+                          <span class="c5dla-filter-drawer__pill-label">
+                            {{ value.label | escape }}
+                            <span class="c5dla-filter-drawer__badge">{{ value.count }}</span>
+                          </span>
+                        {%- endif -%}
+                      </label>
+                    {%- endfor -%}
+                  </div>
+                {%- else -%}
+                  <div class="c5dla-filter-drawer__values c5dla-filter-drawer__values--grid">
+                    {%- for value in filter.values -%}
+                      <label class="c5dla-filter-drawer__value{% if value.count == 0 and value.active == false %} is-disabled{% endif %}">
+                        <input
+                          type="checkbox"
+                          name="{{ value.param_name }}"
+                          value="{{ value.value }}"
+                          {% if value.active %}checked{% endif %}
+                          {% if value.count == 0 and value.active == false %}disabled{% endif %}
+                        >
+                        <span class="c5dla-filter-drawer__value-label">{{ value.label | escape }}</span>
+                        <span class="c5dla-filter-drawer__count">({{ value.count }})</span>
+                      </label>
+                    {%- endfor -%}
+                  </div>
+                {%- endif -%}
               </div>
             {%- when 'price_range' -%}
               {%- liquid

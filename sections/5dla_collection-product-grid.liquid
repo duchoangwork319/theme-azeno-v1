@@ -87,7 +87,11 @@
     </div>
   </div>
 
-  {%- render '5dla_filter-sort-drawer', results: filter_collection, price_range_mode: section.settings.price_range_mode -%}
+  {%- render '5dla_filter-sort-drawer',
+    results: filter_collection,
+    price_range_mode: section.settings.price_range_mode,
+    filter_list_mode: section.settings.filter_list_mode
+  -%}
 {%- endif -%}
 
 {%- if product_list and product_list.size > 0 -%}
@@ -232,6 +236,17 @@
       "label": "Enable filter & sort panel",
       "info": "Only works with a collection (Collection setting above, or the page's own collection) - ignored when Products above is set.",
       "default": true
+    },
+    {
+      "type": "select",
+      "id": "filter_list_mode",
+      "label": "Filter List Mode",
+      "info": "Only applies to list/boolean filters (e.g. Size, Gender, Availability, Color) - ignored by the Price filter.",
+      "options": [
+        { "value": "column_checkbox", "label": "Column & Checkbox" },
+        { "value": "pill_badge", "label": "Pill & Badge" }
+      ],
+      "default": "column_checkbox"
     },
     {
       "type": "select",

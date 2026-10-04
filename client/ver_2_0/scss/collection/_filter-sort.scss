@@ -7,11 +7,11 @@
   margin: 0 auto;
   padding: 0 5.15%;
 
-  @media (width <= 1060px) {
+  @media (width <=1060px) {
     padding-inline: 4%;
   }
 
-  @media (width <= 720px) {
+  @media (width <=720px) {
     padding-inline: 15px;
   }
 }
@@ -21,7 +21,7 @@
   min-height: 76px;
   display: flex;
 
-  @media (width <= 720px) {
+  @media (width <=720px) {
     flex-wrap: wrap;
     justify-content: space-between;
     min-height: 64px;
@@ -39,7 +39,7 @@
   font-weight: 600;
   display: flex;
 
-  @media (width <= 720px) {
+  @media (width <=720px) {
     font-size: 11px;
   }
 }
@@ -50,7 +50,7 @@
   margin: 0 auto;
   display: flex;
 
-  @media (width <= 720px) {
+  @media (width <=720px) {
     order: 3;
     justify-content: center;
     width: 100%;
@@ -82,7 +82,7 @@
   padding: 7px 0;
   margin-bottom: 0;
 
-  @media (width <= 720px) {
+  @media (width <=720px) {
     font-size: 10px;
   }
 
@@ -114,7 +114,7 @@
   }
 }
 
-.colors-toggle input:checked + .toggle-track {
+.colors-toggle input:checked+.toggle-track {
   background: #181818;
 
   &::after {
@@ -176,7 +176,7 @@
     justify-content: space-between;
     align-items: center;
     min-height: 55px;
-    padding: 0 29px;
+    padding: 0 20px;
     flex: none;
     display: flex;
 
@@ -190,7 +190,7 @@
     flex: 1;
     min-height: 0;
     overflow-y: auto;
-    padding: 4px 29px 0;
+    padding: 0 20px;
   }
 
   &__close {
@@ -198,7 +198,7 @@
     background: transparent;
     border: 0;
     color: inherit;
-    padding: 4px;
+    padding: 0;
     display: flex;
   }
 
@@ -232,6 +232,134 @@
     &:last-child {
       border-bottom: 0;
     }
+
+    .c5dla-filter-drawer__pill {
+      padding: 0;
+      margin: 0;
+      display: block;
+    }
+  }
+
+  // Column & Checkbox (section.settings.filter_list_mode: "column_checkbox",
+  // default) - the same checkbox rows as before, just laid out 2-up so both
+  // columns are visible without scrolling the whole section.
+  &__values--grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 10px;
+
+    label {
+      min-width: 0;
+      margin: 0;
+      padding: 3px 0;
+      font-size: 14px;
+
+      // `label`'s own text can overflow a 50%-width column - clips instead
+      // of wrapping/overrunning into the next column.
+      span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  // Pill & Badge (filter_list_mode: "pill_badge") - every list/boolean
+  // filter value becomes a pill (or, for the Color/Colour filter, a round
+  // swatch) with its `value.count` as a corner badge, no visible checkbox.
+  // The underlying `<input type="checkbox">` still exists and still drives
+  // the real filter request (client/ver_2_0/js/modules/filter-sort.js
+  // submits the form on its "change" event) - it's just visually hidden,
+  // same convention as `.colors-toggle input` above. Because every filter
+  // interaction is a full page reload, `.is-active` is enough to show
+  // selected state (rendered server-side from `value.active`) - no
+  // `:checked`-based CSS is needed.
+  &__values--pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 2px 0;
+  }
+
+  &__pill {
+    cursor: pointer;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    font-size: 12px;
+
+    &.is-disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    input {
+      opacity: 0;
+      position: absolute;
+      width: 0;
+      height: 0;
+    }
+  }
+
+  // Text pill (every list/boolean filter EXCEPT Color/Colour) - square (no
+  // border-radius), with `&__badge` positioned absolute against this same
+  // element so it floats exactly over the pill's top-right corner.
+  &__pill-label {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--line, #dedfd9);
+    border-radius: 0;
+    padding: 8px;
+  }
+
+  &__pill.is-active &__pill-label {
+    background: #171717;
+    border-color: #171717;
+    color: #fff;
+  }
+
+  &__swatch {
+    display: block;
+    position: relative;
+    border-radius: 50%;
+    border: 1px solid var(--line, #dedfd9);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+    width: 32px;
+    height: 32px;
+  }
+
+  &__pill--swatch.is-active &__swatch {
+    border-color: #171717;
+    box-shadow: inset 0 0 0 3px #fff;
+  }
+
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    font-size: 8px;
+    line-height: normal;
+    font-weight: 700;
+    color: #fff;
+    background: #8b8b8b;
+    border-radius: 999px;
+    border: 1px solid #fff;
+    position: absolute;
+    // Centers the badge exactly on the corner point, not just tucked
+    // inside/outside it.
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+    z-index: 1;
+  }
+
+  &__pill.is-active &__badge {
+    background: #fff;
+    color: #171717;
+    border-color: #171717;
   }
 
   &__sort {
@@ -276,14 +404,17 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    padding: 20px 29px 26px;
+    padding: 20px;
     border-top: 1px solid var(--line, #dedfd9);
   }
 
   &__reset {
     text-align: center;
-    font-size: 12px;
-    text-decoration: underline;
+    padding: 14px;
+    font-size: 13px;
+    box-shadow: inset 0 0 0 1px rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
+    cursor: pointer;
+    text-decoration: none;
   }
 
   &__apply {

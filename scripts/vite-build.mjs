@@ -154,6 +154,7 @@ const buildLegacyEntry = async entry => {
 const buildVer2Entry = async entry => {
   const config = baseConfig(entry);
   const isCssOnlyEntry = entry.name.startsWith("css-");
+  const isCssNoScopeEntry = entry.name.startsWith("css-no-scope");
 
   if (!isCssOnlyEntry) {
     config.build.rollupOptions.output.format = "iife";
@@ -163,7 +164,7 @@ const buildVer2Entry = async entry => {
     plugins: [
       autoprefixer(),
       prefixSelector({
-        prefix: `.${VER_2_0_SCOPE_CLASS}`,
+        prefix: isCssNoScopeEntry ? "" : `.${VER_2_0_SCOPE_CLASS}`,
         transform(prefix, selector) {
           // `:root`/`html`/`body` (bare, e.g. Bootstrap's own `:root{--bs-*}`)
           // become the bare wrapper class rather than a descendant of it,
