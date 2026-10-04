@@ -1,14 +1,22 @@
-// Ported 1:1 from the reference's `.products` (column count now driven by
-// section.settings.desktop_grid_item_count on desktop, via a CSS custom
-// property - tablet/mobile stay fixed at 3/2, not merchant-configurable)
+// Ported 1:1 from the reference's `.products` (column count driven by
+// section.settings.desktop_grid_item_count/tablet_grid_item_count/
+// mobile_grid_item_count at each breakpoint, via CSS custom properties -
+// see sections/5dla_collection-product-grid.liquid's own top comment)
 // + `.empty-products` (desktop + @1060px + @720px).
 //
-// `max-width` and `padding` are likewise driven by section.settings.max_width/
-// .padding, but ONLY on desktop (per request) - both custom properties are
-// set unconditionally (sections/5dla_collection-product-grid.liquid), but
-// only read here at the default (desktop) breakpoint; the <=1060px query
+// `max-width`/`padding` are likewise driven by section.settings.max_width/
+// .padding, but ONLY on desktop (per request) - the <=1060px (tablet) query
 // resets `max-width` to `none` and overrides `padding` with its own fixed
-// value, so tablet/mobile are never affected by a desktop-configured value.
+// value, so tablet is never affected by a desktop-configured value. Mobile
+// (<=720px) gets its OWN configurable `padding`/`margin`
+// (section.settings.mobile_padding/.mobile_margin, --c5dla-grid-mobile-padding/
+// --c5dla-grid-mobile-margin) instead of a fixed override - `margin` is
+// further overridden by `.products--scroll`'s own fixed value when
+// `mobile_display_mode` is "scrollable" (a compound selector, so it always
+// wins regardless of source order). Every custom property here is set
+// unconditionally in both places `.products` gets rendered
+// (sections/5dla_collection-product-grid.liquid's own `product_list` branch,
+// and snippets/5dla_collection-product-grid-body.liquid).
 .products {
   grid-template-columns: repeat(var(--c5dla-grid-desktop-columns, 4), minmax(0, 1fr));
   gap: 41px 18px;
@@ -20,13 +28,37 @@
   @media (width <=1060px) {
     max-width: none;
     padding-inline: 4%;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(var(--c5dla-grid-tablet-columns, 3), minmax(0, 1fr));
   }
 
   @media (width <=720px) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(var(--c5dla-grid-mobile-columns, 2), minmax(0, 1fr));
     gap: 30px 9px;
-    padding: 0 9px 53px;
+    padding: var(--c5dla-grid-mobile-padding, 0 9px 53px);
+    margin: var(--c5dla-grid-mobile-margin, 0 auto);
+
+    // section.settings.mobile_display_mode: "scrollable" - ports the
+    // reference's own mobile `.model-grid` (html/revamp-collection/rendered/
+    // Fusion Tri Suits for Hot-Weather Racing _ 5DLA Asia.html, ~L1969-1981):
+    // a horizontally-scrolling flex row instead of a grid, one card snapping
+    // into place at a time. Desktop/tablet are untouched - this only exists
+    // inside the <=720px query, and `mobile_grid_item_count` above is moot
+    // once this applies (every card is its own `flex-basis`, not a grid
+    // column).
+    &.products--scroll {
+      grid-template-columns: unset;
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 14px;
+      padding-bottom: 14px;
+
+      >* {
+        scroll-snap-align: start;
+        flex: 0 0 72vw;
+        width: 72vw;
+      }
+    }
   }
 }
 

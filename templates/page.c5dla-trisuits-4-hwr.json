@@ -92,13 +92,21 @@
           "tempo-two-suit"
         ],
         "product_card_type": "card_2",
+        "mobile_display_mode": "scrollable",
         "desktop_grid_item_count": 4,
+        "tablet_grid_item_count": 3,
+        "mobile_grid_item_count": 2,
+        "mobile_padding": "0 0 53px",
+        "mobile_margin": "0 21px",
         "max_width": "min(1270px, 100% - 104px)",
-        "padding": "0",
+        "padding": "0 0  120px",
         "swatch_limit": 4,
         "size_selector_limit": 5,
         "page_item": 24,
-        "pagination_style": "loadmore"
+        "pagination_style": "loadmore",
+        "filter_sort_enable": false,
+        "filter_list_mode": "column_checkbox",
+        "price_range_mode": "text_box"
       }
     },
     "5dla_page_content_WMcVt4": {
@@ -121,13 +129,21 @@
           "tempo-two-suit"
         ],
         "product_card_type": "card_3",
+        "mobile_display_mode": "grid",
         "desktop_grid_item_count": 4,
+        "tablet_grid_item_count": 3,
+        "mobile_grid_item_count": 2,
+        "mobile_padding": "0 21px 53px",
+        "mobile_margin": "0 auto",
         "max_width": "min(1270px, 100% - 104px)",
-        "padding": "0",
+        "padding": "0 0  120px",
         "swatch_limit": 4,
         "size_selector_limit": 5,
         "page_item": 24,
-        "pagination_style": "loadmore"
+        "pagination_style": "loadmore",
+        "filter_sort_enable": false,
+        "filter_list_mode": "column_checkbox",
+        "price_range_mode": "text_box"
       }
     },
     "5dla_page_content_tQtMcx": {
@@ -149,13 +165,21 @@
           "bottle-600-ml"
         ],
         "product_card_type": "card_4",
+        "mobile_display_mode": "grid",
         "desktop_grid_item_count": 3,
+        "tablet_grid_item_count": 3,
+        "mobile_grid_item_count": 1,
+        "mobile_padding": "0 21px 53px",
+        "mobile_margin": "0 auto",
         "max_width": "min(1270px, 100% - 104px)",
         "padding": "0  0 117px",
         "swatch_limit": 4,
         "size_selector_limit": 5,
         "page_item": 24,
-        "pagination_style": "loadmore"
+        "pagination_style": "loadmore",
+        "filter_sort_enable": false,
+        "filter_list_mode": "column_checkbox",
+        "price_range_mode": "text_box"
       }
     },
     "5dla_page_content_A7RPjJ": {

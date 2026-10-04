@@ -24,12 +24,27 @@
   --line: #dedfd9;
   --lime: #d8f54f;
   --lime-dark: #a1bb20;
-  --display: "Jost", Arial, sans-serif;
-  --body: "Jost", Arial, sans-serif;
+  --display: "Jost", "Avenir Next", Arial, sans-serif;
+  --body: "Jost", "Avenir Next", Arial, sans-serif;
 
   // Jost is the official font for the whole c5dla scope (ported from the
   // reference's --body, its entire body font, not just headings) -
   // referencing the variable above rather than a separate literal, so
   // there's one source of truth for the family stack.
   font-family: var(--body);
+}
+
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--display);
 }

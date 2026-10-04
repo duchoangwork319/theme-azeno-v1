@@ -55,7 +55,10 @@
         "swatch_limit": 4,
         "size_selector_limit": 5,
         "page_item": 24,
-        "pagination_style": "loadmore"
+        "pagination_style": "loadmore",
+        "filter_sort_enable": false,
+        "filter_list_mode": "column_checkbox",
+        "price_range_mode": "text_box"
       }
     },
     "5dla_page_content_cakPYU": {
@@ -71,15 +74,24 @@
       "name": "5DLA Product Grid",
       "settings": {
         "collection": "",
-        "product_list": [],
-        "product_card_type": "card_1",
-        "desktop_grid_item_count": 4,
+        "product_list": [
+          "mens-sli-t-shirt",
+          "tempo-run-singlet",
+          "tempo-calf-sleeves",
+          "cool-wings",
+          "tempo-rr-aero-sock"
+        ],
+        "product_card_type": "card_6",
+        "desktop_grid_item_count": 5,
         "max_width": "1600px",
-        "padding": "0 5.15% 85px",
+        "padding": "0 5.15% 15px",
         "swatch_limit": 4,
         "size_selector_limit": 5,
         "page_item": 24,
-        "pagination_style": "loadmore"
+        "pagination_style": "loadmore",
+        "filter_sort_enable": false,
+        "filter_list_mode": "column_checkbox",
+        "price_range_mode": "text_box"
       }
     },
     "5dla_page_content_LGnzr7": {

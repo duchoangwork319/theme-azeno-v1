@@ -80,9 +80,17 @@
     font-weight: 600;
   }
 
+  // Single line, ellipsized - `short_description` (product.metafields.custom.
+  // short_description, falling back to product.description - see
+  // snippets/5dla_product-card-2.liquid's own top comment) is truncated to
+  // 14 words, which can still overflow one line at this card's width
+  // depending on the words themselves.
   .model-headline {
+    overflow: hidden;
     margin: 10px 0 0;
     font-size: 13px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   .model-features {

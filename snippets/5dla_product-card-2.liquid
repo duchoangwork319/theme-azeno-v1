@@ -25,8 +25,18 @@
     badge rendered if not set - not every product needs one).
   - model-name-row: product.title + current_variant.price (a VARIANT
     price, not the product's general price range).
-  - model-headline / model-features: dummy placeholder text - no data
-    source specified yet.
+  - model-headline: product.metafields.custom.short_description.value,
+    falling back to product.description, same as snippets/
+    5dla_product-card-1.liquid's own `.product-short-description` (there
+    it's `short_description`/`.product-short-description` - here
+    `.model-headline` reuses the same data, just under this variant's own
+    class name).
+  - model-features: product.metafields.bwp_fields.features - a "List of
+    Choice list" metafield (list.single_line_text_field), so it's already a
+    plain array of strings to loop directly (no `.value` needed - unlike an
+    older-style Metafield object, a LIST metafield resolves straight to its
+    array in Liquid). Renders nothing if the metafield is blank/unset, same
+    as model-badge above.
 
   model-badge is also overridden (text + optional background/text color,
   same markup) by a `custom_badge` block on `section` whose `product_list`
@@ -54,6 +64,12 @@
   {%- assign badge_label = badge_override_label -%}
 {%- endif -%}
 
+{%- assign short_description = product.metafields.custom.short_description.value
+  | default: product.description
+  | strip_html
+  | truncatewords: 14
+-%}
+
 <article class="model-card c5dla-card-2">
   <div class="model-image-box">
     {%- if model_image -%}
@@ -75,13 +91,16 @@
       <h3 class="model-name">{{ product.title }}</h3>
       <span class="model-price">{{ current_variant.price | money }}</span>
     </div>
-    {%- comment -%} No headline data source yet - dummy placeholder. {%- endcomment -%}
-    <p class="model-headline">Dummy headline text goes here.</p>
-    {%- comment -%} No features data source yet - dummy placeholders. {%- endcomment -%}
-    <div class="model-features">
-      <span class="feature-pill">FEATURE ONE</span>
-      <span class="feature-pill">FEATURE TWO</span>
-    </div>
+    {%- if short_description != blank -%}
+      <p class="model-headline">{{ short_description }}</p>
+    {%- endif -%}
+    {%- if product.metafields.bwp_fields.features != blank -%}
+      <div class="model-features">
+        {%- for feature in product.metafields.bwp_fields.features.value -%}
+          <span class="feature-pill text-uppercase">{{ feature }}</span>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
     <a class="model-shop-link" href="{{ product.url }}">
       Shop {{ product.title }}
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">

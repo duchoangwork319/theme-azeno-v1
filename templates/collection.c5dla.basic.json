@@ -33,12 +33,19 @@
     "product_grid": {
       "type": "5dla_collection-product-grid",
       "settings": {
+        "collection": "",
+        "product_list": [],
         "product_card_type": "card_3",
         "desktop_grid_item_count": 4,
+        "max_width": "1600px",
+        "padding": "0 5.15% 85px",
         "swatch_limit": 4,
+        "size_selector_limit": 5,
         "page_item": 24,
         "pagination_style": "loadmore",
-        "filter_sort_enable": true
+        "filter_sort_enable": true,
+        "filter_list_mode": "pill_badge",
+        "price_range_mode": "slider"
       }
     },
     "content_slots": {

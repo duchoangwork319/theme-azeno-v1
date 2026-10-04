@@ -1,9 +1,27 @@
 {%- comment -%}
   Ported 1:1 (markup + CSS) from the reference's `section.products`
   (html/revamp-collection/rendered/Fusion Cycling Jerseys....html).
-  Tablet/mobile stay fixed at 3/2 columns (not merchant-configurable);
-  desktop column count is `desktop_grid_item_count`, passed to CSS via a
-  custom property (see client/ver_2_0/scss/collection/_product-grid.scss).
+  Column counts (`desktop_grid_item_count`/`tablet_grid_item_count`/
+  `mobile_grid_item_count`) are all merchant-configurable, passed to CSS via
+  custom properties (see client/ver_2_0/scss/collection/_product-grid.scss).
+
+  `mobile_display_mode`: "grid" (default - the grid above, just at
+  `mobile_grid_item_count` columns) or "scrollable", which switches
+  `.products` to a horizontally-scrolling flex row at the <=720px
+  breakpoint ONLY (tablet/desktop are never affected) - ports the
+  reference's own mobile `.model-grid` behavior (html/revamp-collection/
+  rendered/Fusion Tri Suits for Hot-Weather Racing _ 5DLA Asia.html,
+  ~L1969-1981: `display:flex`/`overflow-x:auto`/`scroll-snap-type:x
+  mandatory` + each card `flex: 0 0 72vw`/`scroll-snap-align:start`). Applied
+  via the `.products--scroll` modifier class, set from this setting in both
+  this section's own `product_list` branch below AND
+  snippets/5dla_collection-product-grid-body.liquid (the other place
+  `.products` gets rendered, for the `collection`-driven branches) - that
+  snippet reads `section.settings.mobile_display_mode` directly rather than
+  this being threaded through snippets/5dla_collection-product-grid-paginate.liquid
+  as a render param, same as how it already reads `pagination_style`/
+  `product_card_type` directly (see its own top comment: "`section` is used
+  directly (global object, not passed)").
 
   `product_card_type` picks which snippets/5dla_product-card-<N>.liquid
   renders each product - each one prefixes its own CSS under a matching
@@ -32,6 +50,23 @@
   # does) - clamp here so an out-of-range value can't produce a
   # degenerate grid.
   assign desktop_columns = section.settings.desktop_grid_item_count | at_least: 3 | at_most: 5
+  assign tablet_columns = section.settings.tablet_grid_item_count | at_least: 1
+  assign mobile_columns = section.settings.mobile_grid_item_count | at_least: 1
+
+  assign mobile_scroll_class = ''
+  if section.settings.mobile_display_mode == 'scrollable'
+    assign mobile_scroll_class = ' products--scroll'
+  endif
+
+  # Free-form text (not split into numeric settings), same reasoning as
+  # `padding` below - passed straight through as each custom property's
+  # value. Only read at the <=720px breakpoint (client/ver_2_0/scss/
+  # collection/_product-grid.scss); `mobile_margin` is overridden by
+  # `.products--scroll`'s own fixed margin when `mobile_display_mode` is
+  # "scrollable" (that spacing is tied to the horizontal-scroll layout
+  # itself, not merchant-configurable).
+  assign mobile_padding = section.settings.mobile_padding
+  assign mobile_margin = section.settings.mobile_margin
 
   # `max_width` is free-form text (not "number"), so it can hold any valid
   # CSS length, e.g. `min(1270px, 100% - 104px)`, not just a bare px value -
@@ -92,9 +127,9 @@
 {%- if product_list and product_list.size > 0 -%}
   {%- paginate product_list by section.settings.page_item -%}
     <section
-      class="products"
+      class="products{{ mobile_scroll_class }}"
       aria-label="{{ product_list.size }} products"
-      style="--c5dla-grid-desktop-columns: {{ desktop_columns }}; --c5dla-grid-desktop-max-width: {{ desktop_max_width | escape }}; --c5dla-grid-desktop-padding: {{ desktop_padding | escape }};"
+      style="--c5dla-grid-desktop-columns: {{ desktop_columns }}; --c5dla-grid-tablet-columns: {{ tablet_columns }}; --c5dla-grid-mobile-columns: {{ mobile_columns }}; --c5dla-grid-desktop-max-width: {{ desktop_max_width | escape }}; --c5dla-grid-desktop-padding: {{ desktop_padding | escape }}; --c5dla-grid-mobile-padding: {{ mobile_padding | escape }}; --c5dla-grid-mobile-margin: {{ mobile_margin | escape }};"
     >
       {%- for product in product_list -%}
         {% liquid
@@ -167,11 +202,49 @@
       "default": "card_1"
     },
     {
+      "type": "select",
+      "id": "mobile_display_mode",
+      "label": "Display Mode (mobile)",
+      "info": "Scrollable swaps the mobile grid for a horizontally-scrolling row, one card at a time.",
+      "options": [
+        { "value": "grid", "label": "Grid" },
+        { "value": "scrollable", "label": "Scrollable" }
+      ],
+      "default": "grid"
+    },
+    {
       "type": "number",
       "id": "desktop_grid_item_count",
       "label": "Columns (desktop)",
-      "info": "3-5. Tablet/mobile are fixed at 3/2 columns.",
+      "info": "3-5.",
       "default": 4
+    },
+    {
+      "type": "number",
+      "id": "tablet_grid_item_count",
+      "label": "Columns (tablet)",
+      "default": 3
+    },
+    {
+      "type": "number",
+      "id": "mobile_grid_item_count",
+      "label": "Columns (mobile)",
+      "info": "Ignored when Display Mode (mobile) above is Scrollable.",
+      "default": 2
+    },
+    {
+      "type": "text",
+      "id": "mobile_padding",
+      "label": "Padding (mobile)",
+      "info": "Any valid CSS padding shorthand, e.g. 0 9px 53px.",
+      "default": "0 9px 53px"
+    },
+    {
+      "type": "text",
+      "id": "mobile_margin",
+      "label": "Margin (mobile)",
+      "info": "Any valid CSS margin shorthand, e.g. 0 auto. Ignored when Display Mode (mobile) above is Scrollable (that layout keeps its own fixed margin).",
+      "default": "0 auto"
     },
     {
       "type": "text",

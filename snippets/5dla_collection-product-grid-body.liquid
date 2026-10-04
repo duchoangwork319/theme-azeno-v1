@@ -7,8 +7,27 @@
   `min(1270px, 100% - 104px)`), `desktop_padding` (a CSS padding shorthand
   string, e.g. `0 5.15% 85px`) and `paginate` (the enclosing
   `{% paginate %}` object) as render params. `section` is used directly
-  (global object, not passed).
+  (global object, not passed) - tablet/mobile column counts,
+  `mobile_display_mode`, and `mobile_padding`/`mobile_margin` (see
+  sections/5dla_collection-product-grid.liquid's own top comment) are read
+  straight from `section.settings` here too, same as `pagination_style`/
+  `product_card_type` below, rather than being threaded through
+  snippets/5dla_collection-product-grid-paginate.liquid as more render
+  params.
 {%- endcomment -%}
+
+{%- liquid
+  assign tablet_columns = section.settings.tablet_grid_item_count | at_least: 1
+  assign mobile_columns = section.settings.mobile_grid_item_count | at_least: 1
+
+  assign mobile_scroll_class = ''
+  if section.settings.mobile_display_mode == 'scrollable'
+    assign mobile_scroll_class = ' products--scroll'
+  endif
+
+  assign mobile_padding = section.settings.mobile_padding
+  assign mobile_margin = section.settings.mobile_margin
+-%}
 
 {%- if grid_collection.products.size == 0 -%}
   <div class="empty-products">
@@ -17,9 +36,9 @@
   </div>
 {%- else -%}
   <section
-    class="products"
+    class="products{{ mobile_scroll_class }}"
     aria-label="{{ grid_collection.products_count }} {{ grid_collection.title }} products"
-    style="--c5dla-grid-desktop-columns: {{ desktop_columns }}; --c5dla-grid-desktop-max-width: {{ desktop_max_width | escape }}; --c5dla-grid-desktop-padding: {{ desktop_padding | escape }};"
+    style="--c5dla-grid-desktop-columns: {{ desktop_columns }}; --c5dla-grid-tablet-columns: {{ tablet_columns }}; --c5dla-grid-mobile-columns: {{ mobile_columns }}; --c5dla-grid-desktop-max-width: {{ desktop_max_width | escape }}; --c5dla-grid-desktop-padding: {{ desktop_padding | escape }}; --c5dla-grid-mobile-padding: {{ mobile_padding | escape }}; --c5dla-grid-mobile-margin: {{ mobile_margin | escape }};"
   >
     {%- for product in grid_collection.products -%}
       {% liquid
