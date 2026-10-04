@@ -51,11 +51,15 @@ const initSlider = container => {
     // that param's unit matches `filter.min_value.value` directly (cents-like
     // "money" subunit, see money_without_currency usage in that snippet),
     // so scale the slider's own human-currency value back up before writing.
-    // Doesn't submit the form itself - that only happens on
-    // `.c5dla-filter-drawer__apply` (see client/ver_2_0/js/modules/
-    // filter-sort.js's own top comment), same as every other field here.
     if (inputMin) inputMin.value = Math.round(values[0] * 100);
     if (inputMax) inputMax.value = Math.round(values[1] * 100);
+
+    // There's no Apply button - every other field applies itself via a
+    // "change" listener on the form (client/ver_2_0/js/modules/
+    // filter-sort.js), but setting `.value` in JS above never fires a DOM
+    // "change" event for that listener to catch, so this calls
+    // `requestSubmit()` directly instead.
+    if (form) form.requestSubmit();
   });
 
   // client/ver_2_0/js/modules/filter-sort.js dispatches this on the form

@@ -72,12 +72,7 @@
         {{ 'products.facets.filter_and_sort' | t }}
       </button>
 
-      <div class="genders">
-        <button class="active" type="button">{{ 'products.facets.all' | t }} genders</button>
-        <button type="button">Men</button>
-        <button type="button">Women</button>
-        <button type="button">Unisex</button>
-      </div>
+      {%- render '5dla_filter-sort-genders', results: filter_collection -%}
 
       <label class="colors-toggle">
         Show all colours

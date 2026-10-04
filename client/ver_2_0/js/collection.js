@@ -187,7 +187,21 @@ const initColorsToggle = () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   initColorsToggle();
-  initFilterSort();
+  // Re-runs everything that depends on `.products`/`[data-c5dla-pagination]`
+  // after client/ver_2_0/js/modules/filter-sort.js's AJAX facet request
+  // swaps in a freshly rendered grid - same re-inits `loadNextPage` already
+  // needs after appending a paginated page, plus the price range slider
+  // (its own container is inside the swapped drawer body) and infinite
+  // scroll (its sentinel element is a new node each time, so its own
+  // IntersectionObserver needs re-creating against it).
+  initFilterSort({
+    onGridUpdated: () => {
+      ensureCardHeightEqual();
+      initVariantPickers();
+      initInfiniteScroll();
+      initPriceRangeSlider();
+    },
+  });
   initPriceRangeSlider();
   initLoadMore();
   initInfiniteScroll();

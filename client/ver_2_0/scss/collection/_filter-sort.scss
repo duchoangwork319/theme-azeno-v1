@@ -149,7 +149,7 @@
 .c5dla-filter-drawer {
   z-index: 101;
   background: #fff;
-  width: min(425px, 100%);
+  width: min(425px, 80%);
   position: fixed;
   top: 0;
   bottom: 0;
@@ -411,6 +411,10 @@
     gap: 10px;
     padding: 20px;
     border-top: 1px solid var(--line, #dedfd9);
+
+    &.no-reset {
+      display: none;
+    }
   }
 
   &__reset {
@@ -422,15 +426,6 @@
     text-decoration: none;
   }
 
-  &__apply {
-    color: #fff;
-    cursor: pointer;
-    background: #181818;
-    border: 0;
-    width: 100%;
-    padding: 14px;
-    font-size: 13px;
-  }
 }
 
 // Price range slider (section.settings.price_range_mode: "slider" - see

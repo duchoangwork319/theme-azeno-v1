@@ -36,15 +36,22 @@
   in sync even if the drawer is closed without submitting (see
   `data-prev-value` below).
 
-  Every field in this form (`select`/checkbox/number/hidden) carries a
-  `data-prev-value` attribute - the value it had when the page was
-  rendered (a checkbox's "true"/"false", everything else its literal
-  value). client/ver_2_0/js/modules/filter-sort.js restores every field to
-  that snapshot when the drawer is closed WITHOUT submitting (overlay
-  click, the close button, Escape) - otherwise a shopper who ticks a few
-  boxes, then closes instead of hitting Apply, would reopen the drawer to
-  find those ticks still showing as selected despite never having been
-  applied.
+  There is no separate "Apply" button - every field in this form applies
+  immediately on its own `change` (client/ver_2_0/js/modules/filter-sort.js
+  listens on the form itself; the price slider instead calls
+  `form.requestSubmit()` from its own "change" event - see
+  client/ver_2_0/js/modules/price-range-slider.js), so `__foot` only ever
+  holds the Reset link now.
+
+  Every field still carries a `data-prev-value` attribute (the value it had
+  when the page was rendered - a checkbox's "true"/"false", everything else
+  its literal value): a field only actually applies once ITS OWN `change`
+  fires, so a shopper who's mid-drag on the slider or has a number input
+  focused with an edited-but-not-yet-blurred value, then closes the drawer
+  instead, would otherwise be left looking at a half-applied value that was
+  never actually requested. filter-sort.js restores every field to this
+  snapshot when the drawer is closed that way (overlay click, the close
+  button, Escape).
 
   A color swatch pill (filter_list_mode "pill_badge", and only for the
   Color/Colour filter) reuses the SAME global `.wpb-variants-swatch
@@ -67,7 +74,29 @@
   expects the legacy markup/IDs from snippets/filter-sidebar.liquid; reusing
   the tag here would let that legacy script silently hijack this new form.
   All behavior is instead handled by
-  client/ver_2_0/js/modules/filter-sort.js.
+  client/ver_2_0/js/modules/filter-sort.js, which migrates that same
+  `FacetFiltersForm`'s Section Rendering API fetch-and-swap approach (see
+  its own top comment) rather than this legacy custom element.
+
+  Every `list`/`boolean` value's `<label>` carries a `title="{{ value.label }}"`
+  regardless of `filter_list_mode` (column_checkbox mode didn't need one
+  before this) - snippets/5dla_filter-sort-genders.liquid's toolbar buttons
+  and client/ver_2_0/js/modules/filter-sort.js's `filter:filterByGender`
+  listener find a gender checkbox via `label[title="..."] input[name=
+  "filter.v.t.shopify.target-gender"]`, so every mode needs that attribute
+  for that lookup to work.
+
+  `data-section-id` (`section.id`, a global available directly in any
+  snippet rendered from a section, same as `grid_collection`/`section` in
+  snippets/5dla_collection-product-grid-body.liquid) is how filter-sort.js
+  knows which section to re-fetch via `?sections=<id>` on Apply/Reset -
+  the response's `.products`/`[data-c5dla-pagination]`/this form's own
+  `__body`/`__foot` get swapped in from it, same `?sections=` convention
+  client/ver_2_0/js/collection.js's `loadNextPage` already uses for
+  pagination, instead of this form doing a real GET navigation. A real GET
+  is still the fallback if `data-section-id` is ever missing or the
+  request fails - this form's `action`/`method="get"`/field `name`s are
+  all real, so filtering still works with JS disabled or erroring out.
 {%- endcomment -%}
 
 {%- liquid
@@ -81,7 +110,7 @@
 <div class="c5dla-filter-overlay" data-c5dla-filter-overlay hidden></div>
 
 <aside class="c5dla-filter-drawer" data-c5dla-filter-drawer hidden aria-hidden="true" aria-labelledby="c5dla-filter-drawer-title">
-    <form id="c5dla-filter-form" method="get" action="{{ results.url }}" data-c5dla-filter-form>
+    <form id="c5dla-filter-form" method="get" action="{{ results.url }}" data-c5dla-filter-form data-section-id="{{ section.id }}">
       <div class="c5dla-filter-drawer__head">
         <h2 id="c5dla-filter-drawer-title">{{ 'products.facets.filter_and_sort' | t }}</h2>
         <button type="button" class="c5dla-filter-drawer__close" data-c5dla-filter-close aria-label="{{ 'products.facets.close' | t }}">
@@ -153,7 +182,10 @@
                 {%- else -%}
                   <div class="c5dla-filter-drawer__values c5dla-filter-drawer__values--grid">
                     {%- for value in filter.values -%}
-                      <label class="c5dla-filter-drawer__value{% if value.count == 0 and value.active == false %} is-disabled{% endif %}">
+                      <label
+                        class="c5dla-filter-drawer__value{% if value.count == 0 and value.active == false %} is-disabled{% endif %}"
+                        title="{{ value.label | escape }}"
+                      >
                         <input
                           type="checkbox"
                           name="{{ value.param_name }}"
@@ -231,15 +263,12 @@
         {%- endfor -%}
       </div>
 
-      <div class="c5dla-filter-drawer__foot">
+      <div class="c5dla-filter-drawer__foot{% if total_active == 0 %} no-reset{% endif %}">
         {%- if total_active > 0 -%}
           <a href="{{ results.url }}" class="c5dla-filter-drawer__reset" data-c5dla-filter-reset>
             {{ 'products.facets.reset' | t }}
           </a>
         {%- endif -%}
-        <button type="submit" class="c5dla-filter-drawer__apply">
-          {{ 'products.facets.filter_button' | t }}
-        </button>
       </div>
     </form>
 </aside>

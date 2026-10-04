@@ -1,0 +1,68 @@
+{%- comment -%}
+  Toolbar gender quick-filter buttons - moved out of
+  sections/5dla_collection-product-grid.liquid's hardcoded `.c5dla-toolbar
+  .genders` (previously static "All genders"/"Men"/"Women"/"Unisex" text,
+  none of it wired to anything).
+
+  Looks for the Shopify "target-gender" taxonomy filter among
+  `results.filters` (`filter.param_name contains 'target-gender'` - same
+  filter snippets/5dla_filter-sort-drawer.liquid renders as an ordinary
+  checkbox list/pill group) and renders one button per `filter.values`
+  entry, plus a permanent "All genders" button first. Renders nothing if
+  this collection has no gender filter at all (e.g. no products carry the
+  Shopify gender taxonomy metafield).
+
+  These are a QUICK-FILTER shortcut for that SAME checkbox, not a second,
+  parallel filtering mechanism: client/ver_2_0/js/modules/filter-sort.js
+  delegates their clicks into a `filter:filterByGender` event, whose
+  listener (same file) finds the matching `label[title="..."] input[name=
+  "filter.v.t.shopify.target-gender"]` and fires a real `change` on it -
+  going through the exact same form "change" → AJAX path every other
+  filter field already uses (see that file's own top comment), including
+  `applyFilters` re-rendering these buttons' own `active` state afterward
+  (`.c5dla-toolbar .genders` is swapped in from the response, same as this
+  form's own body/foot).
+
+  Unlike a checkbox, these buttons are one-way: clicking "Men" always
+  turns gender filtering ON for Men (never off by clicking it again) -
+  "All genders" is the only button that clears it, a single-select
+  radio/tab affordance rather than a toggle (see filter-sort.js's
+  `filter:filterByGender` listener - it unchecks every gender input first,
+  then (re)checks only the clicked one, if any).
+
+  `results` (required): same collection object passed to
+  snippets/5dla_filter-sort-drawer.liquid.
+{%- endcomment -%}
+
+{%- liquid
+  assign gender_filter = nil
+  for filter in results.filters
+    if filter.param_name contains 'target-gender'
+      assign gender_filter = filter
+      break
+    endif
+  endfor
+-%}
+
+{%- if gender_filter -%}
+  <div class="genders">
+    <button
+      type="button"
+      class="{% if gender_filter.active_values.size == 0 %}active{% endif %}"
+      data-c5dla-gender-button
+      data-gender-title=""
+    >
+      {{ 'products.facets.all' | t }} genders
+    </button>
+    {%- for value in gender_filter.values -%}
+      <button
+        type="button"
+        class="{% if value.active %}active{% endif %}"
+        data-c5dla-gender-button
+        data-gender-title="{{ value.label | escape }}"
+      >
+        {{ value.label | escape }}
+      </button>
+    {%- endfor -%}
+  </div>
+{%- endif -%}
