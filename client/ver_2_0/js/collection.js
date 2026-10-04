@@ -6,6 +6,8 @@
 // minified) while the CSS-only entry stays "es" (so Vite still extracts
 // it into its own .css file).
 import { initVariantPickers } from "./modules/variant.js";
+import { initFilterSort } from "./modules/filter-sort.js";
+import { initPriceRangeSlider } from "./modules/price-range-slider.js";
 
 const PAGINATION_SELECTOR = "[data-c5dla-pagination]";
 const PRODUCTS_SELECTOR = ".products";
@@ -163,7 +165,7 @@ const ensureCardHeightEqual = () => {
 };
 
 /**
- * "Show all colours" checkbox (sections/5dla_collection-filter-sort.liquid) -
+ * "Show all colours" checkbox (sections/5dla_collection-product-grid.liquid) -
  * toggles `.show-all-colours` on `.c5dla-scope` (this template's <main>,
  * not <body> - see scripts/vite-build.mjs's postcss-prefix-selector
  * setup for why it has to be the actual scoped root), which reveals every
@@ -185,6 +187,8 @@ const initColorsToggle = () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   initColorsToggle();
+  initFilterSort();
+  initPriceRangeSlider();
   initLoadMore();
   initInfiniteScroll();
   ensureCardHeightEqual();

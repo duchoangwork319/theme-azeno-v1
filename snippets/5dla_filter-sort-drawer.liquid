@@ -1,0 +1,164 @@
+{%- comment -%}
+  Left-side offcanvas filter & sort drawer, styled after the new theme's
+  `.drawer`/`.drawer-head`/`.drawer-section` pattern (html/revamp-collection/
+  rendered/Fusion Cycling Jerseys, Bib Shorts & Apparel in Asia _ 5DLA.html -
+  that reference's own drawer opens from the right; this one is mirrored to
+  the left per request, see client/ver_2_0/scss/collection/_filter-sort.scss).
+
+  Built fresh against the native `collection`/`results.filters` Liquid
+  objects (NOT the legacy `settings.filter_name_1`/`select_filter_1`/
+  `layout_filter` knobs from snippets/filter-sidebar.liquid, and NOT that
+  snippet's `facets__*`/`block-sidebar__title` markup or
+  sections/collection-sidebartop.liquid's settings) - per request, nothing
+  here reads or depends on those legacy settings.
+
+  `results` (required): the collection object to build facets/sort for.
+  Caller (sections/5dla_collection-product-grid.liquid) only renders this
+  when `results` is a real collection - the filter/sort panel has no
+  meaning against a manual `product_list`.
+
+  `price_range_mode` (section.settings.price_range_mode): "text_box" (two
+  plain number inputs, default) or "slider" (a noUiSlider dual-handle
+  range - see client/ver_2_0/js/modules/price-range-slider.js and
+  node_modules/nouislider). Either way the same `filter.min_value.param_name`/
+  `max_value.param_name` query params go out on submit - the slider just
+  writes into hidden inputs with those names instead of visible number
+  inputs.
+
+  Deliberately a plain <form> (NOT wrapped in <facet-filters-form>) -
+  assets/facets.js registers that tag name as a global custom element
+  (`customElements.define('facet-filters-form', FacetFiltersForm)`) that
+  expects the legacy markup/IDs from snippets/filter-sidebar.liquid; reusing
+  the tag here would let that legacy script silently hijack this new form.
+  All behavior is instead handled by
+  client/ver_2_0/js/modules/filter-sort.js.
+{%- endcomment -%}
+
+{%- liquid
+  assign sort_by = results.sort_by | default: results.default_sort_by
+  assign total_active = 0
+  for filter in results.filters
+    assign total_active = total_active | plus: filter.active_values.size
+  endfor
+-%}
+
+<div class="c5dla-filter-overlay" data-c5dla-filter-overlay hidden></div>
+
+<aside class="c5dla-filter-drawer" data-c5dla-filter-drawer hidden aria-hidden="true" aria-labelledby="c5dla-filter-drawer-title">
+    <form id="c5dla-filter-form" method="get" action="{{ results.url }}" data-c5dla-filter-form>
+      <div class="c5dla-filter-drawer__head">
+        <h2 id="c5dla-filter-drawer-title">{{ 'products.facets.filter_and_sort' | t }}</h2>
+        <button type="button" class="c5dla-filter-drawer__close" data-c5dla-filter-close aria-label="{{ 'products.facets.close' | t }}">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18"></path>
+          </svg>
+        </button>
+      </div>
+
+      {%- if results.terms -%}
+        <input type="hidden" name="q" value="{{ results.terms | escape }}">
+        <input type="hidden" name="options[prefix]" value="last">
+      {%- endif -%}
+
+      <div class="c5dla-filter-drawer__body">
+        <div class="c5dla-filter-drawer__section">
+          <h3>{{ 'products.facets.sort_by_label' | t }}</h3>
+          <select name="sort_by" class="c5dla-filter-drawer__sort" data-c5dla-filter-sort>
+            {%- for option in results.sort_options -%}
+              <option value="{{ option.value | escape }}"{% if option.value == sort_by %} selected{% endif %}>
+                {{ option.name | escape }}
+              </option>
+            {%- endfor -%}
+          </select>
+        </div>
+
+        {%- for filter in results.filters -%}
+          {%- case filter.type -%}
+            {%- when 'list', 'boolean' -%}
+              <div class="c5dla-filter-drawer__section" filter-type="{{ filter.type }}">
+                <h3>{{ filter.label | escape }}</h3>
+                {%- for value in filter.values -%}
+                  <label{% if value.count == 0 and value.active == false %} class="is-disabled"{% endif %}>
+                    <input
+                      type="checkbox"
+                      name="{{ value.param_name }}"
+                      value="{{ value.value }}"
+                      {% if value.active %}checked{% endif %}
+                      {% if value.count == 0 and value.active == false %}disabled{% endif %}
+                    >
+                    {{ value.label | escape }} <span class="c5dla-filter-drawer__count">({{ value.count }})</span>
+                  </label>
+                {%- endfor -%}
+              </div>
+            {%- when 'price_range' -%}
+              {%- liquid
+                assign price_min_text = filter.min_value.value | money_without_currency | strip_html
+                assign price_max_text = filter.max_value.value | money_without_currency | strip_html
+                assign price_range_max_text = filter.range_max | money_without_currency | strip_html
+                assign price_min_raw = filter.min_value.value | default: 0 | times: 1.0 | divided_by: 100.0
+                assign price_max_raw = filter.max_value.value | default: filter.range_max | times: 1.0 | divided_by: 100.0
+                assign price_range_max_raw = filter.range_max | times: 1.0 | divided_by: 100.0
+              -%}
+              <div class="c5dla-filter-drawer__section" filter-type="{{ filter.type }}">
+                <h3>{{ filter.label | escape }}</h3>
+                {%- if price_range_mode == 'slider' -%}
+                  <div class="c5dla-filter-drawer__price-values">
+                    <span data-c5dla-price-value-min>{{ price_min_text }}</span>
+                    <span>—</span>
+                    <span data-c5dla-price-value-max>{{ price_max_text }}</span>
+                  </div>
+                  <div
+                    class="c5dla-filter-drawer__price-slider"
+                    data-c5dla-price-slider
+                    data-min="0"
+                    data-max="{{ price_range_max_raw }}"
+                    data-start-min="{{ price_min_raw }}"
+                    data-start-max="{{ price_max_raw }}"
+                  ></div>
+                  <input type="hidden" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value }}" data-c5dla-price-input-min>
+                  <input type="hidden" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value }}" data-c5dla-price-input-max>
+                {%- else -%}
+                  <div class="c5dla-filter-drawer__price">
+                    <div class="c5dla-filter-drawer__price-field">
+                      <label for="c5dla-filter-price-min">{{ 'products.facets.from' | t }}</label>
+                      <input
+                        type="number"
+                        id="c5dla-filter-price-min"
+                        name="{{ filter.min_value.param_name }}"
+                        value="{{ price_min_text }}"
+                        placeholder="0"
+                        min="0"
+                        max="{{ price_range_max_text }}"
+                      >
+                    </div>
+                    <div class="c5dla-filter-drawer__price-field">
+                      <label for="c5dla-filter-price-max">{{ 'products.facets.to' | t }}</label>
+                      <input
+                        type="number"
+                        id="c5dla-filter-price-max"
+                        name="{{ filter.max_value.param_name }}"
+                        value="{{ price_max_text }}"
+                        placeholder="{{ price_range_max_text }}"
+                        min="0"
+                        max="{{ price_range_max_text }}"
+                      >
+                    </div>
+                  </div>
+                {%- endif -%}
+              </div>
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+
+      <div class="c5dla-filter-drawer__foot">
+        {%- if total_active > 0 -%}
+          <a href="{{ results.url }}" class="c5dla-filter-drawer__reset" data-c5dla-filter-reset>
+            {{ 'products.facets.reset' | t }}
+          </a>
+        {%- endif -%}
+        <button type="submit" class="c5dla-filter-drawer__apply">
+          {{ 'products.facets.filter_button' | t }}
+        </button>
+      </div>
+    </form>
+</aside>

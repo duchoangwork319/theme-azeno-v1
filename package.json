@@ -26,6 +26,7 @@
     "crypto-js": "^4.2.0",
     "express": "^4.21.2",
     "node-fetch": "^3.3.2",
+    "nouislider": "^15.8.1",
     "open": "^10.1.0"
   },
   "devDependencies": {

@@ -41,6 +41,7 @@ Target (optional, default: all). Pass multiple to combine them, e.g.
   assets                assets/* only
   sections              sections/* only
   layout                layout/* only
+  locales               locales/* only
   snippets              snippets/* only (push only)
   templates             templates/* only
   <folder>/             Arbitrary folder path, e.g. 'sections/' (trailing
@@ -180,6 +181,9 @@ if [[ "$ACTION" == "pull" || "$ACTION" == "push" ]]; then
       layout)
         CMD+=(--only "layout/*")
         ;;
+      locales)
+        CMD+=(--only "locales/*")
+        ;;
       snippets)
         [[ "$ACTION" == "push" ]] || die "Target 'snippets' is only valid for push"
         CMD+=(--only "snippets/*")
@@ -192,7 +196,7 @@ if [[ "$ACTION" == "pull" || "$ACTION" == "push" ]]; then
         CMD+=(--only "$TARGET")
         ;;
       *)
-        die "Unknown target '$TARGET' (expected all, config, blocks, assets, sections, layout, snippets, templates, or a file/folder path)"
+        die "Unknown target '$TARGET' (expected all, config, blocks, assets, sections, layout, locales, snippets, templates, or a file/folder path)"
         ;;
     esac
   done

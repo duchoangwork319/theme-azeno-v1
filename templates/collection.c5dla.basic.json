@@ -30,12 +30,6 @@
         "enable": true
       }
     },
-    "filter_sort": {
-      "type": "5dla_collection-filter-sort",
-      "settings": {
-        "enable": true
-      }
-    },
     "product_grid": {
       "type": "5dla_collection-product-grid",
       "settings": {
@@ -43,7 +37,8 @@
         "desktop_grid_item_count": 4,
         "swatch_limit": 4,
         "page_item": 24,
-        "pagination_style": "loadmore"
+        "pagination_style": "loadmore",
+        "filter_sort_enable": true
       }
     },
     "content_slots": {
@@ -59,7 +54,6 @@
     "breadcrumb",
     "banner",
     "subcollections",
-    "filter_sort",
     "product_grid",
     "content_slots",
     "benefits"
