@@ -63,6 +63,11 @@
     snippets/5dla_product-card-3-actions.liquid) - kept pointed at the
     selected variant so quick view/add-to-cart always target it, not the
     page-load default.
+  - `button.quick-view-button`'s own inline `onclick` (plain
+    `window.location.href = product.url`, NOT variant-specific - unlike
+    `data-variant-id` above it never needs updating on a variant change) -
+    there's no real quick-view panel built yet, so this just navigates to
+    the product page on click instead of leaving the button inert.
 
   store-product-badge is also overridden (text + optional background/text
   color, same markup) by a `custom_badge` block on `section` whose
@@ -110,7 +115,15 @@
       >
     {%- endif -%}
     {%- if badge_label != blank -%}
-      <span class="store-product-badge" {% render '5dla_product-card-badge-style', bg_color: badge_override_bg_color, text_color: badge_override_text_color %}>{{ badge_label }}</span>
+      <span
+        class="store-product-badge"
+        {% render '5dla_product-card-badge-style',
+          bg_color: badge_override_bg_color,
+          text_color: badge_override_text_color
+        %}
+      >
+        {{- badge_label -}}
+      </span>
     {%- endif -%}
     <button
       class="quick-view-button"
@@ -118,6 +131,7 @@
       dynamic="quick-view-trigger"
       data-handle="{{ product.handle }}"
       data-variant-id="{{ current_variant.id }}"
+      onclick="window.location.href='{{ product.url }}'"
     >
       {{ 'products.product.quickview' | t }}
     </button>
@@ -125,14 +139,18 @@
   <div class="product-info">
     <a class="store-product-category" href="{{ collection.url }}">{{ collection.title }}</a>
     {% comment %} Hide the Review badge temporarily {% endcomment %}
-    {% comment %} {%- if review_badge != blank -%}
-      <span class="store-product-review jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}">
-        {{ review_badge }}
-      </span>
-    {%- endif -%} {% endcomment %}
+    {% comment %}
+      {%- if review_badge != blank -%}
+        <span class="store-product-review jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}">
+          {{ review_badge }}
+        </span>
+      {%- endif -%}
+    {% endcomment %}
     <div class="product-title-row">
       <h3>
-        <a href="{{ product.url }}"><span dynamic="product-title">{{ product.title }}</span></a>
+        <a href="{{ product.url }}"
+          ><span dynamic="product-title">{{ product.title }}</span></a
+        >
       </h3>
     </div>
     {%- if product.vendor != blank -%}
