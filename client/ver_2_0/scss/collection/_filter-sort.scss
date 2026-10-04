@@ -268,12 +268,16 @@
   // filter value becomes a pill (or, for the Color/Colour filter, a round
   // swatch) with its `value.count` as a corner badge, no visible checkbox.
   // The underlying `<input type="checkbox">` still exists and still drives
-  // the real filter request (client/ver_2_0/js/modules/filter-sort.js
-  // submits the form on its "change" event) - it's just visually hidden,
-  // same convention as `.colors-toggle input` above. Because every filter
-  // interaction is a full page reload, `.is-active` is enough to show
-  // selected state (rendered server-side from `value.active`) - no
-  // `:checked`-based CSS is needed.
+  // the real filter request (the Apply button submits the form - see
+  // client/ver_2_0/js/modules/filter-sort.js's own top comment) - it's
+  // just visually hidden, same convention as `.colors-toggle input` above.
+  // Selected/active look is driven live by `:checked` + a next-sibling
+  // selector (the input always comes immediately before `&__pill-label`/
+  // `&__swatch` - see snippets/5dla_filter-sort-drawer.liquid), NOT a
+  // server-rendered `.is-active` class - that way toggling a box updates
+  // its own look immediately, and reverting via `data-prev-value`
+  // (filter-sort.js, when the drawer closes without submitting) un-checks
+  // it back to matching visuals for free.
   &__values--pills {
     display: flex;
     flex-wrap: wrap;
@@ -313,7 +317,7 @@
     padding: 8px;
   }
 
-  &__pill.is-active &__pill-label {
+  &__pill-input:checked + &__pill-label {
     background: #171717;
     border-color: #171717;
     color: #fff;
@@ -329,7 +333,7 @@
     height: 32px;
   }
 
-  &__pill--swatch.is-active &__swatch {
+  &__pill-input:checked + &__swatch {
     border-color: #171717;
     box-shadow: inset 0 0 0 3px #fff;
   }
@@ -356,7 +360,8 @@
     z-index: 1;
   }
 
-  &__pill.is-active &__badge {
+  &__pill-input:checked + &__pill-label &__badge,
+  &__pill-input:checked + &__swatch &__badge {
     background: #fff;
     color: #171717;
     border-color: #171717;

@@ -51,10 +51,25 @@ const initSlider = container => {
     // that param's unit matches `filter.min_value.value` directly (cents-like
     // "money" subunit, see money_without_currency usage in that snippet),
     // so scale the slider's own human-currency value back up before writing.
+    // Doesn't submit the form itself - that only happens on
+    // `.c5dla-filter-drawer__apply` (see client/ver_2_0/js/modules/
+    // filter-sort.js's own top comment), same as every other field here.
     if (inputMin) inputMin.value = Math.round(values[0] * 100);
     if (inputMax) inputMax.value = Math.round(values[1] * 100);
-    if (form) form.requestSubmit();
   });
+
+  // client/ver_2_0/js/modules/filter-sort.js dispatches this on the form
+  // after restoring every field's `data-prev-value` (drawer closed without
+  // submitting) - the hidden inputs are back to their original value at
+  // that point, but this slider's own handle positions/labels are
+  // independent noUiSlider state, so they need an explicit re-sync.
+  if (form) {
+    form.addEventListener("c5dla:filter-reset", () => {
+      const resetMin = Number(inputMin?.value) / 100;
+      const resetMax = Number(inputMax?.value) / 100;
+      slider.set([resetMin || min, resetMax || max]);
+    });
+  }
 };
 
 export const initPriceRangeSlider = () => {

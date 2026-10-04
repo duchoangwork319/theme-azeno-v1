@@ -29,10 +29,22 @@
   `list`/`boolean` filters (Price/`price_range` ignores it) - "column_checkbox"
   (default: a 2-column grid of normal checkbox rows) or "pill_badge" (a
   wrapping row of pills/swatches with a `value.count` corner badge, no
-  visible checkbox). Every filtering interaction is a real form submit/page
-  reload (see the custom-element comment below), so `value.active` from the
-  server is enough to drive the active/selected look - no `:checked`-based
-  CSS needed even in pill mode, the checkbox input is just visually hidden.
+  visible checkbox). The pill/swatch active look is driven by
+  `input:checked` + a next-sibling CSS selector (client/ver_2_0/scss/
+  collection/_filter-sort.scss), not a server-rendered `.is-active` class -
+  the checkbox is still really there (just visually hidden), so it stays
+  in sync even if the drawer is closed without submitting (see
+  `data-prev-value` below).
+
+  Every field in this form (`select`/checkbox/number/hidden) carries a
+  `data-prev-value` attribute - the value it had when the page was
+  rendered (a checkbox's "true"/"false", everything else its literal
+  value). client/ver_2_0/js/modules/filter-sort.js restores every field to
+  that snapshot when the drawer is closed WITHOUT submitting (overlay
+  click, the close button, Escape) - otherwise a shopper who ticks a few
+  boxes, then closes instead of hitting Apply, would reopen the drawer to
+  find those ticks still showing as selected despite never having been
+  applied.
 
   A color swatch pill (filter_list_mode "pill_badge", and only for the
   Color/Colour filter) reuses the SAME global `.wpb-variants-swatch
@@ -87,7 +99,7 @@
       <div class="c5dla-filter-drawer__body">
         <div class="c5dla-filter-drawer__section">
           <h3>{{ 'products.facets.sort_by_label' | t }}</h3>
-          <select name="sort_by" class="c5dla-filter-drawer__sort" data-c5dla-filter-sort>
+          <select name="sort_by" class="c5dla-filter-drawer__sort" data-c5dla-filter-sort data-prev-value="{{ sort_by }}">
             {%- for option in results.sort_options -%}
               <option value="{{ option.value | escape }}"{% if option.value == sort_by %} selected{% endif %}>
                 {{ option.name | escape }}
@@ -113,7 +125,7 @@
                     {%- for value in filter.values -%}
                       {%- assign safe_value = value.value | escape | replace: '/', '-' | replace: ' ', '-' -%}
                       <label
-                        class="c5dla-filter-drawer__pill{% if value.active %} is-active{% endif %}{% if value.count == 0 and value.active == false %} is-disabled{% endif %}{% if is_color_filter %} c5dla-filter-drawer__pill--swatch{% endif %}"
+                        class="c5dla-filter-drawer__pill{% if value.count == 0 and value.active == false %} is-disabled{% endif %}{% if is_color_filter %} c5dla-filter-drawer__pill--swatch{% endif %}"
                         title="{{ value.label | escape }}"
                       >
                         <input
@@ -121,6 +133,7 @@
                           class="c5dla-filter-drawer__pill-input"
                           name="{{ value.param_name }}"
                           value="{{ value.value }}"
+                          data-prev-value="{{ value.active }}"
                           {% if value.active %}checked{% endif %}
                           {% if value.count == 0 and value.active == false %}disabled{% endif %}
                         >
@@ -145,6 +158,7 @@
                           type="checkbox"
                           name="{{ value.param_name }}"
                           value="{{ value.value }}"
+                          data-prev-value="{{ value.active }}"
                           {% if value.active %}checked{% endif %}
                           {% if value.count == 0 and value.active == false %}disabled{% endif %}
                         >
@@ -180,8 +194,8 @@
                     data-start-min="{{ price_min_raw }}"
                     data-start-max="{{ price_max_raw }}"
                   ></div>
-                  <input type="hidden" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value }}" data-c5dla-price-input-min>
-                  <input type="hidden" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value }}" data-c5dla-price-input-max>
+                  <input type="hidden" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value }}" data-prev-value="{{ filter.min_value.value }}" data-c5dla-price-input-min>
+                  <input type="hidden" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value }}" data-prev-value="{{ filter.max_value.value }}" data-c5dla-price-input-max>
                 {%- else -%}
                   <div class="c5dla-filter-drawer__price">
                     <div class="c5dla-filter-drawer__price-field">
@@ -191,6 +205,7 @@
                         id="c5dla-filter-price-min"
                         name="{{ filter.min_value.param_name }}"
                         value="{{ price_min_text }}"
+                        data-prev-value="{{ price_min_text }}"
                         placeholder="0"
                         min="0"
                         max="{{ price_range_max_text }}"
@@ -203,6 +218,7 @@
                         id="c5dla-filter-price-max"
                         name="{{ filter.max_value.param_name }}"
                         value="{{ price_max_text }}"
+                        data-prev-value="{{ price_max_text }}"
                         placeholder="{{ price_range_max_text }}"
                         min="0"
                         max="{{ price_range_max_text }}"

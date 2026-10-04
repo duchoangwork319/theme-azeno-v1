@@ -15,7 +15,6 @@ const TOGGLE_SELECTOR = "[data-c5dla-filter-toggle]";
 const DRAWER_SELECTOR = "[data-c5dla-filter-drawer]";
 const OVERLAY_SELECTOR = "[data-c5dla-filter-overlay]";
 const CLOSE_SELECTOR = "[data-c5dla-filter-close]";
-const SORT_SELECTOR = "[data-c5dla-filter-sort]";
 
 /**
  * Opens/closes the drawer + its overlay together, keeping the trigger
@@ -48,6 +47,32 @@ const setDrawerOpen = (toggle, drawer, overlay, open) => {
   }
 };
 
+/**
+ * Resets every field in the form back to the snapshot it carries in its own
+ * `data-prev-value` (set server-side in snippets/5dla_filter-sort-drawer.liquid
+ * - a checkbox's "true"/"false", everything else its literal value) - called
+ * when the drawer is closed WITHOUT submitting, so a shopper who ticks a few
+ * boxes/drags the price slider and then closes instead of hitting Apply
+ * doesn't reopen the drawer to find those still showing as selected.
+ *
+ * Fires a `c5dla:filter-reset` event on the form afterward so
+ * price-range-slider.js can re-sync its own noUiSlider position/labels from
+ * the now-restored hidden inputs - a slider instance's visual handles are
+ * independent state, not driven by the hidden inputs' `value` attribute.
+ * @param {HTMLFormElement} form
+ */
+const restoreFormState = form => {
+  form.querySelectorAll("[data-prev-value]").forEach(field => {
+    if (field.type === "checkbox") {
+      field.checked = field.dataset.prevValue === "true";
+    } else {
+      field.value = field.dataset.prevValue;
+    }
+  });
+
+  form.dispatchEvent(new CustomEvent("c5dla:filter-reset"));
+};
+
 export const initFilterSort = () => {
   const toggle = document.querySelector(TOGGLE_SELECTOR);
   const drawer = document.querySelector(DRAWER_SELECTOR);
@@ -55,26 +80,26 @@ export const initFilterSort = () => {
   if (!toggle || !drawer || !overlay) return;
 
   const close = document.querySelector(CLOSE_SELECTOR);
-  const sortSelect = drawer.querySelector(SORT_SELECTOR);
   const form = drawer.querySelector("[data-c5dla-filter-form]");
 
+  const cancelClose = () => {
+    restoreFormState(form);
+    setDrawerOpen(toggle, drawer, overlay, false);
+  };
+
   toggle.addEventListener("click", () => setDrawerOpen(toggle, drawer, overlay, true));
-  overlay.addEventListener("click", () => setDrawerOpen(toggle, drawer, overlay, false));
-  if (close) close.addEventListener("click", () => setDrawerOpen(toggle, drawer, overlay, false));
+  overlay.addEventListener("click", cancelClose);
+  if (close) close.addEventListener("click", cancelClose);
 
   document.addEventListener("keydown", event => {
-    if (event.key === "Escape" && !drawer.hidden) setDrawerOpen(toggle, drawer, overlay, false);
+    if (event.key === "Escape" && !drawer.hidden) cancelClose();
   });
 
-  // Checkbox filters submit immediately (no separate "apply" step needed
-  // for them) - the sort <select> and price number inputs still rely on
-  // the drawer's own submit button, since those are mid-typing/mid-choice
-  // until the shopper is done with them.
-  form.addEventListener("change", event => {
-    if (event.target.matches("input[type='checkbox']")) form.requestSubmit();
-  });
-
-  if (sortSelect) {
-    sortSelect.addEventListener("change", () => form.requestSubmit());
-  }
+  // Every field (checkboxes, sort <select>, price inputs/slider) only ever
+  // stages a choice - nothing here auto-submits on "change". The form's
+  // `.c5dla-filter-drawer__apply` button is a plain `type="submit"`, so the
+  // browser's own native click-to-submit is already "submit only on Apply" -
+  // no JS needed for it (and still works with JS disabled).
+  // price-range-slider.js's own "change" handler just writes into its
+  // hidden inputs, it no longer calls `form.requestSubmit()` either.
 };
