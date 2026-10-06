@@ -8,6 +8,14 @@
 import { initVariantPickers } from "./modules/variant.js";
 import { initFilterSort } from "./modules/filter-sort.js";
 import { initPriceRangeSlider } from "./modules/price-range-slider.js";
+// Only the Tab component (not the full bootstrap.bundle, which also pulls
+// in Popper for dropdown/tooltip/popover - unneeded here) - its own
+// import side effect wires up `[data-bs-toggle="tab"]` click handling
+// sitewide for this scope, same as the `nav-tabs`/`tab-pane` markup
+// ported into e.g. 5dla-data/pages/fusion-tri-suits-for-hot-weather-
+// racing-2.html's `.comparison-mobile`. No explicit `new Tab(...)` call
+// needed - Bootstrap's own data-api auto-initializes on click.
+import "bootstrap/js/dist/tab";
 
 const PAGINATION_SELECTOR = "[data-c5dla-pagination]";
 const PRODUCTS_SELECTOR = ".products";

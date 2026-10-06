@@ -20,7 +20,11 @@
     `collection_list` below.
   - collection_list: a `collection_list` setting (named to avoid shadowing
     the global `collections` Liquid object) - this block's links only
-    render when the CURRENT collection is in this list.
+    render when the CURRENT collection is in this list. Checked via
+    `| where: 'handle', collection.handle` (see the `for` loop below), not
+    `collection_list contains collection` - `contains` only works for
+    strings/numbers, not comparing a list of Collection drops against a
+    Collection object.
   A link is bolded (`.active`, same convention as the "All" button's
   `.active` class) when it's a collection link pointing at the collection
   page currently being viewed (`link.type == 'collection_link'` + the
@@ -37,7 +41,8 @@
   <div class="c5dla-subcollections">
     <nav class="categories" aria-label="{{ collection.title | append: ' product categories' }}">
       {%- for block in section.blocks -%}
-        {%- if block.type == 'activity_links' and block.settings.collection_list contains collection -%}
+        {%- assign picked_collections = block.settings.collection_list | where: 'handle', collection.handle -%}
+        {%- if block.type == 'activity_links' and picked_collections.size > 0 -%}
           <span style="display: contents;" {{ block.shopify_attributes }}>
             {%- for link in block.settings.links.links -%}
               {%- liquid

@@ -26,6 +26,226 @@
     },
     "subcollections": {
       "type": "5dla_collection-subcollections",
+      "blocks": {
+        "activity_links_wfr3ke": {
+          "type": "activity_links",
+          "settings": {
+            "title": "Men's Featured",
+            "links": "mens-featured",
+            "collection_list": [
+              "mens-featured",
+              "mens-featured-bestsellers",
+              "mens-featured-new-arrivals",
+              "mens-featured-shop-all-men"
+            ]
+          }
+        },
+        "activity_links_FxPpMj": {
+          "type": "activity_links",
+          "settings": {
+            "title": "Men's Triathlon",
+            "links": "mens-triathlon",
+            "collection_list": [
+              "mens-triathlon",
+              "mens-triathlon-race-belts",
+              "mens-triathlon-shop-all-mens-triathlon",
+              "mens-triathlon-tri-shorts",
+              "mens-triathlon-tri-suits",
+              "mens-triathlon-triathlon-accessories"
+            ]
+          }
+        },
+        "activity_links_JLkgBz": {
+          "type": "activity_links",
+          "settings": {
+            "title": "Men's Cycling",
+            "links": "mens-cycling",
+            "collection_list": [
+              "mens-cycling",
+              "mens-cycling-shop-all-mens-cycling",
+              "mens-cycling-jerseys",
+              "mens-cycling-cycling-suits",
+              "mens-cycling-cycling-shoes",
+              "mens-cycling-cycling-accessories",
+              "mens-cycling-bib-shorts"
+            ]
+          }
+        },
+        "activity_links_x9An9f": {
+          "type": "activity_links",
+          "settings": {
+            "title": "Men's Running",
+            "links": "mens-running",
+            "collection_list": [
+              "mens-running",
+              "mens-running-race-belts",
+              "mens-running-running-accessories",
+              "mens-running-shop-all-mens-running",
+              "mens-running-shorts-tights",
+              "mens-running-t-shirts-singlets"
+            ]
+          }
+        },
+        "activity_links_CBVhnp": {
+          "type": "activity_links",
+          "settings": {
+            "title": "Men's Training",
+            "links": "mens-training",
+            "collection_list": [
+              "mens-training",
+              "mens-training-shop-all-mens-training",
+              "mens-training-shorts-tights",
+              "mens-training-tops"
+            ]
+          }
+        },
+        "activity_links_tEKTgJ": {
+          "type": "activity_links",
+          "settings": {
+            "title": "Women's Featured",
+            "links": "womens-featured",
+            "collection_list": [
+              "womens-featured",
+              "womens-featured-bestsellers",
+              "womens-featured-new-arrivals",
+              "womens-featured-shop-all-women"
+            ]
+          }
+        },
+        "activity_links_TFMHqD": {
+          "type": "activity_links",
+          "settings": {
+            "title": "Women's Triathlon",
+            "links": "womens-triathlon",
+            "collection_list": [
+              "womens-triathlon",
+              "womens-triathlon-race-belts",
+              "womens-triathlon-shop-all-womens-triathlon",
+              "womens-triathlon-tri-shorts",
+              "womens-triathlon-tri-suits",
+              "womens-triathlon-triathlon-accessories"
+            ]
+          }
+        },
+        "activity_links_qh6Jgp": {
+          "type": "activity_links",
+          "settings": {
+            "title": "Women's Cycling",
+            "links": "womens-cycling",
+            "collection_list": [
+              "womens-cycling",
+              "womens-cycling-bib-shorts",
+              "womens-cycling-cycling-accessories",
+              "womens-cycling-cycling-shoes",
+              "womens-cycling-cycling-suits",
+              "womens-cycling-jerseys",
+              "womens-cycling-shop-all-womens-cycling"
+            ]
+          }
+        },
+        "activity_links_Fqd3r7": {
+          "type": "activity_links",
+          "settings": {
+            "title": "Women's Running",
+            "links": "womens-running",
+            "collection_list": [
+              "womens-running",
+              "womens-running-race-belts",
+              "womens-running-running-accessories",
+              "womens-running-shop-all-womens-running",
+              "womens-running-shorts-tights",
+              "womens-running-t-shirts-singlets"
+            ]
+          }
+        },
+        "activity_links_nMxdLa": {
+          "type": "activity_links",
+          "settings": {
+            "title": "Women's Training",
+            "links": "womens-training",
+            "collection_list": [
+              "womens-training",
+              "womens-training-shop-all-womens-training",
+              "womens-training-shorts-tights",
+              "womens-training-tops"
+            ]
+          }
+        },
+        "activity_links_8DPWbx": {
+          "type": "activity_links",
+          "settings": {
+            "title": "Shop by Sport Triathlon",
+            "links": "shop-by-sport-triathlon",
+            "collection_list": [
+              "shop-by-sport-triathlon",
+              "shop-by-sport-triathlon-race-belts",
+              "shop-by-sport-triathlon-shop-all-triathlon",
+              "shop-by-sport-triathlon-tri-shorts",
+              "shop-by-sport-triathlon-tri-suits"
+            ]
+          }
+        },
+        "activity_links_GgMw98": {
+          "type": "activity_links",
+          "settings": {
+            "title": "Shop by Sport Cycling",
+            "links": "shop-by-sport-cycling",
+            "collection_list": [
+              "shop-by-sport-cycling",
+              "shop-by-sport-cycling-bib-shorts",
+              "shop-by-sport-cycling-cycling-accessories",
+              "shop-by-sport-cycling-cycling-shoes",
+              "shop-by-sport-cycling-cycling-suits",
+              "shop-by-sport-cycling-jerseys",
+              "shop-by-sport-cycling-shop-all-cycling"
+            ]
+          }
+        },
+        "activity_links_wbRGpQ": {
+          "type": "activity_links",
+          "settings": {
+            "title": "Shop by Sport Running",
+            "links": "shop-by-sport-running",
+            "collection_list": [
+              "shop-by-sport-running",
+              "shop-by-sport-running-race-belts",
+              "shop-by-sport-running-running-accessories",
+              "shop-by-sport-running-shop-all-running",
+              "shop-by-sport-running-shorts-tights",
+              "shop-by-sport-running-t-shirts-singlets"
+            ]
+          }
+        },
+        "activity_links_QeXxj9": {
+          "type": "activity_links",
+          "settings": {
+            "title": "Shop by Sport Training",
+            "links": "shop-by-sport-training",
+            "collection_list": [
+              "shop-by-sport-training",
+              "shop-by-sport-training-shop-all-training",
+              "shop-by-sport-training-shorts-tights",
+              "shop-by-sport-training-tops"
+            ]
+          }
+        }
+      },
+      "block_order": [
+        "activity_links_wfr3ke",
+        "activity_links_FxPpMj",
+        "activity_links_JLkgBz",
+        "activity_links_x9An9f",
+        "activity_links_CBVhnp",
+        "activity_links_tEKTgJ",
+        "activity_links_TFMHqD",
+        "activity_links_qh6Jgp",
+        "activity_links_Fqd3r7",
+        "activity_links_nMxdLa",
+        "activity_links_8DPWbx",
+        "activity_links_GgMw98",
+        "activity_links_wbRGpQ",
+        "activity_links_QeXxj9"
+      ],
       "settings": {
         "enable": true
       }
@@ -36,9 +256,15 @@
         "collection": "",
         "product_list": [],
         "product_card_type": "card_3",
+        "mobile_display_mode": "grid",
         "desktop_grid_item_count": 4,
+        "tablet_grid_item_count": 3,
+        "mobile_grid_item_count": 2,
+        "mobile_padding": "0 9px 53px",
+        "mobile_margin": "0 auto",
         "max_width": "1600px",
         "padding": "0 5.15% 85px",
+        "background_color": "",
         "swatch_limit": 4,
         "size_selector_limit": 5,
         "page_item": 24,
