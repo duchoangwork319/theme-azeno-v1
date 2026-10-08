@@ -18,6 +18,7 @@ import { initVariantPickers } from "./modules/variant.js";
 import { initFilterSort } from "./modules/filter-sort.js";
 import { initPriceRangeSlider } from "./modules/price-range-slider.js";
 import { initQuickView } from "./modules/quick-view.js";
+import { initLazyload } from "./modules/lazyload.js";
 // Only the Tab component (not the full bootstrap.bundle, which also pulls
 // in Popper for dropdown/tooltip/popover - unneeded here) - its own
 // import side effect wires up `[data-bs-toggle="tab"]` click handling
@@ -80,6 +81,9 @@ const loadNextPage = async pagination => {
       // idempotent (see its own comment), so re-scanning the whole
       // document is safe and simpler than targeting just the new nodes.
       initVariantPickers();
+      // Same idempotency story for newly appended cards' own lazyload
+      // images (client/ver_2_0/js/modules/lazyload.js).
+      initLazyload();
     }
 
     const newPagination = parsed.querySelector(PAGINATION_SELECTOR);
@@ -223,6 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
       initVariantPickers();
       initInfiniteScroll();
       initPriceRangeSlider();
+      initLazyload();
     },
   });
   initPriceRangeSlider();
@@ -230,4 +235,5 @@ document.addEventListener("DOMContentLoaded", () => {
   initInfiniteScroll();
   ensureCardHeightEqual();
   initVariantPickers();
+  initLazyload();
 });

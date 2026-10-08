@@ -24,10 +24,15 @@
   other-tempo-card"): current_variant.featured_image, falling back to
   product.featured_media, same convention as card 1/2/3/4/5.
 
-  Expects: product, swatch_limit, section (both unused here - kept for a
-  consistent render signature with 5dla_product-card-1/2/3/4/5.liquid;
-  this card has no badge to override - see snippets/5dla_product-card-
-  badge-override.liquid)
+  Image lazyload (sections/5dla_collection-product-grid.liquid's "Start
+  Image Lazyload At") - see snippets/5dla_product-card-media.liquid's own
+  comment for the eager-vs-deferred mechanics; `index` just passes through
+  to it.
+
+  Expects: product, swatch_limit (unused - kept for a consistent render
+  signature with 5dla_product-card-1/2/3/4/5.liquid; this card has no
+  badge to override - see snippets/5dla_product-card-badge-override.
+  liquid), section, index
 {%- endcomment -%}
 
 {%- liquid
@@ -38,13 +43,14 @@
 <article class="other-tempo-card c5dla-card-6">
   <a class="other-tempo-image" href="{{ product.url }}">
     {%- if current_media -%}
-      <img
-        src="{{ current_media | image_url: width: 800 }}"
-        alt="{{ current_media.alt | default: product.title | escape }}"
-        loading="lazy"
-        width="800"
-        height="{{ 800 | divided_by: current_media.aspect_ratio }}"
-      >
+      {%- assign current_media_alt = current_media.alt | default: product.title -%}
+      {%- render '5dla_product-card-media',
+        media: current_media,
+        alt: current_media_alt,
+        width: 800,
+        index: index,
+        section: section
+      -%}
     {%- endif -%}
   </a>
   {%- comment -%} No category/eyebrow data source yet - dummy placeholder. {%- endcomment -%}

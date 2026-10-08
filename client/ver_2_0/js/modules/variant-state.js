@@ -161,10 +161,24 @@ export const updateProductPrice = (card, variant) => {
 export const updateProductImage = (card, product, variant) => {
   const image = variant.featured_image;
   const imageEl = card.querySelector("[dynamic=\"product-image\"]");
-  if (imageEl && image) {
-    imageEl.src = resizeImage(image.src, 960);
-    imageEl.alt = image.alt || product.title;
+  if (!imageEl || !image) return;
+
+  const resized = resizeImage(image.src, 960);
+  // If this card's image is still deferred (client/ver_2_0/js/modules/
+  // lazyload.js hasn't scrolled it into view yet - `data-src`, no real
+  // `src`), update THAT instead of forcing a real `src` here: this image
+  // may not even be visible yet (e.g. the shopper opened "Show all
+  // colours" and is clicking swatches on a card below the fold), so
+  // forcing a load now would defeat the point of deferring it. Swapping
+  // `data-src` means whichever color is selected by the time it finally
+  // scrolls into view is what gets loaded - still correct, just not
+  // fetched early.
+  if (imageEl.dataset.src) {
+    imageEl.dataset.src = resized;
+  } else {
+    imageEl.src = resized;
   }
+  imageEl.alt = image.alt || product.title;
 };
 
 /**

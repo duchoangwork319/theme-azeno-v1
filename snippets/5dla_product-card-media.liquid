@@ -1,0 +1,54 @@
+{%- comment -%}
+  Shared `<img>` renderer for every snippets/5dla_product-card-*.liquid's
+  main product image - the eager-vs-deferred lazyload decision
+  (sections/5dla_collection-product-grid.liquid's "Start Image Lazyload
+  At" setting) lives here once instead of being duplicated per card.
+
+  - EVERY image gets `c5dla-lazy-img` (the skeleton placeholder -
+    client/ver_2_0/scss/collection/_product-grid.scss), eager or
+    deferred alike - the shimmer only comes off once the image's own
+    `load`/`error` event actually fires (client/ver_2_0/js/modules/
+    lazyload.js), not on a fixed delay.
+  - `index` (1-based, from the caller's own `forloop.index`) <=
+    `section.settings.start_image_lazyload_at` renders a real `src` +
+    `loading="eager"` - this product is usually already visible on page
+    load, so there's nothing to gain by deferring it. Everything else
+    renders `data-src` instead (no `src` at all) - lazyload.js promotes
+    it to a real `src` once it scrolls near the viewport, loading it
+    exactly once. Missing/blank `index` defaults to eager (fails safe -
+    a caller that forgets to pass it gets today's "always load" behavior,
+    not a silently broken image).
+
+  Expects: media, alt, width (int - also the `image_url`/`width`
+  attribute size), index, section
+  Optional:
+  - extra_attrs - a raw, PRE-BUILT HTML attribute string (e.g.
+    `dynamic="product-image"`, snippets/5dla_product-card-3.liquid's
+    variant-switch hook) - output unescaped; caller-controlled only, never
+    raw user input.
+  - extra_class - an additional class (e.g. card 2's `model-image`),
+    appended alongside `c5dla-lazy-img`.
+{%- endcomment -%}
+
+{%- liquid
+  assign lazyload_threshold = section.settings.start_image_lazyload_at | default: 4
+  assign is_eager_image = true
+  if index != blank and index > lazyload_threshold
+    assign is_eager_image = false
+  endif
+
+  assign media_src = media | image_url: width: width
+-%}
+<img
+  class="c5dla-lazy-img{% if extra_class != blank %} {{ extra_class }}{% endif %}"
+  {{ extra_attrs }}
+  {% if is_eager_image %}
+    src="{{ media_src }}"
+    loading="eager"
+  {% else %}
+    data-src="{{ media_src }}"
+  {% endif %}
+  alt="{{ alt | default: '' | escape }}"
+  width="{{ width }}"
+  height="{{ width | divided_by: media.aspect_ratio }}"
+>

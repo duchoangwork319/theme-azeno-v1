@@ -359,3 +359,33 @@ body.show-all-colours .c5dla-card-1 .swatch--extra {
 body.show-all-colours .c5dla-card-1 .color-count {
   display: none;
 }
+
+// Not in the reference - shared skeleton/shimmer placeholder for EVERY
+// snippets/5dla_product-card-*.liquid media `<img>` (both the eager first
+// N products AND the deferred-until-scroll rest -
+// sections/5dla_collection-product-grid.liquid's "Start Image Lazyload
+// At" setting), applied/removed by client/ver_2_0/js/modules/lazyload.js
+// (`.is-loaded`, added once the image's own `load`/`error` event fires -
+// not a fixed delay, so this never flashes away before the image is
+// actually ready to paint over it, and never gets stuck showing if an
+// image 404s).
+@keyframes c5dla-lazy-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.c5dla-lazy-img {
+  background: var(--paper-warm) linear-gradient(90deg, var(--paper-warm) 25%, var(--line) 50%, var(--paper-warm) 75%);
+  background-size: 400% 100%;
+  animation: c5dla-lazy-shimmer 1.6s ease-in-out infinite;
+
+  &.is-loaded {
+    background: none;
+    animation: none;
+  }
+}

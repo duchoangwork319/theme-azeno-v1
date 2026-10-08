@@ -78,8 +78,17 @@
   `product_list` includes this product - see
   snippets/5dla_product-card-badge-override.liquid.
 
+  Image lazyload (sections/5dla_collection-product-grid.liquid's "Start
+  Image Lazyload At") - see snippets/5dla_product-card-media.liquid's own
+  comment for the eager-vs-deferred mechanics; `index` just passes through
+  to it. Works together with, not against, the `dynamic="product-image"`
+  variant-switch hook above - client/ver_2_0/js/modules/variant-state.js's
+  `updateProductImage` checks for a pending `data-src` first and updates
+  THAT instead of forcing a real `src` on a still-deferred image.
+
   Expects: product, swatch_limit, size_limit (section.settings.size_selector_limit,
-  passed through to snippets/5dla_product-size-selector.liquid), section
+  passed through to snippets/5dla_product-size-selector.liquid), section,
+  index
 {%- endcomment -%}
 
 {%- liquid
@@ -109,14 +118,15 @@
 >
   <div class="product-image-box">
     {%- if current_media -%}
-      <img
-        dynamic="product-image"
-        src="{{ current_media | image_url: width: 960 }}"
-        alt="{{ current_media.alt | default: product.title | escape }}"
-        loading="lazy"
-        width="960"
-        height="{{ 960 | divided_by: current_media.aspect_ratio }}"
-      >
+      {%- assign current_media_alt = current_media.alt | default: product.title -%}
+      {%- render '5dla_product-card-media',
+        media: current_media,
+        alt: current_media_alt,
+        width: 960,
+        index: index,
+        section: section,
+        extra_attrs: 'dynamic="product-image"'
+      -%}
     {%- endif -%}
     {%- if badge_label != blank -%}
       <span

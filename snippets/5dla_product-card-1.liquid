@@ -23,7 +23,12 @@
   `section` whose `product_list` includes this product. See
   snippets/5dla_product-card-badge-override.liquid.
 
-  Expects: product, swatch_limit, section
+  Image lazyload (sections/5dla_collection-product-grid.liquid's "Start
+  Image Lazyload At") - see snippets/5dla_product-card-media.liquid's own
+  comment for the eager-vs-deferred mechanics; `index` just passes through
+  to it.
+
+  Expects: product, swatch_limit, section, index
 {%- endcomment -%}
 
 {%- liquid
@@ -67,13 +72,14 @@
         <span class="badge" {% render '5dla_product-card-badge-style', bg_color: badge_override_bg_color, text_color: badge_override_text_color %}>{{ badge_text }}</span>
       {%- endif -%}
       {%- if current_media -%}
-        <img
-          src="{{ current_media | image_url: width: 800 }}"
-          alt="{{ current_media.alt | default: product.title | escape }}"
-          loading="lazy"
-          width="800"
-          height="{{ 800 | divided_by: current_media.aspect_ratio }}"
-        >
+        {%- assign current_media_alt = current_media.alt | default: product.title -%}
+        {%- render '5dla_product-card-media',
+          media: current_media,
+          alt: current_media_alt,
+          width: 800,
+          index: index,
+          section: section
+        -%}
       {%- endif -%}
     </a>
     {%- comment -%}

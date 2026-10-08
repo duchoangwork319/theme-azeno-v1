@@ -43,6 +43,15 @@
   call below (and in snippets/5dla_collection-product-grid-body.liquid) so
   those snippets can check this section's blocks against the product
   they're rendering.
+
+  "Start Image Lazyload At": `index: forloop.index` (1-based) is likewise
+  passed to every snippets/5dla_product-card-*.liquid render call below
+  (and in snippets/5dla_collection-product-grid-body.liquid) so each card
+  can compare its own position against `section.settings.
+  start_image_lazyload_at` and decide eager vs. deferred image loading -
+  see any of those snippets' own top comment for the per-card half of this,
+  and client/ver_2_0/js/modules/lazyload.js for the deferred-loading/
+  skeleton-removal JS.
 {%- endcomment -%}
 
 {%- liquid
@@ -175,17 +184,17 @@
           {%- for product in product_list -%}
             {% liquid
               if section.settings.product_card_type == 'card_1'
-                render '5dla_product-card-1', product: product, swatch_limit: section.settings.swatch_limit, section: section
+                render '5dla_product-card-1', product: product, swatch_limit: section.settings.swatch_limit, section: section, index: forloop.index
               elsif section.settings.product_card_type == 'card_2'
-                render '5dla_product-card-2', product: product, swatch_limit: section.settings.swatch_limit, section: section
+                render '5dla_product-card-2', product: product, swatch_limit: section.settings.swatch_limit, section: section, index: forloop.index
               elsif section.settings.product_card_type == 'card_3'
-                render '5dla_product-card-3', product: product, swatch_limit: section.settings.swatch_limit, size_limit: section.settings.size_selector_limit, section: section
+                render '5dla_product-card-3', product: product, swatch_limit: section.settings.swatch_limit, size_limit: section.settings.size_selector_limit, section: section, index: forloop.index
               elsif section.settings.product_card_type == 'card_4'
-                render '5dla_product-card-4', product: product, swatch_limit: section.settings.swatch_limit, section: section
+                render '5dla_product-card-4', product: product, swatch_limit: section.settings.swatch_limit, section: section, index: forloop.index
               elsif section.settings.product_card_type == 'card_5'
-                render '5dla_product-card-5', product: product, swatch_limit: section.settings.swatch_limit, section: section
+                render '5dla_product-card-5', product: product, swatch_limit: section.settings.swatch_limit, section: section, index: forloop.index
               elsif section.settings.product_card_type == 'card_6'
-                render '5dla_product-card-6', product: product, swatch_limit: section.settings.swatch_limit, section: section
+                render '5dla_product-card-6', product: product, swatch_limit: section.settings.swatch_limit, section: section, index: forloop.index
               endif
             %}
           {%- endfor -%}
@@ -332,6 +341,13 @@
       "max": 48,
       "step": 1,
       "default": 24
+    },
+    {
+      "type": "number",
+      "id": "start_image_lazyload_at",
+      "label": "Start Image Lazyload At",
+      "info": "Product position (1-based) from which images defer loading until scrolled near the viewport, with a skeleton placeholder shown until then. Earlier products (e.g. the first 4 by default) load their image right away instead, since they're usually already visible on page load.",
+      "default": 4
     },
     {
       "type": "select",

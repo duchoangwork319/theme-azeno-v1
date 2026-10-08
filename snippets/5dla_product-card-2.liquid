@@ -43,8 +43,13 @@
   includes this product - see snippets/5dla_product-card-badge-override.
   liquid.
 
+  Image lazyload (sections/5dla_collection-product-grid.liquid's "Start
+  Image Lazyload At") - see snippets/5dla_product-card-media.liquid's own
+  comment for the eager-vs-deferred mechanics; `index` just passes through
+  to it.
+
   Expects: product, swatch_limit (unused here - kept for a consistent
-  render signature with 5dla_product-card-1.liquid), section
+  render signature with 5dla_product-card-1.liquid), section, index
 {%- endcomment -%}
 
 {%- liquid
@@ -73,14 +78,15 @@
 <article class="model-card c5dla-card-2">
   <div class="model-image-box">
     {%- if model_image -%}
-      <img
-        class="model-image"
-        src="{{ model_image | image_url: width: 960 }}"
-        alt="{{ model_image.alt | default: product.title | escape }}"
-        loading="lazy"
-        width="960"
-        height="{{ 960 | divided_by: model_image.aspect_ratio }}"
-      >
+      {%- assign model_image_alt = model_image.alt | default: product.title -%}
+      {%- render '5dla_product-card-media',
+        media: model_image,
+        alt: model_image_alt,
+        width: 960,
+        index: index,
+        section: section,
+        extra_class: 'model-image'
+      -%}
     {%- endif -%}
     {%- if badge_label != blank -%}
       <span class="model-badge" {% render '5dla_product-card-badge-style', bg_color: badge_override_bg_color, text_color: badge_override_text_color %}>{{ badge_label }}</span>
