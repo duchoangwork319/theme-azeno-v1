@@ -7,211 +7,447 @@
 // only this modal's OWN content styling (image carousel, price, option
 // pickers, quantity, availability, add-to-cart), not a replacement for
 // Bootstrap's modal shell.
-
-.c5dla-quick-view__loading {
-  padding: 60px 0;
-  text-align: center;
-}
-
-// Image carousel (ports the legacy `.img-quickview`/`.quickview-images`
-// Slick carousel - see client/ver_2_0/js/modules/quick-view.js's top
-// comment for why this is Swiper instead). `.swiper`/`.swiper-wrapper`/
-// `.swiper-slide` base layout comes from the imported `swiper/css` (see
-// that same file) - this only adds this modal's own sizing + the prev/
-// next arrow buttons, styled after the legacy carousel's `.slick-arrow`
-// (white circular button, centered vertically over the image).
 //
-// `width`/`max-width` are hardcoded (not left at Swiper's default 100% of
-// its parent) because Swiper previously got initialized before Bootstrap's
-// modal transition finished (fixed in quick-view.js - see its own top
-// comment), which let it measure a bogus/zero container width and blow up
-// into an absurdly wide (~33,554,400px) layout that pushed the info column
-// off-screen. quick-view.js now only builds Swiper once the modal is fully
-// shown, but a fixed, sane width here is cheap insurance against the same
-// class of bug (e.g. a future caller building the carousel too early)
-// actually being visible as breakage instead of silently correct-by-luck.
-.c5dla-quick-view__media {
-  position: relative;
-  width: 100%;
-  max-width: 420px;
-  margin: 0 auto;
-
-  @media (width <=767px) {
-    max-width: 100%;
-  }
-}
-
-.c5dla-quick-view__carousel {
-  width: 100%;
-  max-width: 420px;
-  overflow: hidden;
-}
-
-.c5dla-quick-view__carousel .swiper-slide img {
-  width: 100%;
-  height: auto;
-  display: block;
-  object-fit: contain;
-  max-height: 420px;
-  margin: auto;
-}
-
-.c5dla-quick-view__carousel-nav {
-  position: absolute;
-  top: 50%;
-  z-index: 2;
-  transform: translateY(-50%);
-  cursor: pointer;
-  background: var(--white, #fff);
-  border: 0;
-  border-radius: 50%;
-  width: 35px;
-  height: 35px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 1px 4px rgb(0 0 0 / 15%);
-
-  &.swiper-button-disabled {
-    opacity: 0.35;
-    cursor: not-allowed;
-  }
-}
-
-.c5dla-quick-view__carousel-nav--prev {
-  left: 12px;
-}
-
-.c5dla-quick-view__carousel-nav--next {
-  right: 12px;
-}
-
-.c5dla-quick-view__info {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-
-  // `.row > .col-md-6` only stacks (full width) below Bootstrap's `md`
-  // breakpoint - once stacked, this column needs its own top spacing since
-  // it's no longer side-by-side with `.c5dla-quick-view__media`'s bottom
-  // edge.
-  @media (width <=767px) {
-    margin-top: 20px;
-  }
-}
-
-.c5dla-quick-view__vendor {
-  color: var(--muted, #777);
-  font-size: 12px;
-  text-decoration: none;
-}
-
-.c5dla-quick-view__price {
-  font-size: 18px;
-  font-weight: 600;
-}
-
-.c5dla-quick-view__options {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.c5dla-quick-view__option-label {
-  display: block;
-  font-size: 12px;
-  font-weight: 600;
-  margin-bottom: 6px;
-}
-
-.c5dla-quick-view__option-values {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.c5dla-quick-view__option-value {
-  cursor: pointer;
-  background: transparent;
-  border: 1px solid var(--line, #ddd);
-  padding: 6px 12px;
-  font-size: 12px;
-
-  &.active {
-    border-color: var(--ink, #141613);
-    font-weight: 700;
+// Everything nests under `.c5dla-quick-view` (the class already on the
+// modal root, snippets/5dla_quick-view-modal.liquid) instead of each class
+// standing alone at the top level - same "one prefix class, BEM children
+// nested under it" convention as `.c5dla-card-N` in
+// _product-card-2/3/4.scss. Two reasons this matters here specifically,
+// beyond consistency: it scopes every rule to an actual instance of this
+// modal (never accidentally matching an unrelated `.modal-content`
+// elsewhere), and it raises these rules' specificity a notch above
+// Bootstrap's own same-depth selectors (e.g. `.modal-header`,
+// `.nav-tabs .nav-link`-style 2-class rules) so source order isn't the
+// only thing keeping them winning.
+.c5dla-quick-view {
+  .modal-content {
+    border-radius: 4px;
+    border-color: var(--line);
   }
 
-  &.disabled,
-  &:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
+  .modal-header {
+    border-color: var(--line);
+    padding: 20px 24px;
+
+    @media (width <=767px) {
+      padding: 14px 16px;
+    }
   }
-}
 
-// Ports the legacy `.product-avaiable`/`.product-avaiable--instock`/
-// `.product-avaiable--outstock` in/out-of-stock text toggle (assets/
-// wpbingo.js's `updateProductAvaiable`) - just the color coding, same two
-// states.
-.c5dla-quick-view__available {
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.c5dla-quick-view__available--in-stock {
-  color: #108043;
-}
-
-.c5dla-quick-view__available--out-stock {
-  color: #d82c0d;
-}
-
-// Ports the legacy `.product-quantity__selector`/`.wpbingo-qty` +/-
-// stepper (snippets/site-template.liquid's quick view template,
-// `settings.quickview_quantity_selector == 'text'` branch).
-.c5dla-quick-view__quantity-label {
-  display: block;
-  font-size: 12px;
-  font-weight: 600;
-  margin-bottom: 6px;
-}
-
-.c5dla-quick-view__qty-selector {
-  display: inline-flex;
-  align-items: stretch;
-  border: 1px solid var(--line, #ddd);
-}
-
-.c5dla-quick-view__qty-btn {
-  cursor: pointer;
-  background: transparent;
-  border: 0;
-  width: 36px;
-  font-size: 16px;
-}
-
-.c5dla-quick-view__qty-input {
-  width: 48px;
-  border: 0;
-  border-inline: 1px solid var(--line, #ddd);
-  text-align: center;
-  appearance: textfield;
-
-  &::-webkit-inner-spin-button,
-  &::-webkit-outer-spin-button {
-    appearance: none;
-    margin: 0;
+  .modal-title {
+    font-family: var(--display);
+    font-size: 20px;
+    font-weight: 500;
   }
-}
 
-.c5dla-quick-view__form {
-  margin-top: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
+  .modal-body {
+    padding: 24px;
 
-.c5dla-quick-view__full-details {
-  font-size: 12px;
-  text-decoration: underline;
+    @media (width <=767px) {
+      padding: 16px;
+    }
+  }
+
+  &__loading {
+    padding: 60px 0;
+    text-align: center;
+    color: var(--muted);
+  }
+
+  // Image carousel (ports the legacy `.img-quickview`/`.quickview-images`
+  // Slick carousel - see client/ver_2_0/js/modules/quick-view.js's top
+  // comment for why this is Swiper instead). `.swiper`/`.swiper-wrapper`/
+  // `.swiper-slide` base layout comes from the imported `swiper/css` (see
+  // that same file) - this only adds this modal's own sizing + the prev/
+  // next arrow buttons, styled after the legacy carousel's `.slick-arrow`
+  // (white circular button, centered vertically over the image).
+  //
+  // No `width: 100%` here (there used to be one) - this column already
+  // sits inside Bootstrap's `.col-12.col-md-6` (snippets/5dla_quick-view-
+  // modal.liquid: full row width below `md`, so media stacks ABOVE info in
+  // DOM order; 50%-of-row, side by side, at `md` and up). An unconditional
+  // `width: 100%` here had the SAME specificity as `.col-md-6` (one class
+  // each) and came later in the stylesheet, so it won the tie and forced
+  // this column to full row width on EVERY screen size, even desktop -
+  // collapsing the two-column layout into one. `max-width`/`margin: auto`
+  // alone still cap and center the carousel within whatever width
+  // Bootstrap's column gives it, without fighting that column's own width.
+  &__media {
+    max-width: 420px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+
+    @media (width <=767px) {
+      max-width: 100%;
+    }
+  }
+
+  // `position: relative` lives HERE (not on `&__media`), and the nav
+  // buttons are now DOM children of this element (snippets/5dla_quick-
+  // view-modal.liquid), not siblings of it inside `&__media` - `&__media`
+  // stretches to match `&__info`'s height (Bootstrap's `.row` default
+  // `align-items: stretch`), which is taller whenever a product has both a
+  // Color AND a Size option group. With the old markup, the buttons'
+  // `top: 50%` resolved against THAT full stretched height (nearest
+  // positioned ancestor = `&__media`), vertically centering them on empty
+  // space below the image instead of on the image itself - moving both
+  // `position: relative` and the buttons onto `&__carousel` (which only
+  // ever sizes to its own content) fixes that regardless of the info
+  // column's height.
+  &__carousel {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    overflow: hidden;
+  }
+
+  // `max-height` shrinks on mobile (where media now ALWAYS stacks above
+  // info, per `.col-12.col-md-6` above) - the full-size desktop height
+  // would otherwise push the info column/add-to-cart below the viewport
+  // fold, forcing a scroll to reach them.
+  &__carousel .swiper-slide img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+    max-height: 420px;
+    margin: auto;
+
+    @media (width <=767px) {
+      max-height: 220px;
+    }
+  }
+
+  &__carousel-nav {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    transform: translateY(-50%);
+    cursor: pointer;
+    background: var(--white);
+    border: 0;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 4px rgb(0 0 0 / 15%);
+    transition: transform 0.16s, box-shadow 0.16s;
+
+    &:hover {
+      transform: translateY(-50%) scale(1.06);
+      box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
+    }
+
+    &.swiper-button-disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+
+      &:hover {
+        transform: translateY(-50%);
+        box-shadow: 0 1px 4px rgb(0 0 0 / 15%);
+      }
+    }
+  }
+
+  &__carousel-nav--prev {
+    left: 12px;
+  }
+
+  &__carousel-nav--next {
+    right: 12px;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    // `.col-12.col-md-6` stacks (full width) below Bootstrap's `md`
+    // breakpoint - once stacked, this column needs its own top spacing
+    // since it's no longer side-by-side with `.c5dla-quick-view__media`'s
+    // bottom edge. Smaller gap/margin than desktop too, alongside the
+    // carousel's own shorter `max-height` above - together these keep the
+    // whole modal short enough to fit a typical mobile viewport without
+    // scrolling.
+    @media (width <=767px) {
+      gap: 10px;
+      margin-top: 14px;
+    }
+  }
+
+  &__vendor {
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  &__price {
+    color: var(--ink);
+    font-family: var(--display);
+    font-size: 22px;
+    font-weight: 500;
+  }
+
+  &__options {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+
+    @media (width <=767px) {
+      gap: 10px;
+      padding-top: 10px;
+    }
+  }
+
+  &__option-label {
+    display: block;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  &__option-values {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  &__option-value {
+    cursor: pointer;
+    background: var(--white);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    padding: 7px 14px;
+    font-size: 12px;
+    transition: border-color 0.16s, background-color 0.16s, color 0.16s;
+
+    &:hover {
+      border-color: var(--ink);
+    }
+
+    &.active {
+      border-color: var(--ink);
+      background: var(--ink);
+      color: var(--white);
+      font-weight: 600;
+    }
+
+    &.disabled,
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+
+      &:hover {
+        border-color: var(--line);
+      }
+    }
+  }
+
+  &__swatches {
+    flex-wrap: wrap;
+    gap: 6px;
+    display: flex;
+  }
+
+  // Color/Colour group (client/ver_2_0/js/modules/quick-view.js's
+  // `buildColorSwatchValue`) renders as swatches instead of text pills -
+  // `.store-color-option`/`.color-swatch` are a 1:1 copy of
+  // `.c5dla-card-3`'s own (_product-card-3.scss) per request, same "each
+  // surface ports its own copy" convention as the `.button`/`.button-dark`/
+  // `.product-action` port above. The per-color background itself (the
+  // swatch's actual color) isn't set by either copy - both rely on
+  // sections/customer-variant.liquid's generated `.wpb-variants-swatch
+  // <value>` CSS, a plain, unscoped class selector that applies here
+  // exactly the same as it does on card 3.
+  .store-color-option {
+    border: 1px solid #e5e5e5;
+    border-radius: 50%;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    display: grid;
+    cursor: pointer;
+    padding: 0;
+    background: none;
+
+    &.disabled,
+    &:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    &.active {
+      border-color: var(--ink);
+    }
+  }
+
+  .color-swatch {
+    border: 1px solid #1416132e;
+    border-radius: 50%;
+    width: 14px;
+    height: 14px;
+  }
+
+  // Ports the legacy `.product-avaiable`/`.product-avaiable--instock`/
+  // `.product-avaiable--outstock` in/out-of-stock text toggle (assets/
+  // wpbingo.js's `updateProductAvaiable`) - a small status dot added
+  // alongside the original color-coded text (not in the legacy version,
+  // but a near-zero-cost clarity win, same in/out-of-stock colors driving
+  // both).
+  &__available {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+
+    &::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+      flex: none;
+    }
+  }
+
+  &__available--in-stock {
+    color: #108043;
+  }
+
+  &__available--out-stock {
+    color: #d82c0d;
+  }
+
+  // Ports the legacy `.product-quantity__selector`/`.wpbingo-qty` +/-
+  // stepper (snippets/site-template.liquid's quick view template,
+  // `settings.quickview_quantity_selector == 'text'` branch). Stacked
+  // column - quantity, THEN Add to Cart below it (DOM order in
+  // snippets/5dla_quick-view-modal.liquid already matches) - per request.
+  // No `gap` here (unlike other stacked-column rules in this file) - the
+  // submit button's own `.product-action` class (below) already brings a
+  // `margin-top` for this exact purpose (spacing itself from
+  // `&__quantity` above it), ported together with `.button`/`.button-dark`
+  // from _product-card-3.scss; a `gap` here too would double that spacing.
+  &__form {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    @media (width <=767px) {
+      margin-top: 10px;
+    }
+  }
+
+  &__quantity-label {
+    display: block;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  &__qty-selector {
+    display: inline-flex;
+    align-items: stretch;
+    border: 1px solid var(--line);
+  }
+
+  &__qty-btn {
+    cursor: pointer;
+    background: var(--white);
+    border: 0;
+    width: 36px;
+    font-size: 16px;
+    transition: background-color 0.16s;
+
+    &:hover {
+      background: var(--paper-warm);
+    }
+  }
+
+  &__qty-input {
+    width: 48px;
+    border: 0;
+    border-inline: 1px solid var(--line);
+    text-align: center;
+    appearance: textfield;
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      appearance: none;
+      margin: 0;
+    }
+  }
+
+  // Submit button (snippets/5dla_quick-view-modal.liquid's
+  // `[data-c5dla-quick-view-submit]`) already carries the exact same
+  // `button product-action button-dark` classes as card 3's own add-to-
+  // cart button (snippets/5dla_product-card-3-actions.liquid) - per
+  // request, these are a 1:1 copy of `.c5dla-card-3`'s `.button`/
+  // `.button-dark`/`.product-action` (_product-card-3.scss) rather than
+  // this modal inventing its own button look, so the two match exactly.
+  // (Not shared via a common selector - same "each card/surface ports its
+  // own copy" convention as _product-card-2/3/4.scss already use for
+  // their own overlapping classes.)
+  .button {
+    letter-spacing: 0.035em;
+    text-transform: uppercase;
+    border: 1px solid transparent;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    min-height: 50px;
+    padding: 0 22px;
+    font-size: 12px;
+    font-weight: 500;
+    transition: background-color 0.16s, border-color 0.16s, transform 0.16s;
+    display: inline-flex;
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover {
+      transform: translateY(-1px);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  .button-dark {
+    background: var(--ink);
+    color: var(--white);
+    border-color: var(--ink);
+  }
+
+  .product-action {
+    text-transform: none;
+    width: 100%;
+    margin-top: 14px;
+    font-size: 12px;
+    display: flex;
+  }
+
+  &__full-details {
+    color: var(--ink);
+    margin-top: 4px;
+    font-size: 12px;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
 }

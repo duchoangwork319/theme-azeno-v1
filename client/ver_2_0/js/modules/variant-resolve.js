@@ -52,3 +52,26 @@ export const findAnchorVariant = (product, position, value) => {
   const matches = product.variants.filter(variant => variantOptionValue(variant, position) === value);
   return matches.find(variant => variant.available) || matches[0];
 };
+
+/**
+ * Whether `value` at `position` is still choosable given the FULL current
+ * `selected` state (every OTHER position, not just ones preceding it) -
+ * same bidirectional check as ./variant-state.js's `refreshDisabledStates`
+ * (picking a color can disable sizes, AND picking a size can disable
+ * colors), extracted here as a pure per-value check so ./quick-view.js can
+ * reuse it without quick-view.js needing to know about that file's DOM-
+ * querying version.
+ * @param {object} product
+ * @param {number} position
+ * @param {string} value
+ * @param {Record<number, string>} selected
+ * @returns {boolean}
+ */
+export const isValueAvailable = (product, position, value, selected) =>
+  product.variants.some(variant => {
+    if (!variant.available || variantOptionValue(variant, position) !== value) return false;
+    return Object.entries(selected).every(([otherPosition, otherValue]) => {
+      if (Number(otherPosition) === position) return true;
+      return variantOptionValue(variant, Number(otherPosition)) === otherValue;
+    });
+  });

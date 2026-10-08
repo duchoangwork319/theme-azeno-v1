@@ -52,7 +52,7 @@ import "swiper/css/effect-fade";
 import Modal from "bootstrap/js/dist/modal";
 
 import { variantOptionValue, formatMoney } from "./variant-state.js";
-import { findExactVariant, findAnchorVariant } from "./variant-resolve.js";
+import { findExactVariant, findAnchorVariant, isValueAvailable } from "./variant-resolve.js";
 
 const TRIGGER_SELECTOR = "[data-quick-view-trigger]";
 const CARD_JSON_SELECTOR = "[data-product-json]";
@@ -338,17 +338,57 @@ const syncCarouselToVariant = variant => {
 };
 
 /**
- * Builds one option group's worth of selectable pills (color/size/anything
- * else a product defines) - generic, not tied to card 3's Color/Size-only
- * swatch markup, so this works for any product shape.
+ * Builds the Color/Colour group's values as color swatches instead of text
+ * pills - the exact same `.store-color-option`/`.color-swatch` markup
+ * shape as snippets/5dla_product-card-3-swatches.liquid (`wpb-variants-
+ * swatch` wrapper, `data-value`, nested `.color-swatch <value> <safe
+ * value>` dot + `.sr-only` text) so this modal's swatches look identical
+ * to card 3's (per request) and pick up the SAME per-color background
+ * CSS that sections/customer-variant.liquid generates against
+ * `.wpb-variants-swatch <value>` (a plain class selector, not scoped to
+ * any card variant - unaffected by which markup renders it).
+ * @param {string} value
+ * @returns {HTMLElement}
+ */
+const buildColorSwatchValue = value => {
+  const safeValue = String(value).replace(/\//g, "-").replace(/ /g, "-");
+
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "store-color-option";
+  button.dataset.value = value;
+  button.title = value;
+
+  const swatch = document.createElement("span");
+  swatch.className = `color-swatch ${value} ${safeValue}`;
+  swatch.setAttribute("aria-hidden", "true");
+  button.append(swatch);
+
+  const srText = document.createElement("span");
+  srText.className = "sr-only";
+  srText.textContent = value;
+  button.append(srText);
+
+  return button;
+};
+
+/**
+ * Builds one option group's worth of selectable values - color/colour
+ * renders as swatches (see `buildColorSwatchValue`), anything else
+ * (size, or any other option name a product defines) as text pills.
+ * Per-value `.active`/`.disabled` state is applied later by
+ * `renderVariant` (it needs the FULL current selection to compute
+ * availability bidirectionally, which isn't known yet on first build - see
+ * its own comment), not here.
  * @param {object} product
  * @param {string} optionName - e.g. "Color"
  * @param {number} position - 1-based
- * @param {Record<number, string>} selected
  * @param {(position: number, value: string) => void} onSelect
  * @returns {HTMLElement}
  */
-const buildOptionGroup = (product, optionName, position, selected, onSelect) => {
+const buildOptionGroup = (product, optionName, position, onSelect) => {
+  const isColorGroup = ["color", "colour"].includes(optionName.toLowerCase());
+
   const group = document.createElement("div");
   group.className = "c5dla-quick-view__option-group";
 
@@ -360,15 +400,19 @@ const buildOptionGroup = (product, optionName, position, selected, onSelect) => 
   const values = [...new Set(product.variants.map(variant => variantOptionValue(variant, position)))];
 
   const list = document.createElement("div");
-  list.className = "c5dla-quick-view__option-values";
+  list.className = isColorGroup
+    ? "product-swatches wpb-variants-swatch c5dla-quick-view__swatches"
+    : "c5dla-quick-view__option-values";
+  if (isColorGroup) list.setAttribute("aria-label", "Available product colours");
 
   values.forEach(value => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "c5dla-quick-view__option-value";
-    button.textContent = value;
-    button.dataset.value = value;
-    button.classList.toggle("active", selected[position] === value);
+    const button = isColorGroup ? buildColorSwatchValue(value) : document.createElement("button");
+    if (!isColorGroup) {
+      button.type = "button";
+      button.className = "c5dla-quick-view__option-value";
+      button.textContent = value;
+      button.dataset.value = value;
+    }
     button.addEventListener("click", () => onSelect(position, value));
     list.append(button);
   });
@@ -381,7 +425,16 @@ const buildOptionGroup = (product, optionName, position, selected, onSelect) => 
  * Re-renders everything that depends on the current variant: price,
  * add-to-cart state, availability text (ports assets/wpbingo.js's
  * `updateProductAvaiable` in/out-of-stock toggle), the carousel's active
- * slide, and each option group's active/selected pill.
+ * slide, and each option group's active/selected/disabled value.
+ *
+ * Disabled state is recomputed HERE (not once at build time in
+ * `buildOptionGroup`) against the FULL current `selected` state, same
+ * bidirectional check as ./variant-state.js's `refreshDisabledStates`
+ * (via ./variant-resolve.js's `isValueAvailable`, shared with it) -
+ * picking a color can disable sizes, AND picking a size can disable
+ * colors, which only a live, every-position-known selection can answer
+ * correctly (not just "preceding" positions, which is all a first/
+ * page-load render can know).
  * @param {object} product
  * @param {object} variant
  */
@@ -409,7 +462,12 @@ const renderVariant = (product, variant) => {
 
   els.options.querySelectorAll("[data-value]").forEach(el => {
     const position = Number(el.closest("[data-position]")?.dataset.position);
-    el.classList.toggle("active", selected[position] === el.dataset.value);
+    const value = el.dataset.value;
+    const isAvailable = isValueAvailable(product, position, value, selected);
+
+    el.classList.toggle("active", selected[position] === value);
+    el.classList.toggle("disabled", !isAvailable);
+    if (el.matches("button")) el.disabled = !isAvailable;
   });
 };
 
@@ -424,7 +482,12 @@ const renderVariant = (product, variant) => {
  */
 const renderProduct = (product, initialVariant) => {
   els.title.textContent = product.title;
-  els.fullLink.href = product.url;
+  // `product.url` only exists on the `/products/<handle>.js` fetch shape -
+  // the inline `data-product-json` fast path (Liquid's `product | json`,
+  // see `resolveProduct`'s own comment) doesn't include a `url` property at
+  // all, which left this `undefined` (rendered as a literal `href="undefined"`)
+  // whenever a card used that path. `product.handle` is present either way.
+  els.fullLink.href = product.url || `/products/${product.handle}`;
   els.qtyInput.value = 1;
 
   applyCarousel(resolveMediaSlides(product));
@@ -464,7 +527,7 @@ const renderProduct = (product, initialVariant) => {
     const values = new Set(product.variants.map(variant => variantOptionValue(variant, position)));
     if (values.size <= 1) return;
 
-    const group = buildOptionGroup(product, name, position, selected, onSelect);
+    const group = buildOptionGroup(product, name, position, onSelect);
     group.dataset.position = String(position);
     els.options.append(group);
   });

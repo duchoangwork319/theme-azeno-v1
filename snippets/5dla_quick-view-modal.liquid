@@ -108,33 +108,33 @@
         </div>
 
         <div class="c5dla-quick-view__content row" data-c5dla-quick-view-content hidden>
-          <div class="col-md-6 c5dla-quick-view__media img-quickview">
+          <div class="col-12 col-md-6 c5dla-quick-view__media img-quickview">
             <div class="c5dla-quick-view__carousel swiper" data-c5dla-quick-view-carousel>
               <div class="swiper-wrapper" data-c5dla-quick-view-carousel-wrapper></div>
+              <button
+                type="button"
+                class="c5dla-quick-view__carousel-nav c5dla-quick-view__carousel-nav--prev"
+                data-c5dla-quick-view-carousel-prev
+                aria-label="{{ 'products.zoom.prev' | t }}"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M15 18l-6-6 6-6"></path>
+                </svg>
+              </button>
+              <button
+                type="button"
+                class="c5dla-quick-view__carousel-nav c5dla-quick-view__carousel-nav--next"
+                data-c5dla-quick-view-carousel-next
+                aria-label="{{ 'products.zoom.next' | t }}"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M9 18l6-6-6-6"></path>
+                </svg>
+              </button>
             </div>
-            <button
-              type="button"
-              class="c5dla-quick-view__carousel-nav c5dla-quick-view__carousel-nav--prev"
-              data-c5dla-quick-view-carousel-prev
-              aria-label="{{ 'products.zoom.prev' | t }}"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M15 18l-6-6 6-6"></path>
-              </svg>
-            </button>
-            <button
-              type="button"
-              class="c5dla-quick-view__carousel-nav c5dla-quick-view__carousel-nav--next"
-              data-c5dla-quick-view-carousel-next
-              aria-label="{{ 'products.zoom.next' | t }}"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M9 18l6-6-6-6"></path>
-              </svg>
-            </button>
           </div>
 
-          <div class="col-md-6 c5dla-quick-view__info bwp-single-info">
+          <div class="col-12 col-md-6 c5dla-quick-view__info bwp-single-info">
             <a class="c5dla-quick-view__vendor" data-c5dla-quick-view-vendor href="#" hidden></a>
             <div class="c5dla-quick-view__price" data-c5dla-quick-view-price></div>
 
