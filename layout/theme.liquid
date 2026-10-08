@@ -90,6 +90,18 @@
     {%- endcomment -%}
     <main class="main-content{% if template.suffix contains 'c5dla' %} c5dla-scope{% endif %}" role="main">
       {{ content_for_layout }}
+      {%- if template.suffix contains 'c5dla' -%}
+        {%- comment -%}
+          Single shared Quick View dialog for this whole page - see
+          snippets/5dla_quick-view-modal.liquid's own top comment for why
+          it's rendered once here instead of per
+          sections/5dla_collection-product-grid.liquid instance (that
+          section, and therefore any snippets/5dla_product-card-*.liquid
+          quick-view trigger button inside it, can appear more than once on
+          one c5dla page).
+        {%- endcomment -%}
+        {%- render '5dla_quick-view-modal' -%}
+      {%- endif -%}
     </main>
     <footer class="bwp-footer{% if settings.show_menu_bottom %} have-menu-bottom{% endif %}">
       {%- liquid

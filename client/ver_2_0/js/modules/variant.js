@@ -26,6 +26,7 @@ import {
   updateActiveColorOption,
   updateSelectedSizeOption,
 } from "./variant-state.js";
+import { findOptionPosition, findExactVariant, findAnchorVariant } from "./variant-resolve.js";
 
 const VARIANT_CARD_SELECTOR = "[data-variant-picker]";
 
@@ -45,51 +46,6 @@ const readProduct = card => {
   } catch (error) {
     return null;
   }
-};
-
-/**
- * Finds the 1-based `optionN` position for an option name, matching
- * snippets/5dla_product-card-3-swatches.liquid's/
- * snippets/5dla_product-size-selector.liquid's own name matching
- * ("Color"/"Colour", "Size").
- * @param {string[]} optionNames - product.options
- * @param {string[]} candidates
- * @returns {number|null}
- */
-const findOptionPosition = (optionNames, candidates) => {
-  const index = optionNames.findIndex(name => candidates.includes(name));
-  return index === -1 ? null : index + 1;
-};
-
-/**
- * A variant whose value at EVERY position in `selected` matches - the
- * "exact combo" the user's full current selection maps to, if one exists.
- * @param {object} product
- * @param {Record<number, string>} selected - position -> value
- * @returns {object|undefined}
- */
-const findExactVariant = (product, selected) =>
-  product.variants.find(variant =>
-    Object.entries(selected).every(([position, value]) => variantOptionValue(variant, Number(position)) === value)
-  );
-
-/**
- * Fallback when no exact combo exists for the candidate selection (e.g.
- * this color + the previously selected size isn't a real variant): the
- * clicked element's OWN `data-value` (see snippets/
- * 5dla_product-card-3-swatches.liquid/5dla_product-size-selector.liquid)
- * anchors directly to a matching variant here, client-side, rather than
- * a separate precomputed Liquid attribute - prefers an AVAILABLE variant
- * with this value, else just the first one (so a fully out-of-stock value
- * still anchors to something real).
- * @param {object} product
- * @param {number} position
- * @param {string} value
- * @returns {object|undefined}
- */
-const findAnchorVariant = (product, position, value) => {
-  const matches = product.variants.filter(variant => variantOptionValue(variant, position) === value);
-  return matches.find(variant => variant.available) || matches[0];
 };
 
 /**

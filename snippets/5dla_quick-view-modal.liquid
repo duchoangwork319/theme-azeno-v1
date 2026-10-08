@@ -1,0 +1,208 @@
+{%- comment -%}
+  Shared Quick View modal - ONE instance per page, rendered from
+  layout/theme.liquid (gated to `template.suffix contains 'c5dla'`, same
+  condition that already wraps `<main>` in `.c5dla-scope` for this template
+  family - see that file's own comment). Rendered from the layout rather
+  than from sections/5dla_collection-product-grid.liquid on purpose: that
+  section (and therefore this snippet) can appear MULTIPLE times on one
+  page (e.g. templates/page.c5dla-trisuits-4-hwr.json renders it 3x, once
+  per card style) - rendering the modal from each instance would duplicate
+  this markup's ids/aria wiring once per section instead of sharing one
+  dialog, so it lives in the layout instead.
+
+  Uses Bootstrap 5's own Modal component (https://getbootstrap.com/docs/5.3/components/modal/,
+  already a project dependency - collection.scss does a full
+  `@import "bootstrap/scss/bootstrap"` and client/ver_2_0/js/collection.js
+  already imports `bootstrap/js/dist/tab`) instead of a bespoke
+  overlay/dialog pair: `.modal`/`.modal-dialog`/`.modal-content`/
+  `.modal-header`/`.modal-body` are Bootstrap's own classes, so backdrop,
+  Escape-to-close, body scroll lock, and focus trap/return all come from
+  Bootstrap's `Modal` component for free (client/ver_2_0/js/modules/
+  quick-view.js only calls `Modal.getOrCreateInstance(el).show()`/`.hide()`
+  - see that file's own comment for why the image carousel still waits for
+  Bootstrap's `shown.bs.modal` event before initializing).
+
+  Content layout is ported from the legacy quick view template
+  (snippets/site-template.liquid's `#quickiew-tempvlate` `<script>`, built
+  by assets/wpbingo.js's `wpbingo.QuickView`) - same two-column shape
+  (`.img-quickview` image area | info column with vendor/price/variants/
+  quantity/add-to-cart/availability/full-details), using Bootstrap's own
+  grid (`.row`/`.col-*`, already available via the full Bootstrap import
+  above) for that layout instead of a custom CSS grid.
+
+  One deliberate difference: the legacy template's image carousel
+  (`.quickview-images`) is a Slick carousel (assets/wpbingo.js's
+  `createImageCarousel`, `$(...).slick({fade:true, infinite:false, ...})`).
+  Per request, this one uses Swiper instead (already a project dependency -
+  see package.json) - `data-c5dla-quick-view-carousel`/`-carousel-wrapper`/
+  `-carousel-prev`/`-carousel-next` below are a plain Swiper
+  container/wrapper/nav-button shape (client/ver_2_0/js/modules/
+  quick-view.js builds the `.swiper-slide`s and instantiates `Swiper` with
+  the Navigation + EffectFade modules - same fade transition + prev/next
+  arrows the legacy carousel had, swapped library).
+
+  --- How to add a Quick View trigger to ANY snippets/5dla_product-card-*.liquid ---
+  This modal and its JS don't know anything about a specific card variant's
+  markup - they only need a trigger element anywhere on the page shaped
+  like:
+
+    <button
+      type="button"
+      class="quick-view-button"
+      data-quick-view-trigger
+      data-handle="{{ product.handle }}"
+      data-variant-id="{{ current_variant.id }}"
+    >
+      {{ 'products.product.quickview' | t }}
+    </button>
+
+  - `data-quick-view-trigger` is the only REQUIRED hook - quick-view.js
+    delegates a single document-level click listener for it, so a future
+    card variant just needs this button in its markup; no JS changes, no
+    re-init call, nothing else to wire up (new cards appended by
+    pagination/AJAX re-render work automatically for the same reason - the
+    listener isn't bound per-card).
+  - `data-handle` (required) is the product handle - quick-view.js fetches
+    `/products/<handle>.js` to populate the modal (this endpoint's `media`/
+    `variants[].featured_media` is also what feeds the image carousel).
+  - `data-variant-id` (optional) preselects that variant instead of the
+    product's first available one - keep it live on variant change the same
+    way snippets/5dla_product-card-3.liquid does (`dynamic="quick-view-trigger"`,
+    updated by client/ver_2_0/js/modules/variant-state.js's
+    `updateQuickViewTrigger`) if the card has its own variant picker.
+  - If the trigger sits inside an element carrying `data-product-json`
+    (card 3's `[data-variant-picker]` root), quick-view.js reads that
+    inline JSON instead of fetching - an optional optimization, not
+    required for a new card to work.
+  - `class="quick-view-button"` is purely presentational (for per-card
+    skinning/positioning); only the `data-quick-view-trigger` attribute is
+    load-bearing for JS.
+
+  Everything inside `[data-c5dla-quick-view-content]` below is populated by
+  quick-view.js at open time - this file only provides the static shell.
+{%- endcomment -%}
+
+<div
+  class="modal c5dla-quick-view"
+  id="c5dlaQuickViewModal"
+  data-c5dla-quick-view
+  tabindex="-1"
+  aria-labelledby="c5dla-quick-view-title"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-lg" data-c5dla-quick-view-dialog>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="c5dla-quick-view-title" data-c5dla-quick-view-title></h2>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="{{ 'products.facets.close' | t }}"
+        ></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="c5dla-quick-view__loading" data-c5dla-quick-view-loading hidden>
+          Loading...
+        </div>
+
+        <div class="c5dla-quick-view__content row" data-c5dla-quick-view-content hidden>
+          <div class="col-md-6 c5dla-quick-view__media img-quickview">
+            <div class="c5dla-quick-view__carousel swiper" data-c5dla-quick-view-carousel>
+              <div class="swiper-wrapper" data-c5dla-quick-view-carousel-wrapper></div>
+            </div>
+            <button
+              type="button"
+              class="c5dla-quick-view__carousel-nav c5dla-quick-view__carousel-nav--prev"
+              data-c5dla-quick-view-carousel-prev
+              aria-label="{{ 'products.zoom.prev' | t }}"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M15 18l-6-6 6-6"></path>
+              </svg>
+            </button>
+            <button
+              type="button"
+              class="c5dla-quick-view__carousel-nav c5dla-quick-view__carousel-nav--next"
+              data-c5dla-quick-view-carousel-next
+              aria-label="{{ 'products.zoom.next' | t }}"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M9 18l6-6-6-6"></path>
+              </svg>
+            </button>
+          </div>
+
+          <div class="col-md-6 c5dla-quick-view__info bwp-single-info">
+            <a class="c5dla-quick-view__vendor" data-c5dla-quick-view-vendor href="#" hidden></a>
+            <div class="c5dla-quick-view__price" data-c5dla-quick-view-price></div>
+
+            <div class="c5dla-quick-view__options" data-c5dla-quick-view-options></div>
+
+            <div
+              class="c5dla-quick-view__available"
+              data-c5dla-quick-view-available
+              data-in-stock-label="{{ 'products.product.in_stock' | t }}"
+              data-out-stock-label="{{ 'products.product.out_stock' | t }}"
+            >
+              <span data-c5dla-quick-view-available-text></span>
+            </div>
+
+            <form
+              class="form-addtocart c5dla-quick-view__form"
+              action="{{ routes.cart_add_url }}"
+              method="post"
+              enctype="multipart/form-data"
+              data-product-form
+              data-c5dla-quick-view-form
+            >
+              <input type="hidden" name="id" value="" data-c5dla-quick-view-variant-input>
+
+              <div class="c5dla-quick-view__quantity" data-c5dla-quick-view-quantity>
+                <label class="c5dla-quick-view__quantity-label">{{ 'products.product.quantity' | t }}</label>
+                <div class="c5dla-quick-view__qty-selector">
+                  <button
+                    type="button"
+                    class="c5dla-quick-view__qty-btn"
+                    data-c5dla-quick-view-qty-minus
+                    aria-label="{{ 'cart.general.reduce_quantity' | t }}"
+                  >&minus;</button>
+                  <input
+                    type="number"
+                    name="quantity"
+                    min="1"
+                    value="1"
+                    inputmode="numeric"
+                    class="c5dla-quick-view__qty-input"
+                    data-c5dla-quick-view-qty-input
+                  >
+                  <button
+                    type="button"
+                    class="c5dla-quick-view__qty-btn"
+                    data-c5dla-quick-view-qty-plus
+                    aria-label="{{ 'cart.general.increase_quantity' | t }}"
+                  >+</button>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                class="js-btn-addtocart button product-action button-dark"
+                data-c5dla-quick-view-submit
+                data-add-to-cart-label="{{ 'products.product.add_to_cart' | t }}"
+                data-sold-out-label="{{ 'products.product.sold_out' | t }}"
+              >
+                <span data-c5dla-quick-view-submit-label>{{ 'products.product.add_to_cart' | t }}</span>
+              </button>
+            </form>
+
+            <a class="c5dla-quick-view__full-details" data-c5dla-quick-view-full-link href="#">
+              {{ 'products.product.full_details' | t }}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

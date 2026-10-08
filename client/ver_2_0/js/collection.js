@@ -1,13 +1,23 @@
 "use strict";
 
-// This entry's CSS lives in its own sibling entry, client/ver_2_0/js/
-// css-collection.js (see scripts/vite-build.mjs's buildVer2Entry) - kept
-// separate so this entry can build as "iife" (window-safe even when
-// minified) while the CSS-only entry stays "es" (so Vite still extracts
-// it into its own .css file).
+// This entry's own SCSS/theme CSS lives in its sibling entry,
+// client/ver_2_0/js/css-collection.js (see scripts/vite-build.mjs's
+// buildVer2Entry) - kept separate so THIS entry can build as "iife"
+// (window-safe even when minified) while the CSS-only entry stays "es" (so
+// Vite extracts it into its own linked .css file - see
+// snippets/header-styles.liquid). The one exception is Swiper's own
+// stylesheet (imported by ./modules/quick-view.js, not SCSS, for the
+// shared Quick View image carousel) - since this "iife" entry has no
+// linked stylesheet of its own, Vite falls back to injecting that CSS at
+// runtime via a `<style>` tag instead of emitting a separate asset, which
+// is harmless (just needs this script to have actually run before the
+// carousel is visible, same as any other JS-driven styling it applies) but
+// worth knowing if a built `assets/bundled.collection.2.0.*` is ever
+// inspected and no matching `.css` file turns up.
 import { initVariantPickers } from "./modules/variant.js";
 import { initFilterSort } from "./modules/filter-sort.js";
 import { initPriceRangeSlider } from "./modules/price-range-slider.js";
+import { initQuickView } from "./modules/quick-view.js";
 // Only the Tab component (not the full bootstrap.bundle, which also pulls
 // in Popper for dropdown/tooltip/popover - unneeded here) - its own
 // import side effect wires up `[data-bs-toggle="tab"]` click handling
@@ -195,6 +205,11 @@ const initColorsToggle = () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   initColorsToggle();
+  // Unlike initVariantPickers, this binds ONE delegated document listener -
+  // it never needs re-running after loadNextPage/filter-sort swap in new
+  // cards (see ./modules/quick-view.js's own top comment), so it's not
+  // repeated in initFilterSort's onGridUpdated below.
+  initQuickView();
   // Re-runs everything that depends on `.products`/`[data-c5dla-pagination]`
   // after client/ver_2_0/js/modules/filter-sort.js's AJAX facet request
   // swaps in a freshly rendered grid - same re-inits `loadNextPage` already

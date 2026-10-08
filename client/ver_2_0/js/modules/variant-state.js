@@ -96,9 +96,11 @@ const formatMoneyFallback = (cents, format) => {
  * "HK$3,850.00" (rendered server-side via Liquid's `money` filter) turned
  * into plain "$3850.00" after a client-side variant change - this fallback
  * instead runs the real format template, so it stays correct either way.
+ * Exported so client/ver_2_0/js/modules/quick-view.js can format the
+ * Quick View modal's price the same way, without duplicating this.
  * @param {number} cents
  */
-const formatMoney = cents => {
+export const formatMoney = cents => {
   const format = window.wpbingo?.strings?.moneyFormat;
   if (window.Currency?.formatMoney) {
     return window.Currency.formatMoney(cents, format);

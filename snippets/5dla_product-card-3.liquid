@@ -63,11 +63,15 @@
     snippets/5dla_product-card-3-actions.liquid) - kept pointed at the
     selected variant so quick view/add-to-cart always target it, not the
     page-load default.
-  - `button.quick-view-button`'s own inline `onclick` (plain
-    `window.location.href = product.url`, NOT variant-specific - unlike
-    `data-variant-id` above it never needs updating on a variant change) -
-    there's no real quick-view panel built yet, so this just navigates to
-    the product page on click instead of leaving the button inert.
+  - `button.quick-view-button`'s `data-quick-view-trigger` opens the shared
+    Quick View modal (snippets/5dla_quick-view-modal.liquid, rendered once
+    per page from layout/theme.liquid) via
+    client/ver_2_0/js/modules/quick-view.js - see that modal snippet's own
+    top comment for the full trigger-button contract any
+    snippets/5dla_product-card-*.liquid can reuse. This card's own
+    `data-product-json` on the `<article>` root lets quick-view.js read the
+    product (and the live-selected variant) without a `/products/<handle>.js`
+    fetch - an optimization other card variants don't need to replicate.
 
   store-product-badge is also overridden (text + optional background/text
   color, same markup) by a `custom_badge` block on `section` whose
@@ -128,10 +132,10 @@
     <button
       class="quick-view-button"
       type="button"
+      data-quick-view-trigger
       dynamic="quick-view-trigger"
       data-handle="{{ product.handle }}"
       data-variant-id="{{ current_variant.id }}"
-      onclick="window.location.href='{{ product.url }}'"
     >
       {{ 'products.product.quickview' | t }}
     </button>

@@ -1,0 +1,217 @@
+// Shared Quick View modal (snippets/5dla_quick-view-modal.liquid, rendered
+// once per page from layout/theme.liquid - see that snippet's own top
+// comment). Uses Bootstrap 5's own `.modal`/`.modal-dialog`/`.modal-content`/
+// `.modal-header`/`.modal-body` (https://getbootstrap.com/docs/5.3/components/modal/,
+// already fully imported by `@import "bootstrap/scss/bootstrap"` above in
+// this file) for the overlay/backdrop/dialog chrome - everything below is
+// only this modal's OWN content styling (image carousel, price, option
+// pickers, quantity, availability, add-to-cart), not a replacement for
+// Bootstrap's modal shell.
+
+.c5dla-quick-view__loading {
+  padding: 60px 0;
+  text-align: center;
+}
+
+// Image carousel (ports the legacy `.img-quickview`/`.quickview-images`
+// Slick carousel - see client/ver_2_0/js/modules/quick-view.js's top
+// comment for why this is Swiper instead). `.swiper`/`.swiper-wrapper`/
+// `.swiper-slide` base layout comes from the imported `swiper/css` (see
+// that same file) - this only adds this modal's own sizing + the prev/
+// next arrow buttons, styled after the legacy carousel's `.slick-arrow`
+// (white circular button, centered vertically over the image).
+//
+// `width`/`max-width` are hardcoded (not left at Swiper's default 100% of
+// its parent) because Swiper previously got initialized before Bootstrap's
+// modal transition finished (fixed in quick-view.js - see its own top
+// comment), which let it measure a bogus/zero container width and blow up
+// into an absurdly wide (~33,554,400px) layout that pushed the info column
+// off-screen. quick-view.js now only builds Swiper once the modal is fully
+// shown, but a fixed, sane width here is cheap insurance against the same
+// class of bug (e.g. a future caller building the carousel too early)
+// actually being visible as breakage instead of silently correct-by-luck.
+.c5dla-quick-view__media {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+
+  @media (width <=767px) {
+    max-width: 100%;
+  }
+}
+
+.c5dla-quick-view__carousel {
+  width: 100%;
+  max-width: 420px;
+  overflow: hidden;
+}
+
+.c5dla-quick-view__carousel .swiper-slide img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  max-height: 420px;
+  margin: auto;
+}
+
+.c5dla-quick-view__carousel-nav {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  transform: translateY(-50%);
+  cursor: pointer;
+  background: var(--white, #fff);
+  border: 0;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 15%);
+
+  &.swiper-button-disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+}
+
+.c5dla-quick-view__carousel-nav--prev {
+  left: 12px;
+}
+
+.c5dla-quick-view__carousel-nav--next {
+  right: 12px;
+}
+
+.c5dla-quick-view__info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  // `.row > .col-md-6` only stacks (full width) below Bootstrap's `md`
+  // breakpoint - once stacked, this column needs its own top spacing since
+  // it's no longer side-by-side with `.c5dla-quick-view__media`'s bottom
+  // edge.
+  @media (width <=767px) {
+    margin-top: 20px;
+  }
+}
+
+.c5dla-quick-view__vendor {
+  color: var(--muted, #777);
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.c5dla-quick-view__price {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.c5dla-quick-view__options {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.c5dla-quick-view__option-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.c5dla-quick-view__option-values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.c5dla-quick-view__option-value {
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid var(--line, #ddd);
+  padding: 6px 12px;
+  font-size: 12px;
+
+  &.active {
+    border-color: var(--ink, #141613);
+    font-weight: 700;
+  }
+
+  &.disabled,
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+// Ports the legacy `.product-avaiable`/`.product-avaiable--instock`/
+// `.product-avaiable--outstock` in/out-of-stock text toggle (assets/
+// wpbingo.js's `updateProductAvaiable`) - just the color coding, same two
+// states.
+.c5dla-quick-view__available {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.c5dla-quick-view__available--in-stock {
+  color: #108043;
+}
+
+.c5dla-quick-view__available--out-stock {
+  color: #d82c0d;
+}
+
+// Ports the legacy `.product-quantity__selector`/`.wpbingo-qty` +/-
+// stepper (snippets/site-template.liquid's quick view template,
+// `settings.quickview_quantity_selector == 'text'` branch).
+.c5dla-quick-view__quantity-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.c5dla-quick-view__qty-selector {
+  display: inline-flex;
+  align-items: stretch;
+  border: 1px solid var(--line, #ddd);
+}
+
+.c5dla-quick-view__qty-btn {
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  width: 36px;
+  font-size: 16px;
+}
+
+.c5dla-quick-view__qty-input {
+  width: 48px;
+  border: 0;
+  border-inline: 1px solid var(--line, #ddd);
+  text-align: center;
+  appearance: textfield;
+
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    appearance: none;
+    margin: 0;
+  }
+}
+
+.c5dla-quick-view__form {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.c5dla-quick-view__full-details {
+  font-size: 12px;
+  text-decoration: underline;
+}
