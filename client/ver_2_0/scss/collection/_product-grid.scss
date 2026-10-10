@@ -360,16 +360,20 @@ body.show-all-colours .c5dla-card-1 .color-count {
   display: none;
 }
 
-// Not in the reference - shared skeleton/shimmer placeholder for EVERY
-// snippets/5dla_product-card-*.liquid media `<img>` (both the eager first
-// N products AND the deferred-until-scroll rest -
+// Not in the reference - generic, reusable skeleton/shimmer placeholder -
+// NOT image-specific despite living next to its only current user
+// (snippets/5dla_product-card-media.liquid's `.c5dla-media-wrap`, shared
+// by every snippets/5dla_product-card-*.liquid, both the eager first N
+// products AND the deferred-until-scroll rest -
 // sections/5dla_collection-product-grid.liquid's "Start Image Lazyload
-// At" setting), applied/removed by client/ver_2_0/js/modules/lazyload.js
-// (`.is-loaded`, added once the image's own `load`/`error` event fires -
-// not a fixed delay, so this never flashes away before the image is
-// actually ready to paint over it, and never gets stuck showing if an
-// image 404s).
-@keyframes c5dla-lazy-shimmer {
+// At" setting) - just add/remove `c5dla-skeleton` on whatever element
+// needs the effect. A single class, not a base+modifier pair: client/
+// ver_2_0/js/modules/lazyload.js REMOVES it outright once the image's own
+// `load`/`error` event fires (not a fixed delay, so this never flashes
+// away before the image is actually ready to paint over it, and never
+// gets stuck showing if an image 404s) - removing the class drops the
+// shimmer AND (via the `img` rule below) reveals the `<img>` in one step.
+@keyframes c5dla-skeleton-shimmer {
   0% {
     background-position: 200% 0;
   }
@@ -379,13 +383,31 @@ body.show-all-colours .c5dla-card-1 .color-count {
   }
 }
 
-.c5dla-lazy-img {
+.c5dla-skeleton {
   background: var(--paper-warm) linear-gradient(90deg, var(--paper-warm) 25%, var(--line) 50%, var(--paper-warm) 75%);
   background-size: 400% 100%;
-  animation: c5dla-lazy-shimmer 1.6s ease-in-out infinite;
+  // Slower than a typical shimmer (was 1.6s) - per request, the moving
+  // highlight should read as a calm sweep, not a fast flicker.
+  animation: c5dla-skeleton-shimmer 2.6s ease-in-out infinite;
+}
 
-  &.is-loaded {
-    background: none;
-    animation: none;
+// `.c5dla-media-wrap` (snippets/5dla_product-card-media.liquid) fills its
+// parent exactly like the `<img>` itself always has (same `width: 100%;
+// height: 100%`, see each card's own `.product-image`/`.model-image-box`/
+// etc., already `aspect-ratio`'d) - unlike the `<img>`, this never depends
+// on whether the image itself has loaded (or even has a `src` at all - the
+// deferred case, see 5dla_product-card-media.liquid), so the skeleton it
+// carries is ALWAYS the correct size, which a bare `<img>` with no `src`
+// isn't guaranteed to be in every browser.
+.c5dla-media-wrap {
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  // Hidden for as long as THIS SAME element still carries `c5dla-skeleton`
+  // (both classes live on one `<span>` - snippets/5dla_product-card-
+  // media.liquid) - shown again the instant lazyload.js removes it.
+  &.c5dla-skeleton img {
+    display: none;
   }
 }

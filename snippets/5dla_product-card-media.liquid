@@ -4,11 +4,21 @@
   (sections/5dla_collection-product-grid.liquid's "Start Image Lazyload
   At" setting) lives here once instead of being duplicated per card.
 
-  - EVERY image gets `c5dla-lazy-img` (the skeleton placeholder -
-    client/ver_2_0/scss/collection/_product-grid.scss), eager or
-    deferred alike - the shimmer only comes off once the image's own
-    `load`/`error` event actually fires (client/ver_2_0/js/modules/
-    lazyload.js), not on a fixed delay.
+  - A `<span class="c5dla-media-wrap c5dla-skeleton">` wraps the `<img>`.
+    `c5dla-skeleton` is a generic, reusable skeleton/shimmer class (client/
+    ver_2_0/scss/collection/_product-grid.scss) - NOT a base+modifier pair
+    (no separate "is-loaded" class) - client/ver_2_0/js/modules/
+    lazyload.js just REMOVES it outright once the image's own `load`/
+    `error` event fires, which both stops the shimmer AND reveals the
+    `<img>` (hidden - `display: none` - for as long as its wrapper still
+    carries `c5dla-skeleton`). The wrapper (not the `<img>`) is what's
+    sized to match the eventual image - a `<img>` with no `src` at all
+    (the deferred case below) isn't reliably sized by width/height
+    percentages in every browser, so the skeleton has to live on
+    something whose size doesn't depend on the `<img>`'s own state at
+    all; `c5dla-media-wrap` just fills its (already aspect-ratio'd, see
+    each card's own `.product-image`/`.model-image-box`/etc.) parent at
+    100%/100%, same as the `<img>` itself always has.
   - `index` (1-based, from the caller's own `forloop.index`) <=
     `section.settings.start_image_lazyload_at` renders a real `src` +
     `loading="eager"` - this product is usually already visible on page
@@ -26,8 +36,8 @@
     `dynamic="product-image"`, snippets/5dla_product-card-3.liquid's
     variant-switch hook) - output unescaped; caller-controlled only, never
     raw user input.
-  - extra_class - an additional class (e.g. card 2's `model-image`),
-    appended alongside `c5dla-lazy-img`.
+  - extra_class - an additional class (e.g. card 2's `model-image`), on
+    the `<img>` itself (not the wrapper).
 {%- endcomment -%}
 
 {%- liquid
@@ -39,16 +49,18 @@
 
   assign media_src = media | image_url: width: width
 -%}
-<img
-  class="c5dla-lazy-img{% if extra_class != blank %} {{ extra_class }}{% endif %}"
-  {{ extra_attrs }}
-  {% if is_eager_image %}
-    src="{{ media_src }}"
-    loading="eager"
-  {% else %}
-    data-src="{{ media_src }}"
-  {% endif %}
-  alt="{{ alt | default: '' | escape }}"
-  width="{{ width }}"
-  height="{{ width | divided_by: media.aspect_ratio }}"
->
+<span class="c5dla-media-wrap c5dla-skeleton">
+  <img
+    class="{{ extra_class }}"
+    {{ extra_attrs }}
+    {% if is_eager_image %}
+      src="{{ media_src }}"
+      loading="eager"
+    {% else %}
+      data-src="{{ media_src }}"
+    {% endif %}
+    alt="{{ alt | default: '' | escape }}"
+    width="{{ width }}"
+    height="{{ width | divided_by: media.aspect_ratio }}"
+  >
+</span>

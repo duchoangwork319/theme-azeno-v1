@@ -36,7 +36,10 @@
       aspect-ratio: 0.76;
     }
 
-    > img {
+    // Descendant, not `> img` (direct child) - snippets/5dla_product-
+    // card-media.liquid wraps the `<img>` in `.c5dla-media-wrap`
+    // (skeleton), so it's no longer a direct child of this element.
+    img {
       object-fit: cover;
       width: 100%;
       height: 100%;
@@ -44,7 +47,7 @@
     }
   }
 
-  &:hover .product-image-box > img {
+  &:hover .product-image-box img {
     transform: scale(1.035);
   }
 
