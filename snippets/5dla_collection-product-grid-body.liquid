@@ -2,18 +2,11 @@
   Grid + load-more markup shared by both `paginate` branches in
   snippets/5dla_collection-product-grid-paginate.liquid.
 
-  Expects `grid_collection` (the paginated collection), `desktop_columns`
-  (number), `desktop_max_width` (a CSS length string, e.g. `1600px` or
-  `min(1270px, 100% - 104px)`), `desktop_padding` (a CSS padding shorthand
-  string, e.g. `0 5.15% 85px`) and `paginate` (the enclosing
-  `{% paginate %}` object) as render params. `section` is used directly
-  (global object, not passed) - tablet/mobile column counts,
-  `mobile_display_mode`, and `mobile_padding`/`mobile_margin` (see
-  sections/5dla_collection-product-grid.liquid's own top comment) are read
-  straight from `section.settings` here too, same as `pagination_style`/
-  `product_card_type` below, rather than being threaded through
-  snippets/5dla_collection-product-grid-paginate.liquid as more render
-  params.
+  Expects `grid_collection`, `desktop_columns`, `desktop_max_width`,
+  `desktop_padding`, `paginate` as render params. `section` is used
+  directly (global, not passed) - tablet/mobile columns, display mode,
+  and mobile padding/margin are read straight from `section.settings`
+  too, same as `pagination_style`/`product_card_type` below.
 {%- endcomment -%}
 
 {%- liquid

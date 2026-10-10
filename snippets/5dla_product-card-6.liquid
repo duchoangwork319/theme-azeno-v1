@@ -1,38 +1,15 @@
 {%- comment -%}
-  Card variant 6/6 (sections/5dla_collection-product-grid.liquid's
-  `product_card_type` setting picks between 5dla_product-card-1/2/3/4/5/6).
-  Ported 1:1 (markup + CSS) from the reference's `article.other-tempo-card`
-  inside `section.other-tempo-section` (html/revamp-collection/rendered/
-  Fusion TEMPO! Wind-Tunnel Performance & Pro Racing _ 5DLA.html).
+  Card variant 6 - ported from the reference's `article.other-tempo-card`
+  (p/h3/a are direct children, no copy wrapper unlike card 5).
+  `c5dla-card-6` scopes its CSS (client/ver_2_0/scss/collection/
+  _product-card-6.scss).
 
-  `c5dla-card-6` on the root element is this variant's CSS prefix (see
-  client/ver_2_0/scss/collection/_product-card-6.scss), same convention as
-  card 1/2/3/4/5.
+  Data mapping: h3 = product.title, all anchors = product.url, p has no
+  real data source (dummy placeholder). Image = current_variant's,
+  falling back to product.featured_media.
 
-  Font: Jost - inherited from the scope-wide `:root` rule in
-  collection.scss (self-hosted from client/ver_2_0/fonts/Jost/static), not
-  re-declared here, same convention as card 2/3/4/5.
-
-  Data mapping (per request, .other-tempo-card element - p/h3/a are direct
-  children in the reference, no copy wrapper unlike card 5):
-  - p: no data source specified - dummy placeholder text.
-  - h3: product.title.
-  - a (all anchors - image link, title link, "VIEW PRODUCT" link):
-    product.url.
-
-  Image (not in the mapping list but part of "migrate article.
-  other-tempo-card"): current_variant.featured_image, falling back to
-  product.featured_media, same convention as card 1/2/3/4/5.
-
-  Image lazyload (sections/5dla_collection-product-grid.liquid's "Start
-  Image Lazyload At") - see snippets/5dla_product-card-media.liquid's own
-  comment for the eager-vs-deferred mechanics; `index` just passes through
-  to it.
-
-  Expects: product, swatch_limit (unused - kept for a consistent render
-  signature with 5dla_product-card-1/2/3/4/5.liquid; this card has no
-  badge to override - see snippets/5dla_product-card-badge-override.
-  liquid), section, index
+  Expects: product, swatch_limit (unused - consistent render signature;
+  no badge to override on this card), section, index
 {%- endcomment -%}
 
 {%- liquid

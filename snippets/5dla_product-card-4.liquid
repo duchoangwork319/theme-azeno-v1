@@ -1,47 +1,20 @@
 {%- comment -%}
-  Card variant 4/4 (sections/5dla_collection-product-grid.liquid's
-  `product_card_type` setting picks between 5dla_product-card-1/2/3/4).
-  Ported 1:1 (markup + CSS) from the reference's `article.essential-card`
-  inside `section.essentials-section` (html/revamp-collection/rendered/
-  Fusion Tri Suits for Hot-Weather Racing....html).
+  Card variant 4 - ported from the reference's `article.essential-card`.
+  `c5dla-card-4` scopes its CSS (client/ver_2_0/scss/collection/
+  _product-card-4.scss).
 
-  `c5dla-card-4` on the root element is this variant's CSS prefix (see
-  client/ver_2_0/scss/collection/_product-card-4.scss), same convention
-  as card 1/2/3.
+  Data mapping: essential-image = current_variant's image, falling back
+  to product.featured_media. store-product-badge = bwp_fields.badge_label
+  (same metafield as card 2/3, overridable by a `custom_badge` block -
+  snippets/5dla_product-card-badge-override.liquid). eyebrow/essential-
+  copy have no real data source - dummy placeholder text. essential-price/
+  essential-link (generic text in the reference) are mapped to
+  current_variant.price/product.url instead, for consistency with other
+  cards. `index`/`section` thread through to snippets/5dla_product-
+  card-media.liquid for lazyload.
 
-  Font: same reference page as card 2/3, same `--body: "Jost", Arial,
-  sans-serif` - inherited from the scope-wide `:root` rule in
-  client/ver_2_0/scss/collection/collection.scss (self-hosted from
-  client/ver_2_0/fonts/Jost/static), not re-declared here.
-
-  Data mapping (per request):
-  - essential-image: current_variant.featured_image, falling back to
-    product.featured_media (same convention as card 1/2/3/5/6) - shows the
-    SELECTED variant's own image, not just the product's default one.
-  - store-product-badge: product.metafields.bwp_fields.badge_label, same
-    metafield used by card 2/3 (blank/no badge rendered if not set).
-  - h3: product.title.
-  - eyebrow: no data source specified - dummy placeholder text.
-  - essential-copy: no data source specified - dummy placeholder text.
-  - essential-price / essential-link (not in the mapping list, but part of
-    "migrate article.essential-card") - the reference's own text is
-    generic ("View price & availability" / "Find on 5DLA", not tied to a
-    real product). Mapped here to current_variant.price and product.url
-    for consistency with card 2/3's price/link handling, instead of
-    kept as static text.
-
-  store-product-badge is also overridden (text + optional background/text
-  color, same markup) by a `custom_badge` block on `section` whose
-  `product_list` includes this product - see
-  snippets/5dla_product-card-badge-override.liquid.
-
-  Image lazyload (sections/5dla_collection-product-grid.liquid's "Start
-  Image Lazyload At") - see snippets/5dla_product-card-media.liquid's own
-  comment for the eager-vs-deferred mechanics; `index` just passes through
-  to it.
-
-  Expects: product, swatch_limit (unused here - kept for a consistent
-  render signature with 5dla_product-card-1/2.liquid), section, index
+  Expects: product, swatch_limit (unused - consistent render signature
+  across cards), section, index
 {%- endcomment -%}
 
 {%- liquid

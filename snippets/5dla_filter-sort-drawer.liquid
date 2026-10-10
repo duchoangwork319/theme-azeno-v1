@@ -1,102 +1,47 @@
 {%- comment -%}
-  Left-side offcanvas filter & sort drawer, styled after the new theme's
-  `.drawer`/`.drawer-head`/`.drawer-section` pattern (html/revamp-collection/
-  rendered/Fusion Cycling Jerseys, Bib Shorts & Apparel in Asia _ 5DLA.html -
-  that reference's own drawer opens from the right; this one is mirrored to
-  the left per request, see client/ver_2_0/scss/collection/_filter-sort.scss).
+  Left-side offcanvas filter & sort drawer (mirrored from the reference's
+  right-side drawer - client/ver_2_0/scss/collection/_filter-sort.scss).
+  Built fresh against native `collection`/`results.filters` - does NOT use
+  the legacy `settings.filter_name_1`/snippets/filter-sidebar.liquid stack.
 
-  Built fresh against the native `collection`/`results.filters` Liquid
-  objects (NOT the legacy `settings.filter_name_1`/`select_filter_1`/
-  `layout_filter` knobs from snippets/filter-sidebar.liquid, and NOT that
-  snippet's `facets__*`/`block-sidebar__title` markup or
-  sections/collection-sidebartop.liquid's settings) - per request, nothing
-  here reads or depends on those legacy settings.
+  `results` (required): the collection to build facets/sort for - only
+  rendered when it's a real collection (not a manual `product_list`).
 
-  `results` (required): the collection object to build facets/sort for.
-  Caller (sections/5dla_collection-product-grid.liquid) only renders this
-  when `results` is a real collection - the filter/sort panel has no
-  meaning against a manual `product_list`.
+  `price_range_mode`: "text_box" (two number inputs) or "slider"
+  (noUiSlider - client/ver_2_0/js/modules/price-range-slider.js), both
+  submit the same `min_value`/`max_value` query params.
 
-  `price_range_mode` (section.settings.price_range_mode): "text_box" (two
-  plain number inputs, default) or "slider" (a noUiSlider dual-handle
-  range - see client/ver_2_0/js/modules/price-range-slider.js and
-  node_modules/nouislider). Either way the same `filter.min_value.param_name`/
-  `max_value.param_name` query params go out on submit - the slider just
-  writes into hidden inputs with those names instead of visible number
-  inputs.
+  `filter_list_mode` (list/boolean filters only): "column_checkbox"
+  (2-col checkbox grid) or "pill_badge" (pills/swatches, checkbox visually
+  hidden but still real so state survives closing without submitting -
+  active look driven by `input:checked` + sibling CSS, not a server class).
 
-  `filter_list_mode` (section.settings.filter_list_mode): only affects
-  `list`/`boolean` filters (Price/`price_range` ignores it) - "column_checkbox"
-  (default: a 2-column grid of normal checkbox rows) or "pill_badge" (a
-  wrapping row of pills/swatches with a `value.count` corner badge, no
-  visible checkbox). The pill/swatch active look is driven by
-  `input:checked` + a next-sibling CSS selector (client/ver_2_0/scss/
-  collection/_filter-sort.scss), not a server-rendered `.is-active` class -
-  the checkbox is still really there (just visually hidden), so it stays
-  in sync even if the drawer is closed without submitting (see
-  `data-prev-value` below).
+  No "Apply" button - every field applies on its own `change`
+  (client/ver_2_0/js/modules/filter-sort.js; the slider calls
+  `form.requestSubmit()` instead). `data-prev-value` snapshots each
+  field's rendered value so filter-sort.js can roll back an unsubmitted
+  edit (mid-drag slider, focused-but-not-blurred input) when the drawer
+  closes without submitting.
 
-  There is no separate "Apply" button - every field in this form applies
-  immediately on its own `change` (client/ver_2_0/js/modules/filter-sort.js
-  listens on the form itself; the price slider instead calls
-  `form.requestSubmit()` from its own "change" event - see
-  client/ver_2_0/js/modules/price-range-slider.js), so `__foot` only ever
-  holds the Reset link now.
+  Color pills reuse the sitewide `.wpb-variants-swatch {{ value }}`
+  convention (sections/customer-variant.liquid emits the actual per-color
+  CSS) - `.wpb-variants-swatch` on the `<label>`, the value class on the
+  inner `&__swatch` span (a descendant selector, so they must be on
+  different elements).
 
-  Every field still carries a `data-prev-value` attribute (the value it had
-  when the page was rendered - a checkbox's "true"/"false", everything else
-  its literal value): a field only actually applies once ITS OWN `change`
-  fires, so a shopper who's mid-drag on the slider or has a number input
-  focused with an edited-but-not-yet-blurred value, then closes the drawer
-  instead, would otherwise be left looking at a half-applied value that was
-  never actually requested. filter-sort.js restores every field to this
-  snapshot when the drawer is closed that way (overlay click, the close
-  button, Escape).
+  Plain `<form>`, NOT `<facet-filters-form>` - that tag name is a global
+  custom element (assets/facets.js) expecting the legacy filter-sidebar
+  markup; reusing it would let that script hijack this form. All behavior
+  is client/ver_2_0/js/modules/filter-sort.js instead.
 
-  A color swatch pill (filter_list_mode "pill_badge", and only for the
-  Color/Colour filter) reuses the SAME global `.wpb-variants-swatch
-  {{ value }}` CSS convention product cards already rely on for their own
-  color swatches (see snippets/5dla_product-card-1-swatches.liquid's own
-  comment + sections/customer-variant.liquid, which emits the actual
-  per-color background for each product/filter value class sitewide) -
-  that's an existing theme-wide mechanism all swatches already depend on
-  for their literal colors, not a NEW legacy per-section setting.
-  `.wpb-variants-swatch` goes on the `<label>` (this pill's own root, same
-  role as `.swatches` on 5dla_product-card-1-swatches.liquid's wrapper),
-  while the `{{ value.value }}` class goes on the inner `&__swatch` span -
-  `sections/customer-variant.liquid` emits `.wpb-variants-swatch
-  {{ variant_name }}{...}` as a DESCENDANT selector (space, not compound),
-  so those two classes must stay on different elements, parent then child.
+  Every list/boolean `<label>` gets `title="{{ value.label }}"` regardless
+  of mode - snippets/5dla_filter-sort-genders.liquid's gender quick-filter
+  buttons locate a gender checkbox via that title attribute.
 
-  Deliberately a plain <form> (NOT wrapped in <facet-filters-form>) -
-  assets/facets.js registers that tag name as a global custom element
-  (`customElements.define('facet-filters-form', FacetFiltersForm)`) that
-  expects the legacy markup/IDs from snippets/filter-sidebar.liquid; reusing
-  the tag here would let that legacy script silently hijack this new form.
-  All behavior is instead handled by
-  client/ver_2_0/js/modules/filter-sort.js, which migrates that same
-  `FacetFiltersForm`'s Section Rendering API fetch-and-swap approach (see
-  its own top comment) rather than this legacy custom element.
-
-  Every `list`/`boolean` value's `<label>` carries a `title="{{ value.label }}"`
-  regardless of `filter_list_mode` (column_checkbox mode didn't need one
-  before this) - snippets/5dla_filter-sort-genders.liquid's toolbar buttons
-  and client/ver_2_0/js/modules/filter-sort.js's `filter:filterByGender`
-  listener find a gender checkbox via `label[title="..."] input[name=
-  "filter.v.t.shopify.target-gender"]`, so every mode needs that attribute
-  for that lookup to work.
-
-  `data-section-id` (`section.id`, a global available directly in any
-  snippet rendered from a section, same as `grid_collection`/`section` in
-  snippets/5dla_collection-product-grid-body.liquid) is how filter-sort.js
-  knows which section to re-fetch via `?sections=<id>` on Apply/Reset -
-  the response's `.products`/`[data-c5dla-pagination]`/this form's own
-  `__body`/`__foot` get swapped in from it, same `?sections=` convention
-  client/ver_2_0/js/collection.js's `loadNextPage` already uses for
-  pagination, instead of this form doing a real GET navigation. A real GET
-  is still the fallback if `data-section-id` is ever missing or the
-  request fails - this form's `action`/`method="get"`/field `name`s are
-  all real, so filtering still works with JS disabled or erroring out.
+  `data-section-id` lets filter-sort.js re-fetch via `?sections=<id>` on
+  Apply/Reset (same convention as collection.js's `loadNextPage`) instead
+  of a real GET - though a real GET still works as a no-JS fallback, since
+  `action`/`method`/field `name`s are all real.
 {%- endcomment -%}
 
 {%- liquid

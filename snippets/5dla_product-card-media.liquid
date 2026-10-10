@@ -1,43 +1,27 @@
 {%- comment -%}
   Shared `<img>` renderer for every snippets/5dla_product-card-*.liquid's
-  main product image - the eager-vs-deferred lazyload decision
-  (sections/5dla_collection-product-grid.liquid's "Start Image Lazyload
-  At" setting) lives here once instead of being duplicated per card.
+  main product image - eager-vs-deferred lazyload decision lives here once.
 
-  - A `<span class="c5dla-media-wrap c5dla-skeleton">` wraps the `<img>`.
-    `c5dla-skeleton` is a generic, reusable skeleton/shimmer class (client/
-    ver_2_0/scss/collection/_product-grid.scss) - NOT a base+modifier pair
-    (no separate "is-loaded" class) - client/ver_2_0/js/modules/
-    lazyload.js just REMOVES it outright once the image's own `load`/
-    `error` event fires, which both stops the shimmer AND reveals the
-    `<img>` (hidden - `display: none` - for as long as its wrapper still
-    carries `c5dla-skeleton`). The wrapper (not the `<img>`) is what's
-    sized to match the eventual image - a `<img>` with no `src` at all
-    (the deferred case below) isn't reliably sized by width/height
-    percentages in every browser, so the skeleton has to live on
-    something whose size doesn't depend on the `<img>`'s own state at
-    all; `c5dla-media-wrap` just fills its (already aspect-ratio'd, see
-    each card's own `.product-image`/`.model-image-box`/etc.) parent at
-    100%/100%, same as the `<img>` itself always has.
-  - `index` (1-based, from the caller's own `forloop.index`) <=
-    `section.settings.start_image_lazyload_at` renders a real `src` +
-    `loading="eager"` - this product is usually already visible on page
-    load, so there's nothing to gain by deferring it. Everything else
-    renders `data-src` instead (no `src` at all) - lazyload.js promotes
-    it to a real `src` once it scrolls near the viewport, loading it
-    exactly once. Missing/blank `index` defaults to eager (fails safe -
-    a caller that forgets to pass it gets today's "always load" behavior,
-    not a silently broken image).
+  The `<span class="c5dla-media-wrap c5dla-skeleton">` wrapper (not the
+  `<img>`) carries the skeleton/shimmer and is what's sized to match the
+  eventual image - a `<img>` with no `src` at all (the deferred case) isn't
+  reliably sized by width/height percentages in every browser, so
+  `c5dla-media-wrap` just fills its already aspect-ratio'd parent instead.
+  `c5dla-skeleton` is a single reusable class (client/ver_2_0/scss/
+  collection/_product-grid.scss) - client/ver_2_0/js/modules/lazyload.js
+  REMOVES it outright on `load`/`error`, which both stops the shimmer and
+  reveals the `<img>` (hidden via `display:none` while the wrapper still
+  has it).
 
-  Expects: media, alt, width (int - also the `image_url`/`width`
-  attribute size), index, section
-  Optional:
-  - extra_attrs - a raw, PRE-BUILT HTML attribute string (e.g.
-    `dynamic="product-image"`, snippets/5dla_product-card-3.liquid's
-    variant-switch hook) - output unescaped; caller-controlled only, never
-    raw user input.
-  - extra_class - an additional class (e.g. card 2's `model-image`), on
-    the `<img>` itself (not the wrapper).
+  `index` <= `section.settings.start_image_lazyload_at` renders a real
+  `src` + `loading="eager"`; everything else renders `data-src` instead
+  (lazyload.js promotes it once scrolled near viewport). Blank `index`
+  defaults to eager (fails safe).
+
+  Expects: media, alt, width (int), index, section
+  Optional: extra_attrs (raw HTML attribute string, e.g.
+  `dynamic="product-image"` - caller-controlled, output unescaped),
+  extra_class (extra class on the `<img>`, not the wrapper).
 {%- endcomment -%}
 
 {%- liquid

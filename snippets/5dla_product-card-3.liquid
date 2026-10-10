@@ -1,94 +1,34 @@
 {%- comment -%}
-  Card variant 3/3 (sections/5dla_collection-product-grid.liquid's
-  `product_card_type` setting picks between 5dla_product-card-1/2/3).
-  Ported 1:1 (markup + CSS) from the reference's `article.product-card`
-  inside `section#shop` (html/revamp-collection/rendered/Fusion Tri
-  Suits for Hot-Weather Racing....html).
+  Card variant 3 - ported from the reference's `article.product-card`.
+  `c5dla-card-3` scopes its CSS (client/ver_2_0/scss/collection/
+  _product-card-3.scss).
 
-  `c5dla-card-3` on the root element is this variant's CSS prefix (see
-  client/ver_2_0/scss/collection/_product-card-3.scss), same convention
-  as card 1/2.
+  Data mapping notes: store-product-category links to the CURRENT
+  collection (not "All"). store-product-vendor falls back to a
+  best-effort `/pages/<handleized vendor>` guess (no real per-vendor page
+  mapping specified). store-product-price/badge use VARIANT-level
+  price/the bwp_fields.badge_label metafield, same as card 2. Swatches/
+  size selector/add-to-cart are their own snippets (5dla_product-card-
+  3-swatches / 5dla_product-size-selector / 5dla_product-card-3-actions).
+  Review badge is temporarily hidden (commented out below).
 
-  Font: same reference page as card 2, same `--body: "Jost", Arial,
-  sans-serif` - the Google Fonts <link> in
-  sections/5dla_collection-product-grid.liquid is shared by both
-  (gated on `product_card_type == 'card_2' or 'card_3'`).
+  Variant switching (client/ver_2_0/js/variant.js): `data-variant-picker`
+  + `data-current-variant-id` on the `<article>` are its entry point.
+  Elements carrying `dynamic="<key>"` get updated in place on variant
+  change instead of a full re-render: product-title (product-level, so a
+  no-op today), product-price (formatted via assets/currencies.js's
+  `Currency.formatMoney`), product-image (swapped ONLY on a COLOR change,
+  never on size), and quick-view-trigger/variant-id-input (kept pointed
+  at the selected variant). `data-product-json` on the `<article>` lets
+  quick-view.js (snippets/5dla_quick-view-modal.liquid) read the live
+  variant without a `/products/<handle>.js` fetch.
 
-  Data mapping (per request):
-  - store-product-category: the CURRENT collection (collection.title/.url),
-    not "All" like the reference's own link.
-  - store-product-review: product.metafields.judgeme.badge, wrapped in the
-    same `.jdgm-widget.jdgm-preview-badge[data-id]` hook used elsewhere in
-    this theme (snippets/product-grid-hover-1.liquid) - Judge.me's own app
-    script (not part of this stack) hydrates it wherever that hook appears.
-  - product-title-row: product.title, linked to product.url.
-  - store-product-vendor: product.vendor. The reference links it to a
-    static brand page; no per-vendor page mapping was specified, so this
-    links to a best-effort `/pages/<handleized vendor>` guess (same
-    fallback-link pattern as sections/5dla_collection-benefits.liquid).
-  - store-product-price: current_variant.price (a VARIANT price, matching
-    card 2's convention, not a product-level range).
-  - store-product-badge (image overlay, not in the mapping list but part
-    of "migrate article.product-card") reuses the same
-    product.metafields.bwp_fields.badge_label as card 2, for consistency.
-  - product-swatches: snippets/5dla_product-card-3-swatches.liquid (new) -
-    its own markup/CSS, not shared with card 1's
-    snippets/5dla_product-card-1-swatches.liquid (different shape: flat
-    dot vs. this card's ring+dot).
-  - size-selector: snippets/5dla_product-size-selector.liquid (new).
-  - Add to cart: snippets/5dla_product-card-3-actions.liquid (new).
+  Lazyload (snippets/5dla_product-card-media.liquid) and the variant-image
+  hook above cooperate: client/ver_2_0/js/modules/variant-state.js's
+  `updateProductImage` updates a pending `data-src` instead of forcing a
+  real `src` on a still-deferred image.
 
-  Variant switching (client/ver_2_0/js/variant.js, wired up by
-  client/ver_2_0/js/collection.js): `data-variant-picker` +
-  `data-current-variant-id` on the root <article> are variant.js's entry
-  point into this card. Every element whose content depends on the
-  SELECTED variant (not just the product) carries a `dynamic="<key>"`
-  attribute so variant.js can find and update it without re-rendering the
-  whole card:
-  - dynamic="product-title": re-set to product.title on every variant
-    change (title is product-level, not variant-level, so this is a
-    no-op in practice - kept for a consistent "every dynamic field gets
-    refreshed" routine, and in case a future card wants variant.title/
-    public_title here instead).
-  - dynamic="product-price": current_variant.price, formatted client-side
-    via the sitewide money format (assets/currencies.js's
-    `Currency.formatMoney` + wpbingo.strings.moneyFormat, already loaded
-    by snippets/footer-javascript(-optimized).liquid - not reimplemented
-    here).
-  - dynamic="product-image": swapped ONLY when the newly selected variant's
-    COLOR differs from the previous selection (per request) - a plain size
-    change never touches it.
-  - dynamic="quick-view-trigger" (quick-view-button's own `data-variant-id`)
-    and dynamic="variant-id-input" (the hidden `id` input in
-    snippets/5dla_product-card-3-actions.liquid) - kept pointed at the
-    selected variant so quick view/add-to-cart always target it, not the
-    page-load default.
-  - `button.quick-view-button`'s `data-quick-view-trigger` opens the shared
-    Quick View modal (snippets/5dla_quick-view-modal.liquid, rendered once
-    per page from layout/theme.liquid) via
-    client/ver_2_0/js/modules/quick-view.js - see that modal snippet's own
-    top comment for the full trigger-button contract any
-    snippets/5dla_product-card-*.liquid can reuse. This card's own
-    `data-product-json` on the `<article>` root lets quick-view.js read the
-    product (and the live-selected variant) without a `/products/<handle>.js`
-    fetch - an optimization other card variants don't need to replicate.
-
-  store-product-badge is also overridden (text + optional background/text
-  color, same markup) by a `custom_badge` block on `section` whose
-  `product_list` includes this product - see
-  snippets/5dla_product-card-badge-override.liquid.
-
-  Image lazyload (sections/5dla_collection-product-grid.liquid's "Start
-  Image Lazyload At") - see snippets/5dla_product-card-media.liquid's own
-  comment for the eager-vs-deferred mechanics; `index` just passes through
-  to it. Works together with, not against, the `dynamic="product-image"`
-  variant-switch hook above - client/ver_2_0/js/modules/variant-state.js's
-  `updateProductImage` checks for a pending `data-src` first and updates
-  THAT instead of forcing a real `src` on a still-deferred image.
-
-  Expects: product, swatch_limit, size_limit (section.settings.size_selector_limit,
-  passed through to snippets/5dla_product-size-selector.liquid), section,
-  index
+  Expects: product, swatch_limit, size_limit, section, index
 {%- endcomment -%}
 
 {%- liquid

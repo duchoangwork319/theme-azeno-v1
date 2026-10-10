@@ -1,20 +1,9 @@
 {%- comment -%}
-  Size selector for card variant 3 (snippets/5dla_product-card-3.liquid).
-  Ported 1:1 (markup + CSS) from the reference's `.size-selector`/
-  `.size-option` inside `article.product-card`
-  (html/revamp-collection/rendered/Fusion Tri Suits for Hot-Weather
-  Racing....html, section#shop). No selection state in the reference
-  markup itself (`aria-pressed="false"` on every button, no real JS) -
-  this reuses the SAME cascading-availability computation as
-  snippets/5dla_product-card-1-swatches.liquid (option_disabled, generalized via a
-  computed `optionN` key from the option's real position) so out-of-stock
-  sizes are at least visually/semantically disabled, matching the quality
-  bar the swatch snippet already set.
-
-  `data-value` also doubles as client/ver_2_0/js/modules/variant.js's
-  variant anchor - it maps this size value back to a matching variant in
-  the card's `data-product-json` client-side, same as
-  snippets/5dla_product-card-3-swatches.liquid's own `data-value`.
+  Size selector for card variant 3. Uses the same cascading-availability
+  computation as snippets/5dla_product-card-1-swatches.liquid so
+  out-of-stock sizes are disabled. `data-value` doubles as
+  client/ver_2_0/js/modules/variant.js's variant anchor, same as
+  snippets/5dla_product-card-3-swatches.liquid.
 
   Expects: product, current_variant, size_limit
 {%- endcomment -%}

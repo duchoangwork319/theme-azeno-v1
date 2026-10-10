@@ -1,21 +1,12 @@
 {%- comment -%}
-  Add-to-cart action for card variant 3 (snippets/5dla_product-card-3.liquid).
-  Ported from the reference's `a.button.product-action.button-dark`
-  (html/revamp-collection/rendered/Fusion Tri Suits for Hot-Weather
-  Racing....html, section#shop) - the reference just links to the product
-  page, but this is a real add-to-cart form instead, reusing the same
-  legacy AJAX hooks (.form-addtocart/data-product-form) as
-  snippets/5dla_product-card-1-actions.liquid (card 1's add-to-cart), so it
-  works via assets/wpbingo.js's global `formOverride` handler without any
-  new JS. Sold-out gets a disabled state instead of a form, same pattern
-  as card 1.
+  Add-to-cart for card variant 3. The reference just links to the product
+  page; this is a real add-to-cart form reusing the legacy
+  .form-addtocart/data-product-form AJAX hooks (assets/wpbingo.js's
+  `formOverride`), same as card 1. `dynamic="variant-id-input"`/
+  `"add-to-cart-button"` are kept pointed at the selected variant by
+  client/ver_2_0/js/variant.js.
 
   Expects: product, current_variant
-
-  `dynamic="variant-id-input"`/`dynamic="add-to-cart-button"` - kept
-  pointed at the selected variant by client/ver_2_0/js/variant.js (see
-  snippets/5dla_product-card-3.liquid's own comment) so add-to-cart always
-  submits the variant currently shown, not the page-load default.
 {%- endcomment -%}
 
 {%- if product.available == false -%}

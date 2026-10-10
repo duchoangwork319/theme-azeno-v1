@@ -1,55 +1,21 @@
 {%- comment -%}
-  Card variant 2/3 (sections/5dla_collection-product-grid.liquid's
-  `product_card_type` setting picks between 5dla_product-card-1/2/3).
-  Ported 1:1 (markup + CSS) from the reference's `article.model-card`
-  inside `section#models` (html/revamp-collection/rendered/Fusion Tri
-  Suits for Hot-Weather Racing....html). No action button group (per
-  request) - the reference's own `.model-card` has none either, only the
-  always-visible `.model-shop-link` at the bottom, which IS part of the
-  card's own content, not a hover action group like card-1's.
+  Card variant 2 - ported from the reference's `article.model-card`. No
+  hover action group like card 1 - the always-visible `.model-shop-link`
+  is the reference's own only action. `c5dla-card-2` scopes this variant's
+  CSS (client/ver_2_0/scss/collection/_product-card-2.scss).
 
-  `c5dla-card-2` on the root element is this variant's CSS prefix (see
-  client/ver_2_0/scss/collection/_product-card-2.scss) - same convention
-  as 5dla_product-card-1.liquid's `c5dla-card-1`.
+  Data mapping: model-image = current_variant's image, falling back to
+  product.featured_media. model-badge = product.metafields.bwp_fields.
+  badge_label (overridable by a `custom_badge` block - snippets/5dla_
+  product-card-badge-override.liquid). model-headline = short_description
+  metafield, falling back to product.description. model-features =
+  product.metafields.bwp_fields.features (a list metafield, already a
+  plain array - no `.value` needed). All blank-safe (render nothing if
+  unset). `index`/`section` thread through to snippets/5dla_product-
+  card-media.liquid for lazyload.
 
-  Font: the reference page sets `--display`/`--body: "Jost", Arial,
-  sans-serif` (its entire body font, not just headings) - loaded via
-  sections/5dla_collection-product-grid.liquid's Google Fonts <link>
-  (once per section, not once per card).
-
-  Data mapping (per request - some fields have no real data source yet,
-  so they're raw-HTML-with-dummy-text placeholders):
-  - model-image: current_variant's own featured image, falling back to
-    the product's featured media if the variant has none.
-  - model-badge: product.metafields.bwp_fields.badge_label (blank/no
-    badge rendered if not set - not every product needs one).
-  - model-name-row: product.title + current_variant.price (a VARIANT
-    price, not the product's general price range).
-  - model-headline: product.metafields.custom.short_description.value,
-    falling back to product.description, same as snippets/
-    5dla_product-card-1.liquid's own `.product-short-description` (there
-    it's `short_description`/`.product-short-description` - here
-    `.model-headline` reuses the same data, just under this variant's own
-    class name).
-  - model-features: product.metafields.bwp_fields.features - a "List of
-    Choice list" metafield (list.single_line_text_field), so it's already a
-    plain array of strings to loop directly (no `.value` needed - unlike an
-    older-style Metafield object, a LIST metafield resolves straight to its
-    array in Liquid). Renders nothing if the metafield is blank/unset, same
-    as model-badge above.
-
-  model-badge is also overridden (text + optional background/text color,
-  same markup) by a `custom_badge` block on `section` whose `product_list`
-  includes this product - see snippets/5dla_product-card-badge-override.
-  liquid.
-
-  Image lazyload (sections/5dla_collection-product-grid.liquid's "Start
-  Image Lazyload At") - see snippets/5dla_product-card-media.liquid's own
-  comment for the eager-vs-deferred mechanics; `index` just passes through
-  to it.
-
-  Expects: product, swatch_limit (unused here - kept for a consistent
-  render signature with 5dla_product-card-1.liquid), section, index
+  Expects: product, swatch_limit (unused - consistent render signature
+  across cards), section, index
 {%- endcomment -%}
 
 {%- liquid

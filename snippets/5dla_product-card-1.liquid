@@ -1,32 +1,18 @@
 {%- comment -%}
-  Card variant 1/3 (sections/5dla_collection-product-grid.liquid's
-  `product_card_type` setting picks between 5dla_product-card-1/2/3).
-  Ported 1:1 (markup + CSS) from the reference's `article.product`
-  (html/revamp-collection/rendered/Fusion Cycling Jerseys....html). Not a
-  wrapper around the legacy `product-grid-item` snippet (which dispatches
-  to one of nine `settings.hover_style` includes) - kept independent per
-  docs/revamp/collections/collection-basic-5dla-plan.md.
+  Card variant 1 (sections/5dla_collection-product-grid.liquid's
+  `product_card_type`). Ported from the reference's `article.product` -
+  NOT a wrapper around the legacy `product-grid-item` snippet; kept
+  independent (docs/revamp/collections/collection-basic-5dla-plan.md).
+  `c5dla-card-1` scopes this variant's CSS (client/ver_2_0/scss/
+  collection/_product-grid.scss) so plain class names like `.product-
+  image` don't collide with other card variants.
 
-  `c5dla-card-1` on the root element is this variant's CSS prefix (see
-  client/ver_2_0/scss/collection/_product-grid.scss) - lets card-2/card-3
-  reuse plain descendant class names (.product-image, .badge, etc.)
-  without colliding with this variant's rules.
-
-  Image: current_variant.featured_image, falling back to
-  product.featured_media (same convention as card 2/3/4/5/6) - so the
-  card shows the SELECTED variant's own image, not just the product's
-  first/default one.
-
-  Badge: product.metafields.custom.badge_text.value, falling back to
-  "Sold out"/"Sale" text - ALL overridden (text + optional background/
-  text color, same `.badge` markup) by a `custom_badge` block on
-  `section` whose `product_list` includes this product. See
-  snippets/5dla_product-card-badge-override.liquid.
-
-  Image lazyload (sections/5dla_collection-product-grid.liquid's "Start
-  Image Lazyload At") - see snippets/5dla_product-card-media.liquid's own
-  comment for the eager-vs-deferred mechanics; `index` just passes through
-  to it.
+  Image: current_variant's own, falling back to product.featured_media
+  (same convention across all cards). Badge: product.metafields.custom.
+  badge_text.value, falling back to "Sold out"/"Sale" text, all of it
+  overridable by a `custom_badge` block (snippets/5dla_product-card-
+  badge-override.liquid). `index`/`section` thread through to
+  snippets/5dla_product-card-media.liquid for lazyload.
 
   Expects: product, swatch_limit, section, index
 {%- endcomment -%}
@@ -82,13 +68,8 @@
         -%}
       {%- endif -%}
     </a>
-    {%- comment -%}
-      Not nested inside `a.product-image` (unlike the reference's single
-      quick-add icon) - interactive buttons/forms can't sit inside another
-      interactive element (the anchor) without breaking click handling, so
-      this is a sibling positioned over the image instead. See
-      snippets/5dla_product-card-1-actions.liquid.
-    {%- endcomment -%}
+    {%- comment -%} Sibling of `a.product-image`, not nested inside it -
+      interactive elements can't nest inside an anchor. {%- endcomment -%}
     {%- render '5dla_product-card-1-actions', product: product -%}
   </div>
   <div class="product-copy">

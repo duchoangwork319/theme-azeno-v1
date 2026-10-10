@@ -1,13 +1,10 @@
 {%- comment -%}
-  Wraps `{% paginate %}` for `sections/5dla_collection-product-grid.liquid`'s
+  Wraps `{% paginate %}` for sections/5dla_collection-product-grid.liquid's
   collection-driven (non `product_list`) path.
 
-  Expects `target_collection` (the collection to paginate, already resolved
-  by the caller to either `section.settings.collection` or the page's own
-  `collection`), `desktop_columns` (number), `desktop_max_width` (a CSS
-  length string, e.g. `1600px` or `min(1270px, 100% - 104px)`) and
-  `desktop_padding` (a CSS padding shorthand string, e.g. `0 5.15% 85px`)
-  as render params.
+  Expects `target_collection` (already resolved by the caller to either
+  `section.settings.collection` or the page's own `collection`),
+  `desktop_columns`, `desktop_max_width`, `desktop_padding`.
 {%- endcomment -%}
 
 {%- paginate target_collection.products by section.settings.page_item -%}

@@ -1,31 +1,18 @@
 {%- comment -%}
-  Shared by snippets/5dla_product-card-1/2/3/4.liquid's badge logic.
+  Shared by snippets/5dla_product-card-1/2/3/4.liquid's badge logic. A
+  `custom_badge` block whose `product_list` includes this `product`
+  overrides the badge's text (and optional bg/text color) - UI/markup
+  stays untouched, only text/colors swap. First matching block wins.
 
-  A `custom_badge` block on sections/5dla_collection-product-grid.liquid
-  whose `product_list` includes this `product` overrides whatever badge
-  text that card would otherwise show - product.metafields.custom.
-  badge_text.value (card 1) or product.metafields.bwp_fields.badge_label
-  (card 2/3/4), AND card 1's own "Sold out"/"Sale" fallback text - AND
-  optionally the badge's background/text color. The badge's existing UI
-  (markup/classes/conditional rendering) is untouched otherwise, only
-  text/colors are swapped. First matching block wins if more than one
-  lists this product. `bg_color`/`text_color` are blank (not overridden)
-  when the merchant leaves either color setting unset.
-
-  Callers can't `assign` a snippet's local variable into their own scope,
-  so this echoes `label;bg_color;text_color` (semicolon-delimited, each
-  part blank if no block matches - NOT JSON: Shopify Liquid has no
-  `parse_json`/`json` PARSING filter, only a `json` filter that SERIALIZES
-  to JSON) for the caller to `capture` + `split`:
+  Echoes `label;bg_color;text_color` (semicolon-delimited, not JSON -
+  Liquid has no JSON-parsing filter) for the caller to `capture` + `split`:
 
     {%- capture badge_override_raw -%}
       {%- render '5dla_product-card-badge-override', product: product, section: section -%}
     {%- endcapture -%}
     {%- assign badge_override = badge_override_raw | strip | split: ';' -%}
     {%- assign badge_override_label = badge_override[0] -%}
-    {%- assign badge_override_bg_color = badge_override[1] -%}
-    {%- assign badge_override_text_color = badge_override[2] -%}
-    {%- if badge_override_label != blank -%}{%- assign badge_text = badge_override_label -%}{%- endif -%}
+    ...
 
   Expects: product, section
 {%- endcomment -%}

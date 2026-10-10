@@ -1,19 +1,15 @@
 {%- comment -%}
-  Renders the whole color-option element (`.product-swatches` +
-  every `.store-color-option`) for snippets/5dla_product-card-3.liquid -
-  one self-contained snippet instead of a wrapper + a per-value render
-  (snippets/5dla_product-card-3-swatch.liquid, now removed).
+  Color-option element (`.product-swatches` + `.store-color-option` spans)
+  for snippets/5dla_product-card-3.liquid.
 
-  `wpb-variants-swatch` lives on the `.product-swatches` wrapper, not on
-  each swatch - sections/customer-variant.liquid generates
-  `.wpb-variants-swatch {{ variant_name }}{...}`, a DESCENDANT selector
-  (note the space before the value class), so the value class has to be
-  on a descendant of `.wpb-variants-swatch`, not the same element.
+  `wpb-variants-swatch` lives on the wrapper, not each swatch -
+  sections/customer-variant.liquid emits `.wpb-variants-swatch
+  {{ variant_name }}{...}` as a DESCENDANT selector, so the value class
+  must be on a child.
 
-  `data-value` also doubles as client/ver_2_0/js/modules/variant.js's
-  variant anchor - it maps this swatch's color value back to a matching
-  variant in the card's `data-product-json` client-side, so no extra
-  Liquid-side variant lookup is computed per swatch here.
+  `data-value` doubles as client/ver_2_0/js/modules/variant.js's variant
+  anchor (maps this color back to a matching variant client-side) - no
+  Liquid-side variant lookup needed here.
 
   Expects: product, swatch_limit, current_variant
 {%- endcomment -%}

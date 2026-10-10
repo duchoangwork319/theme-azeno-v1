@@ -1,44 +1,21 @@
 {%- comment -%}
-  Product-card hover action buttons, ported from
-  snippets/product-grid-hover-9.liquid L121-222 (div.product-card__buttons).
-  Ordinal per request: quick view, compare, wishlist, add to cart -
-  rendered top to bottom via flexbox (see .product-card-actions in
-  client/ver_2_0/scss/collection/_product-grid.scss). The quantity
-  stepper (wpbingo-qty) is intentionally not ported - not needed in this
-  theme. Add to cart only has 2 states - sold out or the add-to-cart form
-  (no "view product" fallback for multi-variant products - out of scope
-  here). Icons are inline SVG (not the legacy icon font, which isn't
-  loaded in this stack) - visible text is `.visually-hidden` (a Bootstrap
-  5 utility, already available since this stack imports the full
-  framework), matching the icon-only look of the original single quick-add
-  button.
+  Hover action buttons, ported from snippets/product-grid-hover-9.liquid
+  (div.product-card__buttons). Order per request: quick view, compare,
+  wishlist, add to cart (client/ver_2_0/scss/collection/_product-grid.scss's
+  `.product-card-actions`). Quantity stepper intentionally not ported.
+  Icons are inline SVG; visible text is `.visually-hidden` (Bootstrap 5).
 
-  `.is-adding` (added to `.btn--add-to-cart` by future JS, e.g. while a
-  /cart/add.js request is in flight) shows a spinner - ported from
-  `.product-card__buttons .btn.is-adding:before` in assets/css-site-main.css
-  (~L3645), see client/ver_2_0/scss/collection/_product-grid.scss.
+  `.is-adding` (toggled by future JS during a cart request) shows a
+  spinner - ported from assets/css-site-main.css's `.btn.is-adding:before`.
 
-  Quick view: wired to the SHARED ver_2_0 modal (snippets/5dla_quick-
-  view-modal.liquid, see its own top comment for the full trigger
-  contract) via `data-quick-view-trigger`, not the legacy
-  `wpbingo.QuickView` overlay this button used to open (assets/wpbingo.js,
-  `.js-btn-quickview` - its own `#quickview-template`/`[data-quickview]`
-  system, unrelated to and incompatible with the ver_2_0 modal). The
-  `js-btn-quickview` class is deliberately OMITTED (not just left unused)
-  so wpbingo.js's delegated click handler never matches this button at
-  all - its selector is a plain class string (`'.js-btn-quickview'`), so
-  simply not having that class is enough to fully detach from it; no need
-  to fight it at runtime (e.g. `stopPropagation`/manually unbinding a
-  global jQuery handler we don't own - assets/wpbingo.js is legacy/global,
-  not ours to edit, same reasoning as the `.is-adding` note above). This
-  was also checked against CSS: `.btn--quickview` carries no styling of
-  its own (client/ver_2_0/scss/collection/_product-grid.scss styles every
-  action button uniformly via the shared `.product-card-actions__item
-  .btn` rule), so dropping `js-btn-quickview` doesn't affect appearance
-  either. `href` is a real product-page URL (not the legacy
-  `javascript:void(0);`) purely as a no-JS fallback - quick-view.js always
-  calls `preventDefault()` on this click, so the modal still opens
-  normally when JS is working.
+  Quick view targets the shared ver_2_0 modal (snippets/5dla_quick-view-
+  modal.liquid) via `data-quick-view-trigger`, NOT the legacy
+  `wpbingo.QuickView` overlay. The `js-btn-quickview` class is
+  deliberately omitted so wpbingo.js's delegated handler (keyed on that
+  class string) never matches this button - no runtime unbinding needed,
+  and `.btn--quickview` has no CSS of its own to lose either (styled
+  uniformly via `.product-card-actions__item .btn`). `href` is a real
+  product URL as a no-JS fallback (quick-view.js calls `preventDefault()`).
 
   Expects: product
 {%- endcomment -%}

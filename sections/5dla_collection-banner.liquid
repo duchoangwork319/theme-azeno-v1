@@ -1,19 +1,12 @@
 {%- comment -%}
-  Ported 1:1 (markup + CSS) from the reference's `h1` / `p.five-lead` /
-  `nav.five-activity-links` inside `section.five-collection-intro`
-  (html/revamp-collection/rendered/Fusion Cycling Jerseys....html). The
-  reference combines breadcrumb + heading + lead + links in ONE <section>;
-  this theme splits breadcrumb into its own section
-  (5dla_collection-breadcrumb.liquid per the plan's section list), so the
-  reference's `.intro` wrapper padding is split across both sections
-  instead (see _breadcrumb.scss/_banner.scss) rather than duplicated.
+  Ported from the reference's `h1`/`p.five-lead`/`nav.five-activity-links`
+  (section.five-collection-intro). Breadcrumb is split into its own
+  section here (5dla_collection-breadcrumb.liquid), so the reference's
+  `.intro` padding is split across both (_breadcrumb.scss/_banner.scss).
 
-  The reference section has no image at all. `collection.description` can
-  optionally embed its own `<img>` as its first element (added by the
-  merchant in the collection's description field) - when present, it's
-  rendered as an absolutely-positioned background behind the heading/lead/
-  links (not a separate `image_picker` setting), and `has-banner-img` is
-  added to the section so CSS can reserve space for it.
+  `collection.description` may embed its own `<img>` as its first element
+  (merchant-authored) - rendered as an absolute background behind the
+  heading/lead/links; `has-banner-img` lets CSS reserve space for it.
 {%- endcomment -%}
 
 {%- if section.settings.enable -%}
@@ -31,34 +24,18 @@
     {%- endif -%}
 
     {%- comment -%}
-      The reference's own hardcoded links (Cycling jerseys/Bib shorts/Road
-      race suits/Triathlon/Running) were removed per request -
-      `related_collection_links` blocks are now the only way to add
-      entries to this nav. No maximum blocks, and no maximum links within
-      a block's menu either - merchants can add as many as they want.
-      Block settings:
-      - title: optional, rendered as EVERY one of this block's links'
-        `title` attribute (a shared tooltip) - NOT the visible text (each
-        link's own `.title`, from the menu, is that).
-      - links: a `link_list` (menu) - every link in it renders here, in
-        menu order. A block only shows its links at all on collections
-        picked in `collection_list` below.
-      - collection_list: a `collection_list` setting (named to avoid
-        shadowing the global `collections` Liquid object) - this block's
-        links only render when the CURRENT collection is in this list.
-        Checked via `| where: 'handle', collection.handle` (see the `for`
-        loop below), not `collection_list contains collection` -
-        `contains` only works for strings/numbers, not comparing a list
-        of Collection drops against a Collection object.
-      A link is bolded (`.active`, see
-      client/ver_2_0/scss/collection/_banner.scss) when it's a collection
-      link pointing at the collection page currently being viewed.
+      The reference's hardcoded links were replaced with
+      `related_collection_links` blocks (no max blocks/links). Settings:
+      `title` is a shared tooltip on every link in the block (not visible
+      text - each link's own menu title is); `links` is a link_list,
+      rendered in menu order; `collection_list` gates the whole block to
+      specific collections (`| where` not `contains` - `contains` can't
+      compare a Collection drop list against an object).
 
-      Each block's links render inside a `display:contents` <span>
-      carrying `block.shopify_attributes` - invisible to
-      `.five-activity-links`' flex layout while still giving the theme
-      editor one real DOM node per block to anchor its block-selection UI
-      to.
+      A link bolds (`.active`) when it's a collection_link pointing at the
+      currently-viewed collection. The `display:contents` <span> wrapper
+      keeps `block.shopify_attributes` on a real node for the theme editor
+      without breaking `.five-activity-links`' flex layout.
     {%- endcomment -%}
     <nav class="five-activity-links" aria-label="{{ 'collections.general.catalog_title' | t }}">
       {%- for block in section.blocks -%}

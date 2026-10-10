@@ -1,41 +1,16 @@
 {%- comment -%}
-  Card variant 5/5 (sections/5dla_collection-product-grid.liquid's
-  `product_card_type` setting picks between 5dla_product-card-1/2/3/4/5).
-  Ported 1:1 (markup + CSS) from the reference's `article.compare-product-card`
-  inside `section#collection` (html/revamp-collection/rendered/Fusion TEMPO!
-  Wind-Tunnel Performance & Pro Racing _ 5DLA.html).
+  Card variant 5 - ported from the reference's
+  `article.compare-product-card`. `c5dla-card-5` scopes its CSS
+  (client/ver_2_0/scss/collection/_product-card-5.scss).
 
-  `c5dla-card-5` on the root element is this variant's CSS prefix (see
-  client/ver_2_0/scss/collection/_product-card-5.scss), same convention as
-  card 1/2/3/4.
+  Data mapping (`.compare-product-copy`): p = product.vendor, h3 =
+  product.title, price span/all anchors = current_variant.price/
+  product.url. The image-overlay label ("THE CHAMPIONSHIP SUIT") is kept
+  as the reference's own placeholder text - no real data source. Image =
+  current_variant's, falling back to product.featured_media.
 
-  Font: Jost - inherited from the scope-wide `:root` rule in
-  collection.scss (self-hosted from client/ver_2_0/fonts/Jost/static), not
-  re-declared here, same convention as card 2/3/4.
-
-  Data mapping (per request, .compare-product-copy element only):
-  - p: product.vendor.
-  - h3: product.title.
-  - span (price, inside the bottom row): current_variant.price.
-  - a (all anchors - image link, title link, "SHOP NOW" link): product.url.
-
-  Not in the mapping list - kept as reference's own placeholder text, same
-  convention as card 4's eyebrow/essential-copy:
-  - compare-product-image>span (e.g. "THE CHAMPIONSHIP SUIT" label).
-
-  Image (not in the mapping list but part of "migrate article.
-  compare-product-card"): current_variant.featured_image, falling back to
-  product.featured_media, same convention as card 1/2/3/4/6.
-
-  Image lazyload (sections/5dla_collection-product-grid.liquid's "Start
-  Image Lazyload At") - see snippets/5dla_product-card-media.liquid's own
-  comment for the eager-vs-deferred mechanics; `index` just passes through
-  to it.
-
-  Expects: product, swatch_limit (unused - kept for a consistent render
-  signature with 5dla_product-card-1/2/3/4.liquid; this card has no badge
-  to override - see snippets/5dla_product-card-badge-override.liquid),
-  section, index
+  Expects: product, swatch_limit (unused - consistent render signature;
+  no badge to override on this card), section, index
 {%- endcomment -%}
 
 {%- liquid
