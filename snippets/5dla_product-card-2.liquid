@@ -14,6 +14,11 @@
   unset). `index`/`section` thread through to snippets/5dla_product-
   card-media.liquid for lazyload.
 
+  `data-product-json`/`data-product-handle` on the root let
+  client/ver_2_0/js/modules/quick-view.js read this product inline
+  instead of fetching `/products/<handle>.js` (broken on a locale-
+  prefixed storefront - see snippets/5dla_quick-view-modal.liquid).
+
   Expects: product, swatch_limit (unused - consistent render signature
   across cards), section, index
 {%- endcomment -%}
@@ -41,7 +46,11 @@
   | truncatewords: 14
 -%}
 
-<article class="model-card c5dla-card-2">
+<article
+  class="model-card c5dla-card-2"
+  data-product-json="{{ product | json | escape }}"
+  data-product-handle="{{ product.handle | escape }}"
+>
   <div class="model-image-box">
     {%- if model_image -%}
       {%- assign model_image_alt = model_image.alt | default: product.title -%}

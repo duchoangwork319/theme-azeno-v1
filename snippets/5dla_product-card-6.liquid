@@ -8,6 +8,11 @@
   real data source (dummy placeholder). Image = current_variant's,
   falling back to product.featured_media.
 
+  `data-product-json`/`data-product-handle` on the root let
+  client/ver_2_0/js/modules/quick-view.js read this product inline
+  instead of fetching `/products/<handle>.js` (broken on a locale-
+  prefixed storefront - see snippets/5dla_quick-view-modal.liquid).
+
   Expects: product, swatch_limit (unused - consistent render signature;
   no badge to override on this card), section, index
 {%- endcomment -%}
@@ -17,7 +22,11 @@
   assign current_media = current_variant.featured_image | default: product.featured_media
 -%}
 
-<article class="other-tempo-card c5dla-card-6">
+<article
+  class="other-tempo-card c5dla-card-6"
+  data-product-json="{{ product | json | escape }}"
+  data-product-handle="{{ product.handle | escape }}"
+>
   <a class="other-tempo-image" href="{{ product.url }}">
     {%- if current_media -%}
       {%- assign current_media_alt = current_media.alt | default: product.title -%}

@@ -14,6 +14,12 @@
   badge-override.liquid). `index`/`section` thread through to
   snippets/5dla_product-card-media.liquid for lazyload.
 
+  `data-product-json`/`data-product-handle` on the root let
+  client/ver_2_0/js/modules/quick-view.js read this product inline
+  instead of fetching `/products/<handle>.js` - that fetch is broken on a
+  locale-prefixed storefront (snippets/5dla_quick-view-modal.liquid's own
+  comment has the full story).
+
   Expects: product, swatch_limit, section, index
 {%- endcomment -%}
 
@@ -51,7 +57,11 @@
   | truncatewords: 14
 -%}
 
-<article class="product c5dla-card-1">
+<article
+  class="product c5dla-card-1"
+  data-product-json="{{ product | json | escape }}"
+  data-product-handle="{{ product.handle | escape }}"
+>
   <div class="product-media">
     <a class="product-image" href="{{ product.url }}">
       {%- if badge_text != blank -%}

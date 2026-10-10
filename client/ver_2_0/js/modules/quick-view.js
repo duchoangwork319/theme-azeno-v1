@@ -36,7 +36,6 @@ const TRIGGER_SELECTOR = "[data-quick-view-trigger]";
 const CARD_JSON_SELECTOR = "[data-product-json]";
 
 let bound = false;
-const productCache = new Map();
 
 const els = {};
 let swiper = null;
@@ -121,46 +120,26 @@ const resizeImage = (src, width) => {
 };
 
 /**
- * Fetches `/products/<handle>.js` (Shopify's product JSON endpoint),
- * cached per handle so repeat opens of the same product don't re-fetch.
- * @param {string} handle
- * @returns {Promise<object|null>}
- */
-const fetchProduct = async handle => {
-  if (productCache.has(handle)) return productCache.get(handle);
-
-  const request = fetch(`/products/${handle}.js`, { headers: { "X-Requested-With": "XMLHttpRequest" } })
-    .then(response => (response.ok ? response.json() : null))
-    .catch(() => null);
-
-  productCache.set(handle, request);
-  const product = await request;
-  if (!product) productCache.delete(handle);
-  return product;
-};
-
-/**
- * Prefers the trigger's `[data-product-json]` ancestor (card 3's
- * live-selected variant, no fetch) over fetching. That shape (Liquid's
- * `product | json`) has no `media`, so this path only gets a single-image
- * carousel - acceptable since the fetch path is always a fallback.
+ * Reads the trigger's `[data-product-json]` ancestor - every
+ * 5dla_product-card-*.liquid root carries one (card 3's reflects its
+ * live-selected variant), so this is the only resolution path: no
+ * `/products/<handle>.js` fetch fallback anymore (removed - it was
+ * root-relative with no locale prefix, so broken on a locale-prefixed
+ * storefront, and unreachable anyway once every card got its own
+ * `data-product-json`). That shape (Liquid's `product | json`) has no
+ * `media`, so this only ever gets a single-image carousel.
  * @param {Element} trigger
- * @returns {Promise<object|null>}
+ * @returns {object|null}
  */
-const resolveProduct = async trigger => {
+const resolveProduct = trigger => {
   const jsonHost = trigger.closest(CARD_JSON_SELECTOR);
-  if (jsonHost) {
-    try {
-      const product = JSON.parse(jsonHost.dataset.productJson);
-      if (product) return product;
-    } catch (error) {
-      // Falls through to the fetch below.
-    }
-  }
+  if (!jsonHost) return null;
 
-  const handle = trigger.dataset.handle;
-  if (!handle) return null;
-  return fetchProduct(handle);
+  try {
+    return JSON.parse(jsonHost.dataset.productJson);
+  } catch (error) {
+    return null;
+  }
 };
 
 /**
@@ -482,14 +461,14 @@ const openContent = () => {
 /**
  * @param {Element} trigger
  */
-const openQuickView = async trigger => {
+const openQuickView = trigger => {
   if (!resolveEls()) return;
 
   openLoading();
   els.activeTrigger = trigger;
   bsModal.show();
 
-  const product = await resolveProduct(trigger);
+  const product = resolveProduct(trigger);
   if (!product || !Array.isArray(product.variants) || !product.variants.length) {
     bsModal.hide();
     return;

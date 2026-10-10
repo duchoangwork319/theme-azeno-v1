@@ -28,14 +28,22 @@
   - `data-quick-view-trigger` is the only REQUIRED hook - quick-view.js
     delegates ONE document-level click listener for it (new/paginated
     cards work automatically, no re-init needed).
-  - `data-handle` (required): quick-view.js fetches `/products/<handle>.js`
-    to populate the modal and carousel.
+  - The trigger MUST have a `[data-product-json]` ancestor - every
+    snippets/5dla_product-card-*.liquid root carries
+    `data-product-json="{{ product | json | escape }}"`, which
+    quick-view.js reads directly; there's no `/products/<handle>.js`
+    fetch fallback (removed - it was root-relative with no locale prefix,
+    so broken on a locale-prefixed storefront like `/en-hk/...`, and
+    unreachable anyway once every card got its own `data-product-json`).
+    Do the same for any new card/trigger. That shape (`product | json`)
+    has no `url` (quick-view.js falls back to `product.handle` for that)
+    or `media` (carousel degrades to the single featured image), but
+    carries everything else the modal needs.
+  - `data-handle` is currently unused by quick-view.js - harmless to keep
+    on a trigger, but not load-bearing.
   - `data-variant-id` (optional): preselects that variant - keep it live
     on variant change (see snippets/5dla_product-card-3.liquid's
     `dynamic="quick-view-trigger"`) if the card has its own picker.
-  - If the trigger sits inside an element with `data-product-json` (card
-    3's `[data-variant-picker]` root), quick-view.js reads that inline
-    JSON instead of fetching - an optional optimization.
   - `class="quick-view-button"` is purely presentational.
 
   Everything inside `[data-c5dla-quick-view-content]` below is populated
