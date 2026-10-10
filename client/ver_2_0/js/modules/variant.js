@@ -1,15 +1,12 @@
 "use strict";
 
 // Color-swatch / size-button variant switching for
-// snippets/5dla_product-card-3.liquid - see that snippet's own top
-// comment for the full `data-*`/`dynamic="*"` contract this relies on.
-// Exported (not self-initializing) so client/ver_2_0/js/collection.js can
-// both init it on first load AND re-run it after appending paginated
-// products into `.products` (new cards need binding too).
+// snippets/5dla_product-card-3.liquid - see its own top comment for the
+// full `data-*`/`dynamic="*"` contract. Exported so collection.js can
+// re-run it after appending paginated cards.
 //
-// DOM state (`[dynamic]` fields, active/selected classes, disabled
-// states) lives in ./variant-state.js - this file only resolves clicks to
-// a variant and orchestrates applying it.
+// DOM state (`[dynamic]` fields, active/selected, disabled) lives in
+// ./variant-state.js - this file only resolves clicks and orchestrates.
 
 import {
   COLOR_OPTION_SELECTOR,
@@ -31,12 +28,9 @@ import { findOptionPosition, findExactVariant, findAnchorVariant } from "./varia
 const VARIANT_CARD_SELECTOR = "[data-variant-picker]";
 
 /**
- * Reads a card's `data-product-json` (`{{ product | json | escape }}` in
- * snippets/5dla_product-card-3.liquid) back into the full Shopify product
- * object - `variants[]` (each with `option1`/`option2`/`option3`,
- * `available`, `price`, `featured_image`, ...) and `options` (an array of
- * OPTION NAMES in position order, e.g. `["Color", "Size"]` - see
- * ignore/product.json for the full shape this mirrors).
+ * Reads a card's `data-product-json` back into the full Shopify product
+ * object - `variants[]` and `options` (option NAMES in position order,
+ * e.g. `["Color", "Size"]` - see ignore/product.json for the shape).
  * @param {Element} card
  * @returns {object|null}
  */
@@ -50,9 +44,8 @@ const readProduct = card => {
 
 /**
  * Applies `variant` as the card's new selected variant - a thin wrapper
- * over ./variant-state.js's individual field/class updaters, run in
- * sequence. The product image only swaps when the COLOR actually changed
- * (per request) - a plain size change never touches it.
+ * over ./variant-state.js's updaters. The image only swaps when the
+ * COLOR changed - a plain size change never touches it.
  * @param {Element} card
  * @param {object} product
  * @param {object} variant
@@ -86,12 +79,9 @@ const applyVariant = (card, product, variant, previousSelected) => {
 };
 
 /**
- * Handles a swatch/size click: builds the full candidate selection (every
- * OTHER position keeps its last known value, this position gets the
- * clicked value), looks for an exact variant match, and falls back to
- * `findAnchorVariant` (the clicked element's own `data-value`, resolved
- * client-side) if no exact combo exists - "snapping" the other option(s)
- * to whatever that fallback variant actually has, same as a typical
+ * Handles a swatch/size click: builds the full candidate selection,
+ * finds an exact variant match, or falls back to `findAnchorVariant` -
+ * "snapping" the other option(s) to whatever it has, like a typical
  * Shopify variant picker.
  * @param {Element} card
  * @param {object} product
@@ -112,9 +102,8 @@ const selectOption = (card, product, position, el) => {
 
 /**
  * Wires up one card's color swatches + size buttons. Idempotent via
- * `data-variant-js-bound` so re-running `initVariantPickers` (e.g. after
- * client/ver_2_0/js/collection.js's `loadNextPage` appends more cards)
- * never double-binds a card already initialized.
+ * `data-variant-js-bound` so re-running `initVariantPickers` never
+ * double-binds an already-initialized card.
  * @param {Element} card
  */
 const initCard = card => {

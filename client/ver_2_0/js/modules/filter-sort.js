@@ -2,36 +2,20 @@
 
 // Left-side offcanvas filter & sort drawer for
 // snippets/5dla_filter-sort-drawer.liquid. Exported (not self-initializing)
-// so client/ver_2_0/js/collection.js can init it once on first load -
-// there's only ever one drawer instance per page, unlike variant.js/
-// initVariantPickers (which re-binds per paginated card).
+// since there's only ever one drawer instance per page.
 //
-// The actual filter/sort REQUEST migrates assets/facets.js's `FacetFiltersForm`
-// logic (Section Rendering API fetch + swap the rendered HTML in, instead of
-// a full page reload) - rewritten as plain functions (no `class`) and
-// trimmed to what this new drawer actually needs:
-//   - kept: fetch `?sections=<id>&<form params>` (same convention already
-//     used for pagination in collection.js's `loadNextPage`, not the
-//     legacy's own `?section_id=<id>` raw-HTML endpoint), swap in the
-//     refreshed `.products`/pagination/drawer-body/drawer-foot markup,
-//     `history.pushState` the new URL, a `popstate` listener to restore it,
-//     and (closer to the legacy's own debounced auto-submit-on-`input` than
-//     the previous pass here) every field applies on its own "change" -
-//     there's no separate Apply button, only Reset.
-//   - dropped: the legacy's debounce itself (a "change" event is already
-//     one-shot per edit, unlike the `input` event it debounced), the legacy
-//     `<price-range>` element (client/ver_2_0/js/modules/price-range-slider.js
-//     already owns the slider - it calls `form.requestSubmit()` from its own
-//     "change" instead of this form listening for a DOM event that setting
-//     `.value` in JS never fires), and the multi-section-cache/"render just
-//     the facet that changed" optimization (`FacetFiltersForm.filterData`/
-//     `renderFilters`'s index-matching) - this form only ever touches ONE
-//     section, so that bookkeeping has nothing to buy here.
+// Migrates assets/facets.js's `FacetFiltersForm` (Section Rendering API
+// fetch + swap HTML, instead of a full reload) as plain functions, trimmed
+// to this drawer's needs: every field applies on its own "change" (no
+// Apply button, only Reset), via `?sections=<id>&<params>` (not the
+// legacy's `?section_id=` endpoint). Dropped vs. the legacy: the debounce
+// (a "change" event is already one-shot, unlike `input`), the `<price-range>`
+// element (price-range-slider.js owns the slider and calls
+// `form.requestSubmit()` directly), and the multi-section-cache
+// optimization (this form only ever touches one section).
 //
-// Also owns `.c5dla-toolbar .genders`'s quick-filter buttons
-// (snippets/5dla_filter-sort-genders.liquid) - see the `filter:filterByGender`
-// listener at the bottom of `initFilterSort` for how a button click reaches
-// this same form's gender checkbox.
+// Also owns `.c5dla-toolbar .genders` (snippets/5dla_filter-sort-genders.liquid) -
+// see the `filter:filterByGender` listener at the bottom of `initFilterSort`.
 import { startSpinner, stopSpinner } from "../utils/spinner.js";
 
 const TOGGLE_SELECTOR = "[data-c5dla-filter-toggle]";
@@ -50,15 +34,10 @@ const GENDER_INPUT_SELECTOR = "input[name=\"filter.v.t.shopify.target-gender\"]"
 let filterRequestInFlight = false;
 
 /**
- * Opens/closes the drawer + its overlay together, keeping the trigger
- * button's `aria-expanded` and the drawer's `aria-hidden`/`hidden` in sync,
- * and locking page scroll while open (the drawer is `position: fixed` and
- * can itself scroll internally - see client/ver_2_0/scss/collection/
- * _filter-sort.scss). The lock is a direct inline style, not a CSS class -
- * `body` sits outside `.c5dla-scope` (that wrapper is on <main>), so a
- * `body.foo` rule in this stack's own scoped SCSS would get rewritten to
- * `.c5dla-scope.foo` by scripts/vite-build.mjs's prefixer and never match
- * the real <body>.
+ * Opens/closes the drawer + overlay, syncing `aria-expanded`/`aria-hidden`
+ * and locking page scroll. The lock is an inline style, not a CSS class -
+ * `body` is outside `.c5dla-scope` (that wrapper is on <main>), so a
+ * `body.foo` rule in this scoped SCSS would get rewritten and never match.
  * @param {Element} toggle
  * @param {Element} drawer
  * @param {Element} overlay
@@ -81,17 +60,11 @@ const setDrawerOpen = (toggle, drawer, overlay, open) => {
 };
 
 /**
- * Resets every field in the form back to the snapshot it carries in its own
- * `data-prev-value` (set server-side in snippets/5dla_filter-sort-drawer.liquid
- * - a checkbox's "true"/"false", everything else its literal value) - called
- * when the drawer is closed WITHOUT submitting, so a shopper who ticks a few
- * boxes/drags the price slider and then closes instead of hitting Apply
- * doesn't reopen the drawer to find those still showing as selected.
- *
- * Fires a `c5dla:filter-reset` event on the form afterward so
- * price-range-slider.js can re-sync its own noUiSlider position/labels from
- * the now-restored hidden inputs - a slider instance's visual handles are
- * independent state, not driven by the hidden inputs' `value` attribute.
+ * Resets every field to the snapshot in its own `data-prev-value` (set
+ * server-side) - called when the drawer closes WITHOUT submitting, so
+ * unsaved edits don't appear selected next time it opens. Fires
+ * `c5dla:filter-reset` afterward so price-range-slider.js can re-sync its
+ * noUiSlider handles (independent of the hidden inputs' `value`).
  * @param {HTMLFormElement} form
  */
 const restoreFormState = form => {
@@ -107,27 +80,21 @@ const restoreFormState = form => {
 };
 
 /**
- * Ports assets/wpbingo.js/assets/facets.js's fetch-and-swap approach for
- * this form: fetches `form`'s own section (`data-section-id`, set from
- * `section.id` in snippets/5dla_filter-sort-drawer.liquid) via the Section
- * Rendering API with `params` as the query string, then replaces the
- * product grid/pagination/drawer contents with the freshly rendered
- * markup - same idea as collection.js's `loadNextPage`, applied to a
- * filter/sort change instead of a "load more" click.
+ * Fetches `form`'s section (`data-section-id`) via the Section Rendering
+ * API with `params` as the query string, then swaps the product grid/
+ * pagination/drawer contents with the response - same idea as
+ * collection.js's `loadNextPage`, applied to a filter/sort change.
  * @param {HTMLFormElement} form
  * @param {URLSearchParams} params
- * @param {() => void} [onGridUpdated] - re-runs whatever collection.js needs
- *   re-run against the freshly swapped-in grid (card height equalizing,
- *   variant pickers, infinite scroll, the price slider) - filter-sort.js
- *   doesn't import those modules itself to avoid a tangle of cross-imports.
+ * @param {() => void} [onGridUpdated] - re-runs collection.js's own re-inits
+ *   against the swapped-in grid (not imported here, to avoid cross-imports).
  */
 const applyFilters = async (form, params, onGridUpdated) => {
   if (filterRequestInFlight) return;
 
   const sectionId = form.dataset.sectionId;
   if (!sectionId) {
-    // No section id to target - fall back to a real navigation rather than
-    // silently doing nothing.
+    // No section id to target - navigate rather than do nothing.
     window.location.assign(`${form.action}?${params.toString()}`);
     return;
   }
@@ -164,11 +131,8 @@ const applyFilters = async (form, params, onGridUpdated) => {
       newProducts.insertAdjacentElement("afterend", newPagination);
     }
 
-    // Swaps counts/active state/`data-prev-value` for every facet value and
-    // the sort <select>, plus the reset link's visibility - everything the
-    // server recomputed from this request's filters, without touching the
-    // drawer's own open/closed state (`<aside data-c5dla-filter-drawer>`
-    // itself is never replaced).
+    // Swaps counts/active state/reset-link visibility - everything the
+    // server recomputed - without touching the drawer's own open/closed state.
     const newBody = parsed.querySelector(DRAWER_BODY_SELECTOR);
     const currentBody = form.querySelector(DRAWER_BODY_SELECTOR);
     if (newBody && currentBody) currentBody.innerHTML = newBody.innerHTML;
@@ -177,11 +141,8 @@ const applyFilters = async (form, params, onGridUpdated) => {
     const currentFoot = form.querySelector(DRAWER_FOOT_SELECTOR);
     if (newFoot && currentFoot) currentFoot.outerHTML = newFoot.outerHTML;
 
-    // `.c5dla-toolbar .genders` (snippets/5dla_filter-sort-genders.liquid)
-    // lives OUTSIDE this form, in the toolbar - swapped in too so its
-    // buttons' own `active` class stays correct even when the gender
-    // filter was changed from inside the drawer itself, not from a
-    // toolbar button.
+    // Genders toolbar lives outside this form - swapped too so its active
+    // state stays correct even when changed from inside the drawer.
     const newGenders = parsed.querySelector(GENDERS_SELECTOR);
     const currentGenders = document.querySelector(GENDERS_SELECTOR);
     if (newGenders && currentGenders) currentGenders.outerHTML = newGenders.outerHTML;
@@ -226,28 +187,21 @@ export const initFilterSort = ({ onGridUpdated } = {}) => {
 
   const submitFilters = () => applyFilters(form, new URLSearchParams(new FormData(form)), onGridUpdated);
 
-  // No Apply button - every checkbox/select/number field applies the
-  // moment it changes. Delegated on `form` (not bound per-field) since
-  // every field inside `DRAWER_BODY_SELECTOR` gets replaced wholesale on
-  // each request (see `applyFilters` above) - a direct per-element listener
-  // would be lost the first time its own field got swapped out.
+  // No Apply button - every field applies on change. Delegated on `form`
+  // since fields get replaced wholesale each request (see `applyFilters`).
   form.addEventListener("change", event => {
     if (event.target.matches("input, select")) submitFilters();
   });
 
-  // Kept for the price slider (client/ver_2_0/js/modules/price-range-slider.js
-  // calls `form.requestSubmit()` from its own "change", since writing a
-  // hidden input's `.value` in JS never fires a DOM "change" the listener
-  // above would catch) and as a no-JS-disabled-safe fallback (this form's
-  // `action`/`method="get"`/field `name`s are all real).
+  // Kept for price-range-slider.js's `form.requestSubmit()` (setting a
+  // hidden input's `.value` never fires "change") and as a no-JS fallback.
   form.addEventListener("submit", event => {
     event.preventDefault();
     submitFilters();
   });
 
-  // The reset link is inside `DRAWER_FOOT_SELECTOR` too, so it's replaced
-  // along with everything else on every request - delegate from `form`
-  // instead of binding the (possibly stale) anchor element directly.
+  // Reset link is replaced each request too - delegate rather than bind
+  // the (possibly stale) anchor directly.
   form.addEventListener("click", event => {
     const reset = event.target.closest(RESET_SELECTOR);
     if (!reset) return;
@@ -255,40 +209,25 @@ export const initFilterSort = ({ onGridUpdated } = {}) => {
     applyFilters(form, new URLSearchParams(), onGridUpdated);
   });
 
-  // Ports `FacetFiltersForm.setListeners`'s `popstate` handling (browser
-  // back/forward after a filter change) - re-fetches for whatever's now in
-  // the address bar instead of the legacy's own cached-response lookup,
-  // since this form only ever has one URL in flight at a time.
+  // Browser back/forward after a filter change - re-fetches for whatever's
+  // now in the address bar (no cached-response lookup, unlike the legacy).
   window.addEventListener("popstate", () => {
     applyFilters(form, new URLSearchParams(window.location.search), onGridUpdated);
   });
 
-  // `.c5dla-toolbar .genders` (snippets/5dla_filter-sort-genders.liquid)
-  // lives OUTSIDE this form/the drawer entirely - delegate from `document`
-  // (not `form`) since these buttons aren't a descendant of it, and get
-  // replaced wholesale on every request same as everything else here (see
-  // `applyFilters`'s `GENDERS_SELECTOR` swap above).
+  // Genders toolbar lives outside the form/drawer - delegate from `document`.
   document.addEventListener("click", event => {
     const button = event.target.closest(GENDER_BUTTON_SELECTOR);
     if (!button) return;
     document.dispatchEvent(new CustomEvent("filter:filterByGender", { detail: button.dataset.genderTitle }));
   });
 
-  // `filter:filterByGender` (dispatched above, with the clicked button's
-  // gender title as `detail` - "" for "All genders"): finds that gender
-  // value's checkbox via `label[title="..."] input[name="filter.v.t.shopify.
-  // target-gender"]` (see snippets/5dla_filter-sort-drawer.liquid's own top
-  // comment for why every value's `<label>` carries that `title`) and fires
-  // a real `change` on it, reusing the exact same form "change" → AJAX path
-  // every other field already goes through - NOT a second, separate
-  // filtering mechanism.
-  //
-  // Unlike a plain checkbox toggle, this enforces single-select: every
-  // OTHER gender input is unchecked first, so clicking "Men" while "Women"
-  // is active switches straight to Men instead of selecting both. "All
-  // genders" (`detail` is "") skips the re-check step entirely, which is
-  // the only way to clear gender filtering back out - these buttons can't
-  // un-select themselves by clicking the same one twice.
+  // Finds the clicked gender's checkbox (via `label[title]`, matching the
+  // button's `detail`) and fires a real `change` on it, reusing the same
+  // form "change" → AJAX path as every other field (not a separate path).
+  // Enforces single-select: every OTHER gender input is unchecked first -
+  // "" (All genders) skips the re-check, the only way to clear it since
+  // these buttons don't toggle themselves off.
   document.addEventListener("filter:filterByGender", event => {
     const title = event.detail;
     const genderInputs = document.querySelectorAll(GENDER_INPUT_SELECTOR);

@@ -1,21 +1,15 @@
 "use strict";
 
-// Pure, DOM-free variant-resolution helpers shared by
-// client/ver_2_0/js/modules/variant.js (snippets/5dla_product-card-3.liquid's
-// inline swatch/size picker) and ./quick-view.js (the shared Quick View
-// modal - snippets/5dla_quick-view-modal.liquid) - both need to turn a
-// Shopify `product` payload (variants[]/options[], e.g. from
-// `data-product-json` or `/products/<handle>.js`) plus a candidate
-// option selection into a matching variant, so the logic lives here once
-// instead of being duplicated per caller.
+// Pure, DOM-free variant-resolution helpers shared by ./variant.js
+// (card 3's inline picker) and ./quick-view.js - both turn a product
+// payload (variants[]/options[]) plus a candidate selection into a
+// matching variant, so the logic lives here once.
 
 import { variantOptionValue } from "./variant-state.js";
 
 /**
- * Finds the 1-based `optionN` position for an option name, matching
- * snippets/5dla_product-card-3-swatches.liquid's/
- * snippets/5dla_product-size-selector.liquid's own name matching
- * ("Color"/"Colour", "Size").
+ * Finds the 1-based `optionN` position for an option name, matching the
+ * Liquid side's own "Color"/"Colour"/"Size" name matching.
  * @param {string[]} optionNames - product.options
  * @param {string[]} candidates
  * @returns {number|null}
@@ -26,8 +20,8 @@ export const findOptionPosition = (optionNames, candidates) => {
 };
 
 /**
- * A variant whose value at EVERY position in `selected` matches - the
- * "exact combo" the current full selection maps to, if one exists.
+ * A variant matching EVERY position in `selected` - the exact combo the
+ * full selection maps to, if one exists.
  * @param {object} product
  * @param {Record<number, string>} selected - position -> value
  * @returns {object|undefined}
@@ -38,11 +32,9 @@ export const findExactVariant = (product, selected) =>
   );
 
 /**
- * Fallback when no exact combo exists for the candidate selection (e.g.
- * this color + the previously selected size isn't a real variant): anchors
- * directly to a variant that has this value at this position - prefers an
- * AVAILABLE one, else just the first match (so a fully out-of-stock value
- * still anchors to something real).
+ * Fallback when no exact combo exists: anchors to a variant with this
+ * value at this position - prefers an available one, else the first
+ * match (so a fully out-of-stock value still anchors to something real).
  * @param {object} product
  * @param {number} position
  * @param {string} value
@@ -54,13 +46,10 @@ export const findAnchorVariant = (product, position, value) => {
 };
 
 /**
- * Whether `value` at `position` is still choosable given the FULL current
- * `selected` state (every OTHER position, not just ones preceding it) -
- * same bidirectional check as ./variant-state.js's `refreshDisabledStates`
- * (picking a color can disable sizes, AND picking a size can disable
- * colors), extracted here as a pure per-value check so ./quick-view.js can
- * reuse it without quick-view.js needing to know about that file's DOM-
- * querying version.
+ * Whether `value` at `position` is still choosable given the FULL
+ * current selection (every other position) - same bidirectional check as
+ * ./variant-state.js's `refreshDisabledStates`, as a pure per-value check
+ * so ./quick-view.js can reuse it without its DOM-querying version.
  * @param {object} product
  * @param {number} position
  * @param {string} value

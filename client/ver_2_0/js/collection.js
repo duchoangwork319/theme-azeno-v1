@@ -1,31 +1,18 @@
 "use strict";
 
-// This entry's own SCSS/theme CSS lives in its sibling entry,
-// client/ver_2_0/js/css-collection.js (see scripts/vite-build.mjs's
-// buildVer2Entry) - kept separate so THIS entry can build as "iife"
-// (window-safe even when minified) while the CSS-only entry stays "es" (so
-// Vite extracts it into its own linked .css file - see
-// snippets/header-styles.liquid). The one exception is Swiper's own
-// stylesheet (imported by ./modules/quick-view.js, not SCSS, for the
-// shared Quick View image carousel) - since this "iife" entry has no
-// linked stylesheet of its own, Vite falls back to injecting that CSS at
-// runtime via a `<style>` tag instead of emitting a separate asset, which
-// is harmless (just needs this script to have actually run before the
-// carousel is visible, same as any other JS-driven styling it applies) but
-// worth knowing if a built `assets/bundled.collection.2.0.*` is ever
-// inspected and no matching `.css` file turns up.
+// This entry's SCSS lives in the sibling css-collection.js entry (kept
+// separate so THIS entry builds as "iife" - window-safe when minified -
+// while the CSS-only entry stays "es" so Vite extracts a linked .css file).
+// Exception: Swiper's stylesheet (imported by ./modules/quick-view.js) has
+// no linked file here, so Vite injects it via a runtime `<style>` tag -
+// expected, not a bug, if a built bundle has no matching .css for it.
 import { initVariantPickers } from "./modules/variant.js";
 import { initFilterSort } from "./modules/filter-sort.js";
 import { initPriceRangeSlider } from "./modules/price-range-slider.js";
 import { initQuickView } from "./modules/quick-view.js";
 import { initLazyload } from "./modules/lazyload.js";
-// Only the Tab component (not the full bootstrap.bundle, which also pulls
-// in Popper for dropdown/tooltip/popover - unneeded here) - its own
-// import side effect wires up `[data-bs-toggle="tab"]` click handling
-// sitewide for this scope, same as the `nav-tabs`/`tab-pane` markup
-// ported into e.g. 5dla-data/pages/fusion-tri-suits-for-hot-weather-
-// racing-2.html's `.comparison-mobile`. No explicit `new Tab(...)` call
-// needed - Bootstrap's own data-api auto-initializes on click.
+// Tab component only (not bootstrap.bundle, which also pulls in Popper) -
+// the import alone wires up `[data-bs-toggle="tab"]` via Bootstrap's data-api.
 import "bootstrap/js/dist/tab";
 
 const PAGINATION_SELECTOR = "[data-c5dla-pagination]";
@@ -35,15 +22,11 @@ const SENTINEL_SELECTOR = "[data-c5dla-infinite-sentinel]";
 let paginationLoading = false;
 
 /**
- * Fetches the pagination container's `data-next-url` via the Section
- * Rendering API (`?sections=<id>`), appends the new page's products into
- * the existing `.products` grid, and swaps in the response's own
- * pagination state (its next URL, or removes the container entirely once
- * there's no next page). Shared by both the "load more" button and
- * infinite scroll - ports assets/wpbingo.js's `ajaxFilterInfinity`
- * (fetch-append-replace-pagination-markup), rewritten without jQuery and
- * scoped to just this section instead of also touching sliders/reviews/
- * currency/etc.
+ * Fetches the next page via the Section Rendering API (`?sections=<id>`),
+ * appends its products to `.products`, and swaps in the response's own
+ * pagination state (or removes the container if there's no next page).
+ * Shared by the "load more" button and infinite scroll - ports assets/
+ * wpbingo.js's `ajaxFilterInfinity`, without jQuery, scoped to this section.
  * @param {Element} pagination
  */
 const loadNextPage = async pagination => {
@@ -76,28 +59,22 @@ const loadNextPage = async pagination => {
     if (newProducts && currentProducts) {
       currentProducts.append(...newProducts.children);
       ensureCardHeightEqual();
-      // Newly appended cards (card variant 3's swatches/size buttons)
-      // need their own variant.js binding too - initVariantPickers is
-      // idempotent (see its own comment), so re-scanning the whole
-      // document is safe and simpler than targeting just the new nodes.
+      // Both idempotent, so re-scanning the whole document for newly
+      // appended cards is simpler than targeting just the new nodes.
       initVariantPickers();
-      // Same idempotency story for newly appended cards' own lazyload
-      // images (client/ver_2_0/js/modules/lazyload.js).
       initLazyload();
     }
 
     const newPagination = parsed.querySelector(PAGINATION_SELECTOR);
     if (newPagination && newPagination.dataset.nextUrl) {
-      // Same node stays in the DOM (just its next-page pointer changes) so
-      // an IntersectionObserver already watching this container's sentinel
-      // doesn't need to be re-bound to a replacement element.
+      // Same node stays in the DOM (just its next-page pointer changes) -
+      // the sentinel's IntersectionObserver doesn't need re-binding.
       pagination.dataset.nextUrl = newPagination.dataset.nextUrl;
     } else {
       pagination.remove();
     }
   } catch (error) {
-    // Fall back to a real navigation so pagination still works without JS
-    // having to reimplement error recovery.
+    // Fall back to a real navigation rather than reimplement error recovery.
     window.location.assign(nextUrl);
   } finally {
     paginationLoading = false;
@@ -115,12 +92,9 @@ const initLoadMore = () => {
 };
 
 /**
- * Ports assets/wpbingo.js's `ajaxFilterInfinity`: a scroll-position check
- * ("within ~2000px of the bottom, and not already loading") that fetches
- * the next page. Uses IntersectionObserver instead of a raw `scroll`
- * listener + manual document-height math - same trigger semantics
- * (loads shortly before the sentinel would actually reach the viewport,
- * via `rootMargin`), no scroll-event polling.
+ * Ports assets/wpbingo.js's `ajaxFilterInfinity` scroll-near-bottom check,
+ * using IntersectionObserver (`rootMargin` triggers it just before the
+ * sentinel reaches the viewport) instead of scroll-event polling.
  */
 const initInfiniteScroll = () => {
   const sentinel = document.querySelector(SENTINEL_SELECTOR);
@@ -143,13 +117,9 @@ const initInfiniteScroll = () => {
 };
 
 /**
- * Ports assets/wpbingo.js's `makeHeightEqual`: sets every element in the
- * collection to the tallest one's height, so cards with shorter content
- * (description/headline/feature text of varying length) still line up
- * with their taller neighbours - CSS grid's own row-stretch already
- * equalizes the `article` root, but not stray inline heights left over
- * from a previous, taller state, so this resets to `auto` before
- * remeasuring.
+ * Ports assets/wpbingo.js's `makeHeightEqual`: sets every element to the
+ * tallest one's height (so varying-length text still lines up), resetting
+ * to `auto` first in case a previous, taller measurement is stale.
  * @param {NodeListOf<Element>} elements
  */
 const makeHeightEqual = elements => {
@@ -168,12 +138,8 @@ const makeHeightEqual = elements => {
 };
 
 /**
- * Equalizes every product card's height in `.products` (whichever
- * 5dla_product-card-1/2/3 variant is rendered - see
- * sections/5dla_collection-product-grid.liquid) - ports
- * `wpbingo.ensureHeightEqual`'s intent for this grid. Re-run after
- * `loadNextPage` appends more cards (see below), since new cards join
- * the same grid and need to be measured against the existing ones too.
+ * Equalizes product card heights in `.products` - ports
+ * `wpbingo.ensureHeightEqual`. Re-run after `loadNextPage` appends cards.
  */
 const ensureCardHeightEqual = () => {
   const prefixCard1 = "article.c5dla-card-1 .product-copy";
@@ -187,15 +153,9 @@ const ensureCardHeightEqual = () => {
 };
 
 /**
- * "Show all colours" checkbox (sections/5dla_collection-product-grid.liquid) -
- * toggles `.show-all-colours` on `.c5dla-scope` (this template's <main>,
- * not <body> - see scripts/vite-build.mjs's postcss-prefix-selector
- * setup for why it has to be the actual scoped root), which reveals every
- * product card's `.swatch--extra` swatches and hides the "+N" count (see
- * client/ver_2_0/scss/collection/_product-grid.scss and
- * snippets/5dla_product-card-1-swatches.liquid). A single page-wide class rather
- * than per-card state, matching the reference's own client-side behavior
- * (one toggle affecting every card's swatch list at once).
+ * "Show all colours" checkbox - toggles `.show-all-colours` on
+ * `.c5dla-scope` (NOT <body> - vite-build.mjs's prefixer rewrites `.scope`
+ * for <main>, not body), revealing every card's extra swatches at once.
  */
 const initColorsToggle = () => {
   const checkbox = document.querySelector("[data-c5dla-colors-toggle]");
@@ -209,18 +169,11 @@ const initColorsToggle = () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   initColorsToggle();
-  // Unlike initVariantPickers, this binds ONE delegated document listener -
-  // it never needs re-running after loadNextPage/filter-sort swap in new
-  // cards (see ./modules/quick-view.js's own top comment), so it's not
-  // repeated in initFilterSort's onGridUpdated below.
+  // One delegated document listener - never needs re-running after a grid
+  // swap, unlike the re-inits below.
   initQuickView();
-  // Re-runs everything that depends on `.products`/`[data-c5dla-pagination]`
-  // after client/ver_2_0/js/modules/filter-sort.js's AJAX facet request
-  // swaps in a freshly rendered grid - same re-inits `loadNextPage` already
-  // needs after appending a paginated page, plus the price range slider
-  // (its own container is inside the swapped drawer body) and infinite
-  // scroll (its sentinel element is a new node each time, so its own
-  // IntersectionObserver needs re-creating against it).
+  // Re-runs whatever depends on `.products`/pagination after filter-sort.js
+  // swaps in a freshly rendered grid (same re-inits loadNextPage needs).
   initFilterSort({
     onGridUpdated: () => {
       ensureCardHeightEqual();

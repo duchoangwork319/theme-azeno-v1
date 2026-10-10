@@ -1,20 +1,16 @@
 "use strict";
 
-// Vanilla-JS port of client/js/theme/spinner.js's jQuery `$.fn.spinner()`/
-// `$.spinner()` plugin - this ver_2.0 stack doesn't load jQuery at all, so
-// the overlay-building logic is reimplemented here as two plain functions
-// instead of a jQuery plugin (used by client/ver_2_0/js/modules/filter-sort.js
-// to show a loading state during its AJAX facet requests - see that
-// module's own top comment).
+// Vanilla-JS port of client/js/theme/spinner.js's jQuery `$.fn.spinner()`
+// plugin - this ver_2.0 stack loads no jQuery, so it's two plain functions
+// instead (used by filter-sort.js for its AJAX loading state).
 
 const STYLE_ID = "c5dla-spinner-style";
 const BACKDROP_CLASS = "c5dla-spinner-backdrop";
 const SPINNER_CLASS = "c5dla-spinner";
 
 /**
- * Injects the spinner's `@keyframes` + its "make this container the
- * positioning context" helper class once per page - same two rules as
- * client/js/theme/spinner.js's own inline `<style>` block.
+ * Injects the spinner's `@keyframes` + positioning-context helper class
+ * once per page - same two rules as the legacy's own inline `<style>`.
  */
 const ensureSpinnerStyles = () => {
   if (document.getElementById(STYLE_ID)) return;
@@ -31,13 +27,11 @@ const ensureSpinnerStyles = () => {
 };
 
 /**
- * Starts a spinner overlay on `container` (defaults to the whole page).
- * A page-level spinner (`container` is `document.body`) is `position:
- * fixed` and locks page scroll, matching the original's `isPageLevel`
- * branch; any other container gets a `position: absolute` overlay sized to
- * that container's own box, and the container itself is switched to
- * `position: relative` (via `.c5dla-spinner-relative`) so the overlay
- * positions against IT, not some further-up ancestor.
+ * Starts a spinner overlay on `container` (default: whole page). A
+ * page-level spinner (`document.body`) is `position: fixed` and locks
+ * scroll; any other container gets a sized `position: absolute` overlay,
+ * with the container itself switched to `position: relative` so the
+ * overlay positions against it, not a further-up ancestor.
  * @param {Element} [container]
  */
 export const startSpinner = (container = document.body) => {

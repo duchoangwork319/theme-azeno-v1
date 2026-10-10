@@ -1,36 +1,19 @@
 "use strict";
 
 // Custom image lazyload for snippets/5dla_product-card-*.liquid - NOT
-// native `loading="lazy"` (per request: "Load it only once and only load
-// those image on scroll" needed real control over WHEN the fetch starts
-// and a one-time guarantee, neither of which the native attribute alone
-// gives you). Every product card image is wrapped in a `<span
-// class="c5dla-media-wrap c5dla-skeleton">` (snippets/5dla_product-card-
-// media.liquid) - the WRAPPER carries the skeleton/shimmer (client/
-// ver_2_0/scss/collection/_product-grid.scss) and hides its own `<img>`,
-// not the other way around, because a deferred `<img>` has no `src` at
-// all (see below) and isn't reliably sized by CSS in every browser until
-// it has one - the wrapper's size never depends on the `<img>`'s own
-// state, so the skeleton is always the right size. `c5dla-skeleton` is a
-// single, generic, reusable class (not a base+modifier pair): this module
-// REMOVES it outright once the image finishes loading, which both stops
-// the shimmer and reveals the `<img>` in one step (same CSS rule drives
-// both). See each card's own top comment for how `index`/`section.
-// settings.start_image_lazyload_at` (sections/5dla_collection-product-
-// grid.liquid) decides eager vs. deferred:
-//   - Eager (first N products): real `src` is already in the markup -
-//     this only tracks its `load` event to remove the skeleton.
-//   - Deferred: `data-src` holds the real URL, no `src` at all - this
-//     observes its WRAPPER with an IntersectionObserver and only sets the
-//     `<img>`'s `.src` (so the browser actually starts fetching) once it
-//     scrolls near the viewport, same skeleton-removal-on-load after that.
+// native `loading="lazy"`, which can't guarantee a one-time load on scroll.
+// Each image is wrapped in `<span class="c5dla-media-wrap c5dla-skeleton">`
+// (5dla_product-card-media.liquid); the WRAPPER (not the `<img>`) carries
+// the skeleton, since a deferred `<img>` with no `src` isn't reliably
+// sized by CSS until it has one. `c5dla-skeleton` is a single class, not a
+// base+modifier pair: removing it on load both stops the shimmer and
+// reveals the `<img>` (same CSS rule drives both).
 //
-// `data-src` doubles as the "not loaded yet" marker: once set to `.src`,
-// it's deleted, so re-running `initLazyload` (after pagination/filter-sort
-// swap in new cards, like every other `init*` in client/ver_2_0/js/
-// collection.js) never re-observes or re-fetches an image twice ("load it
-// ONLY once" - also why the IntersectionObserver `unobserve`s a wrapper
-// the moment its image starts loading, rather than leaving it watched).
+// `index`/`section.settings.start_image_lazyload_at` decides eager
+// (real `src` already in the markup - just track `load`) vs. deferred
+// (`data-src` only - observed and promoted to `.src` on scroll-near).
+// `data-src` doubles as the "pending" marker: deleted once promoted, so
+// re-running `initLazyload` (after a grid swap) never double-fetches.
 
 const SKELETON_SELECTOR = ".c5dla-skeleton";
 const PENDING_SELECTOR = `${SKELETON_SELECTOR}:not([data-c5dla-lazy-bound])`;
@@ -38,8 +21,6 @@ const PENDING_SELECTOR = `${SKELETON_SELECTOR}:not([data-c5dla-lazy-bound])`;
 let observer = null;
 
 /**
- * Removing the class (not adding a modifier) both stops the shimmer AND
- * reveals `wrapper`'s `<img>` - see this module's own top comment.
  * @param {HTMLElement} wrapper
  */
 const markLoaded = wrapper => {
@@ -47,12 +28,9 @@ const markLoaded = wrapper => {
 };
 
 /**
- * Removes `wrapper`'s skeleton once `img` actually finishes loading (or
- * fails - better a broken image without a stuck shimmer forever than the
- * reverse). If the browser already finished loading it before this ran
- * (e.g. an eager image, served from cache, by the time JS executes), skip
- * straight to `markLoaded` - a `load` event only fires once, and it may
- * already have fired.
+ * Removes `wrapper`'s skeleton once `img` loads (or errors - better a
+ * broken image than a stuck shimmer). Checks `img.complete` first in case
+ * it already finished (e.g. cached) before a `load` listener could catch it.
  * @param {HTMLElement} wrapper
  * @param {HTMLImageElement} img
  */
@@ -66,9 +44,8 @@ const trackLoad = (wrapper, img) => {
 };
 
 /**
- * Promotes a deferred image's `data-src` to a real `src` (the browser
- * only starts fetching once this happens) and deletes `data-src` so this
- * image is never picked up again by a later `initLazyload` re-scan.
+ * Promotes `data-src` to a real `src` (starting the fetch) and deletes
+ * `data-src` so a later `initLazyload` re-scan never picks it up again.
  * @param {HTMLElement} wrapper
  * @param {HTMLImageElement} img
  */
@@ -82,10 +59,8 @@ const loadDeferredImage = (wrapper, img) => {
 };
 
 /**
- * One shared IntersectionObserver for every deferred image's wrapper on
- * the page - `rootMargin` starts the real fetch a bit before the image
- * actually enters the viewport, so it's more likely already loaded (or at
- * least started) by the time the shopper scrolls to it.
+ * One shared IntersectionObserver - `rootMargin` starts the fetch a bit
+ * before the image enters the viewport.
  * @returns {IntersectionObserver}
  */
 const getObserver = () => {
@@ -107,14 +82,10 @@ const getObserver = () => {
 };
 
 /**
- * Binds every not-yet-processed `.c5dla-skeleton` wrapper under `root`
- * (default: whole document) - its `<img>`'s `data-src` present means
- * "deferred, observe the WRAPPER"; absent means "eager, already has its
- * real `src`, just track its own load for skeleton removal". Idempotent
- * via `data-c5dla-lazy-bound` (same pattern as client/ver_2_0/js/modules/
- * variant.js's `data-variant-js-bound`), so re-running this after
- * client/ver_2_0/js/collection.js appends/swaps in more cards never
- * re-binds (or re-observes/re-fetches) an image already handled.
+ * Binds every not-yet-processed `.c5dla-skeleton` wrapper under `root`:
+ * `data-src` present means deferred (observe it); absent means eager
+ * (just track load). Idempotent via `data-c5dla-lazy-bound`, same pattern
+ * as variant.js's `data-variant-js-bound`.
  * @param {ParentNode} [root]
  */
 export const initLazyload = (root = document) => {

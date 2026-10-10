@@ -1,14 +1,9 @@
 "use strict";
 
-// Dual-handle price range slider for
-// snippets/5dla_filter-sort-drawer.liquid's "Slider" `price_range_mode`
-// (section.settings.price_range_mode on 5dla_collection-product-grid.liquid).
-// Uses the `nouislider` package (node_modules/nouislider) instead of two
-// overlapping native <input type="range">s (what snippets/filter-sidebar.liquid
-// did) - noUiSlider supports true two-handle drag without one handle
-// blocking the other. Its own default skin is restyled from scratch in
-// client/ver_2_0/scss/collection/_filter-sort.scss (its shipped
-// nouislider.css is never imported) to match this theme.
+// Dual-handle price range slider for 5dla_filter-sort-drawer.liquid's
+// "Slider" `price_range_mode`. Uses `nouislider` instead of two overlapping
+// native <input type="range">s (no single-handle blocking) - its default
+// skin is fully restyled in _filter-sort.scss (nouislider.css unused).
 import noUiSlider from "nouislider";
 
 const SLIDER_SELECTOR = "[data-c5dla-price-slider]";
@@ -37,36 +32,27 @@ const initSlider = container => {
     range: { min, max },
   });
 
-  // "update" fires continuously while dragging (live label text); the
-  // hidden inputs - and the actual filter request - only need the final
-  // value, applied on "change" (handle released).
+  // "update" fires continuously while dragging (live labels); the actual
+  // filter request only needs the final value, on "change" (released).
   slider.on("update", values => {
     if (valueMin) valueMin.textContent = Math.round(values[0]);
     if (valueMax) valueMax.textContent = Math.round(values[1]);
   });
 
   slider.on("change", values => {
-    // Hidden inputs share `filter.min_value.param_name`/`max_value.param_name`
-    // with the text-box mode (snippets/5dla_filter-sort-drawer.liquid) -
-    // that param's unit matches `filter.min_value.value` directly (cents-like
-    // "money" subunit, see money_without_currency usage in that snippet),
-    // so scale the slider's own human-currency value back up before writing.
+    // Shares the same hidden-input params as text-box mode, which expects
+    // a money subunit (cents) - scale the slider's currency value up.
     if (inputMin) inputMin.value = Math.round(values[0] * 100);
     if (inputMax) inputMax.value = Math.round(values[1] * 100);
 
-    // There's no Apply button - every other field applies itself via a
-    // "change" listener on the form (client/ver_2_0/js/modules/
-    // filter-sort.js), but setting `.value` in JS above never fires a DOM
-    // "change" event for that listener to catch, so this calls
-    // `requestSubmit()` directly instead.
+    // Setting `.value` in JS never fires "change" for filter-sort.js's
+    // listener to catch, so submit directly instead.
     if (form) form.requestSubmit();
   });
 
-  // client/ver_2_0/js/modules/filter-sort.js dispatches this on the form
-  // after restoring every field's `data-prev-value` (drawer closed without
-  // submitting) - the hidden inputs are back to their original value at
-  // that point, but this slider's own handle positions/labels are
-  // independent noUiSlider state, so they need an explicit re-sync.
+  // filter-sort.js dispatches this after restoring `data-prev-value` on
+  // drawer-close-without-submit - this slider's handles are independent
+  // noUiSlider state, so they need an explicit re-sync too.
   if (form) {
     form.addEventListener("c5dla:filter-reset", () => {
       const resetMin = Number(inputMin?.value) / 100;

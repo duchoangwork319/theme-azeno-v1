@@ -1,11 +1,9 @@
 "use strict";
 
 // The `[dynamic="*"]`/active-swatch/selected-size/disabled-state side of
-// variant switching for snippets/5dla_product-card-3.liquid - everything
-// that reads or writes a card's DOM state for a given variant. Kept
-// separate from client/ver_2_0/js/modules/variant.js's click-handling/
-// variant-resolution logic so `applyVariant` there can stay a thin
-// orchestrator over these.
+// variant switching for snippets/5dla_product-card-3.liquid. Kept
+// separate from ./variant.js's click-handling so `applyVariant` there can
+// stay a thin orchestrator over these.
 
 export const COLOR_OPTION_SELECTOR = ".store-color-option[data-value]";
 export const SIZE_OPTION_SELECTOR = ".size-option[data-value]";
@@ -18,10 +16,9 @@ export const SIZE_OPTION_SELECTOR = ".size-option[data-value]";
 export const variantOptionValue = (variant, position) => variant[`option${position}`] ?? null;
 
 /**
- * Resizes a Shopify CDN image URL via its `width` query param - the same
- * transform `image_url: width: 960` applies server-side (see
- * snippets/5dla_product-card-3.liquid), ported here for `updateProductImage`'s
- * client-side swap on color change.
+ * Resizes a Shopify CDN image URL via its `width` query param - same
+ * transform `image_url: width: 960` applies server-side, ported here for
+ * `updateProductImage`'s client-side swap.
  * @param {string} src
  * @param {number} width
  */
@@ -33,11 +30,9 @@ const resizeImage = (src, width) => {
 };
 
 /**
- * Ports assets/currencies.js's own `Currency.formatMoney` placeholder/
- * delimiter logic (not reusable as-is - see `formatMoney` below for why).
- * Kept as a near-literal copy so this stays in sync with that file's
- * behavior (same `{{amount*}}` placeholder names, same default
- * thousands/decimal separators) without actually depending on it loading.
+ * Ports assets/currencies.js's `Currency.formatMoney` placeholder/delimiter
+ * logic as a near-literal copy, so this stays in sync with its behavior
+ * without depending on that script actually loading.
  * @param {number} cents
  * @param {string} format - a `shop.money_format`-style template, e.g.
  *   `HK${{amount_with_comma_separator}}`
@@ -84,20 +79,12 @@ const formatMoneyFallback = (cents, format) => {
 
 /**
  * Formats a price (cents) via the sitewide money format
- * (`wpbingo.strings.moneyFormat`, from `shop.money_format` - set
- * unconditionally in snippets/header-javascript.liquid, so always
- * available). Prefers `Currency.formatMoney` (assets/currencies.js) when
- * it happens to be loaded, for consistency with any currency-conversion
- * state it tracks - but that script is ONLY included when
- * `settings.show_currency_selector and settings.currency_type == '2'`
- * (snippets/footer-javascript-optimized.liquid), so most stores never
- * load it. The previous fallback here (`$${(cents/100).toFixed(2)}`)
- * ignored `moneyFormat` entirely, which is why a locale price like
- * "HK$3,850.00" (rendered server-side via Liquid's `money` filter) turned
- * into plain "$3850.00" after a client-side variant change - this fallback
- * instead runs the real format template, so it stays correct either way.
- * Exported so client/ver_2_0/js/modules/quick-view.js can format the
- * Quick View modal's price the same way, without duplicating this.
+ * (`wpbingo.strings.moneyFormat`, always available). Prefers
+ * `Currency.formatMoney` when loaded - but that script only loads when
+ * `settings.show_currency_selector and currency_type == '2'`, so most
+ * stores never get it; the fallback here runs the real format template
+ * (not a naive `$X.XX`, which ignored locale formats like "HK$"), so
+ * prices stay correct either way. Exported so quick-view.js can reuse it.
  * @param {number} cents
  */
 export const formatMoney = cents => {
@@ -109,11 +96,8 @@ export const formatMoney = cents => {
 };
 
 /**
- * Reads the card's current selection (every option position -> value)
- * from `data-current-variant-id` (seeded server-side to
- * product.selected_or_first_available_variant.id in
- * snippets/5dla_product-card-3.liquid, then kept live by `applyVariant` in
- * client/ver_2_0/js/modules/variant.js).
+ * Reads the card's current selection from `data-current-variant-id`
+ * (seeded server-side, kept live by ./variant.js's `applyVariant`).
  * @param {Element} card
  * @param {object} product
  * @returns {Record<number, string>}
@@ -130,9 +114,8 @@ export const readSelectedState = (card, product) => {
 };
 
 /**
- * product.title doesn't actually vary by variant - re-set anyway so every
- * `[dynamic]` field goes through the same "refresh on variant change"
- * routine (see snippets/5dla_product-card-3.liquid's comment).
+ * product.title doesn't vary by variant - re-set anyway so every
+ * `[dynamic]` field goes through the same refresh routine.
  * @param {Element} card
  * @param {object} product
  */
@@ -164,15 +147,12 @@ export const updateProductImage = (card, product, variant) => {
   if (!imageEl || !image) return;
 
   const resized = resizeImage(image.src, 960);
-  // If this card's image is still deferred (client/ver_2_0/js/modules/
-  // lazyload.js hasn't scrolled it into view yet - `data-src`, no real
-  // `src`), update THAT instead of forcing a real `src` here: this image
-  // may not even be visible yet (e.g. the shopper opened "Show all
-  // colours" and is clicking swatches on a card below the fold), so
-  // forcing a load now would defeat the point of deferring it. Swapping
-  // `data-src` means whichever color is selected by the time it finally
-  // scrolls into view is what gets loaded - still correct, just not
-  // fetched early.
+  // If this image is still deferred (lazyload.js hasn't scrolled it into
+  // view - `data-src`, no real `src`), update THAT instead of forcing a
+  // real `src`: the card may be below the fold (e.g. "Show all colours"
+  // clicked on an off-screen card), so forcing a load now would defeat
+  // the point of deferring it - whichever color is selected by the time
+  // it scrolls into view is what loads.
   if (imageEl.dataset.src) {
     imageEl.dataset.src = resized;
   } else {
@@ -237,16 +217,10 @@ export const updateSelectedSizeOption = (card, selected, sizePosition) => {
 };
 
 /**
- * Re-checks every color swatch's/size button's availability against the
- * FULL current `selected` state (every position, not just ones preceding
- * it in product.options order) - this is what makes disabling
- * bidirectional (picking a color can disable sizes, AND picking a size
- * can disable colors), unlike the page-load-only computation in
- * snippets/5dla_product-card-3-swatches.liquid/
- * snippets/5dla_product-size-selector.liquid, which only looks at EARLIER
- * option positions (correct there, since later selections aren't known
- * yet on first render; not correct here, where every position already
- * has a concrete, live value).
+ * Re-checks every swatch/size button's availability against the FULL
+ * current selection (not just earlier positions, unlike the page-load-only
+ * Liquid computation) - this is what makes disabling bidirectional
+ * (picking a color can disable sizes and vice versa).
  * @param {Element} card
  * @param {object} product
  * @param {Record<number, string>} selected
