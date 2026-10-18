@@ -1,0 +1,265 @@
+{%- comment -%}
+  Sibling of sections/5dla_collection-product-grid.liquid - same product
+  source/card rendering, but a Swiper carousel (client/ver_2_0/js/modules/
+  product-carousel.js) instead of a CSS grid, and no pagination (`page_item`
+  caps the carousel's total slide count instead of a page size - there's
+  only ever one "page").
+
+  Card markup/styles (`.c5dla-card-*`) and behavior (variant pickers, quick
+  view, lazyload - collection.js) are untouched and shared with the grid
+  section; this section only adds its own wrapper/header/arrows
+  (client/ver_2_0/scss/collection/_product-carousel.scss, ported from the
+  reference's `section.five-section`/`.five-arrow` -
+  html/revamp/homepage/5dla-homepage.html's "BESTSELLERS" row) and the
+  Swiper init.
+
+  Filter & sort and `custom_badge` blocks are intentionally not migrated -
+  this section has no settings for either.
+
+  `.c5dla-product-carousel-skeleton` sits on top of (not swapped in place
+  of) the real `.swiper` carousel until client/ver_2_0/js/modules/
+  product-carousel.js's Swiper instance fires `init` and hides it - the
+  real carousel is never `display: none`d, since Swiper needs to measure
+  its actual width at construction time.
+{%- endcomment -%}
+
+{%- liquid
+  assign product_list = section.settings.product_list
+  assign filter_collection = section.settings.collection | default: collection
+
+  assign products = blank
+  if product_list != blank and product_list.size > 0
+    assign products = product_list
+  elsif filter_collection != blank
+    assign products = filter_collection.products
+  endif
+
+  assign mobile_padding = section.settings.mobile_padding
+  assign mobile_margin = section.settings.mobile_margin
+  assign desktop_max_width = section.settings.max_width
+  assign desktop_padding = section.settings.padding
+  assign background_color = section.settings.background_color
+
+  assign background_style = ''
+  if background_color != blank
+    assign background_style = 'background-color: ' | append: background_color | append: ';'
+  endif
+
+  assign desktop_slides = section.settings.desktop_slides_per_view
+  assign tablet_slides = section.settings.tablet_slides_per_view
+  assign mobile_slides = section.settings.mobile_slides_per_view
+-%}
+
+<div
+  class="c5dla-carousel-wrapper"
+  data-c5dla-product-carousel-root
+  style="{{ background_style | escape }}--c5dla-carousel-desktop-max-width: {{ desktop_max_width | escape }}; --c5dla-carousel-desktop-padding: {{ desktop_padding | escape }}; --c5dla-carousel-mobile-padding: {{ mobile_padding | escape }}; --c5dla-carousel-mobile-margin: {{ mobile_margin | escape }};"
+>
+  <div class="c5dla-carousel-head">
+    {%- if section.settings.carousel_label != blank -%}
+      <h2 id="c5dla-carousel-title-{{ section.id }}">{{ section.settings.carousel_label }}</h2>
+    {%- endif -%}
+    <div class="five-section-actions">
+      {%- if section.settings.cta_label != blank -%}
+        <a href="{{ section.settings.cta_url | default: '#' }}">{{ section.settings.cta_label }}</a>
+      {%- endif -%}
+      <button class="five-arrow" type="button" aria-label="Previous products" data-direction="-1">←</button>
+      <button class="five-arrow" type="button" aria-label="Next products" data-direction="1">→</button>
+    </div>
+  </div>
+
+  {%- if products != blank and products.size > 0 -%}
+    <div class="c5dla-product-carousel-body">
+      <div
+        class="c5dla-product-carousel-skeleton"
+        data-c5dla-product-carousel-skeleton
+        aria-hidden="true"
+        style="--c5dla-carousel-desktop-slides: {{ desktop_slides }}; --c5dla-carousel-tablet-slides: {{ tablet_slides }}; --c5dla-carousel-mobile-slides: {{ mobile_slides }};"
+      >
+        {%- for i in (1..desktop_slides) -%}
+          <div class="c5dla-product-carousel-skeleton__item c5dla-skeleton"></div>
+        {%- endfor -%}
+      </div>
+
+      <div
+        class="c5dla-product-carousel swiper"
+        aria-label="{{ products.size }} products"
+        {% if section.settings.carousel_label != blank %}
+          aria-labelledby="c5dla-carousel-title-{{ section.id }}"
+        {% endif %}
+        data-c5dla-product-carousel
+        data-desktop-slides="{{ desktop_slides }}"
+        data-tablet-slides="{{ tablet_slides }}"
+        data-mobile-slides="{{ mobile_slides }}"
+      >
+        <div class="swiper-wrapper">
+          {%- for product in products limit: section.settings.page_item -%}
+            <div class="swiper-slide">
+              {% liquid
+                if section.settings.product_card_type == 'card_1'
+                  render '5dla_product-card-1', product: product, swatch_limit: section.settings.swatch_limit, section: section, index: forloop.index
+                elsif section.settings.product_card_type == 'card_2'
+                  render '5dla_product-card-2', product: product, swatch_limit: section.settings.swatch_limit, section: section, index: forloop.index
+                elsif section.settings.product_card_type == 'card_3'
+                  render '5dla_product-card-3', product: product, swatch_limit: section.settings.swatch_limit, size_limit: section.settings.size_selector_limit, section: section, index: forloop.index
+                elsif section.settings.product_card_type == 'card_4'
+                  render '5dla_product-card-4', product: product, swatch_limit: section.settings.swatch_limit, section: section, index: forloop.index
+                elsif section.settings.product_card_type == 'card_5'
+                  render '5dla_product-card-5', product: product, swatch_limit: section.settings.swatch_limit, section: section, index: forloop.index
+                elsif section.settings.product_card_type == 'card_6'
+                  render '5dla_product-card-6', product: product, swatch_limit: section.settings.swatch_limit, section: section, index: forloop.index
+                endif
+              %}
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  {%- else -%}
+    <div class="empty-products">
+      {{ 'collections.general.no_matches' | t }}
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "5DLA Product Carousel",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection",
+      "info": "If set, pulls products from this collection instead of the page's own collection. Ignored if a product list is set below."
+    },
+    {
+      "type": "product_list",
+      "id": "product_list",
+      "label": "Products",
+      "info": "If set, renders these products instead of a collection."
+    },
+    {
+      "type": "text",
+      "id": "carousel_label",
+      "label": "Carousel label",
+      "info": "Heading shown above the carousel, e.g. BESTSELLERS. Blank hides the whole header row (label + CTA + arrows)."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "info": "e.g. Shop all. Blank hides the CTA link."
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA link"
+    },
+    {
+      "type": "select",
+      "id": "product_card_type",
+      "label": "Product card style",
+      "options": [
+        { "value": "card_1", "label": "Card 1" },
+        { "value": "card_2", "label": "Card 2" },
+        { "value": "card_3", "label": "Card 3" },
+        { "value": "card_4", "label": "Card 4" },
+        { "value": "card_5", "label": "Card 5" },
+        { "value": "card_6", "label": "Card 6" }
+      ],
+      "default": "card_1"
+    },
+    {
+      "type": "range",
+      "id": "desktop_slides_per_view",
+      "label": "Slides per view (desktop)",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "tablet_slides_per_view",
+      "label": "Slides per view (tablet)",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "mobile_slides_per_view",
+      "label": "Slides per view (mobile)",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "text",
+      "id": "mobile_padding",
+      "label": "Padding (mobile)",
+      "info": "Any valid CSS padding shorthand, e.g. 42px 20px. Applies to the whole section (label/CTA/arrows + carousel), not just the carousel itself.",
+      "default": "42px 20px"
+    },
+    {
+      "type": "text",
+      "id": "mobile_margin",
+      "label": "Margin (mobile)",
+      "info": "Any valid CSS margin shorthand, e.g. 0 auto.",
+      "default": "0 auto"
+    },
+    {
+      "type": "text",
+      "id": "max_width",
+      "label": "Max width (desktop)",
+      "info": "Any valid CSS length, e.g. 1600px or min(1270px, 100% - 104px). Desktop only - ignored on tablet/mobile.",
+      "default": "1600px"
+    },
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Padding (desktop)",
+      "info": "Any valid CSS padding shorthand, e.g. 72px 4.5%. Desktop only - tablet/mobile keep their own fixed padding. Applies to the whole section (label/CTA/arrows + carousel), not just the carousel itself.",
+      "default": "72px 4.5%"
+    },
+    {
+      "type": "text",
+      "id": "background_color",
+      "label": "Background Color",
+      "info": "Any valid CSS color, e.g. #f7f7f5 or rgba(0,0,0,0.05). Covers the whole section (label/CTA/arrows + carousel), not just the carousel itself. Blank/none by default."
+    },
+    {
+      "type": "range",
+      "id": "swatch_limit",
+      "label": "Max swatches before \"+N\"",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "number",
+      "id": "size_selector_limit",
+      "label": "Max sizes before \"+N\" (card 3)",
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "page_item",
+      "label": "Max items",
+      "info": "The carousel's total slide count - there's no pagination here, so this is a hard cap, not a page size.",
+      "min": 1,
+      "max": 48,
+      "step": 1,
+      "default": 12
+    }
+  ],
+  "presets": [
+    {
+      "name": "5DLA Product Carousel"
+    }
+  ]
+}
+{% endschema %}

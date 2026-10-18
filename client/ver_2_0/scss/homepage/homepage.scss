@@ -1,0 +1,21 @@
+// Entry point for the new 5dla-homepage.html revamp sections
+// (html/revamp/homepage/5dla-homepage.html). Only this file's compiled
+// output gets scoped (see scripts/vite-build.mjs) under the wrapper class
+// layout/theme.liquid adds to <main> for this template - see
+// collection/collection.scss's top comment for the scoping rationale.
+//
+// Tooling-only Bootstrap import (functions/variables/maps/mixins, no CSS
+// output) so partials can use `@include media-breakpoint-down()` - the
+// framework's component CSS, Jost @font-face, and `:root` custom
+// properties this stack's `var(--x)` calls rely on all come from
+// global/global.scss instead, loaded alongside this bundle on every
+// `c5dla` page (see snippets/header-styles.liquid).
+@import "../shared-variables";
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+
+// Section partials
+@import "carousel";

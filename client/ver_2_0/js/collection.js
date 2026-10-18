@@ -11,6 +11,7 @@ import { initFilterSort } from "./modules/filter-sort.js";
 import { initPriceRangeSlider } from "./modules/price-range-slider.js";
 import { initQuickView } from "./modules/quick-view.js";
 import { initLazyload } from "./modules/lazyload.js";
+import { initProductCarousel } from "./modules/product-carousel.js";
 // Tab component only (not bootstrap.bundle, which also pulls in Popper) -
 // the import alone wires up `[data-bs-toggle="tab"]` via Bootstrap's data-api.
 import "bootstrap/js/dist/tab";
@@ -189,4 +190,5 @@ document.addEventListener("DOMContentLoaded", () => {
   ensureCardHeightEqual();
   initVariantPickers();
   initLazyload();
+  initProductCarousel();
 });

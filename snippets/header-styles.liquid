@@ -143,7 +143,9 @@
 {%- if request.design_mode -%}
   {{ 'css-design-mode.css' | asset_url | stylesheet_tag }}
 {%- endif -%}
-{%- if template.suffix contains 'c5dla' -%}
+{%- if template.suffix contains 'c5dla' or template.name == 'index' -%}
 	{{ 'bundled.css-no-scope.2.0.css' | asset_url | stylesheet_tag }}
+	{{ 'bundled.css-global.2.0.css' | asset_url | stylesheet_tag }}
 	{{ 'bundled.css-collection.2.0.css' | asset_url | stylesheet_tag }}
+	{{ 'bundled.css-homepage.2.0.css' | asset_url | stylesheet_tag }}
 {%- endif -%}

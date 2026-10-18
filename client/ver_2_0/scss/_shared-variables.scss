@@ -1,42 +1,47 @@
-// Bootstrap 5 variable overrides shared by BOTH ver_2_0 entries
-// (global/global.scss and collection/collection.scss). Reuses the theme's
-// existing global CSS custom properties (declared site-wide in
-// header-styles.liquid / snippets/2_0-header-styles.liquid) instead of
-// hardcoding new values, so typography/colors stay consistent with the
-// rest of the site.
+// Bootstrap 5 variable overrides shared by every ver_2_0 entry (global/
+// global.scss, collection/collection.scss, homepage/homepage.scss).
+// Reuses the theme's existing global CSS custom properties (declared
+// site-wide in header-styles.liquid / snippets/2_0-header-styles.liquid)
+// instead of hardcoding new values, so typography/colors stay consistent
+// with the rest of the site.
 //
 // Only global/global.scss imports the full `bootstrap/scss/bootstrap` (all
-// component CSS, emitted once). collection/collection.scss imports just
-// bootstrap's functions/variables/maps/mixins (no CSS output) so its own
-// partials can use `$primary`/`@include media-breakpoint-up()` etc.
-// without duplicating ~280KB of framework CSS a second time - both
-// bundles load on the same page and share one `.c5dla-scope` root, so
-// global.2.0.css's `--bs-*` custom properties are visible to
-// collection.2.0.css's rules regardless of which file defined them.
-$font-family-sans-serif: var(--font-family-base), Helvetica, Arial, sans-serif;
-$font-family-base: $font-family-sans-serif;
+// component CSS, emitted once). collection/collection.scss and
+// homepage/homepage.scss each import just Bootstrap's functions/variables/
+// maps/mixins (no CSS output) so their own partials can use
+// `@include media-breakpoint-down()` etc. without duplicating ~280KB of
+// framework CSS a second time - all three bundles load on the same page
+// and share one `.c5dla-scope` root, so global.2.0.css's `--bs-*` custom
+// properties are visible to the other two's rules regardless of which
+// file defined them.
+//
+// `$font-family-base` is Bootstrap's own base-font Sass variable (feeds
+// `--bs-body-font-family`/`--bs-font-sans-serif`) - distinct from the
+// `--font-family-base` CSS custom property global/_root.scss defines for
+// headings. Self-hosted Jost (global/global.scss's @font-face), not
+// Google Fonts, matching the rest of this stack's type.
+$font-family-base: "Jost", "Avenir Next", Arial, sans-serif;
 
 $body-color: #111111;
 $body-bg: #ffffff;
 
 $primary: #111111;
-$secondary: #6b6b6b;
 
 $border-radius: 0;
 $border-radius-sm: 0;
 $border-radius-lg: 0;
 
-$enable-negative-margins: true;
-
 // Offcanvas (filter/sort drawer) sizing to match the reference layout.
 $offcanvas-horizontal-width: min(425px, 100vw);
 
-// Breakpoints for this revamp's own cutoffs (collection/*.scss), so
-// partials use `@include media-breakpoint-down(key)` instead of hardcoded
-// `@media` queries - one place to change a cutoff instead of hunting every
-// partial. The design previously had three near-duplicate mobile cutoffs
-// (720px/760px/767px) that all collapse into `md` here since they're close
-// enough to 768px to be a single breakpoint in practice.
+// Breakpoints for this revamp's own cutoffs (collection/*.scss,
+// homepage/*.scss), so partials use `@include media-breakpoint-down(key)`
+// instead of hardcoded `@media` queries - one place to change a cutoff
+// instead of hunting every partial. The collection design previously had
+// three near-duplicate mobile cutoffs (720px/760px/767px) that all
+// collapse into `md` here since they're close enough to 768px to be a
+// single breakpoint in practice; the homepage's 1198px/767px cutoffs map
+// onto `xl`(1200px)/`md`(768px) the same way.
 $grid-breakpoints: (
   xs: 0,
   sm: 680px,

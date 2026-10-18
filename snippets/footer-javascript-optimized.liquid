@@ -19,6 +19,7 @@
 {% endif %}
 <script src="{{ 'bundled.main.js' | asset_url }}" defer="defer"></script>
 
-{%- if template.suffix contains 'c5dla' -%}
+{%- if template.suffix contains 'c5dla' or template.name == 'index' -%}
   <script src="{{ 'bundled.collection.2.0.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'bundled.homepage.2.0.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}

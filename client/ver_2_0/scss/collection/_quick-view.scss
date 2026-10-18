@@ -35,7 +35,7 @@
   }
 
   .modal-title {
-    font-family: var(--display);
+    font-family: var(--font-family-base);
     font-size: 20px;
     font-weight: 500;
   }
@@ -190,7 +190,7 @@
 
   &__price {
     color: var(--ink);
-    font-family: var(--display);
+    font-family: var(--font-family-base);
     font-size: 22px;
     font-weight: 500;
   }
