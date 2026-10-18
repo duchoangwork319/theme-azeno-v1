@@ -76,7 +76,7 @@
     font-size: 11px;
     line-height: 1.6;
 
-    @media (width <= 680px) {
+    @include media-breakpoint-down(sm) {
       min-height: 0;
     }
   }
@@ -102,7 +102,7 @@
     display: inline-flex;
   }
 
-  @media (width <= 680px) {
+  @include media-breakpoint-down(sm) {
     min-height: 185px;
   }
 }

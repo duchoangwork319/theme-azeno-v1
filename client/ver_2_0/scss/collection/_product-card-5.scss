@@ -38,7 +38,7 @@
       top: 11px;
       left: 11px;
 
-      @media (width <= 760px) {
+      @include media-breakpoint-down(md) {
         padding: 5px 6px;
         font-size: 6px;
         top: 7px;
@@ -54,7 +54,7 @@
   .compare-product-copy {
     padding-top: 16px;
 
-    @media (width <= 760px) {
+    @include media-breakpoint-down(md) {
       padding-top: 11px;
     }
 
@@ -72,7 +72,7 @@
       font-size: 18px;
       font-weight: 600;
 
-      @media (width <= 760px) {
+      @include media-breakpoint-down(md) {
         font-size: 15px;
       }
 
@@ -93,7 +93,7 @@
       font-weight: 600;
       display: flex;
 
-      @media (width <= 760px) {
+      @include media-breakpoint-down(md) {
         flex-direction: column;
         align-items: flex-start;
         gap: 7px;

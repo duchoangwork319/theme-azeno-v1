@@ -19,11 +19,11 @@
   color: #757575;
   font-size: 11px;
 
-  @media (width <= 1060px) {
+  @include media-breakpoint-down(lg) {
     padding-inline: 4%;
   }
 
-  @media (width <= 720px) {
+  @include media-breakpoint-down(md) {
     padding: 33px 15px 0;
     margin-bottom: 26px;
   }

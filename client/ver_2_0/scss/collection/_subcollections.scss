@@ -6,11 +6,11 @@
   margin: 0 auto;
   padding: 0 5.15%;
 
-  @media (width <= 1060px) {
+  @include media-breakpoint-down(lg) {
     padding-inline: 4%;
   }
 
-  @media (width <= 720px) {
+  @include media-breakpoint-down(md) {
     padding-inline: 15px;
   }
 }
@@ -28,7 +28,7 @@
     display: none;
   }
 
-  @media (width <= 720px) {
+  @include media-breakpoint-down(md) {
     gap: 23px;
     margin-right: -15px;
     padding-right: 15px;
@@ -47,7 +47,7 @@
     font-size: 13px;
     text-decoration: none;
 
-    @media (width <= 720px) {
+    @include media-breakpoint-down(md) {
       font-size: 12px;
     }
 
