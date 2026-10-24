@@ -13,9 +13,7 @@
       "type": "5dla_collection-breadcrumb",
       "settings": {
         "enable": true,
-        "home_label": "Home",
-        "show_current": true,
-        "separator": "/"
+        "use_custom_hierarchy": true
       }
     },
     "banner": {
@@ -267,7 +265,8 @@
         "background_color": "",
         "swatch_limit": 4,
         "size_selector_limit": 5,
-        "page_item": 24,
+        "page_item": 8,
+        "start_image_lazyload_at": 4,
         "pagination_style": "loadmore",
         "filter_sort_enable": true,
         "filter_list_mode": "pill_badge",

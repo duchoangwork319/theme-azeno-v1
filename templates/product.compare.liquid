@@ -44,7 +44,7 @@
 				{% if featured_image.src == blank %}
 					<img class="product-card__image lazyload" src="{{ featured_image.src | image_url:width:1024 }}" alt="{{ featured_image.alt | escape }}" width="{{ featured_image.width }}" height="{{ featured_image.height }}" >
 				{% else %}
-					{% include 'img-global' with image: featured_image, class: "product-card__img-visible" %}
+					{% include 'img-global' with image, image: featured_image, class: "product-card__img-visible" %}
 				{% endif %}
 			</a>
 		</div>
@@ -213,3 +213,15 @@
 		</div>
 	</div>
 </div>
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: '{% include ''img-global'' with image: featured_image, class: "product-card__img-visible"
+    %}'
+  to: '{% include ''img-global'' with image, image: featured_image, class: "product-card__img-visible"
+    %}'
+  position: 2106..2202
+{% endcomment %}
