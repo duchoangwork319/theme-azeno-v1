@@ -1,0 +1,157 @@
+// Ported from the reference's `section.five-section.five-activity-section`
+// (html/revamp/homepage/5dla-homepage.html's inline <style>, "SHOP BY
+// ACTIVITY" row) for sections/5dla_activity-grid.liquid's `activity_item`
+// blocks (each an `a.five-activity`).
+//
+// Breakpoints: the reference's 1198px/767px cutoffs map onto this stack's
+// `xl`(1200px)/`md`(768px), same mapping already used by _carousel.scss.
+// `.five-activity`'s height has THREE tiers in the reference (510/390/400 -
+// not a simple override chain), since its separate `@media(max-width:1198px)`
+// and `@media(max-width:767px)` blocks both apply below 767px and the
+// later one (400px) wins on source order - reproduced here by nesting
+// `media-breakpoint-down(md)` AFTER `media-breakpoint-down(xl)` so the
+// compiled output preserves the same cascade.
+//
+// `items_per_row_desktop`/`items_per_row_tablet` (section settings) are
+// the reference's own value (3) for both - hardcoded 3-column in the
+// reference since it never varied them separately - but now configurable;
+// mobile stays a fixed single column (no reference/setting for it either).
+//
+// max-width/padding/background-color (background-color is an inline
+// style, set straight from section.settings.background_color - see the
+// liquid file) are copied from `.c5dla-carousel-wrapper`
+// (_product-carousel.scss) - desktop only, same `lg` tablet reset.
+.five-section {
+  max-width: var(--c5dla-activity-desktop-max-width, 1600px);
+  margin: 0 auto;
+  padding: var(--c5dla-activity-desktop-padding, 72px 4.5%);
+
+  @include media-breakpoint-down(lg) {
+    max-width: none;
+    padding-inline: 4%;
+  }
+
+  @include media-breakpoint-down(md) {
+    padding: 42px 20px;
+  }
+}
+
+.five-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 30px;
+
+  @include media-breakpoint-down(md) {
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  h2 {
+    font-size: 42px;
+    line-height: 1.1;
+
+    @include media-breakpoint-down(md) {
+      font-size: 32px;
+    }
+  }
+
+  > p {
+    color: #666;
+    font-size: 14px;
+
+    @include media-breakpoint-down(md) {
+      display: none;
+    }
+  }
+}
+
+.five-activity-section {
+  padding-bottom: 0;
+}
+
+.five-activities {
+  display: grid;
+  grid-template-columns: repeat(var(--c5dla-activity-desktop-columns, 3), minmax(0, 1fr));
+  gap: 20px;
+
+  @include media-breakpoint-down(lg) {
+    grid-template-columns: repeat(var(--c5dla-activity-tablet-columns, 3), minmax(0, 1fr));
+  }
+
+  @include media-breakpoint-down(md) {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+.five-activity {
+  position: relative;
+  height: 510px;
+  overflow: hidden;
+  color: #fff;
+  background: #333;
+
+  @include media-breakpoint-down(xl) {
+    height: 390px;
+  }
+
+  @include media-breakpoint-down(md) {
+    height: 400px;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.55s;
+  }
+
+  &:hover img {
+    transform: scale(1.035);
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(0deg, #000b, transparent 70%);
+  }
+
+  > div {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    right: 30px;
+    z-index: 1;
+  }
+
+  span {
+    font-size: 11px;
+    letter-spacing: 1.2px;
+  }
+
+  h3 {
+    margin: 8px 0;
+    color: #fff;
+    font-size: 56px;
+    line-height: 1.2;
+
+    @include media-breakpoint-down(md) {
+      font-size: 50px;
+    }
+  }
+
+  p {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+  }
+
+  b {
+    font-size: 22px;
+    font-weight: 400;
+  }
+}

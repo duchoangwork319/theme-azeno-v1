@@ -1,0 +1,189 @@
+{%- comment -%}
+  Ported from the reference's `section.five-section.five-activity-section`
+  (html/revamp/homepage/5dla-homepage.html, "SHOP BY ACTIVITY" row) - each
+  `a.five-activity` is now an `activity_item` block instead of hardcoded
+  markup. Styles: client/ver_2_0/scss/homepage/_activity-grid.scss.
+
+  `items_per_row_desktop`/`items_per_row_tablet` drive `.five-activities`'
+  grid-template-columns via CSS custom properties, same pattern as
+  sections/5dla_collection-product-grid.liquid's column settings. Mobile
+  is a fixed single column (no setting - matches the reference, which
+  never varied it either).
+
+  `max_width`/`padding`/`background_color` are copied from
+  sections/5dla_collection-product-carousel.liquid (desktop only, same as
+  there - tablet/mobile keep their own fixed padding) - unlike that
+  section's settings, these have no `"default"` here, so a blank value
+  falls through to client/ver_2_0/scss/homepage/_activity-grid.scss's own
+  `var(--x, fallback)` default instead.
+{%- endcomment -%}
+
+{%- liquid
+  assign desktop_columns = section.settings.items_per_row_desktop | at_least: 1
+  assign tablet_columns = section.settings.items_per_row_tablet | at_least: 1
+
+  assign desktop_max_width = section.settings.max_width
+  assign desktop_padding = section.settings.padding
+  assign background_color = section.settings.background_color
+
+  assign background_style = ''
+  if background_color != blank
+    assign background_style = 'background-color: ' | append: background_color | append: ';'
+  endif
+-%}
+
+{%- if section.blocks.size > 0 -%}
+  <section
+    class="five-section five-activity-section"
+    aria-labelledby="c5dla-activity-title-{{ section.id }}"
+    style="{{ background_style | escape }}--c5dla-activity-desktop-max-width: {{ desktop_max_width | escape }}; --c5dla-activity-desktop-padding: {{ desktop_padding | escape }};"
+  >
+    {%- if section.settings.label != blank or section.settings.description != blank -%}
+      <div class="five-section-head">
+        {%- if section.settings.label != blank -%}
+          <h2 id="c5dla-activity-title-{{ section.id }}">{{ section.settings.label }}</h2>
+        {%- endif -%}
+        {%- if section.settings.description != blank -%}
+          <p>{{ section.settings.description }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div
+      class="five-activities"
+      style="--c5dla-activity-desktop-columns: {{ desktop_columns }}; --c5dla-activity-tablet-columns: {{ tablet_columns }};"
+    >
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'activity_item' -%}
+          <a
+            class="five-activity"
+            href="{{ block.settings.cta_link | default: '#' }}"
+            {{ block.shopify_attributes }}
+          >
+            {%- if block.settings.background_image != blank -%}
+              {%- liquid
+                assign image_width = block.settings.background_image.width | at_most: 1200
+                assign image_height = image_width | times: block.settings.background_image.height | divided_by: block.settings.background_image.width
+              -%}
+              <img
+                src="{{ block.settings.background_image | image_url: width: 1200 }}"
+                width="{{ image_width }}"
+                height="{{ image_height }}"
+                alt="{{ block.settings.background_image.alt | default: block.settings.title | escape }}"
+                loading="lazy"
+              >
+            {%- endif -%}
+            <div>
+              {%- if block.settings.slide_description != blank -%}
+                <span>{{ block.settings.slide_description }}</span>
+              {%- endif -%}
+              {%- if block.settings.slide_label != blank -%}
+                <h3>{{ block.settings.slide_label }}</h3>
+              {%- endif -%}
+              {%- if block.settings.cta_label != blank -%}
+                <p>{{ block.settings.cta_label }} <b>↗</b></p>
+              {%- endif -%}
+            </div>
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "5DLA Activity Grid",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "info": "e.g. SHOP BY ACTIVITY. Blank hides the whole header row (label + description)."
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "label": "Description",
+      "info": "e.g. Find your next move. Hidden on mobile, same as the reference."
+    },
+    {
+      "type": "number",
+      "id": "items_per_row_desktop",
+      "label": "Items per row (desktop)",
+      "default": 3
+    },
+    {
+      "type": "number",
+      "id": "items_per_row_tablet",
+      "label": "Items per row (tablet)",
+      "default": 3
+    },
+    {
+      "type": "text",
+      "id": "max_width",
+      "label": "Max width (desktop)",
+      "info": "Any valid CSS length, e.g. 1600px or min(1270px, 100% - 104px). Desktop only - ignored on tablet/mobile."
+    },
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Padding (desktop)",
+      "info": "Any valid CSS padding shorthand, e.g. 72px 4.5%. Desktop only - tablet/mobile keep their own fixed padding."
+    },
+    {
+      "type": "text",
+      "id": "background_color",
+      "label": "Background Color",
+      "info": "Any valid CSS color, e.g. #f7f7f5 or rgba(0,0,0,0.05). Covers the whole section (label/description + activity grid). Blank/none by default."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "activity_item",
+      "name": "Activity",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Internal name",
+          "info": "For reference in the Theme Editor only - not shown on the storefront (used as this card's image alt text fallback)."
+        },
+        {
+          "type": "image_picker",
+          "id": "background_image",
+          "label": "Background image"
+        },
+        {
+          "type": "url",
+          "id": "cta_link",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "slide_label",
+          "label": "Heading",
+          "info": "e.g. RUN."
+        },
+        {
+          "type": "text",
+          "id": "slide_description",
+          "label": "Eyebrow",
+          "info": "e.g. 01 / KEEP MOVING."
+        },
+        {
+          "type": "text",
+          "id": "cta_label",
+          "label": "CTA label",
+          "info": "e.g. Shop running."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "5DLA Activity Grid"
+    }
+  ]
+}
+{% endschema %}

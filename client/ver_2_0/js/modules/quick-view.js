@@ -15,18 +15,17 @@
 // this file only populates content and reacts to `shown.bs.modal`/
 // `hidden.bs.modal`.
 //
-// Image carousel is Swiper (legacy used Slick) - `swiper/css*` imported
-// here since this entry has no linked stylesheet (Vite injects via
-// runtime `<style>`). Swiper is only instantiated AFTER `shown.bs.modal`
-// fires (`applyCarousel`/`flushPendingCarousel`) - building it while
-// `.modal` is still `display: none` made Swiper measure a zero-width
-// container and produce a ~33,554,400px-wide layout.
+// Image carousel is Swiper (legacy used Slick) - its CSS is imported from
+// client/ver_2_0/js/css-global.js instead of here (see that file's
+// comment for why: this entry has no linked stylesheet of its own, so a
+// CSS import here would only reach the page via a runtime `<style>` tag).
+// Swiper is only instantiated AFTER `shown.bs.modal` fires
+// (`applyCarousel`/`flushPendingCarousel`) - building it while `.modal` is
+// still `display: none` made Swiper measure a zero-width container and
+// produce a ~33,554,400px-wide layout.
 
 import Swiper from "swiper";
 import { Navigation, EffectFade } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/effect-fade";
 import Modal from "bootstrap/js/dist/modal";
 
 import { variantOptionValue, formatMoney } from "./variant-state.js";

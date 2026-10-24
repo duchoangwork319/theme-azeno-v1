@@ -1,0 +1,122 @@
+{%- comment -%}
+  Ported from the reference's `section.five-film` (html/revamp/homepage/
+  5dla-homepage.html, "BUILT TO MOVE." row). Styles: client/ver_2_0/scss/
+  homepage/_film-poster.scss. Play/pause behavior: client/ver_2_0/js/
+  modules/film-poster.js (the reference's own inline <script> had no
+  pause/pause-button affordance either - clicking play just reveals native
+  `controls`, same here).
+
+  `main_video_src` is a Shopify-hosted video (`video_obj.sources`, same
+  pattern as snippets/video-global.liquid) rather than an external URL -
+  `video_poster` (image_picker) overrides its own preview image as the
+  `poster` attribute, since the reference uses a distinct poster image
+  from the video's own first frame.
+
+  "WATCH THE FILM" comes from locales/en.default.json
+  (`c5dla.film_poster.watch_the_film`) rather than a setting, since it's
+  UI chrome, not editorial content.
+
+  `max_width`/`margin` (desktop) and `mobile_margin` are new - the
+  reference's `.five-film` is full-bleed (no margin/max-width at all) -
+  but now configurable, same `var(--x, fallback)` pattern as
+  sections/5dla_collection-product-carousel.liquid (no `"default"` here
+  either, so a blank value falls through to client/ver_2_0/scss/homepage/
+  _film-poster.scss's own fallback, `0 auto` for both margins - a no-op
+  until `max_width` actually constrains the section, matching the
+  reference's own full-bleed look until a merchant opts in).
+{%- endcomment -%}
+
+{%- liquid
+  assign desktop_max_width = section.settings.max_width
+  assign desktop_margin = section.settings.margin
+  assign mobile_margin = section.settings.mobile_margin
+-%}
+
+{%- if section.settings.main_video_src != blank -%}
+  <section
+    aria-label="Fusion performance film"
+    class="five-film"
+    style="--c5dla-film-desktop-max-width: {{ desktop_max_width | escape }}; --c5dla-film-desktop-margin: {{ desktop_margin | escape }}; --c5dla-film-mobile-margin: {{ mobile_margin | escape }};"
+  >
+    <video
+      data-c5dla-film-video
+      {% if section.settings.video_poster != blank %}
+        poster="{{ section.settings.video_poster | image_url: width: 1920 }}"
+      {% endif %}
+      loop
+      muted
+      playsinline
+      preload="none"
+    >
+      {%- for source in section.settings.main_video_src.sources -%}
+        {%- if source.format == 'mp4' -%}
+          <source src="{{ source.url }}" type="{{ source.mime_type }}">
+        {%- endif -%}
+      {%- endfor -%}
+    </video>
+    <div class="five-film-overlay">
+      {%- if section.settings.poster_description != blank -%}
+        <p class="five-eyebrow">{{ section.settings.poster_description }}</p>
+      {%- endif -%}
+      {%- if section.settings.poster_label != blank -%}
+        <h2>{{ section.settings.poster_label }}</h2>
+      {%- endif -%}
+      <button aria-label="{{ 'c5dla.film_poster.watch_the_film' | t }}" class="five-play" data-c5dla-film-play type="button">
+        <span>&nbsp;▷</span> {{ 'c5dla.film_poster.watch_the_film' | t }}
+      </button>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "5DLA Film Poster",
+  "settings": [
+    {
+      "type": "video",
+      "id": "main_video_src",
+      "label": "Video"
+    },
+    {
+      "type": "image_picker",
+      "id": "video_poster",
+      "label": "Video poster"
+    },
+    {
+      "type": "text",
+      "id": "poster_label",
+      "label": "Label",
+      "info": "e.g. BUILT TO MOVE."
+    },
+    {
+      "type": "text",
+      "id": "poster_description",
+      "label": "Description",
+      "info": "e.g. FUSION / IN MOTION."
+    },
+    {
+      "type": "text",
+      "id": "max_width",
+      "label": "Max width (desktop)",
+      "info": "Any valid CSS length, e.g. 1600px or min(1270px, 100% - 104px). Desktop only - ignored on mobile."
+    },
+    {
+      "type": "text",
+      "id": "margin",
+      "label": "Margin (desktop)",
+      "info": "Any valid CSS margin shorthand, e.g. 0 auto. Desktop only - mobile keeps its own margin below."
+    },
+    {
+      "type": "text",
+      "id": "mobile_margin",
+      "label": "Margin (mobile)",
+      "info": "Any valid CSS margin shorthand, e.g. 0 auto."
+    }
+  ],
+  "presets": [
+    {
+      "name": "5DLA Film Poster"
+    }
+  ]
+}
+{% endschema %}

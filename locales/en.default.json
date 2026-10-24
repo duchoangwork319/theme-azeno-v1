@@ -534,5 +534,10 @@
     "availability": "Availability",
     "price": "Price",
     "button": "Button"
+  },
+  "c5dla": {
+    "film_poster": {
+      "watch_the_film": "WATCH THE FILM"
+    }
   }
 }

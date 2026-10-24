@@ -31,6 +31,20 @@
     padding: var(--c5dla-carousel-mobile-padding, 42px 20px);
     margin: var(--c5dla-carousel-mobile-margin, 0 auto);
   }
+
+  .swiper:not(.swiper-initialized) {
+    .swiper-slide {
+      max-height: 490px;
+
+      @include media-breakpoint-down(sm) {
+        max-height: 296px;
+      }
+
+      @include media-breakpoint-down(lg) {
+        max-height: 343px;
+      }
+    }
+  }
 }
 
 .c5dla-carousel-head {
@@ -65,7 +79,7 @@
   // otherwise sit at the flex start instead.
   margin-left: auto;
 
-  > a {
+  >a {
     margin-right: 18px;
     color: #222;
     font-size: 14px;
@@ -114,12 +128,12 @@
   position: relative;
 }
 
-.c5dla-product-carousel {
-  // Swiper needs `overflow: hidden` on the viewport element (not the
-  // wrapper it creates) so slides past the edge don't paint over
-  // `.c5dla-carousel-wrapper`'s own side padding above.
-  overflow: hidden;
-}
+// No `.c5dla-product-carousel` rule needed here - this element's `swiper`
+// class (see the liquid file) already gets `.swiper`'s own `overflow:
+// hidden`/`position: relative`/flex layout from Swiper's official CSS
+// (client/ver_2_0/js/css-global.js imports it - see that file's comment
+// for why it lives there, loaded on every page before first paint, rather
+// than hand-copied here).
 
 // Loading placeholder shown ON TOP of `.c5dla-product-carousel` (not
 // swapped in its place - Swiper measures the container's real width at

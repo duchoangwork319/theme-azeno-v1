@@ -7,12 +7,16 @@
 // rendered inside `.swiper-slide` instead of `.products`' grid; this
 // module only owns turning `.swiper` into an actual Swiper instance.
 //
-// Same import shape as ./quick-view.js (Swiper's own CSS has no linked
-// file in this bundle - Vite injects it via a runtime `<style>` tag).
+// Swiper's CSS is NOT imported here, or in ./quick-view.js - doing so in
+// either would only reach the page via a runtime `<style>` tag (both
+// bundles are "iife", with no linked stylesheet to extract into), which
+// for this carousel caused a real layout shift (unstyled `.swiper-slide`s
+// stacking full-width until JS ran). It's imported once instead, from
+// client/ver_2_0/js/css-global.js, into the statically-compiled
+// stylesheet loaded on every page before first paint - see that file's
+// comment.
 import Swiper from "swiper";
 import { Navigation } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
 
 const CAROUSEL_SELECTOR = "[data-c5dla-product-carousel]";
 
@@ -58,7 +62,7 @@ const initOneCarousel = el => {
     // of it instead (`position: absolute`) until this fires, at which
     // point Swiper has already laid the real carousel out underneath.
     on: {
-      afterInit() {
+      init() {
         if (skeleton) skeleton.hidden = true;
       },
     },
