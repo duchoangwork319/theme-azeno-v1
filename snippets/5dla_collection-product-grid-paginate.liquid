@@ -4,7 +4,7 @@
 
   Expects `target_collection` (already resolved by the caller to either
   `section.settings.collection` or the page's own `collection`),
-  `desktop_columns`, `desktop_max_width`, `desktop_padding`.
+  `desktop_columns`, `desktop_max_width`, `desktop_padding`, `desktop_margin`.
 {%- endcomment -%}
 
 {%- paginate target_collection.products by section.settings.page_item -%}
@@ -13,6 +13,7 @@
     desktop_columns: desktop_columns,
     desktop_max_width: desktop_max_width,
     desktop_padding: desktop_padding,
+    desktop_margin: desktop_margin,
     paginate: paginate
   -%}
 {%- endpaginate -%}

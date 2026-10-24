@@ -3,10 +3,11 @@
   snippets/5dla_collection-product-grid-paginate.liquid.
 
   Expects `grid_collection`, `desktop_columns`, `desktop_max_width`,
-  `desktop_padding`, `paginate` as render params. `section` is used
-  directly (global, not passed) - tablet/mobile columns, display mode,
-  and mobile padding/margin are read straight from `section.settings`
-  too, same as `pagination_style`/`product_card_type` below.
+  `desktop_padding`, `desktop_margin`, `paginate` as render params.
+  `section` is used directly (global, not passed) - tablet/mobile columns,
+  display mode, and tablet/mobile padding/margin/max-width are read
+  straight from `section.settings` too, same as
+  `pagination_style`/`product_card_type` below.
 {%- endcomment -%}
 
 {%- liquid
@@ -18,8 +19,12 @@
     assign mobile_scroll_class = ' products--scroll'
   endif
 
+  assign tablet_padding = section.settings.tablet_padding
+  assign tablet_margin = section.settings.tablet_margin
+  assign tablet_max_width = section.settings.tablet_max_width
   assign mobile_padding = section.settings.mobile_padding
   assign mobile_margin = section.settings.mobile_margin
+  assign mobile_max_width = section.settings.mobile_max_width
 -%}
 
 {%- if grid_collection.products.size == 0 -%}
@@ -31,7 +36,7 @@
   <section
     class="products{{ mobile_scroll_class }}"
     aria-label="{{ grid_collection.products_count }} {{ grid_collection.title }} products"
-    style="--c5dla-grid-desktop-columns: {{ desktop_columns }}; --c5dla-grid-tablet-columns: {{ tablet_columns }}; --c5dla-grid-mobile-columns: {{ mobile_columns }}; --c5dla-grid-desktop-max-width: {{ desktop_max_width | escape }}; --c5dla-grid-desktop-padding: {{ desktop_padding | escape }}; --c5dla-grid-mobile-padding: {{ mobile_padding | escape }}; --c5dla-grid-mobile-margin: {{ mobile_margin | escape }};"
+    style="--c5dla-grid-desktop-columns: {{ desktop_columns }}; --c5dla-grid-tablet-columns: {{ tablet_columns }}; --c5dla-grid-mobile-columns: {{ mobile_columns }}; --c5dla-grid-desktop-max-width: {{ desktop_max_width | escape }}; --c5dla-grid-desktop-padding: {{ desktop_padding | escape }}; --c5dla-grid-desktop-margin: {{ desktop_margin | escape }}; --c5dla-grid-tablet-max-width: {{ tablet_max_width | escape }}; --c5dla-grid-tablet-padding: {{ tablet_padding | escape }}; --c5dla-grid-tablet-margin: {{ tablet_margin | escape }}; --c5dla-grid-mobile-max-width: {{ mobile_max_width | escape }}; --c5dla-grid-mobile-padding: {{ mobile_padding | escape }}; --c5dla-grid-mobile-margin: {{ mobile_margin | escape }};"
   >
     {%- for product in grid_collection.products -%}
       {% liquid

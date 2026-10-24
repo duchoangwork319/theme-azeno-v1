@@ -23,16 +23,19 @@
 // (_product-carousel.scss) - desktop only, same `lg` tablet reset.
 .five-section {
   max-width: var(--c5dla-activity-desktop-max-width, 1600px);
-  margin: 0 auto;
+  margin: var(--c5dla-activity-desktop-margin, 0 auto);
   padding: var(--c5dla-activity-desktop-padding, 72px 4.5%);
 
   @include media-breakpoint-down(lg) {
-    max-width: none;
-    padding-inline: 4%;
+    max-width: var(--c5dla-activity-tablet-max-width, none);
+    margin: var(--c5dla-activity-tablet-margin, var(--c5dla-activity-desktop-margin, 0 auto));
+    padding: var(--c5dla-activity-tablet-padding, 72px 4%);
   }
 
   @include media-breakpoint-down(md) {
-    padding: 42px 20px;
+    max-width: var(--c5dla-activity-mobile-max-width, var(--c5dla-activity-tablet-max-width, none));
+    margin: var(--c5dla-activity-mobile-margin, var(--c5dla-activity-tablet-margin, var(--c5dla-activity-desktop-margin, 0 auto)));
+    padding: var(--c5dla-activity-mobile-padding, 42px 20px);
   }
 }
 

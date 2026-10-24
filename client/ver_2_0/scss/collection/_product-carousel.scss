@@ -19,15 +19,17 @@
 // just the Swiper viewport.
 .c5dla-carousel-wrapper {
   max-width: var(--c5dla-carousel-desktop-max-width, 1600px);
-  margin: 0 auto;
+  margin: var(--c5dla-carousel-desktop-margin, 0 auto);
   padding: var(--c5dla-carousel-desktop-padding, 72px 4.5%);
 
   @include media-breakpoint-down(lg) {
-    max-width: none;
-    padding-inline: 4%;
+    max-width: var(--c5dla-carousel-tablet-max-width, none);
+    margin: var(--c5dla-carousel-tablet-margin, 0 auto);
+    padding: var(--c5dla-carousel-tablet-padding, 72px 4%);
   }
 
   @include media-breakpoint-down(md) {
+    max-width: var(--c5dla-carousel-mobile-max-width, none);
     padding: var(--c5dla-carousel-mobile-padding, 42px 20px);
     margin: var(--c5dla-carousel-mobile-margin, 0 auto);
   }

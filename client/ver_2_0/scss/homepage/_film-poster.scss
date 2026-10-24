@@ -12,13 +12,22 @@
   background: #151515;
   // max-width/margin: not in the reference (full-bleed, no setting there
   // either) - `0 auto` is a no-op until `max_width` actually constrains
-  // the section, so the default look is unchanged.
+  // the section, so the default look is unchanged. No distinct tablet/
+  // mobile override existed before this was configurable, so a blank
+  // tablet/mobile value falls back through to the next wider device's
+  // own var instead of a literal duplicate default.
   max-width: var(--c5dla-film-desktop-max-width, none);
   margin: var(--c5dla-film-desktop-margin, 0 auto);
 
+  @include media-breakpoint-down(lg) {
+    max-width: var(--c5dla-film-tablet-max-width, var(--c5dla-film-desktop-max-width, none));
+    margin: var(--c5dla-film-tablet-margin, var(--c5dla-film-desktop-margin, 0 auto));
+  }
+
   @include media-breakpoint-down(md) {
     height: 390px;
-    margin: var(--c5dla-film-mobile-margin, 0 auto);
+    max-width: var(--c5dla-film-mobile-max-width, var(--c5dla-film-tablet-max-width, var(--c5dla-film-desktop-max-width, none)));
+    margin: var(--c5dla-film-mobile-margin, var(--c5dla-film-tablet-margin, var(--c5dla-film-desktop-margin, 0 auto)));
   }
 
   video {

@@ -21,19 +21,21 @@
   grid-template-columns: repeat(var(--c5dla-grid-desktop-columns, 4), minmax(0, 1fr));
   gap: 41px 18px;
   max-width: var(--c5dla-grid-desktop-max-width, 1600px);
-  margin: 0 auto;
+  margin: var(--c5dla-grid-desktop-margin, 0 auto);
   padding: var(--c5dla-grid-desktop-padding, 0 5.15% 85px);
   display: grid;
 
   @include media-breakpoint-down(lg) {
-    max-width: none;
-    padding-inline: 4%;
+    max-width: var(--c5dla-grid-tablet-max-width, none);
+    margin: var(--c5dla-grid-tablet-margin, 0 auto);
+    padding: var(--c5dla-grid-tablet-padding, 0 4% 85px);
     grid-template-columns: repeat(var(--c5dla-grid-tablet-columns, 3), minmax(0, 1fr));
   }
 
   @include media-breakpoint-down(md) {
     grid-template-columns: repeat(var(--c5dla-grid-mobile-columns, 2), minmax(0, 1fr));
     gap: 30px 9px;
+    max-width: var(--c5dla-grid-mobile-max-width, none);
     padding: var(--c5dla-grid-mobile-padding, 0 9px 53px);
     margin: var(--c5dla-grid-mobile-margin, 0 auto);
 
@@ -172,6 +174,10 @@
     position: absolute;
     top: 13px;
     left: 12px;
+    // Same badge colors as card 3's `.store-product-badge`
+    // (_product-card-3.scss).
+    color: #343434;
+    background: #fffffff2;
 
     @include media-breakpoint-down(md) {
       font-size: 7px;

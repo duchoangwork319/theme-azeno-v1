@@ -36,8 +36,13 @@
 
   assign mobile_padding = section.settings.mobile_padding
   assign mobile_margin = section.settings.mobile_margin
+  assign mobile_max_width = section.settings.mobile_max_width
+  assign tablet_padding = section.settings.tablet_padding
+  assign tablet_margin = section.settings.tablet_margin
+  assign tablet_max_width = section.settings.tablet_max_width
   assign desktop_max_width = section.settings.max_width
   assign desktop_padding = section.settings.padding
+  assign desktop_margin = section.settings.margin
   assign background_color = section.settings.background_color
 
   assign background_style = ''
@@ -53,7 +58,7 @@
 <div
   class="c5dla-carousel-wrapper"
   data-c5dla-product-carousel-root
-  style="{{ background_style | escape }}--c5dla-carousel-desktop-max-width: {{ desktop_max_width | escape }}; --c5dla-carousel-desktop-padding: {{ desktop_padding | escape }}; --c5dla-carousel-mobile-padding: {{ mobile_padding | escape }}; --c5dla-carousel-mobile-margin: {{ mobile_margin | escape }};"
+  style="{{ background_style | escape }}--c5dla-carousel-desktop-max-width: {{ desktop_max_width | escape }}; --c5dla-carousel-desktop-padding: {{ desktop_padding | escape }}; --c5dla-carousel-desktop-margin: {{ desktop_margin | escape }}; --c5dla-carousel-tablet-max-width: {{ tablet_max_width | escape }}; --c5dla-carousel-tablet-padding: {{ tablet_padding | escape }}; --c5dla-carousel-tablet-margin: {{ tablet_margin | escape }}; --c5dla-carousel-mobile-max-width: {{ mobile_max_width | escape }}; --c5dla-carousel-mobile-padding: {{ mobile_padding | escape }}; --c5dla-carousel-mobile-margin: {{ mobile_margin | escape }};"
 >
   <div class="c5dla-carousel-head">
     {%- if section.settings.carousel_label != blank -%}
@@ -127,6 +132,87 @@
   "name": "5DLA Product Carousel",
   "settings": [
     {
+      "type": "header",
+      "content": "General Spacing"
+    },
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Padding (desktop)",
+      "info": "Any valid CSS padding shorthand, e.g. 72px 4.5%. Applies to the whole section (label/CTA/arrows + carousel), not just the carousel itself.",
+      "default": "72px 4.5%"
+    },
+    {
+      "type": "text",
+      "id": "margin",
+      "label": "Margin (desktop)",
+      "info": "Any valid CSS margin shorthand, e.g. 0 auto.",
+      "default": "0 auto"
+    },
+    {
+      "type": "text",
+      "id": "max_width",
+      "label": "Max width (desktop)",
+      "info": "Any valid CSS length, e.g. 1600px or min(1270px, 100% - 104px).",
+      "default": "1600px"
+    },
+    {
+      "type": "text",
+      "id": "tablet_padding",
+      "label": "Padding (tablet)",
+      "info": "Any valid CSS padding shorthand, e.g. 72px 4%.",
+      "default": "72px 4%"
+    },
+    {
+      "type": "text",
+      "id": "tablet_margin",
+      "label": "Margin (tablet)",
+      "info": "Any valid CSS margin shorthand, e.g. 0 auto.",
+      "default": "0 auto"
+    },
+    {
+      "type": "text",
+      "id": "tablet_max_width",
+      "label": "Max width (tablet)",
+      "info": "Any valid CSS length, e.g. none.",
+      "default": "none"
+    },
+    {
+      "type": "text",
+      "id": "mobile_padding",
+      "label": "Padding (mobile)",
+      "info": "Any valid CSS padding shorthand, e.g. 42px 20px. Applies to the whole section (label/CTA/arrows + carousel), not just the carousel itself.",
+      "default": "42px 20px"
+    },
+    {
+      "type": "text",
+      "id": "mobile_margin",
+      "label": "Margin (mobile)",
+      "info": "Any valid CSS margin shorthand, e.g. 0 auto.",
+      "default": "0 auto"
+    },
+    {
+      "type": "text",
+      "id": "mobile_max_width",
+      "label": "Max width (mobile)",
+      "info": "Any valid CSS length, e.g. none.",
+      "default": "none"
+    },
+    {
+      "type": "header",
+      "content": "Shared Styles"
+    },
+    {
+      "type": "text",
+      "id": "background_color",
+      "label": "Background Color",
+      "info": "Any valid CSS color, e.g. #f7f7f5 or rgba(0,0,0,0.05). Covers the whole section (label/CTA/arrows + carousel), not just the carousel itself. Blank/none by default."
+    },
+    {
+      "type": "header",
+      "content": "Section Feature"
+    },
+    {
       "type": "collection",
       "id": "collection",
       "label": "Collection",
@@ -195,40 +281,6 @@
       "max": 4,
       "step": 1,
       "default": 2
-    },
-    {
-      "type": "text",
-      "id": "mobile_padding",
-      "label": "Padding (mobile)",
-      "info": "Any valid CSS padding shorthand, e.g. 42px 20px. Applies to the whole section (label/CTA/arrows + carousel), not just the carousel itself.",
-      "default": "42px 20px"
-    },
-    {
-      "type": "text",
-      "id": "mobile_margin",
-      "label": "Margin (mobile)",
-      "info": "Any valid CSS margin shorthand, e.g. 0 auto.",
-      "default": "0 auto"
-    },
-    {
-      "type": "text",
-      "id": "max_width",
-      "label": "Max width (desktop)",
-      "info": "Any valid CSS length, e.g. 1600px or min(1270px, 100% - 104px). Desktop only - ignored on tablet/mobile.",
-      "default": "1600px"
-    },
-    {
-      "type": "text",
-      "id": "padding",
-      "label": "Padding (desktop)",
-      "info": "Any valid CSS padding shorthand, e.g. 72px 4.5%. Desktop only - tablet/mobile keep their own fixed padding. Applies to the whole section (label/CTA/arrows + carousel), not just the carousel itself.",
-      "default": "72px 4.5%"
-    },
-    {
-      "type": "text",
-      "id": "background_color",
-      "label": "Background Color",
-      "info": "Any valid CSS color, e.g. #f7f7f5 or rgba(0,0,0,0.05). Covers the whole section (label/CTA/arrows + carousel), not just the carousel itself. Blank/none by default."
     },
     {
       "type": "range",

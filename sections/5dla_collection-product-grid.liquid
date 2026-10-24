@@ -46,8 +46,13 @@
   # `.products--scroll`'s own fixed margin in scrollable mode.
   assign mobile_padding = section.settings.mobile_padding
   assign mobile_margin = section.settings.mobile_margin
+  assign mobile_max_width = section.settings.mobile_max_width
+  assign tablet_padding = section.settings.tablet_padding
+  assign tablet_margin = section.settings.tablet_margin
+  assign tablet_max_width = section.settings.tablet_max_width
   assign desktop_max_width = section.settings.max_width
   assign desktop_padding = section.settings.padding
+  assign desktop_margin = section.settings.margin
 
   assign background_color = section.settings.background_color
 -%}
@@ -128,7 +133,7 @@
         <section
           class="products{{ mobile_scroll_class }}"
           aria-label="{{ product_list.size }} products"
-          style="--c5dla-grid-desktop-columns: {{ desktop_columns }}; --c5dla-grid-tablet-columns: {{ tablet_columns }}; --c5dla-grid-mobile-columns: {{ mobile_columns }}; --c5dla-grid-desktop-max-width: {{ desktop_max_width | escape }}; --c5dla-grid-desktop-padding: {{ desktop_padding | escape }}; --c5dla-grid-mobile-padding: {{ mobile_padding | escape }}; --c5dla-grid-mobile-margin: {{ mobile_margin | escape }};"
+          style="--c5dla-grid-desktop-columns: {{ desktop_columns }}; --c5dla-grid-tablet-columns: {{ tablet_columns }}; --c5dla-grid-mobile-columns: {{ mobile_columns }}; --c5dla-grid-desktop-max-width: {{ desktop_max_width | escape }}; --c5dla-grid-desktop-padding: {{ desktop_padding | escape }}; --c5dla-grid-desktop-margin: {{ desktop_margin | escape }}; --c5dla-grid-tablet-max-width: {{ tablet_max_width | escape }}; --c5dla-grid-tablet-padding: {{ tablet_padding | escape }}; --c5dla-grid-tablet-margin: {{ tablet_margin | escape }}; --c5dla-grid-mobile-max-width: {{ mobile_max_width | escape }}; --c5dla-grid-mobile-padding: {{ mobile_padding | escape }}; --c5dla-grid-mobile-margin: {{ mobile_margin | escape }};"
         >
           {%- for product in product_list -%}
             {% liquid
@@ -155,14 +160,16 @@
         target_collection: section.settings.collection,
         desktop_columns: desktop_columns,
         desktop_max_width: desktop_max_width,
-        desktop_padding: desktop_padding
+        desktop_padding: desktop_padding,
+        desktop_margin: desktop_margin
       -%}
     {%- elsif collection != blank -%}
       {%- render '5dla_collection-product-grid-paginate',
         target_collection: collection,
         desktop_columns: desktop_columns,
         desktop_max_width: desktop_max_width,
-        desktop_padding: desktop_padding
+        desktop_padding: desktop_padding,
+        desktop_margin: desktop_margin
       -%}
     {%- else -%}
       <div class="empty-products">
@@ -176,6 +183,87 @@
 {
   "name": "5DLA Product Grid",
   "settings": [
+    {
+      "type": "header",
+      "content": "General Spacing"
+    },
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Padding (desktop)",
+      "info": "Any valid CSS padding shorthand, e.g. 0 5.15% 85px.",
+      "default": "0 5.15% 85px"
+    },
+    {
+      "type": "text",
+      "id": "margin",
+      "label": "Margin (desktop)",
+      "info": "Any valid CSS margin shorthand, e.g. 0 auto.",
+      "default": "0 auto"
+    },
+    {
+      "type": "text",
+      "id": "max_width",
+      "label": "Max width (desktop)",
+      "info": "Any valid CSS length, e.g. 1600px or min(1270px, 100% - 104px).",
+      "default": "1600px"
+    },
+    {
+      "type": "text",
+      "id": "tablet_padding",
+      "label": "Padding (tablet)",
+      "info": "Any valid CSS padding shorthand, e.g. 0 4% 85px.",
+      "default": "0 4% 85px"
+    },
+    {
+      "type": "text",
+      "id": "tablet_margin",
+      "label": "Margin (tablet)",
+      "info": "Any valid CSS margin shorthand, e.g. 0 auto.",
+      "default": "0 auto"
+    },
+    {
+      "type": "text",
+      "id": "tablet_max_width",
+      "label": "Max width (tablet)",
+      "info": "Any valid CSS length, e.g. none.",
+      "default": "none"
+    },
+    {
+      "type": "text",
+      "id": "mobile_padding",
+      "label": "Padding (mobile)",
+      "info": "Any valid CSS padding shorthand, e.g. 0 9px 53px.",
+      "default": "0 9px 53px"
+    },
+    {
+      "type": "text",
+      "id": "mobile_margin",
+      "label": "Margin (mobile)",
+      "info": "Any valid CSS margin shorthand, e.g. 0 auto. Ignored when Display Mode (mobile) below is Scrollable (that layout keeps its own fixed margin).",
+      "default": "0 auto"
+    },
+    {
+      "type": "text",
+      "id": "mobile_max_width",
+      "label": "Max width (mobile)",
+      "info": "Any valid CSS length, e.g. none.",
+      "default": "none"
+    },
+    {
+      "type": "header",
+      "content": "Shared Styles"
+    },
+    {
+      "type": "text",
+      "id": "background_color",
+      "label": "Background Color",
+      "info": "Any valid CSS color, e.g. #f7f7f5 or rgba(0,0,0,0.05). Covers the section's full width, not just the (narrower, centered) product grid above. Blank/none by default."
+    },
+    {
+      "type": "header",
+      "content": "Section Feature"
+    },
     {
       "type": "collection",
       "id": "collection",
@@ -232,40 +320,6 @@
       "label": "Columns (mobile)",
       "info": "Ignored when Display Mode (mobile) above is Scrollable.",
       "default": 2
-    },
-    {
-      "type": "text",
-      "id": "mobile_padding",
-      "label": "Padding (mobile)",
-      "info": "Any valid CSS padding shorthand, e.g. 0 9px 53px.",
-      "default": "0 9px 53px"
-    },
-    {
-      "type": "text",
-      "id": "mobile_margin",
-      "label": "Margin (mobile)",
-      "info": "Any valid CSS margin shorthand, e.g. 0 auto. Ignored when Display Mode (mobile) above is Scrollable (that layout keeps its own fixed margin).",
-      "default": "0 auto"
-    },
-    {
-      "type": "text",
-      "id": "max_width",
-      "label": "Max width (desktop)",
-      "info": "Any valid CSS length, e.g. 1600px or min(1270px, 100% - 104px). Desktop only - ignored on tablet/mobile.",
-      "default": "1600px"
-    },
-    {
-      "type": "text",
-      "id": "padding",
-      "label": "Padding (desktop)",
-      "info": "Any valid CSS padding shorthand, e.g. 0 5.15% 85px. Desktop only - tablet/mobile keep their own fixed padding.",
-      "default": "0 5.15% 85px"
-    },
-    {
-      "type": "text",
-      "id": "background_color",
-      "label": "Background Color",
-      "info": "Any valid CSS color, e.g. #f7f7f5 or rgba(0,0,0,0.05). Covers the section's full width, not just the (narrower, centered) product grid above. Blank/none by default."
     },
     {
       "type": "range",

@@ -10,12 +10,15 @@
   is a fixed single column (no setting - matches the reference, which
   never varied it either).
 
-  `max_width`/`padding`/`background_color` are copied from
-  sections/5dla_collection-product-carousel.liquid (desktop only, same as
-  there - tablet/mobile keep their own fixed padding) - unlike that
-  section's settings, these have no `"default"` here, so a blank value
-  falls through to client/ver_2_0/scss/homepage/_activity-grid.scss's own
-  `var(--x, fallback)` default instead.
+  `padding`/`margin`/`max_width` (desktop/tablet/mobile) and
+  `background_color` are copied from sections/5dla_collection-product-
+  carousel.liquid's schema shape - unlike that section's settings, these
+  have no `"default"` here, so a blank value falls through to client/
+  ver_2_0/scss/homepage/_activity-grid.scss's own `var(--x, fallback)`
+  default instead. Tablet/mobile margin and mobile max-width fall back
+  through to the next wider device's own var (desktop) when left blank,
+  matching `@include media-breakpoint-down`'s cascade for the properties
+  that never had a distinct fixed override.
 {%- endcomment -%}
 
 {%- liquid
@@ -24,6 +27,13 @@
 
   assign desktop_max_width = section.settings.max_width
   assign desktop_padding = section.settings.padding
+  assign desktop_margin = section.settings.margin
+  assign tablet_max_width = section.settings.tablet_max_width
+  assign tablet_padding = section.settings.tablet_padding
+  assign tablet_margin = section.settings.tablet_margin
+  assign mobile_max_width = section.settings.mobile_max_width
+  assign mobile_padding = section.settings.mobile_padding
+  assign mobile_margin = section.settings.mobile_margin
   assign background_color = section.settings.background_color
 
   assign background_style = ''
@@ -36,7 +46,7 @@
   <section
     class="five-section five-activity-section"
     aria-labelledby="c5dla-activity-title-{{ section.id }}"
-    style="{{ background_style | escape }}--c5dla-activity-desktop-max-width: {{ desktop_max_width | escape }}; --c5dla-activity-desktop-padding: {{ desktop_padding | escape }};"
+    style="{{ background_style | escape }}--c5dla-activity-desktop-max-width: {{ desktop_max_width | escape }}; --c5dla-activity-desktop-padding: {{ desktop_padding | escape }}; --c5dla-activity-desktop-margin: {{ desktop_margin | escape }}; --c5dla-activity-tablet-max-width: {{ tablet_max_width | escape }}; --c5dla-activity-tablet-padding: {{ tablet_padding | escape }}; --c5dla-activity-tablet-margin: {{ tablet_margin | escape }}; --c5dla-activity-mobile-max-width: {{ mobile_max_width | escape }}; --c5dla-activity-mobile-padding: {{ mobile_padding | escape }}; --c5dla-activity-mobile-margin: {{ mobile_margin | escape }};"
   >
     {%- if section.settings.label != blank or section.settings.description != blank -%}
       <div class="five-section-head">
@@ -96,6 +106,78 @@
   "name": "5DLA Activity Grid",
   "settings": [
     {
+      "type": "header",
+      "content": "General Spacing"
+    },
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Padding (desktop)",
+      "info": "Any valid CSS padding shorthand, e.g. 72px 4.5%."
+    },
+    {
+      "type": "text",
+      "id": "margin",
+      "label": "Margin (desktop)",
+      "info": "Any valid CSS margin shorthand, e.g. 0 auto."
+    },
+    {
+      "type": "text",
+      "id": "max_width",
+      "label": "Max width (desktop)",
+      "info": "Any valid CSS length, e.g. 1600px or min(1270px, 100% - 104px)."
+    },
+    {
+      "type": "text",
+      "id": "tablet_padding",
+      "label": "Padding (tablet)",
+      "info": "Any valid CSS padding shorthand, e.g. 72px 4%."
+    },
+    {
+      "type": "text",
+      "id": "tablet_margin",
+      "label": "Margin (tablet)",
+      "info": "Any valid CSS margin shorthand, e.g. 0 auto. Blank falls back to the desktop margin above."
+    },
+    {
+      "type": "text",
+      "id": "tablet_max_width",
+      "label": "Max width (tablet)",
+      "info": "Any valid CSS length, e.g. none."
+    },
+    {
+      "type": "text",
+      "id": "mobile_padding",
+      "label": "Padding (mobile)",
+      "info": "Any valid CSS padding shorthand, e.g. 42px 20px."
+    },
+    {
+      "type": "text",
+      "id": "mobile_margin",
+      "label": "Margin (mobile)",
+      "info": "Any valid CSS margin shorthand, e.g. 0 auto. Blank falls back to the tablet margin above."
+    },
+    {
+      "type": "text",
+      "id": "mobile_max_width",
+      "label": "Max width (mobile)",
+      "info": "Any valid CSS length, e.g. none. Blank falls back to the tablet max width above."
+    },
+    {
+      "type": "header",
+      "content": "Shared Styles"
+    },
+    {
+      "type": "text",
+      "id": "background_color",
+      "label": "Background Color",
+      "info": "Any valid CSS color, e.g. #f7f7f5 or rgba(0,0,0,0.05). Covers the whole section (label/description + activity grid). Blank/none by default."
+    },
+    {
+      "type": "header",
+      "content": "Section Feature"
+    },
+    {
       "type": "text",
       "id": "label",
       "label": "Label",
@@ -118,24 +200,6 @@
       "id": "items_per_row_tablet",
       "label": "Items per row (tablet)",
       "default": 3
-    },
-    {
-      "type": "text",
-      "id": "max_width",
-      "label": "Max width (desktop)",
-      "info": "Any valid CSS length, e.g. 1600px or min(1270px, 100% - 104px). Desktop only - ignored on tablet/mobile."
-    },
-    {
-      "type": "text",
-      "id": "padding",
-      "label": "Padding (desktop)",
-      "info": "Any valid CSS padding shorthand, e.g. 72px 4.5%. Desktop only - tablet/mobile keep their own fixed padding."
-    },
-    {
-      "type": "text",
-      "id": "background_color",
-      "label": "Background Color",
-      "info": "Any valid CSS color, e.g. #f7f7f5 or rgba(0,0,0,0.05). Covers the whole section (label/description + activity grid). Blank/none by default."
     }
   ],
   "blocks": [
