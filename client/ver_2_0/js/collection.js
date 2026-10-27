@@ -12,6 +12,7 @@ import { initPriceRangeSlider } from "./modules/price-range-slider.js";
 import { initQuickView } from "./modules/quick-view.js";
 import { initLazyload } from "./modules/lazyload.js";
 import { initProductCarousel } from "./modules/product-carousel.js";
+import { ensureCardHeightEqual } from "./utils/card.js";
 // Tab component only (not bootstrap.bundle, which also pulls in Popper) -
 // the import alone wires up `[data-bs-toggle="tab"]` via Bootstrap's data-api.
 import "bootstrap/js/dist/tab";
@@ -115,42 +116,6 @@ const initInfiniteScroll = () => {
   );
 
   observer.observe(sentinel);
-};
-
-/**
- * Ports assets/wpbingo.js's `makeHeightEqual`: sets every element to the
- * tallest one's height (so varying-length text still lines up), resetting
- * to `auto` first in case a previous, taller measurement is stale.
- * @param {NodeListOf<Element>} elements
- */
-const makeHeightEqual = elements => {
-  if (!elements.length) return;
-
-  elements.forEach(el => {
-    el.style.height = "auto";
-  });
-
-  const maxHeight = Math.max(...Array.from(elements, el => el.getBoundingClientRect().height));
-  if (!Number.isFinite(maxHeight) || maxHeight <= 0) return;
-
-  elements.forEach(el => {
-    el.style.height = `${maxHeight}px`;
-  });
-};
-
-/**
- * Equalizes product card heights in `.products` - ports
- * `wpbingo.ensureHeightEqual`. Re-run after `loadNextPage` appends cards.
- */
-const ensureCardHeightEqual = () => {
-  const prefixCard1 = "article.c5dla-card-1 .product-copy";
-  const prefixCard3 = "article.c5dla-card-3 .product-info";
-  makeHeightEqual(document.querySelectorAll(`${prefixCard1} .product-name`));
-  makeHeightEqual(document.querySelectorAll(`${prefixCard1} > .product-short-description`));
-
-  makeHeightEqual(document.querySelectorAll(`${prefixCard3} h3 a`));
-  makeHeightEqual(document.querySelectorAll(`${prefixCard3} .product-swatches`));
-  makeHeightEqual(document.querySelectorAll(`${prefixCard3} .size-selector`));
 };
 
 /**

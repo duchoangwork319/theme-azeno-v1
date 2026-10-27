@@ -17,6 +17,7 @@
 // comment.
 import Swiper from "swiper";
 import { Navigation } from "swiper/modules";
+import { ensureCardHeightEqual } from "../utils/card.js";
 
 const CAROUSEL_SELECTOR = "[data-c5dla-product-carousel]";
 
@@ -38,6 +39,7 @@ const initOneCarousel = el => {
   const skeleton = root?.querySelector("[data-c5dla-product-carousel-skeleton]") ?? null;
   const prevEl = root?.querySelector("[data-direction=\"-1\"]") ?? null;
   const nextEl = root?.querySelector("[data-direction=\"1\"]") ?? null;
+  const wrapper = el.querySelector(".swiper-wrapper");
 
   new Swiper(el, {
     modules: [Navigation],
@@ -64,6 +66,7 @@ const initOneCarousel = el => {
     on: {
       init() {
         if (skeleton) skeleton.hidden = true;
+        if (wrapper) ensureCardHeightEqual(wrapper);
       },
     },
   });
