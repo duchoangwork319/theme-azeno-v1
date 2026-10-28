@@ -1,0 +1,127 @@
+{%- comment -%}
+  Renders `collection.metafields.bwp_fields.faq_content` (a rich text
+  field) as-is - admin-authored content, so no blocks/markup settings here,
+  just the same spacing/background schema shape as sections/5dla_collection-
+  product-grid.liquid ("General Spacing" + "Shared Styles" headers).
+{%- endcomment -%}
+
+{%- liquid
+  assign faq_content = collection.metafields.bwp_fields.faq_content
+
+  assign desktop_max_width = section.settings.max_width
+  assign desktop_padding = section.settings.padding
+  assign desktop_margin = section.settings.margin
+  assign tablet_max_width = section.settings.tablet_max_width
+  assign tablet_padding = section.settings.tablet_padding
+  assign tablet_margin = section.settings.tablet_margin
+  assign mobile_max_width = section.settings.mobile_max_width
+  assign mobile_padding = section.settings.mobile_padding
+  assign mobile_margin = section.settings.mobile_margin
+  assign background_color = section.settings.background_color
+
+  assign background_style = ''
+  if background_color != blank
+    assign background_style = 'background-color: ' | append: background_color | append: ';'
+  endif
+-%}
+
+{%- if faq_content != blank -%}
+  <div class="c5dla-faq-content-wrapper" style="{{ background_style | escape }}">
+    <div
+      class="c5dla-faq-content"
+      style="--c5dla-faq-desktop-max-width: {{ desktop_max_width | escape }}; --c5dla-faq-desktop-padding: {{ desktop_padding | escape }}; --c5dla-faq-desktop-margin: {{ desktop_margin | escape }}; --c5dla-faq-tablet-max-width: {{ tablet_max_width | escape }}; --c5dla-faq-tablet-padding: {{ tablet_padding | escape }}; --c5dla-faq-tablet-margin: {{ tablet_margin | escape }}; --c5dla-faq-mobile-max-width: {{ mobile_max_width | escape }}; --c5dla-faq-mobile-padding: {{ mobile_padding | escape }}; --c5dla-faq-mobile-margin: {{ mobile_margin | escape }};"
+    >
+      {{ faq_content }}
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "5DLA Collection FAQ Content",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General Spacing"
+    },
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Padding (desktop)",
+      "info": "Any valid CSS padding shorthand, e.g. 0 5.15% 85px.",
+      "default": "0 5.15% 85px"
+    },
+    {
+      "type": "text",
+      "id": "margin",
+      "label": "Margin (desktop)",
+      "info": "Any valid CSS margin shorthand, e.g. 0 auto.",
+      "default": "0 auto"
+    },
+    {
+      "type": "text",
+      "id": "max_width",
+      "label": "Max width (desktop)",
+      "info": "Any valid CSS length, e.g. 1600px or min(1270px, 100% - 104px).",
+      "default": "1600px"
+    },
+    {
+      "type": "text",
+      "id": "tablet_padding",
+      "label": "Padding (tablet)",
+      "info": "Any valid CSS padding shorthand, e.g. 0 4% 85px.",
+      "default": "0 4% 85px"
+    },
+    {
+      "type": "text",
+      "id": "tablet_margin",
+      "label": "Margin (tablet)",
+      "info": "Any valid CSS margin shorthand, e.g. 0 auto.",
+      "default": "0 auto"
+    },
+    {
+      "type": "text",
+      "id": "tablet_max_width",
+      "label": "Max width (tablet)",
+      "info": "Any valid CSS length, e.g. none.",
+      "default": "none"
+    },
+    {
+      "type": "text",
+      "id": "mobile_padding",
+      "label": "Padding (mobile)",
+      "info": "Any valid CSS padding shorthand, e.g. 0 9px 53px.",
+      "default": "0 9px 53px"
+    },
+    {
+      "type": "text",
+      "id": "mobile_margin",
+      "label": "Margin (mobile)",
+      "info": "Any valid CSS margin shorthand, e.g. 0 auto.",
+      "default": "0 auto"
+    },
+    {
+      "type": "text",
+      "id": "mobile_max_width",
+      "label": "Max width (mobile)",
+      "info": "Any valid CSS length, e.g. none.",
+      "default": "none"
+    },
+    {
+      "type": "header",
+      "content": "Shared Styles"
+    },
+    {
+      "type": "text",
+      "id": "background_color",
+      "label": "Background Color",
+      "info": "Any valid CSS color, e.g. #f7f7f5 or rgba(0,0,0,0.05). Covers the section's full width, not just the (narrower, centered) content above. Blank/none by default."
+    }
+  ],
+  "presets": [
+    {
+      "name": "5DLA Collection FAQ Content"
+    }
+  ]
+}
+{% endschema %}
