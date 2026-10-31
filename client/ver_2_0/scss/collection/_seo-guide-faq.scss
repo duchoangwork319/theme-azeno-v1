@@ -1,0 +1,111 @@
+// Ported from 5dla-data/pages/fusion-cycling-guide.html's
+// `.c5dla-seo-guide__faq` (that static Page's own inline <style>, ~L56-108
+// + L147-165) - NOT previously present anywhere in this SCSS stack
+// (verified via grep), so this is a new component, not a refactor.
+//
+// That page's `.c5dla-seo-guide__section-heading` is a shared base class
+// reused by its sibling sections (guide intro, FAQ, related links) -
+// since only the FAQ is ported here, its override is merged with the
+// base rule's properties it builds on, so `.c5dla-seo-guide__faq
+// .c5dla-seo-guide__section-heading` below is self-contained and doesn't
+// need the rest of `.c5dla-seo-guide` ported too to render correctly.
+// Class names are kept 1:1 so this styles that page's markup unchanged if
+// it's ever rendered inside `.c5dla-scope`.
+//
+// Breakpoint: the reference's 720px cutoff maps onto this stack's
+// `md`(768px), same "close enough to share a breakpoint" convention used
+// elsewhere (e.g. _shared-variables.scss's $grid-breakpoints comment).
+.c5dla-seo-guide__faq {
+  .c5dla-seo-guide__section-heading {
+    max-width: 830px;
+    margin: 0 0 18px;
+    font-size: 27px;
+    font-weight: 600;
+    line-height: 1.16;
+    letter-spacing: -0.55px;
+
+    @include media-breakpoint-down(md) {
+      font-size: 23px;
+    }
+  }
+}
+
+.c5dla-seo-guide__faq-list {
+  border-top: 1px solid #dcdcd8;
+}
+
+.c5dla-seo-guide__faq-item {
+  border-bottom: 1px solid #dcdcd8;
+
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 22px;
+    min-height: 59px;
+    font-size: 13px;
+    font-weight: 500;
+    list-style: none;
+    cursor: pointer;
+
+    @include media-breakpoint-down(md) {
+      min-height: 62px;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+  }
+
+  &[open] .c5dla-seo-guide__faq-icon {
+    transform: rotate(45deg);
+  }
+}
+
+.c5dla-seo-guide__faq-icon {
+  flex: none;
+  color: #555;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.c5dla-seo-guide__faq-answer {
+  max-width: 780px;
+  margin: 0 0 20px;
+  color: #535353;
+  font-size: 12px;
+  line-height: 1.8;
+
+  @include media-breakpoint-down(md) {
+    font-size: 11px;
+  }
+}
+
+// sections/5dla_collection-faq-content.liquid - `.c5dla-faq-content`
+// (`.c5dla-faq-content-wrapper`'s child) reads the `--c5dla-faq-*` custom
+// properties set on the WRAPPER (they inherit down through descendants,
+// same as any CSS custom property) for its desktop/tablet/mobile
+// max-width/margin/padding. Fallbacks mirror this same file's
+// `.c5dla-seo-guide__inner` equivalent (`.c5dla-faq-content` IS that
+// element, same component, hence living in this file) - desktop values
+// ported 1:1, mobile from its own 720px override; tablet has no
+// reference value, so it reuses this section's own schema default instead.
+.c5dla-faq-content {
+  max-width: var(--c5dla-faq-desktop-max-width, 1110px);
+  margin: var(--c5dla-faq-desktop-margin, 0 auto);
+  padding: var(--c5dla-faq-desktop-padding, 83px 62px 77px);
+
+  @include media-breakpoint-down(lg) {
+    max-width: var(--c5dla-faq-tablet-max-width, none);
+    margin: var(--c5dla-faq-tablet-margin, 0 auto);
+    padding: var(--c5dla-faq-tablet-padding, 0 4% 85px);
+  }
+
+  @include media-breakpoint-down(md) {
+    max-width: var(--c5dla-faq-mobile-max-width, none);
+    margin: var(--c5dla-faq-mobile-margin, 0 auto);
+    padding: var(--c5dla-faq-mobile-padding, 58px 22px 53px);
+  }
+}

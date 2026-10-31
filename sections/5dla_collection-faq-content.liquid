@@ -3,6 +3,21 @@
   field) as-is - admin-authored content, so no blocks/markup settings here,
   just the same spacing/background schema shape as sections/5dla_collection-
   product-grid.liquid ("General Spacing" + "Shared Styles" headers).
+
+  `.c5dla-faq-content-wrapper`/`.c5dla-faq-content` map to 5dla-data/pages/
+  fusion-cycling-guide.html's `.c5dla-seo-guide`/`.c5dla-seo-guide__inner`.
+  The `--c5dla-faq-*` custom properties live on the WRAPPER (combined with
+  its background-color inline style) rather than on `.c5dla-faq-content`
+  itself - they're read by client/ver_2_0/scss/collection/_seo-guide-faq.scss
+  on the inner element, which still works since custom properties inherit
+  down through descendants. `.c5dla-seo-guide` itself has no spacing
+  (padding/margin) to carry over as defaults here - just a background-color
+  and a border, neither of which is a spacing setting, so nothing changed
+  at the wrapper level. `.c5dla-seo-guide__inner`'s actual spacing
+  (max-width: 1110px; margin: 0 auto; padding: 83px 62px 77px, 58px 22px
+  53px on mobile) is instead this section's desktop/mobile "Padding"/
+  "Max width" defaults below, matching the reference's own look exactly
+  out of the box.
 {%- endcomment -%}
 
 {%- liquid
@@ -26,11 +41,11 @@
 -%}
 
 {%- if faq_content != blank -%}
-  <div class="c5dla-faq-content-wrapper" style="{{ background_style | escape }}">
-    <div
-      class="c5dla-faq-content"
-      style="--c5dla-faq-desktop-max-width: {{ desktop_max_width | escape }}; --c5dla-faq-desktop-padding: {{ desktop_padding | escape }}; --c5dla-faq-desktop-margin: {{ desktop_margin | escape }}; --c5dla-faq-tablet-max-width: {{ tablet_max_width | escape }}; --c5dla-faq-tablet-padding: {{ tablet_padding | escape }}; --c5dla-faq-tablet-margin: {{ tablet_margin | escape }}; --c5dla-faq-mobile-max-width: {{ mobile_max_width | escape }}; --c5dla-faq-mobile-padding: {{ mobile_padding | escape }}; --c5dla-faq-mobile-margin: {{ mobile_margin | escape }};"
-    >
+  <div
+    class="c5dla-faq-content-wrapper"
+    style="{{ background_style | escape }}--c5dla-faq-desktop-max-width: {{ desktop_max_width | escape }}; --c5dla-faq-desktop-padding: {{ desktop_padding | escape }}; --c5dla-faq-desktop-margin: {{ desktop_margin | escape }}; --c5dla-faq-tablet-max-width: {{ tablet_max_width | escape }}; --c5dla-faq-tablet-padding: {{ tablet_padding | escape }}; --c5dla-faq-tablet-margin: {{ tablet_margin | escape }}; --c5dla-faq-mobile-max-width: {{ mobile_max_width | escape }}; --c5dla-faq-mobile-padding: {{ mobile_padding | escape }}; --c5dla-faq-mobile-margin: {{ mobile_margin | escape }};"
+  >
+    <div class="c5dla-faq-content">
       {{ faq_content }}
     </div>
   </div>
@@ -38,7 +53,7 @@
 
 {% schema %}
 {
-  "name": "5DLA Collection FAQ Content",
+  "name": "5DLA Collection FAQ",
   "settings": [
     {
       "type": "header",
@@ -48,8 +63,8 @@
       "type": "text",
       "id": "padding",
       "label": "Padding (desktop)",
-      "info": "Any valid CSS padding shorthand, e.g. 0 5.15% 85px.",
-      "default": "0 5.15% 85px"
+      "info": "Any valid CSS padding shorthand, e.g. 83px 62px 77px.",
+      "default": "83px 62px 77px"
     },
     {
       "type": "text",
@@ -62,8 +77,8 @@
       "type": "text",
       "id": "max_width",
       "label": "Max width (desktop)",
-      "info": "Any valid CSS length, e.g. 1600px or min(1270px, 100% - 104px).",
-      "default": "1600px"
+      "info": "Any valid CSS length, e.g. 1110px or min(1270px, 100% - 104px).",
+      "default": "1110px"
     },
     {
       "type": "text",
@@ -90,8 +105,8 @@
       "type": "text",
       "id": "mobile_padding",
       "label": "Padding (mobile)",
-      "info": "Any valid CSS padding shorthand, e.g. 0 9px 53px.",
-      "default": "0 9px 53px"
+      "info": "Any valid CSS padding shorthand, e.g. 58px 22px 53px.",
+      "default": "58px 22px 53px"
     },
     {
       "type": "text",
