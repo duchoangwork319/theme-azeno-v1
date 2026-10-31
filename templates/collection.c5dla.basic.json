@@ -18,6 +18,407 @@
     },
     "banner": {
       "type": "5dla_collection-banner",
+      "blocks": {
+        "related_collection_links_LhJWjR": {
+          "type": "related_collection_links",
+          "settings": {
+            "title": "related_men_women_fusion_tempo_sale",
+            "links": "related_men_women_fusion_tempo_sale",
+            "collection_list": [
+              "frontpage",
+              "all-products",
+              "recharge",
+              "seasonal-selected",
+              "gifts",
+              "preorder",
+              "unisex",
+              "desaru20-eligible-products"
+            ]
+          }
+        },
+        "related_collection_links_RfD8VW": {
+          "type": "related_collection_links",
+          "settings": {
+            "title": "related_trisuits_accessories_tempo_cycling",
+            "links": "related_trisuits_accessories_tempo_cycling",
+            "collection_list": [
+              "triathlon",
+              "mens-triathlon",
+              "womens-triathlon",
+              "mens-triathlon-shop-all-mens-triathlon",
+              "womens-triathlon-shop-all-womens-triathlon",
+              "shop-by-sport-triathlon",
+              "shop-by-sport-triathlon-shop-all-triathlon",
+              "sale-by-sport-triathlon",
+              "brands-fusion-triathlon"
+            ]
+          }
+        },
+        "related_collection_links_KbPXwP": {
+          "type": "related_collection_links",
+          "settings": {
+            "title": "related_training_tops_shorts-tights_tempo",
+            "links": "related_training_tops_shorts-tights_tempo",
+            "collection_list": [
+              "running",
+              "shop-by-sport-running",
+              "shop-by-sport-running-shop-all-running",
+              "shop-by-sport-running-race-belts",
+              "shop-by-sport-running-running-accessories",
+              "sale-by-sport-running",
+              "brands-fusion-running"
+            ]
+          }
+        },
+        "related_collection_links_QKAQzk": {
+          "type": "related_collection_links",
+          "settings": {
+            "title": "related_jerseys_bib-shorts_race-suits_tempo_triathlon",
+            "links": "related_jerseys_bib-shorts_race-suits_tempo_triathlon",
+            "collection_list": [
+              "cycling",
+              "mens-cycling",
+              "womens-cycling",
+              "mens-cycling-shop-all-mens-cycling",
+              "womens-cycling-shop-all-womens-cycling",
+              "shop-by-sport-cycling",
+              "shop-by-sport-cycling-shop-all-cycling",
+              "sale-by-sport-cycling",
+              "brands-fusion-cycling"
+            ]
+          }
+        },
+        "related_collection_links_9BFkko": {
+          "type": "related_collection_links",
+          "settings": {
+            "title": "related_women_fusion_tempo_sale",
+            "links": "related_women_fusion_tempo_sale",
+            "collection_list": [
+              "men",
+              "men-1"
+            ]
+          }
+        },
+        "related_collection_links_HmGn4F": {
+          "type": "related_collection_links",
+          "settings": {
+            "title": "related_men_fusion_tempo_sale",
+            "links": "related_men_fusion_tempo_sale",
+            "collection_list": [
+              "women",
+              "womens"
+            ]
+          }
+        },
+        "related_collection_links_61U7yO": {
+          "type": "related_collection_links",
+          "settings": {
+            "title": "related_shop-all_men_women_tempo",
+            "links": "related_shop-all_men_women_tempo",
+            "collection_list": [
+              "new-arrivals",
+              "seasonal-clearance",
+              "sales-on-march",
+              "sale",
+              "sale-shop-sale",
+              "sale-shop-sale-all-sale",
+              "sale-shop-sale-men",
+              "sale-shop-sale-women",
+              "sale-by-sport",
+              "sale-by-product",
+              "sale-by-product-clothing",
+              "sale-by-product-cycling-shoes",
+              "sale-by-product-accessories"
+            ]
+          }
+        },
+        "related_collection_links_ey9rgc": {
+          "type": "related_collection_links",
+          "settings": {
+            "title": "related_men_women_fusion_sale",
+            "links": "related_men_women_fusion_sale",
+            "collection_list": [
+              "tempo",
+              "tempo-1"
+            ]
+          }
+        },
+        "related_collection_links_eOY4GV": {
+          "type": "related_collection_links",
+          "settings": {
+            "title": "related_tops_shorts-tights_running_tempo",
+            "links": "related_tops_shorts-tights_running_tempo",
+            "collection_list": [
+              "gym",
+              "shop-by-sport-training",
+              "shop-by-sport-training-shop-all-training"
+            ]
+          }
+        },
+        "related_collection_links_bWLbob": {
+          "type": "related_collection_links",
+          "settings": {
+            "title": "related_men_mens-triathlon_mens-cycling_mens-running_mens-training",
+            "links": "related_men_mens-triathlon_mens-cycling_mens-running_mens-training",
+            "collection_list": [
+              "mens-featured",
+              "mens-featured-bestsellers",
+              "mens-featured-new-arrivals"
+            ]
+          }
+        },
+        "related_collection_links_FYzSzq": {
+          "type": "related_collection_links",
+          "settings": {
+            "title": "related_mens-training_tops_shorts-tights_tempo",
+            "links": "related_mens-training_tops_shorts-tights_tempo",
+            "collection_list": [
+              "mens-running",
+              "mens-running-shop-all-mens-running",
+              "mens-running-t-shirts-singlets",
+              "mens-running-shorts-tights",
+              "mens-running-race-belts",
+              "mens-running-running-accessories"
+            ]
+          }
+        },
+        "related_collection_links_vAtsys": {
+          "type": "related_collection_links",
+          "settings": {
+            "title": "related_tops_shorts-tights_mens-running_tempo",
+            "links": "related_tops_shorts-tights_mens-running_tempo",
+            "collection_list": [
+              "mens-training",
+              "mens-training-shop-all-mens-training",
+              "mens-training-tops",
+              "mens-training-shorts-tights"
+            ]
+          }
+        },
+        "related_collection_links_OTBYG2": {
+          "type": "related_collection_links",
+          "settings": {
+            "title": "related_women_womens-triathlon_womens-cycling_womens-running_womens-training",
+            "links": "related_women_womens-triathlon_womens-cycling_womens-running_womens-training",
+            "collection_list": [
+              "womens-featured",
+              "womens-featured-bestsellers",
+              "womens-featured-new-arrivals"
+            ]
+          }
+        },
+        "related_collection_links_GqpcSv": {
+          "type": "related_collection_links",
+          "settings": {
+            "title": "related_womens-training_tops_shorts-tights_tempo",
+            "links": "related_womens-training_tops_shorts-tights_tempo",
+            "collection_list": [
+              "womens-running",
+              "womens-running-shop-all-womens-running",
+              "womens-running-t-shirts-singlets",
+              "womens-running-shorts-tights",
+              "womens-running-race-belts",
+              "womens-running-running-accessories"
+            ]
+          }
+        },
+        "related_collection_links_wenGyD": {
+          "type": "related_collection_links",
+          "settings": {
+            "title": "related_tops_shorts-tights_womens-running_tempo",
+            "links": "related_tops_shorts-tights_womens-running_tempo",
+            "collection_list": [
+              "womens-training",
+              "womens-training-shop-all-womens-training",
+              "womens-training-tops",
+              "womens-training-shorts-tights"
+            ]
+          }
+        },
+        "related_collection_links_9OSzjR": {
+          "type": "related_collection_links",
+          "settings": {
+            "title": "related_mens-triathlon_mens-cycling_mens-running_mens-training",
+            "links": "related_mens-triathlon_mens-cycling_mens-running_mens-training",
+            "collection_list": [
+              "mens-featured-shop-all-men"
+            ]
+          }
+        },
+        "related_collection_links_hsINQv": {
+          "type": "related_collection_links",
+          "settings": {
+            "title": "related_mens-triathlon_men_mens-cycling_mens-running_tempo",
+            "links": "related_mens-triathlon_men_mens-cycling_mens-running_tempo",
+            "collection_list": [
+              "mens-triathlon-tri-suits",
+              "mens-triathlon-tri-shorts",
+              "mens-triathlon-race-belts",
+              "mens-triathlon-triathlon-accessories"
+            ]
+          }
+        },
+        "related_collection_links_RyCELh": {
+          "type": "related_collection_links",
+          "settings": {
+            "title": "related_mens-cycling_men_mens-triathlon_mens-running_tempo",
+            "links": "related_mens-cycling_men_mens-triathlon_mens-running_tempo",
+            "collection_list": [
+              "mens-cycling-jerseys",
+              "mens-cycling-bib-shorts",
+              "mens-cycling-cycling-suits",
+              "mens-cycling-cycling-shoes",
+              "mens-cycling-cycling-accessories"
+            ]
+          }
+        },
+        "related_collection_links_UB2Kz2": {
+          "type": "related_collection_links",
+          "settings": {
+            "title": "related_womens-triathlon_womens-cycling_womens-running_womens-training",
+            "links": "related_womens-triathlon_womens-cycling_womens-running_womens-training",
+            "collection_list": [
+              "womens-featured-shop-all-women"
+            ]
+          }
+        },
+        "related_collection_links_Qd5g2T": {
+          "type": "related_collection_links",
+          "settings": {
+            "title": "related_womens-triathlon_women_womens-cycling_womens-running_tempo",
+            "links": "related_womens-triathlon_women_womens-cycling_womens-running_tempo",
+            "collection_list": [
+              "womens-triathlon-tri-suits",
+              "womens-triathlon-tri-shorts",
+              "womens-triathlon-race-belts",
+              "womens-triathlon-triathlon-accessories"
+            ]
+          }
+        },
+        "related_collection_links_M8TshF": {
+          "type": "related_collection_links",
+          "settings": {
+            "title": "related_womens-cycling_women_womens-triathlon_womens-running_tempo",
+            "links": "related_womens-cycling_women_womens-triathlon_womens-running_tempo",
+            "collection_list": [
+              "womens-cycling-jerseys",
+              "womens-cycling-bib-shorts",
+              "womens-cycling-cycling-suits",
+              "womens-cycling-cycling-shoes",
+              "womens-cycling-cycling-accessories"
+            ]
+          }
+        },
+        "related_collection_links_L11KMC": {
+          "type": "related_collection_links",
+          "settings": {
+            "title": "related_triathlon_shop-all_cycling_running_tempo",
+            "links": "related_triathlon_shop-all_cycling_running_tempo",
+            "collection_list": [
+              "shop-by-sport-triathlon-tri-suits",
+              "shop-by-sport-triathlon-tri-shorts",
+              "shop-by-sport-triathlon-race-belts",
+              "shop-by-sport-triathlon-triathlon-accessories"
+            ]
+          }
+        },
+        "related_collection_links_Z58AHF": {
+          "type": "related_collection_links",
+          "settings": {
+            "title": "related_cycling_shop-all_triathlon_running_tempo",
+            "links": "related_cycling_shop-all_triathlon_running_tempo",
+            "collection_list": [
+              "shop-by-sport-cycling-jerseys",
+              "shop-by-sport-cycling-bib-shorts",
+              "shop-by-sport-cycling-cycling-suits",
+              "shop-by-sport-cycling-cycling-shoes",
+              "shop-by-sport-cycling-cycling-accessories"
+            ]
+          }
+        },
+        "related_collection_links_bG1O4z": {
+          "type": "related_collection_links",
+          "settings": {
+            "title": "related_training_shorts-tights_tempo",
+            "links": "related_training_shorts-tights_tempo",
+            "collection_list": [
+              "shop-by-sport-running-t-shirts-singlets"
+            ]
+          }
+        },
+        "related_collection_links_o6j4r4": {
+          "type": "related_collection_links",
+          "settings": {
+            "title": "related_training_tops_tempo",
+            "links": "related_training_tops_tempo",
+            "collection_list": [
+              "shop-by-sport-running-shorts-tights"
+            ]
+          }
+        },
+        "related_collection_links_tTeTaw": {
+          "type": "related_collection_links",
+          "settings": {
+            "title": "related_shorts-tights_running_tempo",
+            "links": "related_shorts-tights_running_tempo",
+            "collection_list": [
+              "shop-by-sport-training-tops"
+            ]
+          }
+        },
+        "related_collection_links_D0Tjy4": {
+          "type": "related_collection_links",
+          "settings": {
+            "title": "related_tops_running_tempo",
+            "links": "related_tops_running_tempo",
+            "collection_list": [
+              "shop-by-sport-training-shorts-tights"
+            ]
+          }
+        },
+        "related_collection_links_jLO75u": {
+          "type": "related_collection_links",
+          "settings": {
+            "title": "related_tempo_triathlon_cycling_running",
+            "links": "related_tempo_triathlon_cycling_running",
+            "collection_list": [
+              "brands",
+              "brands-fusion",
+              "brands-fusion-shop-all-fusion"
+            ]
+          }
+        }
+      },
+      "block_order": [
+        "related_collection_links_LhJWjR",
+        "related_collection_links_RfD8VW",
+        "related_collection_links_KbPXwP",
+        "related_collection_links_QKAQzk",
+        "related_collection_links_9BFkko",
+        "related_collection_links_HmGn4F",
+        "related_collection_links_61U7yO",
+        "related_collection_links_ey9rgc",
+        "related_collection_links_eOY4GV",
+        "related_collection_links_bWLbob",
+        "related_collection_links_FYzSzq",
+        "related_collection_links_vAtsys",
+        "related_collection_links_OTBYG2",
+        "related_collection_links_GqpcSv",
+        "related_collection_links_wenGyD",
+        "related_collection_links_9OSzjR",
+        "related_collection_links_hsINQv",
+        "related_collection_links_RyCELh",
+        "related_collection_links_UB2Kz2",
+        "related_collection_links_Qd5g2T",
+        "related_collection_links_M8TshF",
+        "related_collection_links_L11KMC",
+        "related_collection_links_Z58AHF",
+        "related_collection_links_bG1O4z",
+        "related_collection_links_o6j4r4",
+        "related_collection_links_tTeTaw",
+        "related_collection_links_D0Tjy4",
+        "related_collection_links_jLO75u"
+      ],
       "settings": {
         "enable": true
       }
@@ -278,9 +679,21 @@
         "price_range_mode": "slider"
       }
     },
-    "content_slots": {
-      "type": "5dla_collection-content-slots",
-      "settings": {}
+    "5dla_collection_faq_content_Hyk6T7": {
+      "type": "5dla_collection-faq-content",
+      "name": "5DLA Collection FAQ Content",
+      "settings": {
+        "padding": "83px 62px 77px",
+        "margin": "0 auto",
+        "max_width": "1110px",
+        "tablet_padding": "0 4% 85px",
+        "tablet_margin": "0 auto",
+        "tablet_max_width": "none",
+        "mobile_padding": "58px 22px 53px",
+        "mobile_margin": "0 auto",
+        "mobile_max_width": "none",
+        "background_color": ""
+      }
     },
     "benefits": {
       "type": "5dla_collection-benefits",
@@ -292,7 +705,7 @@
     "banner",
     "subcollections",
     "product_grid",
-    "content_slots",
+    "5dla_collection_faq_content_Hyk6T7",
     "benefits"
   ]
 }
