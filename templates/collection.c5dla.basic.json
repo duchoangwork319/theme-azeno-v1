@@ -880,6 +880,11 @@
         "price_range_mode": "slider"
       }
     },
+    "5dla_collection_content_slots_eHf3b7": {
+      "type": "5dla_collection-content-slots",
+      "name": "5DLA Collection SEO Slots",
+      "settings": {}
+    },
     "5dla_collection_faq_content_Hyk6T7": {
       "type": "5dla_collection-faq-content",
       "name": "5DLA Collection FAQ Content",
@@ -906,6 +911,7 @@
     "banner",
     "subcollections",
     "product_grid",
+    "5dla_collection_content_slots_eHf3b7",
     "5dla_collection_faq_content_Hyk6T7",
     "benefits"
   ]
