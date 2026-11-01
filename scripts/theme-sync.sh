@@ -36,7 +36,7 @@ Env:
 Target (optional, default: all). Pass multiple to combine them, e.g.
 'assets sections layout':
   all                   Full theme (exclusive - cannot combine with others)
-  config                config/*, locales/* only (pull only, exclusive)
+  config                config/*, locales/* only (exclusive)
   blocks                Full pull, preserving local ./blocks changes (pull only, exclusive)
   assets                assets/* only
   sections              sections/* only
@@ -61,6 +61,7 @@ itself will prompt you to choose a theme before pushing/pulling.
 Examples:
   $SCRIPT_NAME pull dev all
   $SCRIPT_NAME pull prd config
+  $SCRIPT_NAME push dev config
   $SCRIPT_NAME push dev assets
   $SCRIPT_NAME push prd sections layout
   $SCRIPT_NAME push dev assets sections snippets --dry-run
@@ -166,7 +167,6 @@ if [[ "$ACTION" == "pull" || "$ACTION" == "push" ]]; then
         fi
         ;;
       config)
-        [[ "$ACTION" == "pull" ]] || die "Target 'config' is only valid for pull"
         CMD+=(--only "config/*" --only "locales/*")
         ;;
       blocks)
