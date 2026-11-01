@@ -16,6 +16,14 @@
 // `md`(768px), same "close enough to share a breakpoint" convention used
 // elsewhere (e.g. _shared-variables.scss's $grid-breakpoints comment).
 .c5dla-seo-guide__faq {
+  .c5dla-seo-guide__eyebrow {
+    color: #777;
+    letter-spacing: 0.12em;
+    margin: 0 0 15px;
+    font-size: 10px;
+    font-weight: 600;
+  }
+
   .c5dla-seo-guide__section-heading {
     max-width: 830px;
     margin: 0 0 18px;
