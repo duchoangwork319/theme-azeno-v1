@@ -110,12 +110,28 @@
         "page_item": 12
       }
     },
-    "5dla_page_content_MWCxjf": {
-      "type": "5dla_page-content",
-      "name": "5DLA Page Content",
+    "5dla_poster_banner_9nnbPm": {
+      "type": "5dla_poster-banner",
+      "name": "5DLA Poster Banner",
       "settings": {
-        "title": "Tempo Poster",
-        "page": "homepage-tempo-poster"
+        "padding": "",
+        "margin": "",
+        "max_width": "",
+        "tablet_padding": "",
+        "tablet_margin": "",
+        "tablet_max_width": "",
+        "mobile_padding": "",
+        "mobile_margin": "",
+        "mobile_max_width": "",
+        "desktop_image": "shopify://shop_images/5dla_23.jpg",
+        "eyebrow": "FEATURED COLLECTION / FUSION",
+        "heading": "TEMPO!",
+        "heading_size": "100px,85px,64px",
+        "body_text": "Where every detail meets the wind.",
+        "button_label": "DISCOVER THE COLLECTION",
+        "button_url": "shopify://collections/tempo-1",
+        "button_style": "white",
+        "shade": "left_fade"
       }
     },
     "5dla_activity_grid_MVV4YD": {
@@ -165,10 +181,10 @@
         "padding": "72px 4.5%",
         "margin": "",
         "max_width": "",
-        "tablet_padding": "",
+        "tablet_padding": "72px 4%",
         "tablet_margin": "",
         "tablet_max_width": "",
-        "mobile_padding": "",
+        "mobile_padding": "42px 20px",
         "mobile_margin": "",
         "mobile_max_width": "",
         "background_color": "",
@@ -219,7 +235,9 @@
         "main_video_src": "shopify://files/videos/5dla_hp_film.mp4",
         "video_poster": "shopify://shop_images/5dla_44.jpg",
         "poster_label": "BUILT TO MOVE",
-        "poster_description": "FUSION / IN MOTION"
+        "poster_description": "FUSION / IN MOTION",
+        "height": "560px,480px,390px",
+        "object_fit": "cover"
       }
     },
     "5dla_page_content_784Jzm": {
@@ -229,15 +247,40 @@
         "title": "Bottom Content",
         "page": "homepage-bottom-content"
       }
+    },
+    "5dla_poster_banner_kVxeai": {
+      "type": "5dla_poster-banner",
+      "name": "5DLA Poster Banner",
+      "settings": {
+        "padding": "",
+        "margin": "",
+        "max_width": "",
+        "tablet_padding": "",
+        "tablet_margin": "",
+        "tablet_max_width": "",
+        "mobile_padding": "",
+        "mobile_margin": "",
+        "mobile_max_width": "",
+        "desktop_image": "shopify://shop_images/5dla_43.jpg",
+        "eyebrow": "MORE THAN THE FINISH LINE",
+        "heading": "JOIN THE <br> 5DLA CLUB.",
+        "heading_size": "76px , 76px ,64px",
+        "body_text": "New gear. Shared stories. Your next adventure. <br>\nStay connected to the world of 5DLA.",
+        "button_label": "JOIN OUR COMMUNITY",
+        "button_url": "shopify://pages/about-us",
+        "button_style": "red",
+        "shade": "dark_overlay"
+      }
     }
   },
   "order": [
     "5dla_carousel_TyFVXe",
     "5dla_collection_product_carousel_pGAG86",
-    "5dla_page_content_MWCxjf",
+    "5dla_poster_banner_9nnbPm",
     "5dla_activity_grid_MVV4YD",
     "5dla_collection_product_carousel_FnH9tz",
     "5dla_film_poster_kTgxPd",
-    "5dla_page_content_784Jzm"
+    "5dla_page_content_784Jzm",
+    "5dla_poster_banner_kVxeai"
   ]
 }
