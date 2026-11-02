@@ -5075,7 +5075,7 @@
             "type": "megamenu",
             "settings": {
               "title": "Men",
-              "target_collection": "men-1",
+              "target_collection": "men",
               "show_megamenu_dropdown_mb": true
             }
           },
@@ -5361,7 +5361,7 @@
           "padding": "0 0",
           "main_menuitem_padding": "32px 20px",
           "header_sticky": true,
-          "header_absolute": true,
+          "header_absolute": false,
           "color_homepage_text": "#ffffff",
           "logo": "shopify://shop_images/5Dla_Logo.png",
           "logo_max_width": 55,

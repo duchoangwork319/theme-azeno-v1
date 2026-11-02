@@ -24,11 +24,17 @@
       "pattern": null,
       "defaultMessage": "Please select your country/region."
     },
-    "desaruRaceCategory": {
+    "race2026": {
       "required": true,
       "maxlength": null,
       "pattern": null,
-      "defaultMessage": "Please select your Desaru race category."
+      "defaultMessage": "Please select the official race series you completed."
+    },
+    "racecategory": {
+      "required": true,
+      "maxlength": null,
+      "pattern": null,
+      "defaultMessage": "Please select the race category you completed."
     },
     "nextRace": {
       "required": false,

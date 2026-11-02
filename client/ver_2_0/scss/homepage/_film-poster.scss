@@ -7,7 +7,6 @@
 // _activity-grid.scss.
 .five-film {
   position: relative;
-  height: 560px;
   overflow: hidden;
   background: #151515;
   // max-width/margin: not in the reference (full-bleed, no setting there
@@ -18,22 +17,28 @@
   // own var instead of a literal duplicate default.
   max-width: var(--c5dla-film-desktop-max-width, none);
   margin: var(--c5dla-film-desktop-margin, 0 auto);
+  // height: the reference's own 560px/390px (desktop/mobile) fixed
+  // values are now this chain's hardcoded fallback instead of a literal
+  // `height: 560px` - same tablet->desktop/mobile->tablet->desktop
+  // fallback convention as max-width/margin above.
+  height: var(--c5dla-film-desktop-height, 560px);
 
   @include media-breakpoint-down(lg) {
     max-width: var(--c5dla-film-tablet-max-width, var(--c5dla-film-desktop-max-width, none));
     margin: var(--c5dla-film-tablet-margin, var(--c5dla-film-desktop-margin, 0 auto));
+    height: var(--c5dla-film-tablet-height, var(--c5dla-film-desktop-height, 560px));
   }
 
   @include media-breakpoint-down(md) {
-    height: 390px;
     max-width: var(--c5dla-film-mobile-max-width, var(--c5dla-film-tablet-max-width, var(--c5dla-film-desktop-max-width, none)));
     margin: var(--c5dla-film-mobile-margin, var(--c5dla-film-tablet-margin, var(--c5dla-film-desktop-margin, 0 auto)));
+    height: var(--c5dla-film-mobile-height, var(--c5dla-film-tablet-height, var(--c5dla-film-desktop-height, 390px)));
   }
 
   video {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: var(--c5dla-film-object-fit, cover);
   }
 
   h2 {

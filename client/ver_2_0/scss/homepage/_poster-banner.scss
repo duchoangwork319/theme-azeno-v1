@@ -1,0 +1,112 @@
+// For sections/5dla_poster-banner.liquid - merges the reference's
+// `section.five-tempo` ("TEMPO!") and `section.five-club` ("JOIN THE
+// 5DLA CLUB.") rows (html/revamp/homepage/5dla-homepage.html's inline
+// <style>) into one configurable section. Both were full-bleed
+// `object-fit: cover` images with a fixed `min-height` - here the image
+// itself (`.five-poster-media img`) sets the section's height (no
+// cropping control, see the section file's own comment), so there's no
+// `min-height`/`object-fit` to carry over.
+//
+// Breakpoints: both references' 1060px/767px cutoffs map onto this
+// stack's `lg`(1060px)/`md`(768px), same mapping _carousel.scss/
+// _activity-grid.scss/_film-poster.scss already use.
+.five-poster-banner {
+  position: relative;
+  overflow: hidden;
+  background: #111111;
+  padding: var(--c5dla-poster-desktop-padding, 0);
+  margin: var(--c5dla-poster-desktop-margin, 0);
+  max-width: var(--c5dla-poster-desktop-max-width, none);
+
+  @include media-breakpoint-down(lg) {
+    padding: var(--c5dla-poster-tablet-padding, var(--c5dla-poster-desktop-padding, 0));
+    margin: var(--c5dla-poster-tablet-margin, var(--c5dla-poster-desktop-margin, 0));
+    max-width: var(--c5dla-poster-tablet-max-width, var(--c5dla-poster-desktop-max-width, none));
+  }
+
+  @include media-breakpoint-down(md) {
+    padding: var(--c5dla-poster-mobile-padding, var(--c5dla-poster-tablet-padding, var(--c5dla-poster-desktop-padding, 0)));
+    margin: var(--c5dla-poster-mobile-margin, var(--c5dla-poster-tablet-margin, var(--c5dla-poster-desktop-margin, 0)));
+    max-width: var(--c5dla-poster-mobile-max-width, var(--c5dla-poster-tablet-max-width, var(--c5dla-poster-desktop-max-width, none)));
+  }
+}
+
+.five-poster-media {
+  display: block;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+}
+
+// `dark_overlay` (ported from five-club-shade) - an even, mostly-dark
+// tint across the full image. `left_fade` (ported from five-tempo-shade)
+// - a navy fade that clears to transparent by 75% width, for images with
+// their own empty space on the right for the copy to sit over.
+.five-poster-shade {
+  position: absolute;
+  inset: 0;
+
+  &.five-poster-shade-dark_overlay {
+    background: linear-gradient(90deg, #000d, #0006 65%, #0003);
+  }
+
+  &.five-poster-shade-left_fade {
+    background: linear-gradient(90deg, #001c2ac9, transparent 75%);
+  }
+}
+
+.five-poster-copy {
+  position: absolute;
+  inset: 0;
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: flex-start;
+  padding: 66px 7%;
+  color: #fff;
+
+  h2 {
+    margin: 0;
+    color: #fff;
+    line-height: 1;
+    font-family: var(--font-family-second, "Bebas Neue", Impact, sans-serif);
+    font-size: var(--c5dla-poster-heading-desktop, 72px);
+
+    @include media-breakpoint-down(lg) {
+      font-size: var(--c5dla-poster-heading-tablet, var(--c5dla-poster-heading-desktop, 72px));
+    }
+
+    @include media-breakpoint-down(md) {
+      font-size: var(--c5dla-poster-heading-mobile, var(--c5dla-poster-heading-tablet, var(--c5dla-poster-heading-desktop, 72px)));
+    }
+  }
+
+  > p:not(.five-eyebrow) {
+    margin: 16px 0 24px;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  @include media-breakpoint-down(md) {
+    padding: 50px 24px;
+
+    > p:not(.five-eyebrow) {
+      font-size: 14px;
+    }
+  }
+}
+
+// Not yet shipped by any other ver_2_0 partial - `button_style: white`
+// (5dla_poster-banner.liquid) is the first section to need it.
+// `.five-button` itself defaults to red (_carousel.scss), so "Red" needs
+// no modifier class.
+.five-button-white {
+  color: #181818;
+  background: #fff;
+
+  &:hover {
+    background: #e5e5e5;
+  }
+}

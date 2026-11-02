@@ -28,6 +28,14 @@
   once the whole chain is blank, a no-op until `max_width` actually
   constrains the section, matching the reference's own full-bleed look
   until a merchant opts in.
+
+  `height` replaces the reference's hardcoded 560px/390px (desktop/
+  mobile) with a merchant-editable `desktop,tablet,mobile` CSV, same
+  format/fallback-chain convention as sections/5dla_poster-banner.liquid's
+  `heading_size` - a value left blank falls back to the next wider
+  breakpoint's height. `object_fit` replaces the reference's hardcoded
+  `object-fit: cover` with a cover/contain choice (contain for merchants
+  whose video doesn't crop well to a fixed height box).
 {%- endcomment -%}
 
 {%- liquid
@@ -37,13 +45,18 @@
   assign tablet_margin = section.settings.tablet_margin
   assign mobile_max_width = section.settings.mobile_max_width
   assign mobile_margin = section.settings.mobile_margin
+
+  assign height_parts = section.settings.height | split: ','
+  assign height_desktop = height_parts[0] | strip
+  assign height_tablet = height_parts[1] | strip
+  assign height_mobile = height_parts[2] | strip
 -%}
 
 {%- if section.settings.main_video_src != blank -%}
   <section
     aria-label="Fusion performance film"
     class="five-film"
-    style="--c5dla-film-desktop-max-width: {{ desktop_max_width | escape }}; --c5dla-film-desktop-margin: {{ desktop_margin | escape }}; --c5dla-film-tablet-max-width: {{ tablet_max_width | escape }}; --c5dla-film-tablet-margin: {{ tablet_margin | escape }}; --c5dla-film-mobile-max-width: {{ mobile_max_width | escape }}; --c5dla-film-mobile-margin: {{ mobile_margin | escape }};"
+    style="--c5dla-film-desktop-max-width: {{ desktop_max_width | escape }}; --c5dla-film-desktop-margin: {{ desktop_margin | escape }}; --c5dla-film-tablet-max-width: {{ tablet_max_width | escape }}; --c5dla-film-tablet-margin: {{ tablet_margin | escape }}; --c5dla-film-mobile-max-width: {{ mobile_max_width | escape }}; --c5dla-film-mobile-margin: {{ mobile_margin | escape }}; --c5dla-film-desktop-height: {{ height_desktop | escape }}; --c5dla-film-tablet-height: {{ height_tablet | escape }}; --c5dla-film-mobile-height: {{ height_mobile | escape }}; --c5dla-film-object-fit: {{ section.settings.object_fit | escape }};"
   >
     <video
       data-c5dla-film-video
@@ -68,7 +81,12 @@
       {%- if section.settings.poster_label != blank -%}
         <h2>{{ section.settings.poster_label }}</h2>
       {%- endif -%}
-      <button aria-label="{{ 'c5dla.film_poster.watch_the_film' | t }}" class="five-play" data-c5dla-film-play type="button">
+      <button
+        aria-label="{{ 'c5dla.film_poster.watch_the_film' | t }}"
+        class="five-play"
+        data-c5dla-film-play
+        type="button"
+      >
         <span>&nbsp;▷</span> {{ 'c5dla.film_poster.watch_the_film' | t }}
       </button>
     </div>
@@ -144,6 +162,23 @@
       "id": "poster_description",
       "label": "Description",
       "info": "e.g. FUSION / IN MOTION."
+    },
+    {
+      "type": "text",
+      "id": "height",
+      "label": "Height",
+      "info": "Section height per breakpoint, format: desktop,tablet,mobile - e.g. 560px,480px,390px. Any value left blank falls back to the next wider breakpoint's height."
+    },
+    {
+      "type": "select",
+      "id": "object_fit",
+      "label": "Video fit",
+      "info": "Cover crops the video to fill the section height. Contain shows the whole video, letterboxed if needed.",
+      "options": [
+        { "value": "cover", "label": "Cover" },
+        { "value": "contain", "label": "Contain" }
+      ],
+      "default": "cover"
     }
   ],
   "presets": [
