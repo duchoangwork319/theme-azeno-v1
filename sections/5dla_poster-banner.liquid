@@ -1,0 +1,259 @@
+{%- comment -%}
+  Merged section for the reference's `section.five-tempo` ("TEMPO!" row,
+  theme-azeno-v1/html/revamp/homepage/5dla-homepage.html) and
+  `section.five-club` ("JOIN THE 5DLA CLUB." row, same reference) - both
+  are the same full-bleed image/eyebrow/heading/body/button layout with
+  only theming differences (image, shade, heading size, button color), so
+  one configurable section replaces what would otherwise be two near-
+  duplicate `.liquid` files. See D:\working\shopify\repo\5dla-data\pages\
+  homepage-tempo-poster.html and homepage-bottom-content.html for the
+  original markup/CSS this was ported from.
+
+  No image position setting - cropping an image per-breakpoint is too
+  technical for non-technical merchants, so the section's height is driven
+  entirely by whichever image renders (`<picture>` + per-breakpoint
+  `<source>`, not `object-fit: cover`). A merchant who wants a different
+  crop on mobile just uploads a different Image (mobile) file instead of
+  adjusting a position control.
+
+  `heading`/`body_text` are "html" settings (not "text"/"textarea" -
+  those sanitize/escape markup, which would strip a merchant's `<br>` or
+  inline styling, e.g. the reference's own hardcoded "JOIN THE<br>5DLA
+  CLUB." heading). Each still renders inside its own wrapping tag (`<h2>`/
+  `<p>` below), so a merchant entering block-level markup (another `<p>`,
+  a `<div>`) inside `body_text` would produce invalid nesting - fine for
+  the inline markup (`<br>`, `<strong>`, etc.) this field is meant for.
+
+  `shade` names the two gradients actually used by the references:
+  `dark_overlay` (five-club's even, mostly-dark tint, for photos that need
+  full-width darkening) and `left_fade` (five-tempo's navy fade that
+  clears by 75%, for photos with their own empty space on the right).
+  Colors are fixed per option (not merchant-editable) - same "too
+  technical" reasoning as skipping image position.
+
+  `button_style: white` applies `.five-button-white` (declared in
+  client/ver_2_0/scss/homepage/_poster-banner.scss - the reference had it
+  inline, not yet shipped by any ver_2_0 SCSS partial before this section).
+  `red` needs no modifier class since `.five-button` is already red by
+  default (client/ver_2_0/scss/homepage/_carousel.scss).
+{%- endcomment -%}
+
+{%- liquid
+  assign desktop_padding = section.settings.padding
+  assign desktop_margin = section.settings.margin
+  assign desktop_max_width = section.settings.max_width
+  assign tablet_padding = section.settings.tablet_padding
+  assign tablet_margin = section.settings.tablet_margin
+  assign tablet_max_width = section.settings.tablet_max_width
+  assign mobile_padding = section.settings.mobile_padding
+  assign mobile_margin = section.settings.mobile_margin
+  assign mobile_max_width = section.settings.mobile_max_width
+
+  assign heading_size_parts = section.settings.heading_size | split: ','
+  assign heading_size_desktop = heading_size_parts[0] | strip
+  assign heading_size_tablet = heading_size_parts[1] | strip
+  assign heading_size_mobile = heading_size_parts[2] | strip
+
+  assign button_class = 'five-button'
+  if section.settings.button_style == 'white'
+    assign button_class = button_class | append: ' five-button-white'
+  endif
+
+  assign shade_class = blank
+  unless section.settings.shade == blank or section.settings.shade == 'none'
+    assign shade_class = 'five-poster-shade five-poster-shade-' | append: section.settings.shade
+  endunless
+-%}
+
+{%- if section.settings.desktop_image != blank -%}
+  <section
+    class="five-poster-banner"
+    style="--c5dla-poster-desktop-padding: {{ desktop_padding | escape }}; --c5dla-poster-desktop-margin: {{ desktop_margin | escape }}; --c5dla-poster-desktop-max-width: {{ desktop_max_width | escape }}; --c5dla-poster-tablet-padding: {{ tablet_padding | escape }}; --c5dla-poster-tablet-margin: {{ tablet_margin | escape }}; --c5dla-poster-tablet-max-width: {{ tablet_max_width | escape }}; --c5dla-poster-mobile-padding: {{ mobile_padding | escape }}; --c5dla-poster-mobile-margin: {{ mobile_margin | escape }}; --c5dla-poster-mobile-max-width: {{ mobile_max_width | escape }}; --c5dla-poster-heading-desktop: {{ heading_size_desktop | escape }}; --c5dla-poster-heading-tablet: {{ heading_size_tablet | escape }}; --c5dla-poster-heading-mobile: {{ heading_size_mobile | escape }};"
+  >
+    <picture class="five-poster-media">
+      {%- if section.settings.mobile_image != blank -%}
+        <source media="(max-width: 767px)" srcset="{{ section.settings.mobile_image | image_url: width: 1000 }}">
+      {%- endif -%}
+      {%- if section.settings.tablet_image != blank -%}
+        <source media="(max-width: 1059px)" srcset="{{ section.settings.tablet_image | image_url: width: 1600 }}">
+      {%- endif -%}
+      <img
+        src="{{ section.settings.desktop_image | image_url: width: 2400 }}"
+        alt="{{ section.settings.desktop_image.alt | escape }}"
+        width="{{ section.settings.desktop_image.width }}"
+        height="{{ section.settings.desktop_image.height }}"
+        loading="lazy"
+      >
+    </picture>
+
+    {%- if shade_class != blank -%}
+      <div class="{{ shade_class }}"></div>
+    {%- endif -%}
+
+    <div class="five-poster-copy">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="five-eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2>{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.body_text != blank -%}
+        <p>{{ section.settings.body_text }}</p>
+      {%- endif -%}
+      {%- if section.settings.button_label != blank and section.settings.button_url != blank -%}
+        <a class="{{ button_class }}" href="{{ section.settings.button_url }}">
+          {{- section.settings.button_label }}
+          <span>↗</span>
+        </a>
+      {%- endif -%}
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "5DLA Poster Banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General Spacing"
+    },
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Padding (desktop)",
+      "info": "Any valid CSS padding shorthand, e.g. 0 5.15% 85px."
+    },
+    {
+      "type": "text",
+      "id": "margin",
+      "label": "Margin (desktop)",
+      "info": "Any valid CSS margin shorthand, e.g. 0 auto."
+    },
+    {
+      "type": "text",
+      "id": "max_width",
+      "label": "Max width (desktop)",
+      "info": "Any valid CSS length, e.g. 1600px or min(1270px, 100% - 104px)."
+    },
+    {
+      "type": "text",
+      "id": "tablet_padding",
+      "label": "Padding (tablet)",
+      "info": "Any valid CSS padding shorthand. Blank falls back to the desktop padding above."
+    },
+    {
+      "type": "text",
+      "id": "tablet_margin",
+      "label": "Margin (tablet)",
+      "info": "Any valid CSS margin shorthand. Blank falls back to the desktop margin above."
+    },
+    {
+      "type": "text",
+      "id": "tablet_max_width",
+      "label": "Max width (tablet)",
+      "info": "Any valid CSS length. Blank falls back to the desktop max width above."
+    },
+    {
+      "type": "text",
+      "id": "mobile_padding",
+      "label": "Padding (mobile)",
+      "info": "Any valid CSS padding shorthand. Blank falls back to the tablet padding above."
+    },
+    {
+      "type": "text",
+      "id": "mobile_margin",
+      "label": "Margin (mobile)",
+      "info": "Any valid CSS margin shorthand. Blank falls back to the tablet margin above."
+    },
+    {
+      "type": "text",
+      "id": "mobile_max_width",
+      "label": "Max width (mobile)",
+      "info": "Any valid CSS length. Blank falls back to the tablet max width above."
+    },
+    {
+      "type": "header",
+      "content": "Section Feature"
+    },
+    {
+      "type": "image_picker",
+      "id": "desktop_image",
+      "label": "Image (desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "tablet_image",
+      "label": "Image (tablet)",
+      "info": "Falls back to the desktop image above when blank."
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Image (mobile)",
+      "info": "Falls back to the tablet image above when blank."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "info": "e.g. FEATURED COLLECTION / FUSION."
+    },
+    {
+      "type": "html",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Supports inline HTML, e.g. <br> for custom line breaks."
+    },
+    {
+      "type": "text",
+      "id": "heading_size",
+      "label": "Heading size",
+      "info": "Font size per breakpoint, format: desktop,tablet,mobile - e.g. 100px,85px,64px. Any value left blank falls back to the next wider breakpoint's size."
+    },
+    {
+      "type": "html",
+      "id": "body_text",
+      "label": "Body text",
+      "info": "Supports inline HTML, e.g. <br> for custom line breaks."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button link"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button style",
+      "options": [
+        { "value": "red", "label": "Red" },
+        { "value": "white", "label": "White" }
+      ],
+      "default": "red"
+    },
+    {
+      "type": "select",
+      "id": "shade",
+      "label": "Shade",
+      "info": "Darkens the image so the text above stays readable.",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "dark_overlay", "label": "Dark Overlay" },
+        { "value": "left_fade", "label": "Left Fade" }
+      ],
+      "default": "none"
+    }
+  ],
+  "presets": [
+    {
+      "name": "5DLA Poster Banner"
+    }
+  ]
+}
+{% endschema %}
