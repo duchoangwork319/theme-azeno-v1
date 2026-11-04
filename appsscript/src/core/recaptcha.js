@@ -20,7 +20,10 @@ export function safeJsonParse(text) {
  * @returns {boolean} - Whether the reCAPTCHA token is valid.
  */
 export function verifyRecaptcha(token, config) {
-  if (!config.RECAPTCHA_ENABLE) return true;
+  if (!config.RECAPTCHA_ENABLE) return {
+    success: true,
+    errorCodes: 'na'
+  };
 
   const secret = config.RECAPTCHA_SECRETKEY;
   if (!secret) {

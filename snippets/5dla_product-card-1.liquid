@@ -8,11 +8,12 @@
   image` don't collide with other card variants.
 
   Image: current_variant's own, falling back to product.featured_media
-  (same convention across all cards). Badge: product.metafields.custom.
-  badge_text.value, falling back to "Sold out"/"Sale" text, all of it
-  overridable by a `custom_badge` block (snippets/5dla_product-card-
-  badge-override.liquid). `index`/`section` thread through to
-  snippets/5dla_product-card-media.liquid for lazyload.
+  (same convention across all cards). Badge: product.metafields.bwp_fields.
+  badge_label (same metafield cards 2/3/4 read), falling back to "Sold
+  out"/"Sale" text when unset, all of it overridable by a `custom_badge`
+  block (snippets/5dla_product-card-badge-override.liquid). `index`/
+  `section` thread through to snippets/5dla_product-card-media.liquid for
+  lazyload.
 
   `data-product-json`/`data-product-handle` on the root let
   client/ver_2_0/js/modules/quick-view.js read this product inline
@@ -33,7 +34,7 @@
   {%- assign on_sale = true -%}
 {%- endif -%}
 
-{%- assign badge_text = product.metafields.custom.badge_text.value -%}
+{%- assign badge_text = product.metafields.bwp_fields.badge_label -%}
 {%- if badge_text == blank and product.available == false -%}
   {%- assign badge_text = 'products.product.sold_out' | t -%}
 {%- elsif badge_text == blank and on_sale -%}
